@@ -1,0 +1,170 @@
+.todo-list {
+  padding: 20px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.empty-state p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.empty-hint {
+  font-size: 14px;
+}
+
+.todo-item-wrapper {
+  position: relative;
+  margin-bottom: 15px;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: transform 0.3s;
+}
+
+.todo-item-wrapper.swiped .todo-item {
+  transform: translateX(-140px);
+}
+
+.todo-item {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.2s;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todo-item:active {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.todo-item.completed {
+  opacity: 0.7;
+  background: #f0fdf4;
+}
+
+.todo-content {
+  flex: 1;
+}
+
+.todo-item h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.todo-item.completed h3 {
+  text-decoration: line-through;
+  color: #10b981;
+}
+
+.todo-description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.todo-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.time-badge,
+.recurrence-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  background: #e0e7ff;
+  color: #4f46e5;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.recurrence-badge {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.completed-check {
+  width: 40px;
+  height: 40px;
+  background: #10b981;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.pause-indicator {
+  font-size: 24px;
+}
+
+.action-buttons {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  gap: 0;
+  z-index: 1;
+}
+
+.action-btn {
+  width: 70px;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-btn {
+  background: #3b82f6;
+}
+
+.delete-btn {
+  background: #ef4444;
+}
+
+.action-btn:active {
+  opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+  .todo-list {
+    padding: 15px;
+  }
+  
+  .todo-item {
+    padding: 16px;
+  }
+  
+  .todo-item h3 {
+    font-size: 18px;
+  }
+  
+  .action-btn {
+    width: 60px;
+    font-size: 20px;
+  }
+  
+  .todo-item-wrapper.swiped .todo-item {
+    transform: translateX(-120px);
+  }
+}
