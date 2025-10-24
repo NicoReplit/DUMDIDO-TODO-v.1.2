@@ -72,6 +72,30 @@ app.post('/api/users', async (req, res) => {
   }
 });
 
+app.put('/api/users/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, color } = req.body;
+    const result = await pool.query(
+      'UPDATE users SET name = $1, color = $2 WHERE id = $3 RETURNING *',
+      [name, color, id]
+    );
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.delete('/api/users/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await pool.query('DELETE FROM users WHERE id = $1', [id]);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.get('/api/todos', async (req, res) => {
   try {
     const { user_id, date } = req.query;

@@ -1,6 +1,6 @@
 import './UserSelector.css';
 
-function UserSelector({ users, currentUser, onSelectUser }) {
+function UserSelector({ users, currentUser, onSelectUser, onAddUser }) {
   return (
     <div className="user-selector">
       {users.map(user => (
@@ -17,6 +17,9 @@ function UserSelector({ users, currentUser, onSelectUser }) {
           {user.name}
         </button>
       ))}
+      <button className="user-add-button" onClick={onAddUser}>
+        +
+      </button>
     </div>
   );
 }

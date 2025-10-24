@@ -3,6 +3,7 @@ import UserSelector from './components/UserSelector';
 import TodoList from './components/TodoList';
 import TodoForm from './components/TodoForm';
 import TodoDetail from './components/TodoDetail';
+import UserForm from './components/UserForm';
 import './App.css';
 
 function App() {
@@ -13,6 +14,8 @@ function App() {
   const [editingTodo, setEditingTodo] = useState(null);
   const [selectedTodo, setSelectedTodo] = useState(null);
   const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
+  const [showUserForm, setShowUserForm] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -39,10 +42,8 @@ function App() {
 
   const fetchTodos = async () => {
     try {
-      console.log(`Fetching todos for user ${currentUser.id} on ${currentDate}`);
       const response = await fetch(`/api/todos?user_id=${currentUser.id}&date=${currentDate}`);
       const data = await response.json();
-      console.log('Raw todos from API:', data);
       
       const filteredTodos = data.filter(todo => {
         if (todo.specific_date) {
@@ -60,7 +61,6 @@ function App() {
         return false;
       });
       
-      console.log('Filtered todos:', filteredTodos);
       setTodos(filteredTodos);
     } catch (error) {
       console.error('Error fetching todos:', error);
@@ -69,9 +69,6 @@ function App() {
 
   const handleSaveTodo = async (todoData) => {
     try {
-      console.log('Saving todo:', todoData);
-      console.log('Current user:', currentUser);
-      
       const cleanedData = {
         ...todoData,
         estimated_minutes: todoData.estimated_minutes || null,
@@ -81,28 +78,21 @@ function App() {
       };
       
       if (editingTodo) {
-        const response = await fetch(`/api/todos/${editingTodo.id}`, {
+        await fetch(`/api/todos/${editingTodo.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(cleanedData)
         });
-        console.log('Update response:', response.status);
       } else {
         const payload = { ...cleanedData, user_id: currentUser.id };
-        console.log('Creating todo with payload:', payload);
-        
-        const response = await fetch('/api/todos', {
+        await fetch('/api/todos', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-        console.log('Create response:', response.status);
-        const result = await response.json();
-        console.log('Created todo:', result);
       }
       setShowForm(false);
       setEditingTodo(null);
-      console.log('Fetching todos...');
       fetchTodos();
     } catch (error) {
       console.error('Error saving todo:', error);
@@ -145,12 +135,69 @@ function App() {
     }
   };
 
+  const handleSaveUser = async (userData) => {
+    try {
+      if (editingUser) {
+        const response = await fetch(`/api/users/${editingUser.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userData)
+        });
+        const updatedUser = await response.json();
+        setUsers(users.map(u => u.id === editingUser.id ? updatedUser : u));
+        if (currentUser?.id === editingUser.id) {
+          setCurrentUser(updatedUser);
+        }
+      } else {
+        const response = await fetch('/api/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userData)
+        });
+        const newUser = await response.json();
+        setUsers([...users, newUser]);
+      }
+      setShowUserForm(false);
+      setEditingUser(null);
+    } catch (error) {
+      console.error('Error saving user:', error);
+    }
+  };
+
+  const handleDeleteUser = async (userId) => {
+    try {
+      await fetch(`/api/users/${userId}`, { method: 'DELETE' });
+      setUsers(users.filter(u => u.id !== userId));
+      if (currentUser?.id === userId) {
+        setCurrentUser(users.find(u => u.id !== userId) || null);
+      }
+      setShowUserForm(false);
+      setEditingUser(null);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
+
   if (selectedTodo) {
     return (
       <TodoDetail
         todo={selectedTodo}
         onClose={() => setSelectedTodo(null)}
         onUpdate={(updates) => handleUpdateTodo(selectedTodo.id, updates)}
+      />
+    );
+  }
+
+  if (showUserForm) {
+    return (
+      <UserForm
+        user={editingUser}
+        onSave={handleSaveUser}
+        onCancel={() => {
+          setShowUserForm(false);
+          setEditingUser(null);
+        }}
+        onDelete={handleDeleteUser}
       />
     );
   }
@@ -172,18 +219,33 @@ function App() {
     <div className="app">
       <header className="app-header">
         <h1>Family To-Do</h1>
-        <input
-          type="date"
-          value={currentDate}
-          onChange={(e) => setCurrentDate(e.target.value)}
-          className="date-picker"
-        />
+        <div className="header-controls">
+          <input
+            type="date"
+            value={currentDate}
+            onChange={(e) => setCurrentDate(e.target.value)}
+            className="date-picker"
+          />
+          {currentUser && (
+            <button 
+              className="edit-user-button" 
+              onClick={() => {
+                setEditingUser(currentUser);
+                setShowUserForm(true);
+              }}
+              title="Edit user"
+            >
+              ✏️
+            </button>
+          )}
+        </div>
       </header>
       
       <UserSelector
         users={users}
         currentUser={currentUser}
         onSelectUser={setCurrentUser}
+        onAddUser={() => setShowUserForm(true)}
       />
 
       <TodoList

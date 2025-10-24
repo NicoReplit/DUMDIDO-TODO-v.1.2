@@ -22,6 +22,28 @@
   transform: scale(0.95);
 }
 
+.user-add-button {
+  padding: 12px 24px;
+  border: 3px dashed #999;
+  border-radius: 25px;
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: transparent;
+  color: #999;
+  min-width: 60px;
+}
+
+.user-add-button:hover {
+  border-color: #666;
+  color: #666;
+}
+
+.user-add-button:active {
+  transform: scale(0.95);
+}
+
 @media (max-width: 600px) {
   .user-selector {
     padding: 15px;
@@ -29,6 +51,11 @@
   
   .user-button {
     font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  .user-add-button {
+    font-size: 20px;
     padding: 10px 20px;
   }
 }
