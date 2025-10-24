@@ -15,10 +15,22 @@ A touch-optimized to-do list application designed for families to share on a Ras
 ✅ PostgreSQL database for data persistence
 ✅ Touch-optimized UI with swipe gestures
 ✅ Timer functionality with countdown
-✅ Multi-user support
+✅ Multi-user support with full CRUD operations
 ✅ Recurring tasks (daily and weekly patterns)
+✅ User customization (names and colors)
 
 ## Recent Changes
+- 2025-10-24: User management feature implementation
+  - Added UserForm component for creating/editing users
+  - Implemented user editing via pencil icon in header
+  - Added user creation via plus button in user selector
+  - Implemented user deletion with confirmation dialog
+  - Added PUT /api/users/:id and DELETE /api/users/:id endpoints
+  - Added server-side validation (name required, color format)
+  - Added 404 handling and error responses for API endpoints
+  - Fixed state management for user CRUD operations
+  - Users table has ON DELETE CASCADE for automatic todo cleanup
+
 - 2025-10-24: Initial project setup & bug fixes
   - Created React (Vite) frontend with touch-optimized components
   - Built Node.js/Express backend API
@@ -46,7 +58,8 @@ A touch-optimized to-do list application designed for families to share on a Ras
 │   └── index.js          # Express API server
 ├── src/
 │   ├── components/
-│   │   ├── UserSelector.jsx     # Family member selection
+│   │   ├── UserSelector.jsx     # Family member selection with add
+│   │   ├── UserForm.jsx         # User create/edit/delete form
 │   │   ├── TodoList.jsx         # List of todos with swipe
 │   │   ├── TodoForm.jsx         # Create/edit todo form
 │   │   └── TodoDetail.jsx       # Timer and task completion
@@ -81,15 +94,24 @@ A touch-optimized to-do list application designed for families to share on a Ras
 - completed_at (timestamp)
 
 ### API Endpoints
+**Users:**
 - `GET /api/users` - List all users
-- `POST /api/users` - Create new user
+- `POST /api/users` - Create new user (validates name and color)
+- `PUT /api/users/:id` - Update user (validates name and color, returns 404 if not found)
+- `DELETE /api/users/:id` - Delete user (cascades to todos, returns 404 if not found)
+
+**Todos:**
 - `GET /api/todos?user_id=X&date=YYYY-MM-DD` - Get todos for user/date
 - `POST /api/todos` - Create new todo
 - `PUT /api/todos/:id` - Update todo
 - `DELETE /api/todos/:id` - Delete todo
 
 ## Features
-1. **User Management**: Switch between family members
+1. **User Management**: 
+   - Switch between family members
+   - Add new users with custom names and colors
+   - Edit existing users (pencil icon in header)
+   - Delete users with confirmation dialog (cascade deletes all their to-dos)
 2. **To-Do Creation**: Title, description, estimated time, date/recurrence
 3. **Swipe Gestures**: Swipe left to reveal edit/delete buttons
 4. **Timer Function**: Start, pause, and complete tasks with countdown
