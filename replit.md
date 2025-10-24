@@ -19,7 +19,7 @@ A touch-optimized to-do list application designed for families to share on a Ras
 ✅ Recurring tasks (daily and weekly patterns)
 
 ## Recent Changes
-- 2025-10-24: Initial project setup
+- 2025-10-24: Initial project setup & bug fixes
   - Created React (Vite) frontend with touch-optimized components
   - Built Node.js/Express backend API
   - Set up PostgreSQL database with users and todos tables
@@ -27,6 +27,9 @@ A touch-optimized to-do list application designed for families to share on a Ras
   - Added countdown timer functionality
   - Created user selection interface
   - Added support for one-time, daily, and weekly recurring tasks
+  - Fixed Vite configuration to allow Replit preview (allowedHosts: true)
+  - Resolved server port conflicts for stable operation
+  - Verified daily to-do creation and display functionality
 
 ## Project Architecture
 
