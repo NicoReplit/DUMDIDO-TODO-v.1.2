@@ -39,8 +39,10 @@ function App() {
 
   const fetchTodos = async () => {
     try {
+      console.log(`Fetching todos for user ${currentUser.id} on ${currentDate}`);
       const response = await fetch(`/api/todos?user_id=${currentUser.id}&date=${currentDate}`);
       const data = await response.json();
+      console.log('Raw todos from API:', data);
       
       const filteredTodos = data.filter(todo => {
         if (todo.specific_date) {
@@ -57,6 +59,7 @@ function App() {
         return false;
       });
       
+      console.log('Filtered todos:', filteredTodos);
       setTodos(filteredTodos);
     } catch (error) {
       console.error('Error fetching todos:', error);
@@ -65,21 +68,32 @@ function App() {
 
   const handleSaveTodo = async (todoData) => {
     try {
+      console.log('Saving todo:', todoData);
+      console.log('Current user:', currentUser);
+      
       if (editingTodo) {
-        await fetch(`/api/todos/${editingTodo.id}`, {
+        const response = await fetch(`/api/todos/${editingTodo.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(todoData)
         });
+        console.log('Update response:', response.status);
       } else {
-        await fetch('/api/todos', {
+        const payload = { ...todoData, user_id: currentUser.id };
+        console.log('Creating todo with payload:', payload);
+        
+        const response = await fetch('/api/todos', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...todoData, user_id: currentUser.id })
+          body: JSON.stringify(payload)
         });
+        console.log('Create response:', response.status);
+        const result = await response.json();
+        console.log('Created todo:', result);
       }
       setShowForm(false);
       setEditingTodo(null);
+      console.log('Fetching todos...');
       fetchTodos();
     } catch (error) {
       console.error('Error saving todo:', error);
