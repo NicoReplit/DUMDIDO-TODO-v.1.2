@@ -46,7 +46,8 @@ function App() {
       
       const filteredTodos = data.filter(todo => {
         if (todo.specific_date) {
-          return todo.specific_date === currentDate;
+          const todoDate = todo.specific_date.split('T')[0];
+          return todoDate === currentDate;
         }
         if (todo.recurrence_type === 'daily') {
           return true;
