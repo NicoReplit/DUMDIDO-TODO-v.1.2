@@ -21,7 +21,19 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formData);
+    const trimmedName = formData.name.trim();
+    if (!trimmedName) {
+      alert('Please enter a valid name');
+      return;
+    }
+    const dataToSave = {
+      ...formData,
+      name: trimmedName
+    };
+    if (user) {
+      dataToSave.id = user.id;
+    }
+    onSave(dataToSave);
   };
 
   const handleDelete = () => {

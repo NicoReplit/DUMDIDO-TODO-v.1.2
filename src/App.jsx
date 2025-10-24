@@ -141,10 +141,12 @@ function App() {
         const response = await fetch(`/api/users/${editingUser.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(userData)
+          body: JSON.stringify({ name: userData.name, color: userData.color })
         });
+        if (!response.ok) {
+          throw new Error('Failed to update user');
+        }
         const updatedUser = await response.json();
-        setUsers(users.map(u => u.id === editingUser.id ? updatedUser : u));
         if (currentUser?.id === editingUser.id) {
           setCurrentUser(updatedUser);
         }
@@ -152,29 +154,39 @@ function App() {
         const response = await fetch('/api/users', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(userData)
+          body: JSON.stringify({ name: userData.name, color: userData.color })
         });
-        const newUser = await response.json();
-        setUsers([...users, newUser]);
+        if (!response.ok) {
+          throw new Error('Failed to create user');
+        }
       }
+      await fetchUsers();
       setShowUserForm(false);
       setEditingUser(null);
     } catch (error) {
       console.error('Error saving user:', error);
+      alert('Failed to save user. Please try again.');
     }
   };
 
   const handleDeleteUser = async (userId) => {
     try {
-      await fetch(`/api/users/${userId}`, { method: 'DELETE' });
-      setUsers(users.filter(u => u.id !== userId));
+      const response = await fetch(`/api/users/${userId}`, { method: 'DELETE' });
+      if (!response.ok) {
+        throw new Error('Failed to delete user');
+      }
+      const updatedUsersResponse = await fetch('/api/users');
+      const updatedUsers = await updatedUsersResponse.json();
+      setUsers(updatedUsers);
+      
       if (currentUser?.id === userId) {
-        setCurrentUser(users.find(u => u.id !== userId) || null);
+        setCurrentUser(updatedUsers.length > 0 ? updatedUsers[0] : null);
       }
       setShowUserForm(false);
       setEditingUser(null);
     } catch (error) {
       console.error('Error deleting user:', error);
+      alert('Failed to delete user. Please try again.');
     }
   };
 

@@ -62,9 +62,17 @@ app.get('/api/users', async (req, res) => {
 app.post('/api/users', async (req, res) => {
   try {
     const { name, color } = req.body;
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: 'Name is required' });
+    }
+    const validColorRegex = /^#[0-9A-F]{6}$/i;
+    const userColor = color || '#3B82F6';
+    if (!validColorRegex.test(userColor)) {
+      return res.status(400).json({ error: 'Invalid color format' });
+    }
     const result = await pool.query(
       'INSERT INTO users (name, color) VALUES ($1, $2) RETURNING *',
-      [name, color || '#3B82F6']
+      [name.trim(), userColor]
     );
     res.json(result.rows[0]);
   } catch (error) {
@@ -76,10 +84,20 @@ app.put('/api/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { name, color } = req.body;
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: 'Name is required' });
+    }
+    const validColorRegex = /^#[0-9A-F]{6}$/i;
+    if (!validColorRegex.test(color)) {
+      return res.status(400).json({ error: 'Invalid color format' });
+    }
     const result = await pool.query(
       'UPDATE users SET name = $1, color = $2 WHERE id = $3 RETURNING *',
-      [name, color, id]
+      [name.trim(), color, id]
     );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
     res.json(result.rows[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -89,7 +107,10 @@ app.put('/api/users/:id', async (req, res) => {
 app.delete('/api/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await pool.query('DELETE FROM users WHERE id = $1', [id]);
+    const result = await pool.query('DELETE FROM users WHERE id = $1', [id]);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
