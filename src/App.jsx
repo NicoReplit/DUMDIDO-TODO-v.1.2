@@ -71,15 +71,23 @@ function App() {
       console.log('Saving todo:', todoData);
       console.log('Current user:', currentUser);
       
+      const cleanedData = {
+        ...todoData,
+        estimated_minutes: todoData.estimated_minutes || null,
+        specific_date: todoData.specific_date || null,
+        recurrence_type: todoData.recurrence_type || null,
+        recurrence_days: todoData.recurrence_days || null
+      };
+      
       if (editingTodo) {
         const response = await fetch(`/api/todos/${editingTodo.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(todoData)
+          body: JSON.stringify(cleanedData)
         });
         console.log('Update response:', response.status);
       } else {
-        const payload = { ...todoData, user_id: currentUser.id };
+        const payload = { ...cleanedData, user_id: currentUser.id };
         console.log('Creating todo with payload:', payload);
         
         const response = await fetch('/api/todos', {
