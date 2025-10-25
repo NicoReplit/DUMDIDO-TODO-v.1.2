@@ -4,6 +4,7 @@ import TodoList from './components/TodoList';
 import TodoForm from './components/TodoForm';
 import TodoDetail from './components/TodoDetail';
 import UserForm from './components/UserForm';
+import WeekCalendar from './components/WeekCalendar';
 import './App.css';
 
 function App() {
@@ -129,6 +130,10 @@ function App() {
       setTodos(prevTodos => 
         prevTodos.map(todo => todo.id === id ? updatedTodo : todo)
       );
+      
+      if (updates.completed) {
+        await fetchUsers();
+      }
     } catch (error) {
       console.error('Error updating todo:', error);
       fetchTodos();
@@ -194,6 +199,7 @@ function App() {
     return (
       <TodoDetail
         todo={selectedTodo}
+        currentUser={currentUser}
         onClose={() => setSelectedTodo(null)}
         onUpdate={(updates) => handleUpdateTodo(selectedTodo.id, updates)}
       />
@@ -259,6 +265,10 @@ function App() {
         onSelectUser={setCurrentUser}
         onAddUser={() => setShowUserForm(true)}
       />
+
+      {currentUser && (
+        <WeekCalendar userId={currentUser.id} selectedDate={currentDate} />
+      )}
 
       <TodoList
         todos={todos}

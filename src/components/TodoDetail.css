@@ -129,6 +129,83 @@
   transform: scale(0.98);
 }
 
+.super-point-section {
+  margin: 20px 0;
+}
+
+.super-point-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.super-point-btn:active {
+  transform: scale(0.95);
+}
+
+.super-point-active {
+  background: rgba(245, 158, 11, 0.1);
+  border: 2px solid #f59e0b;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 15px 0;
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.points-celebration {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 40px 20px;
+  border-radius: 16px;
+  margin: 20px;
+  animation: celebrationPulse 1s ease-in-out;
+}
+
+@keyframes celebrationPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.points-celebration h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.points-total {
+  font-size: 48px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.points-details {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+.points-details > div {
+  padding: 8px 0;
+  font-size: 18px;
+}
+
+.points-details .bonus {
+  color: #fef3c7;
+  font-weight: 600;
+}
+
+.points-details .penalty {
+  color: #fecaca;
+  font-weight: 600;
+}
+
 @media (max-width: 600px) {
   .detail-content h1 {
     font-size: 24px;
@@ -148,5 +225,9 @@
   .done-btn {
     font-size: 18px;
     padding: 16px;
+  }
+  
+  .points-total {
+    font-size: 36px;
   }
 }

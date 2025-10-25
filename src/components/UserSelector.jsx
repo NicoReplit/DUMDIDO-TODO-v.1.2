@@ -14,7 +14,13 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser }) {
           }}
           onClick={() => onSelectUser(user)}
         >
-          {user.name}
+          <div className="user-name">{user.name}</div>
+          <div className="user-stats">
+            <span className="user-points">{user.total_points || 0} pts</span>
+            {user.super_points > 0 && (
+              <span className="user-super-points">⭐{user.super_points}</span>
+            )}
+          </div>
         </button>
       ))}
       <button className="user-add-button" onClick={onAddUser}>

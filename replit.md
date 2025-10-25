@@ -20,6 +20,18 @@ A touch-optimized to-do list application designed for families to share on a Ras
 ✅ User customization (names and colors)
 
 ## Recent Changes
+- 2025-10-25: Gamification system implementation
+  - Points system: 1 point per minute estimated, time bonus/penalty based on actual time
+  - 10% no-pause bonus for completing without pausing
+  - Super points: 12 per user, can be used to count task as on-time
+  - Streak tracking: Week calendar shows Mon-Sun completion status
+  - Streak bonuses: 7 days = +10pts, 30 days = +30pts, 90 days = +50pts, 365 days = +12 super points
+  - Daily completion tracking to detect when all tasks completed on-time
+  - Points celebration UI shows breakdown when task completed
+  - User stats display in UserSelector with points and super points
+  - WeekCalendar component with green checkmarks for completed days
+  - Fixed timer to track actual elapsed time including overtime
+
 - 2025-10-24: User management feature implementation
   - Added UserForm component for creating/editing users
   - Implemented user editing via pencil icon in header
@@ -77,6 +89,9 @@ A touch-optimized to-do list application designed for families to share on a Ras
 - id (serial, primary key)
 - name (varchar)
 - color (varchar) - for UI personalization
+- total_points (integer) - accumulated points from completed tasks
+- super_points (integer) - special points for skipping penalties (default 12)
+- current_streak_days (integer) - current consecutive day streak
 - created_at (timestamp)
 
 **todos table:**
@@ -90,8 +105,20 @@ A touch-optimized to-do list application designed for families to share on a Ras
 - specific_date (date) - for one-time tasks
 - recurrence_type (varchar) - 'daily' or 'weekly'
 - recurrence_days (text) - JSON array of day numbers for weekly tasks
+- points_earned (integer) - points awarded when completed
+- pause_used (boolean) - whether pause button was used
+- super_point_used (boolean) - whether super point was used
+- actual_time_seconds (integer) - actual time taken to complete
 - created_at (timestamp)
 - completed_at (timestamp)
+
+**daily_completions table:**
+- id (serial, primary key)
+- user_id (integer, foreign key)
+- completion_date (date)
+- all_completed_on_time (boolean) - whether all tasks completed on-time
+- created_at (timestamp)
+- UNIQUE(user_id, completion_date)
 
 ### API Endpoints
 **Users:**
@@ -103,8 +130,12 @@ A touch-optimized to-do list application designed for families to share on a Ras
 **Todos:**
 - `GET /api/todos?user_id=X&date=YYYY-MM-DD` - Get todos for user/date
 - `POST /api/todos` - Create new todo
-- `PUT /api/todos/:id` - Update todo
+- `PUT /api/todos/:id` - Update todo (includes points calculation and streak tracking)
 - `DELETE /api/todos/:id` - Delete todo
+
+**Gamification:**
+- `POST /api/users/:id/use-super-point` - Deduct 1 super point from user
+- `GET /api/daily-completion?user_id=X&date=YYYY-MM-DD` - Get completion status for date
 
 ## Features
 1. **User Management**: 
@@ -112,12 +143,20 @@ A touch-optimized to-do list application designed for families to share on a Ras
    - Add new users with custom names and colors
    - Edit existing users (pencil icon in header)
    - Delete users with confirmation dialog (cascade deletes all their to-dos)
+   - User stats display: points earned and super points available
 2. **To-Do Creation**: Title, description, estimated time, date/recurrence
 3. **Swipe Gestures**: Swipe left to reveal edit/delete buttons
-4. **Timer Function**: Start, pause, and complete tasks with countdown
+4. **Timer Function**: Start, pause, and complete tasks with countdown (tracks overtime)
 5. **Recurring Tasks**: Daily or specific days of the week
 6. **Visual Feedback**: Green checkmark for completed, pause icon for paused
 7. **Date Navigation**: Browse to-dos by date
+8. **Gamification System**:
+   - **Points**: Base points (1/min) + time bonus/penalty + 10% no-pause bonus
+   - **Super Points**: 12 per user, use to count task as on-time
+   - **Week Calendar**: Mon-Sun strip showing completion status
+   - **Streak Bonuses**: 7 days (+10pts), 30 days (+30pts), 90 days (+50pts), 365 days (+12 super points)
+   - **Points Celebration**: Shows breakdown when completing tasks
+   - **Daily Completion Tracking**: Automatically detects when all tasks done on-time
 
 ## Running Locally on Raspberry Pi
 
