@@ -32,15 +32,22 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser }) {
     onUpdateRef.current = onUpdate;
   }, [onUpdate]);
 
+  const superPointUsedRef = useRef(superPointUsed);
+
+  useEffect(() => {
+    superPointUsedRef.current = superPointUsed;
+  }, [superPointUsed]);
+
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
-      if (isRunningRef.current) {
+      if (isRunningRef.current || superPointUsedRef.current) {
         onUpdateRef.current({ 
           remaining_seconds: timeRemainingRef.current,
-          actual_time_seconds: elapsedTimeRef.current
+          actual_time_seconds: elapsedTimeRef.current,
+          super_point_used: superPointUsedRef.current
         });
       }
     };
@@ -69,7 +76,8 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser }) {
     onUpdate({ 
       remaining_seconds: timeRemaining, 
       pause_used: true,
-      actual_time_seconds: elapsedTime
+      actual_time_seconds: elapsedTime,
+      super_point_used: superPointUsed
     });
     onClose();
   };
@@ -83,7 +91,7 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser }) {
     const actualTimeSeconds = elapsedTime;
     
     const basePoints = todo.estimated_minutes;
-    const timeDiffMinutes = Math.floor((estimatedSeconds - actualTimeSeconds) / 60);
+    const timeDiffMinutes = Math.round((estimatedSeconds - actualTimeSeconds) / 60);
     const timeBonus = superPointUsed ? 0 : timeDiffMinutes;
     
     let subtotal = basePoints + timeBonus;
@@ -138,12 +146,13 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser }) {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
-    if (isRunning) {
+    if (isRunning || superPointUsed) {
       isRunningRef.current = false;
       setIsRunning(false);
       onUpdate({ 
         remaining_seconds: timeRemaining,
-        actual_time_seconds: elapsedTime
+        actual_time_seconds: elapsedTime,
+        super_point_used: superPointUsed
       });
     }
     onClose();
@@ -155,14 +164,23 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser }) {
       return;
     }
     if (window.confirm('Use 1 super point on this task? This will count it as completed on-time.')) {
-      setSuperPointUsed(true);
       try {
-        await fetch(`/api/users/${currentUser.id}/use-super-point`, {
+        const response = await fetch(`/api/users/${currentUser.id}/use-super-point`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' }
         });
+        
+        if (!response.ok) {
+          const error = await response.text();
+          alert(`Failed to use super point: ${error}`);
+          return;
+        }
+        
+        setSuperPointUsed(true);
+        onUpdate({ super_point_used: true });
       } catch (error) {
         console.error('Error using super point:', error);
+        alert('Failed to use super point. Please try again.');
       }
     }
   };

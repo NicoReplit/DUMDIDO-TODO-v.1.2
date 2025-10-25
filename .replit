@@ -18,13 +18,13 @@ args = "Family To-Do App"
 name = "Family To-Do App"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node server/index.js & npx vite --host 0.0.0.0 --port 5000"
-waitForPort = 5000
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "./start.sh"
+waitForPort = 5000
 
 [[ports]]
 localPort = 3000
@@ -41,6 +41,14 @@ externalPort = 4200
 [[ports]]
 localPort = 38611
 externalPort = 3002
+
+[[ports]]
+localPort = 38743
+externalPort = 6000
+
+[[ports]]
+localPort = 39153
+externalPort = 5173
 
 [[ports]]
 localPort = 41621

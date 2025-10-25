@@ -131,7 +131,7 @@ function App() {
         prevTodos.map(todo => todo.id === id ? updatedTodo : todo)
       );
       
-      if (updates.completed) {
+      if (updates.completed || updates.super_point_used) {
         await fetchUsers();
       }
     } catch (error) {

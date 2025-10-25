@@ -239,7 +239,8 @@ async function checkDailyCompletion(userId, date) {
   const allCompletedOnTime = todosForDate.every(todo => {
     if (!todo.completed) return false;
     if (todo.super_point_used) return true;
-    if (!todo.estimated_minutes || !todo.actual_time_seconds) return false;
+    if (!todo.estimated_minutes) return false;
+    if (todo.actual_time_seconds === null || todo.actual_time_seconds === undefined) return false;
     const estimatedSeconds = todo.estimated_minutes * 60;
     return todo.actual_time_seconds <= estimatedSeconds;
   });
