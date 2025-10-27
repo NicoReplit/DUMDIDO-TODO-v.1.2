@@ -20,6 +20,16 @@ A touch-optimized to-do list application designed for families to share on a Ras
 ✅ User customization (names and colors)
 
 ## Recent Changes
+- 2025-10-27: Recurring todos bug fix & timer overtime enhancements
+  - **Recurring todos now reset daily**: Created recurring_todo_completions table to track completions by date
+  - Daily and weekly todos appear as "not done" each new day even after being completed
+  - Modified GET /api/todos to join with recurring_todo_completions for date-specific completion status
+  - Updated PUT /api/todos to insert into recurring_todo_completions instead of marking recurring todo as completed
+  - **Timer overtime display**: Timer now shows red background with white text when in overtime
+  - Overtime format shows "+HH:MM" and "OVERTIME" label when time runs out
+  - **Negative points allowed**: Points calculation now allows negative values when overtime exceeds base points
+  - Overtime minutes subtract from base points, can go negative and subtract from user's total accumulated points
+
 - 2025-10-27: Background timer persistence feature
   - Moved timer state management from TodoDetail to App.jsx for persistence
   - Timers now continue running when user navigates away (presses back button)
