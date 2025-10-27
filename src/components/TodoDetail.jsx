@@ -109,12 +109,14 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const progress = todo.estimated_minutes 
-    ? Math.max(0, Math.min(100, ((timeRemaining / (todo.estimated_minutes * 60)) * 100)))
-    : 0;
-  
   const isOvertime = timeRemaining < 0;
-  const overtimeMinutes = isOvertime ? Math.abs(Math.floor(timeRemaining / 60)) : 0;
+  
+  const countdownTime = isOvertime ? 0 : timeRemaining;
+  const overtimeSeconds = isOvertime ? Math.abs(timeRemaining) : 0;
+  
+  const progress = todo.estimated_minutes 
+    ? Math.max(0, Math.min(100, ((countdownTime / (todo.estimated_minutes * 60)) * 100)))
+    : 0;
 
   const handleBack = () => {
     onClose();
@@ -182,20 +184,35 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
         {!showPointsBreakdown && (
           <>
             <div className="timer-container">
-              <div className="timer-circle" style={{
-                background: isOvertime 
-                  ? '#ef4444'
-                  : `conic-gradient(#667eea ${progress}%, #e5e7eb ${progress}%)`
-              }}>
-                <div className="timer-inner">
-                  <div className="timer-display" style={{ color: isOvertime ? 'white' : 'inherit' }}>
-                    {isOvertime ? `+${formatTime(Math.abs(timeRemaining))}` : formatTime(timeRemaining)}
-                  </div>
-                  <div className="timer-label" style={{ color: isOvertime ? 'white' : 'inherit' }}>
-                    {isOvertime ? 'OVERTIME' : timeRemaining === 0 ? 'Time\'s up!' : 'remaining'}
+              {!isOvertime && (
+                <div className="timer-circle" style={{
+                  background: `conic-gradient(#667eea ${progress}%, #e5e7eb ${progress}%)`
+                }}>
+                  <div className="timer-inner">
+                    <div className="timer-display">
+                      {formatTime(countdownTime)}
+                    </div>
+                    <div className="timer-label">
+                      {countdownTime === 0 ? 'Time\'s up!' : 'remaining'}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
+              
+              {isOvertime && (
+                <div className="timer-circle" style={{
+                  background: '#ef4444'
+                }}>
+                  <div className="timer-inner">
+                    <div className="timer-display" style={{ color: 'white' }}>
+                      +{formatTime(overtimeSeconds)}
+                    </div>
+                    <div className="timer-label" style={{ color: 'white' }}>
+                      OVERTIME
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {currentUser && currentUser.super_points > 0 && !superPointUsed && (
