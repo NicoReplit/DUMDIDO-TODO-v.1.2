@@ -103,13 +103,14 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
   };
 
   const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
+    const absSeconds = Math.abs(seconds);
+    const mins = Math.floor(absSeconds / 60);
+    const secs = absSeconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const progress = todo.estimated_minutes 
-    ? ((timeRemaining / (todo.estimated_minutes * 60)) * 100)
+    ? Math.max(0, Math.min(100, ((timeRemaining / (todo.estimated_minutes * 60)) * 100)))
     : 0;
   
   const isOvertime = timeRemaining < 0;
