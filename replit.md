@@ -20,6 +20,15 @@ A touch-optimized to-do list application designed for families to share on a Ras
 ✅ User customization (names and colors)
 
 ## Recent Changes
+- 2025-10-27: Background timer persistence feature
+  - Moved timer state management from TodoDetail to App.jsx for persistence
+  - Timers now continue running when user navigates away (presses back button)
+  - Multiple users can run their own timers simultaneously without interference
+  - Visual indicators (▶️ pulsing play icon) show which tasks have active timers in TodoList
+  - TodoDetail automatically connects to existing running timer when reopened
+  - Proper interval cleanup to prevent memory leaks
+  - All timer calculations (elapsed time, overtime, points) remain accurate across navigation
+
 - 2025-10-25: Gamification system implementation
   - Points system: 1 point per minute estimated, time bonus/penalty based on actual time
   - 10% no-pause bonus for completing without pausing
@@ -146,7 +155,11 @@ A touch-optimized to-do list application designed for families to share on a Ras
    - User stats display: points earned and super points available
 2. **To-Do Creation**: Title, description, estimated time, date/recurrence
 3. **Swipe Gestures**: Swipe left to reveal edit/delete buttons
-4. **Timer Function**: Start, pause, and complete tasks with countdown (tracks overtime)
+4. **Timer Function**: 
+   - Start, pause, and complete tasks with countdown (tracks overtime)
+   - Background timer persistence: timers continue running when navigating away
+   - Multiple users can run timers simultaneously
+   - Visual indicators show which tasks have active timers
 5. **Recurring Tasks**: Daily or specific days of the week
 6. **Visual Feedback**: Green checkmark for completed, pause icon for paused
 7. **Date Navigation**: Browse to-dos by date
