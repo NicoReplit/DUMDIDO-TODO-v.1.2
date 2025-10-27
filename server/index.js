@@ -42,6 +42,7 @@ await pool.query(`
     pause_used BOOLEAN DEFAULT FALSE,
     super_point_used BOOLEAN DEFAULT FALSE,
     actual_time_seconds INTEGER,
+    last_activity_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     completed_at TIMESTAMP
   )
@@ -70,6 +71,11 @@ await pool.query(`
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(todo_id, completion_date)
   )
+`);
+
+await pool.query(`
+  ALTER TABLE todos 
+  ADD COLUMN IF NOT EXISTS last_activity_date DATE
 `);
 
 const defaultUsers = await pool.query('SELECT COUNT(*) FROM users');
@@ -214,14 +220,36 @@ app.get('/api/todos', async (req, res) => {
     
     const todos = result.rows.map(row => {
       if (row.recurrence_type) {
-        return {
-          ...row,
-          completed: !!row.recurring_completion_date,
-          points_earned: row.recurring_points_earned || 0,
-          pause_used: row.recurring_pause_used || false,
-          super_point_used: row.recurring_super_point_used || false,
-          actual_time_seconds: row.recurring_actual_time_seconds || null
-        };
+        if (row.recurring_completion_date) {
+          return {
+            ...row,
+            completed: true,
+            points_earned: row.recurring_points_earned || 0,
+            pause_used: row.recurring_pause_used || false,
+            super_point_used: row.recurring_super_point_used || false,
+            actual_time_seconds: row.recurring_actual_time_seconds || null
+          };
+        } else {
+          const lastActivityDate = row.last_activity_date ? row.last_activity_date.toISOString().split('T')[0] : null;
+          const isNewDay = !lastActivityDate || lastActivityDate !== date;
+          
+          if (isNewDay) {
+            return {
+              ...row,
+              completed: false,
+              remaining_seconds: row.estimated_minutes ? row.estimated_minutes * 60 : null,
+              points_earned: 0,
+              pause_used: false,
+              super_point_used: false,
+              actual_time_seconds: null
+            };
+          } else {
+            return {
+              ...row,
+              completed: false
+            };
+          }
+        }
       }
       return row;
     });
@@ -389,6 +417,7 @@ app.put('/api/todos/:id', async (req, res) => {
     }
     
     if (todo.recurrence_type) {
+      const dateToUse = completion_date || new Date().toISOString().split('T')[0];
       await pool.query(
         `UPDATE todos SET 
          title = COALESCE($1, title),
@@ -397,12 +426,16 @@ app.put('/api/todos/:id', async (req, res) => {
          remaining_seconds = COALESCE($4, remaining_seconds),
          specific_date = COALESCE($5, specific_date),
          recurrence_type = COALESCE($6, recurrence_type),
-         recurrence_days = COALESCE($7, recurrence_days)
+         recurrence_days = COALESCE($7, recurrence_days),
+         pause_used = COALESCE($9, pause_used),
+         super_point_used = COALESCE($10, super_point_used),
+         points_earned = COALESCE($11, points_earned),
+         actual_time_seconds = COALESCE($12, actual_time_seconds),
+         last_activity_date = $13
          WHERE id = $8`,
-        [title, description, estimated_minutes, remaining_seconds, specific_date, recurrence_type, recurrence_days, id]
+        [title, description, estimated_minutes, remaining_seconds, specific_date, recurrence_type, recurrence_days, id, pause_used, super_point_used, points_earned, actual_time_seconds, dateToUse]
       );
       
-      const dateToUse = completion_date || new Date().toISOString().split('T')[0];
       const joinedResult = await pool.query(
         `SELECT 
           t.*,
@@ -422,10 +455,10 @@ app.put('/api/todos/:id', async (req, res) => {
       res.json({
         ...todoWithCompletion,
         completed: !!todoWithCompletion.recurring_completion_date,
-        points_earned: todoWithCompletion.recurring_points_earned || 0,
-        pause_used: todoWithCompletion.recurring_pause_used || false,
-        super_point_used: todoWithCompletion.recurring_super_point_used || false,
-        actual_time_seconds: todoWithCompletion.recurring_actual_time_seconds || null
+        points_earned: todoWithCompletion.recurring_points_earned ?? todoWithCompletion.points_earned,
+        pause_used: todoWithCompletion.recurring_pause_used ?? todoWithCompletion.pause_used,
+        super_point_used: todoWithCompletion.recurring_super_point_used ?? todoWithCompletion.super_point_used,
+        actual_time_seconds: todoWithCompletion.recurring_actual_time_seconds ?? todoWithCompletion.actual_time_seconds
       });
     } else {
       const result = await pool.query(
