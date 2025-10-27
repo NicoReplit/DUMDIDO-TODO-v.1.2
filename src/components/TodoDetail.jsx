@@ -65,9 +65,12 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
     const timeBonus = superPointUsed ? 0 : timeDiffMinutes;
     
     let subtotal = basePoints + timeBonus;
-    const noPauseBonus = (!pauseUsed && !superPointUsed) ? Math.round(subtotal * 0.1) : 0;
     
-    const total = Math.max(0, subtotal + noPauseBonus);
+    const noPauseBonus = (!pauseUsed && !superPointUsed && subtotal > 0) 
+      ? Math.round(subtotal * 0.1) 
+      : 0;
+    
+    const total = subtotal + noPauseBonus;
     
     return { 
       total, 
@@ -108,6 +111,9 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
   const progress = todo.estimated_minutes 
     ? ((timeRemaining / (todo.estimated_minutes * 60)) * 100)
     : 0;
+  
+  const isOvertime = timeRemaining < 0;
+  const overtimeMinutes = isOvertime ? Math.abs(Math.floor(timeRemaining / 60)) : 0;
 
   const handleBack = () => {
     onClose();
@@ -176,12 +182,16 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
           <>
             <div className="timer-container">
               <div className="timer-circle" style={{
-                background: `conic-gradient(#667eea ${progress}%, #e5e7eb ${progress}%)`
+                background: isOvertime 
+                  ? '#ef4444'
+                  : `conic-gradient(#667eea ${progress}%, #e5e7eb ${progress}%)`
               }}>
                 <div className="timer-inner">
-                  <div className="timer-display">{formatTime(timeRemaining)}</div>
-                  <div className="timer-label">
-                    {timeRemaining === 0 ? 'Time\'s up!' : 'remaining'}
+                  <div className="timer-display" style={{ color: isOvertime ? 'white' : 'inherit' }}>
+                    {isOvertime ? `+${formatTime(Math.abs(timeRemaining))}` : formatTime(timeRemaining)}
+                  </div>
+                  <div className="timer-label" style={{ color: isOvertime ? 'white' : 'inherit' }}>
+                    {isOvertime ? 'OVERTIME' : timeRemaining === 0 ? 'Time\'s up!' : 'remaining'}
                   </div>
                 </div>
               </div>
@@ -218,7 +228,7 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
                 </>
               )}
 
-              {timeRemaining === 0 && (
+              {!isRunning && timeRemaining <= 0 && (
                 <button className="done-btn full-width" onClick={handleDone}>
                   ✓ Mark as Done
                 </button>

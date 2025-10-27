@@ -58,6 +58,20 @@ await pool.query(`
   )
 `);
 
+await pool.query(`
+  CREATE TABLE IF NOT EXISTS recurring_todo_completions (
+    id SERIAL PRIMARY KEY,
+    todo_id INTEGER REFERENCES todos(id) ON DELETE CASCADE,
+    completion_date DATE NOT NULL,
+    points_earned INTEGER DEFAULT 0,
+    pause_used BOOLEAN DEFAULT FALSE,
+    super_point_used BOOLEAN DEFAULT FALSE,
+    actual_time_seconds INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(todo_id, completion_date)
+  )
+`);
+
 const defaultUsers = await pool.query('SELECT COUNT(*) FROM users');
 if (parseInt(defaultUsers.rows[0].count) === 0) {
   await pool.query(`
@@ -170,23 +184,49 @@ app.get('/api/daily-completion', async (req, res) => {
 app.get('/api/todos', async (req, res) => {
   try {
     const { user_id, date } = req.query;
-    let query = 'SELECT * FROM todos WHERE 1=1';
-    const params = [];
+    let query = `
+      SELECT 
+        t.*,
+        rtc.points_earned as recurring_points_earned,
+        rtc.pause_used as recurring_pause_used,
+        rtc.super_point_used as recurring_super_point_used,
+        rtc.actual_time_seconds as recurring_actual_time_seconds,
+        rtc.completion_date as recurring_completion_date
+      FROM todos t
+      LEFT JOIN recurring_todo_completions rtc 
+        ON t.id = rtc.todo_id AND rtc.completion_date = $1
+      WHERE 1=1
+    `;
+    const params = [date];
     
     if (user_id) {
       params.push(user_id);
-      query += ` AND user_id = $${params.length}`;
+      query += ` AND t.user_id = $${params.length}`;
     }
     
     if (date) {
-      params.push(date);
-      query += ` AND (specific_date = $${params.length} OR recurrence_type IS NOT NULL)`;
+      query += ` AND (t.specific_date = $1 OR t.recurrence_type IS NOT NULL)`;
     }
     
-    query += ' ORDER BY completed, created_at DESC';
+    query += ' ORDER BY t.completed, t.created_at DESC';
     
     const result = await pool.query(query, params);
-    res.json(result.rows);
+    
+    const todos = result.rows.map(row => {
+      if (row.recurrence_type) {
+        return {
+          ...row,
+          completed: !!row.recurring_completion_date,
+          points_earned: row.recurring_points_earned || 0,
+          pause_used: row.recurring_pause_used || false,
+          super_point_used: row.recurring_super_point_used || false,
+          actual_time_seconds: row.recurring_actual_time_seconds || null
+        };
+      }
+      return row;
+    });
+    
+    res.json(todos);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -212,7 +252,10 @@ app.post('/api/todos', async (req, res) => {
 
 async function checkDailyCompletion(userId, date) {
   const result = await pool.query(
-    `SELECT * FROM todos WHERE user_id = $1 AND (specific_date = $2 OR recurrence_type IS NOT NULL)`,
+    `SELECT t.*, rtc.completion_date as recurring_completion_date, rtc.super_point_used as recurring_super_point_used, rtc.actual_time_seconds as recurring_actual_time_seconds
+     FROM todos t
+     LEFT JOIN recurring_todo_completions rtc ON t.id = rtc.todo_id AND rtc.completion_date = $2
+     WHERE t.user_id = $1 AND (t.specific_date = $2 OR t.recurrence_type IS NOT NULL)`,
     [userId, date]
   );
   
@@ -237,12 +280,17 @@ async function checkDailyCompletion(userId, date) {
   }
   
   const allCompletedOnTime = todosForDate.every(todo => {
-    if (!todo.completed) return false;
-    if (todo.super_point_used) return true;
+    const isRecurring = !!todo.recurrence_type;
+    const isCompleted = isRecurring ? !!todo.recurring_completion_date : todo.completed;
+    const superPointUsed = isRecurring ? todo.recurring_super_point_used : todo.super_point_used;
+    const actualTimeSeconds = isRecurring ? todo.recurring_actual_time_seconds : todo.actual_time_seconds;
+    
+    if (!isCompleted) return false;
+    if (superPointUsed) return true;
     if (!todo.estimated_minutes) return false;
-    if (todo.actual_time_seconds === null || todo.actual_time_seconds === undefined) return false;
+    if (actualTimeSeconds === null || actualTimeSeconds === undefined) return false;
     const estimatedSeconds = todo.estimated_minutes * 60;
-    return todo.actual_time_seconds <= estimatedSeconds;
+    return actualTimeSeconds <= estimatedSeconds;
   });
   
   await pool.query(
@@ -307,43 +355,99 @@ async function checkAndAwardStreakBonuses(userId) {
 app.put('/api/todos/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, estimated_minutes, remaining_seconds, completed, specific_date, recurrence_type, recurrence_days, pause_used, super_point_used, points_earned, actual_time_seconds } = req.body;
+    const { title, description, estimated_minutes, remaining_seconds, completed, specific_date, recurrence_type, recurrence_days, pause_used, super_point_used, points_earned, actual_time_seconds, completion_date } = req.body;
     
-    if (completed && points_earned !== undefined) {
-      const todo = await pool.query('SELECT user_id, specific_date FROM todos WHERE id = $1', [id]);
-      if (todo.rows.length > 0) {
-        const userId = todo.rows[0].user_id;
-        await pool.query(
-          'UPDATE users SET total_points = total_points + $1 WHERE id = $2',
-          [points_earned, userId]
-        );
-        
-        const completionDate = todo.rows[0].specific_date 
-          ? todo.rows[0].specific_date.toISOString().split('T')[0]
-          : new Date().toISOString().split('T')[0];
-        await checkDailyCompletion(userId, completionDate);
-      }
+    const todoResult = await pool.query('SELECT * FROM todos WHERE id = $1', [id]);
+    if (todoResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Todo not found' });
     }
     
-    const result = await pool.query(
-      `UPDATE todos SET 
-       title = COALESCE($1, title),
-       description = COALESCE($2, description),
-       estimated_minutes = COALESCE($3, estimated_minutes),
-       remaining_seconds = COALESCE($4, remaining_seconds),
-       completed = COALESCE($5, completed),
-       completed_at = CASE WHEN $5 = true THEN CURRENT_TIMESTAMP ELSE completed_at END,
-       specific_date = COALESCE($6, specific_date),
-       recurrence_type = COALESCE($7, recurrence_type),
-       recurrence_days = COALESCE($8, recurrence_days),
-       pause_used = COALESCE($9, pause_used),
-       super_point_used = COALESCE($10, super_point_used),
-       points_earned = COALESCE($11, points_earned),
-       actual_time_seconds = COALESCE($12, actual_time_seconds)
-       WHERE id = $13 RETURNING *`,
-      [title, description, estimated_minutes, remaining_seconds, completed, specific_date, recurrence_type, recurrence_days, pause_used, super_point_used, points_earned, actual_time_seconds, id]
-    );
-    res.json(result.rows[0]);
+    const todo = todoResult.rows[0];
+    
+    if (completed && points_earned !== undefined) {
+      const userId = todo.user_id;
+      await pool.query(
+        'UPDATE users SET total_points = total_points + $1 WHERE id = $2',
+        [points_earned, userId]
+      );
+      
+      const dateToUse = completion_date || 
+        (todo.specific_date ? todo.specific_date.toISOString().split('T')[0] : new Date().toISOString().split('T')[0]);
+      
+      if (todo.recurrence_type) {
+        await pool.query(
+          `INSERT INTO recurring_todo_completions 
+           (todo_id, completion_date, points_earned, pause_used, super_point_used, actual_time_seconds) 
+           VALUES ($1, $2, $3, $4, $5, $6)
+           ON CONFLICT (todo_id, completion_date) 
+           DO UPDATE SET points_earned = $3, pause_used = $4, super_point_used = $5, actual_time_seconds = $6`,
+          [id, dateToUse, points_earned, pause_used || false, super_point_used || false, actual_time_seconds]
+        );
+      }
+      
+      await checkDailyCompletion(userId, dateToUse);
+    }
+    
+    if (todo.recurrence_type) {
+      await pool.query(
+        `UPDATE todos SET 
+         title = COALESCE($1, title),
+         description = COALESCE($2, description),
+         estimated_minutes = COALESCE($3, estimated_minutes),
+         remaining_seconds = COALESCE($4, remaining_seconds),
+         specific_date = COALESCE($5, specific_date),
+         recurrence_type = COALESCE($6, recurrence_type),
+         recurrence_days = COALESCE($7, recurrence_days)
+         WHERE id = $8`,
+        [title, description, estimated_minutes, remaining_seconds, specific_date, recurrence_type, recurrence_days, id]
+      );
+      
+      const dateToUse = completion_date || new Date().toISOString().split('T')[0];
+      const joinedResult = await pool.query(
+        `SELECT 
+          t.*,
+          rtc.points_earned as recurring_points_earned,
+          rtc.pause_used as recurring_pause_used,
+          rtc.super_point_used as recurring_super_point_used,
+          rtc.actual_time_seconds as recurring_actual_time_seconds,
+          rtc.completion_date as recurring_completion_date
+        FROM todos t
+        LEFT JOIN recurring_todo_completions rtc 
+          ON t.id = rtc.todo_id AND rtc.completion_date = $1
+        WHERE t.id = $2`,
+        [dateToUse, id]
+      );
+      
+      const todoWithCompletion = joinedResult.rows[0];
+      res.json({
+        ...todoWithCompletion,
+        completed: !!todoWithCompletion.recurring_completion_date,
+        points_earned: todoWithCompletion.recurring_points_earned || 0,
+        pause_used: todoWithCompletion.recurring_pause_used || false,
+        super_point_used: todoWithCompletion.recurring_super_point_used || false,
+        actual_time_seconds: todoWithCompletion.recurring_actual_time_seconds || null
+      });
+    } else {
+      const result = await pool.query(
+        `UPDATE todos SET 
+         title = COALESCE($1, title),
+         description = COALESCE($2, description),
+         estimated_minutes = COALESCE($3, estimated_minutes),
+         remaining_seconds = COALESCE($4, remaining_seconds),
+         completed = COALESCE($5, completed),
+         completed_at = CASE WHEN $5 = true THEN CURRENT_TIMESTAMP ELSE completed_at END,
+         specific_date = COALESCE($6, specific_date),
+         recurrence_type = COALESCE($7, recurrence_type),
+         recurrence_days = COALESCE($8, recurrence_days),
+         pause_used = COALESCE($9, pause_used),
+         super_point_used = COALESCE($10, super_point_used),
+         points_earned = COALESCE($11, points_earned),
+         actual_time_seconds = COALESCE($12, actual_time_seconds)
+         WHERE id = $13 RETURNING *`,
+        [title, description, estimated_minutes, remaining_seconds, completed, specific_date, recurrence_type, recurrence_days, pause_used, super_point_used, points_earned, actual_time_seconds, id]
+      );
+      res.json(result.rows[0]);
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

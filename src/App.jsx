@@ -121,10 +121,15 @@ function App() {
     );
     
     try {
+      const updatesWithDate = {
+        ...updates,
+        completion_date: currentDate
+      };
+      
       const response = await fetch(`/api/todos/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updates)
+        body: JSON.stringify(updatesWithDate)
       });
       const updatedTodo = await response.json();
       
@@ -209,7 +214,7 @@ function App() {
           if (!current) return prev;
           
           const newElapsed = current.elapsedTime + 1;
-          const newRemaining = current.timeRemaining > 0 ? current.timeRemaining - 1 : 0;
+          const newRemaining = current.timeRemaining - 1;
           
           handleUpdateTodo(todoId, {
             remaining_seconds: newRemaining,
