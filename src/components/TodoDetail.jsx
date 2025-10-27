@@ -1,76 +1,46 @@
 import { useState, useEffect, useRef } from 'react';
 import './TodoDetail.css';
 
-function TodoDetail({ todo, onClose, onUpdate, currentUser }) {
-  const [isRunning, setIsRunning] = useState(false);
-  const initialTime = todo.remaining_seconds ?? (todo.estimated_minutes ? todo.estimated_minutes * 60 : 0);
-  const [timeRemaining, setTimeRemaining] = useState(initialTime);
-  const [elapsedTime, setElapsedTime] = useState(todo.actual_time_seconds || 0);
+function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTimer, getTimerState }) {
+  const timerState = getTimerState(todo.id);
+  const [isRunning, setIsRunning] = useState(!!timerState);
+  const [timeRemaining, setTimeRemaining] = useState(
+    timerState ? timerState.timeRemaining : (todo.remaining_seconds ?? (todo.estimated_minutes ? todo.estimated_minutes * 60 : 0))
+  );
+  const [elapsedTime, setElapsedTime] = useState(
+    timerState ? timerState.elapsedTime : (todo.actual_time_seconds || 0)
+  );
   const [pauseUsed, setPauseUsed] = useState(todo.pause_used || false);
   const [superPointUsed, setSuperPointUsed] = useState(todo.super_point_used || false);
   const [showPointsBreakdown, setShowPointsBreakdown] = useState(false);
   const [earnedPoints, setEarnedPoints] = useState(null);
-  const intervalRef = useRef(null);
-  const timeRemainingRef = useRef(timeRemaining);
-  const elapsedTimeRef = useRef(elapsedTime);
-  const isRunningRef = useRef(isRunning);
-  const onUpdateRef = useRef(onUpdate);
 
   useEffect(() => {
-    timeRemainingRef.current = timeRemaining;
-  }, [timeRemaining]);
-
-  useEffect(() => {
-    elapsedTimeRef.current = elapsedTime;
-  }, [elapsedTime]);
-
-  useEffect(() => {
-    isRunningRef.current = isRunning;
-  }, [isRunning]);
-
-  useEffect(() => {
-    onUpdateRef.current = onUpdate;
-  }, [onUpdate]);
-
-  const superPointUsedRef = useRef(superPointUsed);
-
-  useEffect(() => {
-    superPointUsedRef.current = superPointUsed;
-  }, [superPointUsed]);
-
-  useEffect(() => {
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+    const currentTimerState = getTimerState(todo.id);
+    if (currentTimerState) {
+      setTimeRemaining(currentTimerState.timeRemaining);
+      setElapsedTime(currentTimerState.elapsedTime);
+      setIsRunning(true);
+    }
+    
+    const interval = setInterval(() => {
+      const state = getTimerState(todo.id);
+      if (state) {
+        setTimeRemaining(state.timeRemaining);
+        setElapsedTime(state.elapsedTime);
       }
-      if (isRunningRef.current || superPointUsedRef.current) {
-        onUpdateRef.current({ 
-          remaining_seconds: timeRemainingRef.current,
-          actual_time_seconds: elapsedTimeRef.current,
-          super_point_used: superPointUsedRef.current
-        });
-      }
-    };
-  }, []);
+    }, 100);
+    
+    return () => clearInterval(interval);
+  }, [todo.id, getTimerState]);
 
   const handleStart = () => {
     setIsRunning(true);
-    intervalRef.current = setInterval(() => {
-      setElapsedTime(prev => prev + 1);
-      setTimeRemaining(prev => {
-        if (prev > 0) {
-          return prev - 1;
-        }
-        return prev;
-      });
-    }, 1000);
+    startTimer(todo.id, timeRemaining, elapsedTime);
   };
 
   const handlePause = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    isRunningRef.current = false;
+    stopTimer(todo.id);
     setIsRunning(false);
     setPauseUsed(true);
     onUpdate({ 
@@ -109,10 +79,7 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser }) {
   };
 
   const handleDone = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    isRunningRef.current = false;
+    stopTimer(todo.id);
     setIsRunning(false);
     
     const points = calculatePoints();
@@ -143,18 +110,6 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser }) {
     : 0;
 
   const handleBack = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    if (isRunning || superPointUsed) {
-      isRunningRef.current = false;
-      setIsRunning(false);
-      onUpdate({ 
-        remaining_seconds: timeRemaining,
-        actual_time_seconds: elapsedTime,
-        super_point_used: superPointUsed
-      });
-    }
     onClose();
   };
 

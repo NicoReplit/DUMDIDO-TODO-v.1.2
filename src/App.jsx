@@ -17,6 +17,7 @@ function App() {
   const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
   const [showUserForm, setShowUserForm] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
+  const [runningTimers, setRunningTimers] = useState({});
 
   useEffect(() => {
     fetchUsers();
@@ -195,6 +196,57 @@ function App() {
     }
   };
 
+  const startTimer = (todoId, initialRemaining, initialElapsed) => {
+    if (runningTimers[todoId]) return;
+    
+    const timer = {
+      todoId,
+      timeRemaining: initialRemaining,
+      elapsedTime: initialElapsed,
+      interval: setInterval(() => {
+        setRunningTimers(prev => {
+          const current = prev[todoId];
+          if (!current) return prev;
+          
+          const newElapsed = current.elapsedTime + 1;
+          const newRemaining = current.timeRemaining > 0 ? current.timeRemaining - 1 : 0;
+          
+          handleUpdateTodo(todoId, {
+            remaining_seconds: newRemaining,
+            actual_time_seconds: newElapsed
+          });
+          
+          return {
+            ...prev,
+            [todoId]: {
+              ...current,
+              timeRemaining: newRemaining,
+              elapsedTime: newElapsed
+            }
+          };
+        });
+      }, 1000)
+    };
+    
+    setRunningTimers(prev => ({ ...prev, [todoId]: timer }));
+  };
+
+  const stopTimer = (todoId) => {
+    const timer = runningTimers[todoId];
+    if (timer && timer.interval) {
+      clearInterval(timer.interval);
+      setRunningTimers(prev => {
+        const newTimers = { ...prev };
+        delete newTimers[todoId];
+        return newTimers;
+      });
+    }
+  };
+
+  const getTimerState = (todoId) => {
+    return runningTimers[todoId] || null;
+  };
+
   if (selectedTodo) {
     return (
       <TodoDetail
@@ -202,6 +254,9 @@ function App() {
         currentUser={currentUser}
         onClose={() => setSelectedTodo(null)}
         onUpdate={(updates) => handleUpdateTodo(selectedTodo.id, updates)}
+        startTimer={startTimer}
+        stopTimer={stopTimer}
+        getTimerState={getTimerState}
       />
     );
   }
@@ -275,6 +330,7 @@ function App() {
         onEdit={handleEditTodo}
         onDelete={handleDeleteTodo}
         onSelect={setSelectedTodo}
+        runningTimers={runningTimers}
       />
 
       <button className="add-button" onClick={() => setShowForm(true)}>

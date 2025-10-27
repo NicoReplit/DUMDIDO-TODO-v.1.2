@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './TodoList.css';
 
-function TodoList({ todos, onEdit, onDelete, onSelect }) {
+function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
   const [swipedId, setSwipedId] = useState(null);
   const [touchStart, setTouchStart] = useState(null);
 
@@ -73,7 +73,10 @@ function TodoList({ todos, onEdit, onDelete, onSelect }) {
               {todo.completed && (
                 <div className="completed-check">✓</div>
               )}
-              {!todo.completed && todo.remaining_seconds !== null && 
+              {!todo.completed && runningTimers[todo.id] && (
+                <div className="running-indicator">▶️</div>
+              )}
+              {!todo.completed && !runningTimers[todo.id] && todo.remaining_seconds !== null && 
                todo.remaining_seconds < (todo.estimated_minutes * 60) && (
                 <div className="pause-indicator">⏸️</div>
               )}
