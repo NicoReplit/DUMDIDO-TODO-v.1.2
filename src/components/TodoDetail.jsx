@@ -122,10 +122,37 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
   const secondsInCurrentMinute = overtimeSeconds % 60;
   const progressInMinute = (secondsInCurrentMinute / 60) * 100;
   
-  const isEvenMinute = overtimeMinute % 2 === 0;
-  const overtimeProgress = isEvenMinute 
-    ? progressInMinute
-    : (100 - progressInMinute);
+  // Color gradient from yellow → green → red
+  const overtimeColors = [
+    '#fbbf24', // yellow (minute 0)
+    '#a3e635', // lime (minute 1)
+    '#22c55e', // green (minute 2)
+    '#f97316', // orange (minute 3)
+    '#ef4444', // red (minute 4)
+    '#dc2626', // dark red (minute 5+)
+  ];
+  
+  const getOvertimeRings = () => {
+    const rings = [];
+    
+    // Add completed minutes as full rings
+    for (let i = 0; i < overtimeMinute; i++) {
+      const colorIndex = Math.min(i, overtimeColors.length - 1);
+      rings.push({
+        progress: 100,
+        color: overtimeColors[colorIndex]
+      });
+    }
+    
+    // Add current growing minute
+    const currentColorIndex = Math.min(overtimeMinute, overtimeColors.length - 1);
+    rings.push({
+      progress: progressInMinute,
+      color: overtimeColors[currentColorIndex]
+    });
+    
+    return rings;
+  };
 
   const handleBack = () => {
     onClose();
@@ -209,9 +236,43 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
               )}
               
               {isOvertime && (
-                <div className="timer-circle" style={{
-                  background: `conic-gradient(#ef4444 ${overtimeProgress}%, #e5e7eb ${overtimeProgress}%)`
-                }}>
+                <div className="timer-circle-svg-container">
+                  <svg className="timer-svg" viewBox="0 0 200 200">
+                    {/* Background circle */}
+                    <circle
+                      cx="100"
+                      cy="100"
+                      r="85"
+                      fill="none"
+                      stroke="#e5e7eb"
+                      strokeWidth="12"
+                    />
+                    
+                    {/* Overlapping colored rings */}
+                    {getOvertimeRings().map((ring, index) => {
+                      const circumference = 2 * Math.PI * 85;
+                      const strokeDashoffset = circumference - (ring.progress / 100) * circumference;
+                      
+                      return (
+                        <circle
+                          key={index}
+                          cx="100"
+                          cy="100"
+                          r="85"
+                          fill="none"
+                          stroke={ring.color}
+                          strokeWidth="12"
+                          strokeDasharray={circumference}
+                          strokeDashoffset={strokeDashoffset}
+                          strokeLinecap="round"
+                          transform="rotate(-90 100 100)"
+                          style={{
+                            transition: 'stroke-dashoffset 1s linear'
+                          }}
+                        />
+                      );
+                    })}
+                  </svg>
                   <div className="timer-inner">
                     <div className="timer-display" style={{ color: '#ef4444' }}>
                       +{formatTime(overtimeSeconds)}

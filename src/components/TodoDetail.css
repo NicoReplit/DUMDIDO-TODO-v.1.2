@@ -49,7 +49,8 @@
   margin: 50px 0;
 }
 
-.timer-circle {
+.timer-circle,
+.timer-circle-svg-container {
   width: 280px;
   height: 280px;
   border-radius: 50%;
@@ -58,6 +59,15 @@
   justify-content: center;
   padding: 10px;
   transition: background 1s linear;
+  position: relative;
+}
+
+.timer-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .timer-circle.overtime {
@@ -232,7 +242,8 @@
     font-size: 24px;
   }
   
-  .timer-circle {
+  .timer-circle,
+  .timer-circle-svg-container {
     width: 240px;
     height: 240px;
   }
