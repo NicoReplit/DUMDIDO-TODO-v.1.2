@@ -114,9 +114,13 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
   const countdownTime = isOvertime ? 0 : timeRemaining;
   const overtimeSeconds = isOvertime ? Math.abs(timeRemaining) : 0;
   
-  const progress = todo.estimated_minutes 
+  const countdownProgress = todo.estimated_minutes 
     ? Math.max(0, Math.min(100, ((countdownTime / (todo.estimated_minutes * 60)) * 100)))
     : 0;
+  
+  const overtimeProgress = todo.estimated_minutes
+    ? Math.max(0, 100 - ((overtimeSeconds / (todo.estimated_minutes * 60)) * 100))
+    : 100;
 
   const handleBack = () => {
     onClose();
@@ -186,7 +190,7 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
             <div className="timer-container">
               {!isOvertime && (
                 <div className="timer-circle" style={{
-                  background: `conic-gradient(#667eea ${progress}%, #e5e7eb ${progress}%)`
+                  background: `conic-gradient(#667eea ${countdownProgress}%, #e5e7eb ${countdownProgress}%)`
                 }}>
                   <div className="timer-inner">
                     <div className="timer-display">
@@ -201,13 +205,13 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
               
               {isOvertime && (
                 <div className="timer-circle" style={{
-                  background: '#ef4444'
+                  background: `conic-gradient(#ef4444 ${overtimeProgress}%, #e5e7eb ${overtimeProgress}%)`
                 }}>
                   <div className="timer-inner">
-                    <div className="timer-display" style={{ color: 'white' }}>
+                    <div className="timer-display" style={{ color: '#ef4444' }}>
                       +{formatTime(overtimeSeconds)}
                     </div>
-                    <div className="timer-label" style={{ color: 'white' }}>
+                    <div className="timer-label" style={{ color: '#ef4444' }}>
                       OVERTIME
                     </div>
                   </div>
