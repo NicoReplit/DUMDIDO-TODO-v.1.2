@@ -122,19 +122,19 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
   const secondsInCurrentMinute = overtimeSeconds % 60;
   const progressInMinute = (secondsInCurrentMinute / 60) * 100;
   
-  // Color gradient from green to red over 10 minutes (color wheel clockwise)
+  // Color gradient from #d0ea2b to #a7194b over 10 minutes (color wheel clockwise)
   const overtimeColors = [
-    '#22c55e', // green (minute 0)
-    '#84cc16', // lime green (minute 1)
-    '#a3e635', // yellow-green (minute 2)
-    '#eab308', // yellow (minute 3)
-    '#f59e0b', // amber (minute 4)
-    '#f97316', // orange (minute 5)
-    '#fb923c', // light orange-red (minute 6)
-    '#f87171', // light red (minute 7)
-    '#ef4444', // red (minute 8)
-    '#dc2626', // dark red (minute 9)
-    '#b91c1c', // pure red (minute 10+)
+    '#d0ea2b', // yellow-green (minute 0)
+    '#ead42b', // yellow (minute 1)
+    '#eab72b', // amber-yellow (minute 2)
+    '#ea9a2b', // orange-yellow (minute 3)
+    '#ea7d2b', // orange (minute 4)
+    '#ea5f2b', // red-orange (minute 5)
+    '#ea422b', // orange-red (minute 6)
+    '#de2b3a', // red (minute 7)
+    '#cb2643', // dark red (minute 8)
+    '#b9204b', // darker red (minute 9)
+    '#a7194b', // pure red (minute 10+)
   ];
   
   const getOvertimeRings = () => {
@@ -227,10 +227,10 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
             <div className="timer-container">
               {!isOvertime && (
                 <div className="timer-circle" style={{
-                  background: `conic-gradient(#22c55e ${countdownProgress}%, #e5e7eb ${countdownProgress}%)`
+                  background: `conic-gradient(#65b032 ${countdownProgress}%, #e5e7eb ${countdownProgress}%)`
                 }}>
                   <div className="timer-inner">
-                    <div className="timer-display" style={{ color: '#22c55e' }}>
+                    <div className="timer-display" style={{ color: '#65b032' }}>
                       {formatTime(countdownTime)}
                     </div>
                     <div className="timer-label">
@@ -271,18 +271,15 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
                           strokeDashoffset={strokeDashoffset}
                           strokeLinecap="round"
                           transform="rotate(-90 100 100)"
-                          style={{
-                            transition: 'stroke-dashoffset 1s linear'
-                          }}
                         />
                       );
                     })}
                   </svg>
                   <div className="timer-inner">
-                    <div className="timer-display" style={{ color: '#ef4444' }}>
+                    <div className="timer-display" style={{ color: '#a7194b' }}>
                       +{formatTime(overtimeSeconds)}
                     </div>
-                    <div className="timer-label" style={{ color: '#ef4444' }}>
+                    <div className="timer-label" style={{ color: '#a7194b' }}>
                       OVERTIME
                     </div>
                   </div>
