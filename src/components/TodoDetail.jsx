@@ -124,8 +124,8 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
   
   const isEvenMinute = overtimeMinute % 2 === 0;
   const overtimeProgress = isEvenMinute 
-    ? (100 - progressInMinute)
-    : progressInMinute;
+    ? progressInMinute
+    : (100 - progressInMinute);
 
   const handleBack = () => {
     onClose();
