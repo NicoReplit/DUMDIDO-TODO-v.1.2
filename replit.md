@@ -21,16 +21,18 @@ A touch-optimized to-do list application designed for families to share on a Ras
 
 ## Recent Changes
 - 2025-10-28: Gradient overtime ring visualization
+  - **Countdown timer**: Green ring that counts down during normal time
   - **Multi-colored overlapping rings**: Each overtime minute adds a new colored ring
-  - **Color gradient progression**: Yellow → Lime → Green → Orange → Red → Dark Red
+  - **Color gradient progression (color wheel clockwise)**: Green → Yellow-Green → Yellow → Orange → Red over 10 minutes
   - **Visual accumulation**: Completed minutes stay at 100%, current minute grows 0→100%
   - **SVG-based rendering**: Smooth animations with overlapping stroke effects
-  - Minute 0: Yellow ring builds up (urgency starting)
-  - Minute 1: Lime ring builds (yellow stays full)
-  - Minute 2: Green ring builds (yellow + lime stay full)
-  - Minute 3: Orange ring builds (showing heat)
-  - Minute 4+: Red/dark red rings (maximum urgency)
-  - Creates visual "heat map" showing total overtime accumulation
+  - Minute 0: Green ring builds (starting overtime)
+  - Minutes 1-2: Lime/yellow-green rings (early warning)
+  - Minutes 3-4: Yellow/amber rings (caution)
+  - Minutes 5-6: Orange rings (heat building)
+  - Minutes 7-9: Light red to dark red rings (critical)
+  - Minute 10+: Pure red rings (maximum urgency)
+  - Creates visual "heat map" showing total overtime accumulation from green to red
 
 - 2025-10-27: Recurring todos daily reset & timer overtime fixes (PRODUCTION READY)
   - **Recurring todos now properly reset daily**: 
