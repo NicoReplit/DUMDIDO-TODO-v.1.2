@@ -118,9 +118,14 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
     ? Math.max(0, Math.min(100, ((countdownTime / (todo.estimated_minutes * 60)) * 100)))
     : 0;
   
-  const overtimeProgress = todo.estimated_minutes
-    ? Math.max(0, 100 - ((overtimeSeconds / (todo.estimated_minutes * 60)) * 100))
-    : 100;
+  const overtimeMinute = Math.floor(overtimeSeconds / 60);
+  const secondsInCurrentMinute = overtimeSeconds % 60;
+  const progressInMinute = (secondsInCurrentMinute / 60) * 100;
+  
+  const isEvenMinute = overtimeMinute % 2 === 0;
+  const overtimeProgress = isEvenMinute 
+    ? (100 - progressInMinute)
+    : progressInMinute;
 
   const handleBack = () => {
     onClose();
