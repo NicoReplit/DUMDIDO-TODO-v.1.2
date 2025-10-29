@@ -27,6 +27,7 @@ A touch-optimized to-do list application designed for families to share on a Ras
   - **Step-based animation**: Rings jump in discrete steps, not smooth/fluent transitions
   - **Visual accumulation**: Completed minutes stay at 100%, current minute grows 0→100%
   - **SVG-based rendering**: Multiple overlapping rings with matching size/thickness as countdown
+  - **Immediate penalty**: First minus point applied at 0:00 overtime (Math.floor for penalties)
   - Minute 0: Yellow-green ring (#d0ea2b) builds (starting overtime)
   - Minutes 1-2: Yellow rings (early warning)
   - Minutes 3-4: Amber/orange-yellow rings (caution)

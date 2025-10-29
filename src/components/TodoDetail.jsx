@@ -61,7 +61,19 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
     const actualTimeSeconds = elapsedTime;
     
     const basePoints = todo.estimated_minutes;
-    const timeDiffMinutes = Math.round((estimatedSeconds - actualTimeSeconds) / 60);
+    const timeDiffSeconds = estimatedSeconds - actualTimeSeconds;
+    
+    // For overtime (negative diff), use floor to immediately apply penalty at 0:00 overtime
+    // For early finish (positive diff), use round for fair rounding
+    let timeDiffMinutes;
+    if (timeDiffSeconds < 0) {
+      // Overtime: floor makes any overtime count as full minute penalty
+      timeDiffMinutes = Math.floor(timeDiffSeconds / 60);
+    } else {
+      // Early or on-time: round normally
+      timeDiffMinutes = Math.round(timeDiffSeconds / 60);
+    }
+    
     const timeBonus = superPointUsed ? 0 : timeDiffMinutes;
     
     let subtotal = basePoints + timeBonus;
