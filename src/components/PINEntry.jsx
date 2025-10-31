@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './PINEntry.css';
 
-function PINEntry({ userName, onVerify, onCancel }) {
+function PINEntry({ userName, action = 'edit', onVerify, onCancel }) {
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
 
@@ -20,6 +20,8 @@ function PINEntry({ userName, onVerify, onCancel }) {
     setError('');
   };
 
+  const actionText = action === 'delete' ? 'delete' : 'edit';
+
   return (
     <div className="pin-entry-overlay" onClick={onCancel}>
       <div className="pin-entry-dialog" onClick={(e) => e.stopPropagation()}>
@@ -29,7 +31,7 @@ function PINEntry({ userName, onVerify, onCancel }) {
         </div>
         
         <p className="pin-entry-message">
-          Enter <strong>{userName}'s</strong> PIN to edit this to-do
+          Enter <strong>{userName}'s</strong> PIN to {actionText} this to-do
         </p>
 
         <form onSubmit={handleSubmit}>

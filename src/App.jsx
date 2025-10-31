@@ -21,6 +21,8 @@ function App() {
   const [runningTimers, setRunningTimers] = useState({});
   const [showPinEntry, setShowPinEntry] = useState(false);
   const [pendingEditTodo, setPendingEditTodo] = useState(null);
+  const [pendingDeleteTodoId, setPendingDeleteTodoId] = useState(null);
+  const [pinAction, setPinAction] = useState(null); // 'edit' or 'delete'
 
   useEffect(() => {
     fetchUsers();
@@ -105,9 +107,21 @@ function App() {
   };
 
   const handleDeleteTodo = async (id) => {
+    // Check if user has a PIN set
     try {
-      await fetch(`/api/todos/${id}`, { method: 'DELETE' });
-      fetchTodos();
+      const response = await fetch(`/api/users/${currentUser.id}/has-pin`);
+      const data = await response.json();
+      
+      if (data.hasPin) {
+        // User has PIN, show PIN entry dialog
+        setPendingDeleteTodoId(id);
+        setPinAction('delete');
+        setShowPinEntry(true);
+      } else {
+        // No PIN, proceed directly
+        await fetch(`/api/todos/${id}`, { method: 'DELETE' });
+        fetchTodos();
+      }
     } catch (error) {
       console.error('Error deleting todo:', error);
     }
@@ -122,6 +136,7 @@ function App() {
       if (data.hasPin) {
         // User has PIN, show PIN entry dialog
         setPendingEditTodo(todo);
+        setPinAction('edit');
         setShowPinEntry(true);
       } else {
         // No PIN, proceed directly
@@ -146,11 +161,22 @@ function App() {
       const data = await response.json();
       
       if (data.valid) {
-        // PIN correct, proceed with editing
+        // PIN correct, proceed with action
         setShowPinEntry(false);
-        setEditingTodo(pendingEditTodo);
-        setShowForm(true);
-        setPendingEditTodo(null);
+        
+        if (pinAction === 'edit') {
+          // Proceed with editing
+          setEditingTodo(pendingEditTodo);
+          setShowForm(true);
+          setPendingEditTodo(null);
+        } else if (pinAction === 'delete') {
+          // Proceed with deleting
+          await fetch(`/api/todos/${pendingDeleteTodoId}`, { method: 'DELETE' });
+          fetchTodos();
+          setPendingDeleteTodoId(null);
+        }
+        
+        setPinAction(null);
       } else {
         // PIN incorrect
         alert('Incorrect PIN. Please try again.');
@@ -164,6 +190,8 @@ function App() {
   const handlePinCancel = () => {
     setShowPinEntry(false);
     setPendingEditTodo(null);
+    setPendingDeleteTodoId(null);
+    setPinAction(null);
   };
 
   const handleUpdateTodo = async (id, updates) => {
@@ -409,6 +437,7 @@ function App() {
       {showPinEntry && currentUser && (
         <PINEntry
           userName={currentUser.name}
+          action={pinAction}
           onVerify={handlePinVerify}
           onCancel={handlePinCancel}
         />
