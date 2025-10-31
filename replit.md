@@ -23,7 +23,7 @@ A touch-optimized to-do list application designed for families to share on a Ras
 - 2025-10-31: PIN Protection & UI Improvements
   - **4-digit PIN protection for to-dos**:
     - Users can set a 4-digit PIN in settings (edit user with pencil icon)
-    - PIN must be entered before editing existing to-dos
+    - PIN must be entered before editing OR deleting existing to-dos
     - Creating new to-dos does not require PIN
     - Secure bcrypt hashing for PIN storage (never sent to client)
     - Current PIN verification required to change or remove PIN
