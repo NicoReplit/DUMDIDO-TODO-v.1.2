@@ -5,6 +5,7 @@ import TodoForm from './components/TodoForm';
 import TodoDetail from './components/TodoDetail';
 import UserForm from './components/UserForm';
 import WeekCalendar from './components/WeekCalendar';
+import PINEntry from './components/PINEntry';
 import './App.css';
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
   const [showUserForm, setShowUserForm] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [runningTimers, setRunningTimers] = useState({});
+  const [showPinEntry, setShowPinEntry] = useState(false);
+  const [pendingEditTodo, setPendingEditTodo] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -110,9 +113,57 @@ function App() {
     }
   };
 
-  const handleEditTodo = (todo) => {
-    setEditingTodo(todo);
-    setShowForm(true);
+  const handleEditTodo = async (todo) => {
+    // Check if user has a PIN set
+    try {
+      const response = await fetch(`/api/users/${currentUser.id}/has-pin`);
+      const data = await response.json();
+      
+      if (data.hasPin) {
+        // User has PIN, show PIN entry dialog
+        setPendingEditTodo(todo);
+        setShowPinEntry(true);
+      } else {
+        // No PIN, proceed directly
+        setEditingTodo(todo);
+        setShowForm(true);
+      }
+    } catch (error) {
+      console.error('Error checking PIN:', error);
+      // On error, allow editing (fail open)
+      setEditingTodo(todo);
+      setShowForm(true);
+    }
+  };
+
+  const handlePinVerify = async (pin) => {
+    try {
+      const response = await fetch(`/api/users/${currentUser.id}/verify-pin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin })
+      });
+      const data = await response.json();
+      
+      if (data.valid) {
+        // PIN correct, proceed with editing
+        setShowPinEntry(false);
+        setEditingTodo(pendingEditTodo);
+        setShowForm(true);
+        setPendingEditTodo(null);
+      } else {
+        // PIN incorrect
+        alert('Incorrect PIN. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error verifying PIN:', error);
+      alert('Error verifying PIN. Please try again.');
+    }
+  };
+
+  const handlePinCancel = () => {
+    setShowPinEntry(false);
+    setPendingEditTodo(null);
   };
 
   const handleUpdateTodo = async (id, updates) => {
@@ -149,13 +200,26 @@ function App() {
   const handleSaveUser = async (userData) => {
     try {
       if (editingUser) {
+        const payload = {
+          name: userData.name,
+          color: userData.color
+        };
+        // Include PIN fields if provided
+        if (userData.pin !== undefined) {
+          payload.pin = userData.pin;
+        }
+        if (userData.currentPin !== undefined) {
+          payload.currentPin = userData.currentPin;
+        }
+        
         const response = await fetch(`/api/users/${editingUser.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: userData.name, color: userData.color })
+          body: JSON.stringify(payload)
         });
         if (!response.ok) {
-          throw new Error('Failed to update user');
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to update user');
         }
         const updatedUser = await response.json();
         if (currentUser?.id === editingUser.id) {
@@ -176,7 +240,7 @@ function App() {
       setEditingUser(null);
     } catch (error) {
       console.error('Error saving user:', error);
-      alert('Failed to save user. Please try again.');
+      throw error; // Re-throw so UserForm can handle it
     }
   };
 
@@ -341,6 +405,14 @@ function App() {
       <button className="add-button" onClick={() => setShowForm(true)}>
         +
       </button>
+
+      {showPinEntry && currentUser && (
+        <PINEntry
+          userName={currentUser.name}
+          onVerify={handlePinVerify}
+          onCancel={handlePinCancel}
+        />
+      )}
     </div>
   );
 }

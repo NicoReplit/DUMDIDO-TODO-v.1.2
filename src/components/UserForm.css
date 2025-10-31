@@ -53,6 +53,35 @@
   justify-content: flex-end;
 }
 
+.action-buttons button {
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.save-btn, .cancel-btn {
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.pin-section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.pin-section h3 {
+  margin: 0 0 10px 0;
+  color: #667eea;
+  font-size: 18px;
+}
+
+.pin-description {
+  margin: 0 0 20px 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .delete-btn {
   padding: 12px 24px;
   background: #EF4444;

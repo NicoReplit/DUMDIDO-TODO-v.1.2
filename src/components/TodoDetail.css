@@ -7,22 +7,39 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.back-btn {
+.detail-header-title {
+  color: white;
+  font-size: 20px;
+  margin: 0;
+  flex: 1;
+}
+
+.detail-header .close-btn {
   background: rgba(255,255,255,0.2);
   border: none;
   color: white;
-  font-size: 18px;
-  padding: 10px 20px;
-  border-radius: 8px;
+  font-size: 32px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   cursor: pointer;
-  font-weight: 600;
-  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  line-height: 1;
+  padding: 0;
+  flex-shrink: 0;
 }
 
-.back-btn:active {
+.detail-header .close-btn:active {
   background: rgba(255,255,255,0.3);
+  transform: scale(0.95);
 }
 
 .detail-content {

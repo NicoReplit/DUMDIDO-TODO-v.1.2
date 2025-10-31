@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './UserForm.css';
 
 function UserForm({ user, onSave, onCancel, onDelete }) {
@@ -6,7 +6,13 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
     name: user?.name || '',
     color: user?.color || '#3B82F6'
   });
+  const [pinData, setPinData] = useState({
+    currentPin: '',
+    newPin: '',
+    confirmPin: ''
+  });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [hasExistingPin, setHasExistingPin] = useState(false);
 
   const predefinedColors = [
     '#3B82F6', // Blue
@@ -19,21 +25,66 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
     '#F97316', // Dark Orange
   ];
 
-  const handleSubmit = (e) => {
+  // Check if user has a PIN when editing
+  useEffect(() => {
+    if (user) {
+      fetch(`/api/users/${user.id}/has-pin`)
+        .then(res => res.json())
+        .then(data => setHasExistingPin(data.hasPin))
+        .catch(err => console.error('Error checking PIN:', err));
+    }
+  }, [user]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const trimmedName = formData.name.trim();
     if (!trimmedName) {
       alert('Please enter a valid name');
       return;
     }
+
+    // PIN validation
+    if (pinData.newPin || pinData.confirmPin) {
+      if (!/^\d{4}$/.test(pinData.newPin)) {
+        alert('PIN must be exactly 4 digits');
+        return;
+      }
+      if (pinData.newPin !== pinData.confirmPin) {
+        alert('PINs do not match');
+        return;
+      }
+      if (hasExistingPin && !pinData.currentPin) {
+        alert('Please enter your current PIN to change it');
+        return;
+      }
+    }
+
     const dataToSave = {
       ...formData,
       name: trimmedName
     };
+    
+    // Include PIN data if provided
+    if (pinData.newPin) {
+      dataToSave.pin = pinData.newPin;
+      if (hasExistingPin) {
+        dataToSave.currentPin = pinData.currentPin;
+      }
+    }
+
     if (user) {
       dataToSave.id = user.id;
     }
-    onSave(dataToSave);
+    
+    try {
+      await onSave(dataToSave);
+    } catch (error) {
+      if (error.message.includes('Current PIN is incorrect')) {
+        alert('Current PIN is incorrect');
+      } else {
+        alert('Error saving user: ' + error.message);
+      }
+    }
   };
 
   const handleDelete = () => {
@@ -75,6 +126,56 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
             ))}
           </div>
         </div>
+
+        {user && (
+          <div className="pin-section">
+            <h3>PIN Protection</h3>
+            <p className="pin-description">
+              Set a 4-digit PIN to protect your to-dos from being edited by others.
+            </p>
+            
+            {hasExistingPin && (
+              <div className="form-group">
+                <label>Current PIN *</label>
+                <input
+                  type="password"
+                  inputMode="numeric"
+                  pattern="\d{4}"
+                  maxLength="4"
+                  value={pinData.currentPin}
+                  onChange={(e) => setPinData({ ...pinData, currentPin: e.target.value.replace(/\D/g, '') })}
+                  placeholder="Enter current PIN"
+                />
+              </div>
+            )}
+            
+            <div className="form-group">
+              <label>New PIN {!hasExistingPin && '(optional)'}</label>
+              <input
+                type="password"
+                inputMode="numeric"
+                pattern="\d{4}"
+                maxLength="4"
+                value={pinData.newPin}
+                onChange={(e) => setPinData({ ...pinData, newPin: e.target.value.replace(/\D/g, '') })}
+                placeholder="Enter 4-digit PIN"
+              />
+            </div>
+            
+            <div className="form-group">
+              <label>Confirm New PIN</label>
+              <input
+                type="password"
+                inputMode="numeric"
+                pattern="\d{4}"
+                maxLength="4"
+                value={pinData.confirmPin}
+                onChange={(e) => setPinData({ ...pinData, confirmPin: e.target.value.replace(/\D/g, '') })}
+                placeholder="Confirm 4-digit PIN"
+              />
+            </div>
+          </div>
+        )}
 
         <div className="form-actions">
           {user && (

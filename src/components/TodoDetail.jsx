@@ -205,11 +205,11 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
   return (
     <div className="todo-detail">
       <div className="detail-header">
-        <button className="back-btn" onClick={handleBack}>← Back</button>
+        <h2 className="detail-header-title">{todo.title}</h2>
+        <button className="close-btn" onClick={handleBack}>×</button>
       </div>
 
       <div className="detail-content">
-        <h1>{todo.title}</h1>
         {todo.description && (
           <p className="detail-description">{todo.description}</p>
         )}
