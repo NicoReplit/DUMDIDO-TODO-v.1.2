@@ -1,0 +1,1596 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family To-Do App - Design Inventory</title>
+    <style>
+        @page {
+            margin: 2cm;
+            size: A4;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #333;
+            font-size: 11pt;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 28pt;
+            margin-top: 0;
+            margin-bottom: 0.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.3em;
+            page-break-after: avoid;
+        }
+        
+        h2 {
+            color: #764ba2;
+            font-size: 20pt;
+            margin-top: 2em;
+            margin-bottom: 0.5em;
+            border-bottom: 2px solid #764ba2;
+            padding-bottom: 0.2em;
+            page-break-after: avoid;
+        }
+        
+        h3 {
+            color: #333;
+            font-size: 14pt;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            page-break-after: avoid;
+        }
+        
+        h4 {
+            color: #666;
+            font-size: 12pt;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5em 0;
+            page-break-inside: auto;
+            font-size: 10pt;
+        }
+        
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+        
+        thead {
+            display: table-header-group;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #5568d3;
+        }
+        
+        td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 9pt;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background-color: #f4f4f4;
+            padding: 12px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border-left: 4px solid #667eea;
+            page-break-inside: avoid;
+        }
+        
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+        
+        ul, ol {
+            margin: 1em 0;
+            padding-left: 2em;
+        }
+        
+        li {
+            margin: 0.5em 0;
+        }
+        
+        p {
+            margin: 1em 0;
+        }
+        
+        strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        em {
+            color: #764ba2;
+            font-style: italic;
+        }
+        
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 2em 0;
+        }
+        
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+        
+        /* Print-specific styles */
+        @media print {
+            body {
+                margin: 0;
+                padding: 20px;
+            }
+            
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+            
+            table {
+                page-break-inside: auto;
+            }
+            
+            tr {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>Family To-Do App - Design Inventory</h1>
+<p><strong>Complete UI Element Catalog</strong></p>
+<hr>
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#color-palette">Color Palette</a></li>
+<li><a href="#typography">Typography</a></li>
+<li><a href="#buttons">Buttons</a></li>
+<li><a href="#icons--emojis">Icons &amp; Emojis</a></li>
+<li><a href="#form-elements">Form Elements</a></li>
+<li><a href="#ui-components">UI Components</a></li>
+<li><a href="#visual-indicators">Visual Indicators</a></li>
+<li><a href="#timer--progress-elements">Timer &amp; Progress Elements</a></li>
+<li><a href="#badges--labels">Badges &amp; Labels</a></li>
+<li><a href="#layout-elements">Layout Elements</a></li>
+</ol>
+<hr>
+<h2>Color Palette</h2>
+<h3>Primary Colors</h3>
+<table>
+<thead>
+<tr>
+<th>Color Name</th>
+<th>Hex Code</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Purple Primary</td>
+<td><code>#667eea</code></td>
+<td>Primary gradient start, main buttons, headers</td>
+</tr>
+<tr>
+<td>Purple Secondary</td>
+<td><code>#764ba2</code></td>
+<td>Primary gradient end</td>
+</tr>
+<tr>
+<td>Green Success</td>
+<td><code>#10b981</code></td>
+<td>Done buttons, completed indicators, countdown timer</td>
+</tr>
+<tr>
+<td>Green Countdown</td>
+<td><code>#65b032</code></td>
+<td>Countdown timer ring color</td>
+</tr>
+<tr>
+<td>Overtime Start</td>
+<td><code>#d0ea2b</code></td>
+<td>First overtime ring (yellow-green)</td>
+</tr>
+<tr>
+<td>Overtime End</td>
+<td><code>#a7194b</code></td>
+<td>Final overtime ring (pure red)</td>
+</tr>
+</tbody></table>
+<h3>User Color Palette (Predefined)</h3>
+<table>
+<thead>
+<tr>
+<th>Color Name</th>
+<th>Hex Code</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Blue</td>
+<td><code>#3B82F6</code></td>
+</tr>
+<tr>
+<td>Green</td>
+<td><code>#10B981</code></td>
+</tr>
+<tr>
+<td>Pink</td>
+<td><code>#EC4899</code></td>
+</tr>
+<tr>
+<td>Orange</td>
+<td><code>#F59E0B</code></td>
+</tr>
+<tr>
+<td>Purple</td>
+<td><code>#8B5CF6</code></td>
+</tr>
+<tr>
+<td>Red</td>
+<td><code>#EF4444</code></td>
+</tr>
+<tr>
+<td>Cyan</td>
+<td><code>#06B6D4</code></td>
+</tr>
+<tr>
+<td>Dark Orange</td>
+<td><code>#F97316</code></td>
+</tr>
+</tbody></table>
+<h3>Overtime Gradient (10-minute progression)</h3>
+<table>
+<thead>
+<tr>
+<th>Minute</th>
+<th>Hex Code</th>
+<th>Color Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td><code>#d0ea2b</code></td>
+<td>Yellow-green (starting overtime)</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>#ead42b</code></td>
+<td>Yellow</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>#eab72b</code></td>
+<td>Amber-yellow</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>#ea9a2b</code></td>
+<td>Orange-yellow</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>#ea7d2b</code></td>
+<td>Orange</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>#ea5f2b</code></td>
+<td>Red-orange</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>#ea422b</code></td>
+<td>Orange-red</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>#de2b3a</code></td>
+<td>Red</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>#cb2643</code></td>
+<td>Dark red</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>#b9204b</code></td>
+<td>Darker red</td>
+</tr>
+<tr>
+<td>10+</td>
+<td><code>#a7194b</code></td>
+<td>Pure red (maximum urgency)</td>
+</tr>
+</tbody></table>
+<h3>Status Colors</h3>
+<table>
+<thead>
+<tr>
+<th>Color Name</th>
+<th>Hex Code</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Time Badge Background</td>
+<td><code>#e0e7ff</code></td>
+<td>Time indicator backgrounds</td>
+</tr>
+<tr>
+<td>Time Badge Text</td>
+<td><code>#4f46e5</code></td>
+<td>Time indicator text</td>
+</tr>
+<tr>
+<td>Recurrence Badge Background</td>
+<td><code>#fef3c7</code></td>
+<td>Recurrence indicator backgrounds</td>
+</tr>
+<tr>
+<td>Recurrence Badge Text</td>
+<td><code>#d97706</code></td>
+<td>Recurrence indicator text</td>
+</tr>
+<tr>
+<td>Completed Background</td>
+<td><code>#f0fdf4</code></td>
+<td>Completed task row background</td>
+</tr>
+<tr>
+<td>Delete Button</td>
+<td><code>#EF4444</code></td>
+<td>Delete/cancel actions</td>
+</tr>
+<tr>
+<td>Delete Hover</td>
+<td><code>#DC2626</code></td>
+<td>Delete button hover state</td>
+</tr>
+</tbody></table>
+<h3>Neutral Colors</h3>
+<table>
+<thead>
+<tr>
+<th>Color Name</th>
+<th>Hex Code</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Background Light</td>
+<td><code>#f5f5f5</code></td>
+<td>Page background</td>
+</tr>
+<tr>
+<td>Background Lighter</td>
+<td><code>#f9f9f9</code></td>
+<td>User selector background</td>
+</tr>
+<tr>
+<td>Border Gray</td>
+<td><code>#999</code></td>
+<td>Dashed borders, inactive elements</td>
+</tr>
+<tr>
+<td>Text Gray</td>
+<td><code>#666</code></td>
+<td>Secondary text, labels</td>
+</tr>
+<tr>
+<td>Light Gray</td>
+<td><code>#e5e7eb</code></td>
+<td>Cancel buttons, inactive states</td>
+</tr>
+<tr>
+<td>White</td>
+<td><code>#ffffff</code></td>
+<td>Cards, forms, button text</td>
+</tr>
+</tbody></table>
+<h3>Super Point Colors</h3>
+<table>
+<thead>
+<tr>
+<th>Color Name</th>
+<th>Hex Code</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Super Point Start</td>
+<td><code>#f59e0b</code></td>
+<td>Super point button gradient start</td>
+</tr>
+<tr>
+<td>Super Point End</td>
+<td><code>#f97316</code></td>
+<td>Super point button gradient end</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Typography</h2>
+<h3>Font Family</h3>
+<ul>
+<li><strong>Primary Font</strong>: System default sans-serif stack</li>
+<li><strong>Fallback</strong>: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif</li>
+</ul>
+<h3>Font Sizes</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Size</th>
+<th>Weight</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Page Title</td>
+<td>28px</td>
+<td>700</td>
+<td>Main headings (h1)</td>
+</tr>
+<tr>
+<td>Section Title</td>
+<td>24px</td>
+<td>600</td>
+<td>Form headers, section headers</td>
+</tr>
+<tr>
+<td>Large Display</td>
+<td>56px</td>
+<td>700</td>
+<td>Timer countdown display</td>
+</tr>
+<tr>
+<td>Overtime Display</td>
+<td>64px</td>
+<td>700</td>
+<td>Overtime timer display</td>
+</tr>
+<tr>
+<td>Points Total</td>
+<td>48px</td>
+<td>700</td>
+<td>Points celebration total</td>
+</tr>
+<tr>
+<td>Button Text</td>
+<td>18-24px</td>
+<td>600</td>
+<td>Primary action buttons</td>
+</tr>
+<tr>
+<td>Body Text</td>
+<td>16px</td>
+<td>400</td>
+<td>Descriptions, labels</td>
+</tr>
+<tr>
+<td>Small Text</td>
+<td>13-14px</td>
+<td>400</td>
+<td>Badges, helper text</td>
+</tr>
+<tr>
+<td>User Name</td>
+<td>16px</td>
+<td>600</td>
+<td>User selector buttons</td>
+</tr>
+<tr>
+<td>Points Display</td>
+<td>14px</td>
+<td>600</td>
+<td>User points counter</td>
+</tr>
+</tbody></table>
+<h3>Special Typography</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Style</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Timer Display</td>
+<td><code>font-variant-numeric: tabular-nums</code> (monospaced numbers)</td>
+</tr>
+<tr>
+<td>Overtime Label</td>
+<td><code>letter-spacing: 2px</code></td>
+</tr>
+<tr>
+<td>Celebration Header</td>
+<td>28px</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Buttons</h2>
+<h3>Primary Buttons</h3>
+<table>
+<thead>
+<tr>
+<th>Button Name</th>
+<th>Style</th>
+<th>Colors</th>
+<th>Size</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Start Button</td>
+<td>Gradient, rounded</td>
+<td><code>#667eea</code> → <code>#764ba2</code></td>
+<td>24px font, 18px padding</td>
+<td>Start timer</td>
+</tr>
+<tr>
+<td>Done Button</td>
+<td>Solid, rounded</td>
+<td><code>#10b981</code> background</td>
+<td>20px font, 18px padding</td>
+<td>Complete task</td>
+</tr>
+<tr>
+<td>Save Button</td>
+<td>Gradient, rounded</td>
+<td><code>#667eea</code> → <code>#764ba2</code></td>
+<td>18px font, 16px padding</td>
+<td>Save forms</td>
+</tr>
+<tr>
+<td>Add Button (Floating)</td>
+<td>Gradient, circular</td>
+<td><code>#667eea</code> → <code>#764ba2</code></td>
+<td>60px diameter</td>
+<td>Add new todo</td>
+</tr>
+</tbody></table>
+<h3>Secondary Buttons</h3>
+<table>
+<thead>
+<tr>
+<th>Button Name</th>
+<th>Style</th>
+<th>Colors</th>
+<th>Size</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pause Button</td>
+<td>Solid, rounded</td>
+<td><code>#f59e0b</code> background</td>
+<td>20px font, 18px padding</td>
+<td>Pause timer</td>
+</tr>
+<tr>
+<td>Cancel Button</td>
+<td>Solid, rounded</td>
+<td><code>#e5e7eb</code> background</td>
+<td>18px font, 16px padding</td>
+<td>Cancel forms</td>
+</tr>
+<tr>
+<td>Super Point Button</td>
+<td>Gradient, rounded</td>
+<td><code>#f59e0b</code> → <code>#f97316</code></td>
+<td>16px font, 12px padding</td>
+<td>Use super point</td>
+</tr>
+<tr>
+<td>Back Button</td>
+<td>Semi-transparent</td>
+<td><code>rgba(255,255,255,0.2)</code></td>
+<td>18px font, 10px padding</td>
+<td>Navigate back</td>
+</tr>
+</tbody></table>
+<h3>Utility Buttons</h3>
+<table>
+<thead>
+<tr>
+<th>Button Name</th>
+<th>Style</th>
+<th>Colors</th>
+<th>Size</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>User Add Button</td>
+<td>Dashed border</td>
+<td><code>#999</code> border/text</td>
+<td>24px font</td>
+<td>Add new user</td>
+</tr>
+<tr>
+<td>Close Button (×)</td>
+<td>Text only</td>
+<td>White text</td>
+<td>32px font</td>
+<td>Close modals/forms</td>
+</tr>
+<tr>
+<td>Edit Button (✏️)</td>
+<td>Solid, small</td>
+<td>Blue background</td>
+<td>Icon only</td>
+<td>Edit action</td>
+</tr>
+<tr>
+<td>Delete Button (🗑️)</td>
+<td>Solid, small</td>
+<td>Red background</td>
+<td>Icon only</td>
+<td>Delete action</td>
+</tr>
+</tbody></table>
+<h3>Button States</h3>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hover</td>
+<td>Slight brightness increase</td>
+</tr>
+<tr>
+<td>Active</td>
+<td><code>transform: scale(0.98)</code></td>
+</tr>
+<tr>
+<td>Disabled</td>
+<td>Reduced opacity, no pointer</td>
+</tr>
+</tbody></table>
+<h3>Schedule/Day Buttons</h3>
+<table>
+<thead>
+<tr>
+<th>Button Name</th>
+<th>Style</th>
+<th>Colors</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Active Schedule</td>
+<td>Solid</td>
+<td><code>#667eea</code> background</td>
+<td>Selected schedule option</td>
+</tr>
+<tr>
+<td>Inactive Schedule</td>
+<td>Outlined</td>
+<td>Gray border</td>
+<td>Unselected option</td>
+</tr>
+<tr>
+<td>Active Day</td>
+<td>Solid</td>
+<td><code>#667eea</code> background</td>
+<td>Selected weekday</td>
+</tr>
+<tr>
+<td>Inactive Day</td>
+<td>Outlined</td>
+<td>Gray border</td>
+<td>Unselected weekday</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Icons &amp; Emojis</h2>
+<h3>Status Icons</h3>
+<table>
+<thead>
+<tr>
+<th>Icon</th>
+<th>Unicode/Emoji</th>
+<th>Usage</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Play</td>
+<td>▶️</td>
+<td>Running timer indicator</td>
+<td>Todo list item</td>
+</tr>
+<tr>
+<td>Pause</td>
+<td>⏸️</td>
+<td>Paused timer indicator</td>
+<td>Todo list, detail buttons</td>
+</tr>
+<tr>
+<td>Checkmark</td>
+<td>✓</td>
+<td>Completed status</td>
+<td>Todo list, done buttons</td>
+</tr>
+<tr>
+<td>Clock</td>
+<td>⏱️</td>
+<td>Time duration badge</td>
+<td>Todo list</td>
+</tr>
+<tr>
+<td>Repeat</td>
+<td>🔄</td>
+<td>Recurrence badge</td>
+<td>Todo list</td>
+</tr>
+</tbody></table>
+<h3>Action Icons</h3>
+<table>
+<thead>
+<tr>
+<th>Icon</th>
+<th>Unicode/Emoji</th>
+<th>Usage</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pencil</td>
+<td>✏️</td>
+<td>Edit action</td>
+<td>Swipe menu</td>
+</tr>
+<tr>
+<td>Trash Can</td>
+<td>🗑️</td>
+<td>Delete action</td>
+<td>Swipe menu, user form</td>
+</tr>
+<tr>
+<td>Plus</td>
+<td>+</td>
+<td>Add new item</td>
+<td>Add buttons</td>
+</tr>
+<tr>
+<td>Left Arrow</td>
+<td>←</td>
+<td>Navigate back</td>
+<td>Detail header</td>
+</tr>
+<tr>
+<td>Close</td>
+<td>×</td>
+<td>Close modal/form</td>
+<td>Form headers</td>
+</tr>
+<tr>
+<td>Star</td>
+<td>⭐</td>
+<td>Super points</td>
+<td>User stats, super point button</td>
+</tr>
+</tbody></table>
+<h3>Celebration Icons</h3>
+<table>
+<thead>
+<tr>
+<th>Icon</th>
+<th>Unicode/Emoji</th>
+<th>Usage</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Party Popper</td>
+<td>🎉</td>
+<td>Task completion</td>
+<td>Points celebration</td>
+</tr>
+</tbody></table>
+<h3>Week Calendar Icons</h3>
+<table>
+<thead>
+<tr>
+<th>Icon</th>
+<th>Unicode/Emoji</th>
+<th>Usage</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Checkmark</td>
+<td>✓</td>
+<td>Completed day</td>
+<td>Week calendar</td>
+</tr>
+<tr>
+<td>Circle</td>
+<td>○</td>
+<td>Incomplete day</td>
+<td>Week calendar</td>
+</tr>
+<tr>
+<td>Dash</td>
+<td>-</td>
+<td>Future day</td>
+<td>Week calendar</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Form Elements</h2>
+<h3>Input Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field Type</th>
+<th>Styling</th>
+<th>Placeholder Examples</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Text Input</td>
+<td>Rounded, bordered</td>
+<td>&quot;Enter name&quot;, &quot;What needs to be done?&quot;</td>
+</tr>
+<tr>
+<td>Number Input</td>
+<td>Rounded, bordered</td>
+<td>&quot;e.g., 30&quot;</td>
+</tr>
+<tr>
+<td>Textarea</td>
+<td>Rounded, bordered</td>
+<td>&quot;Add more details...&quot;</td>
+</tr>
+<tr>
+<td>Date Input</td>
+<td>Rounded, bordered</td>
+<td>Date picker</td>
+</tr>
+</tbody></table>
+<h3>Input States</h3>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Visual Feedback</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Focus</td>
+<td>Border highlight</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>Red asterisk (*)</td>
+</tr>
+<tr>
+<td>Error</td>
+<td>Red border, alert message</td>
+</tr>
+<tr>
+<td>Disabled</td>
+<td>Grayed out</td>
+</tr>
+</tbody></table>
+<h3>Labels</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Style</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Field Label</td>
+<td>14px, gray text, margin-bottom</td>
+</tr>
+<tr>
+<td>Required Indicator</td>
+<td>Red asterisk (*) after label</td>
+</tr>
+</tbody></table>
+<h3>Color Picker</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Color Options</td>
+<td>Circular buttons, 40px diameter</td>
+</tr>
+<tr>
+<td>Active Color</td>
+<td>Ring border around selected</td>
+</tr>
+<tr>
+<td>Color Grid</td>
+<td>4 columns, wrap</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>UI Components</h2>
+<h3>User Selector</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Container</td>
+<td>Horizontal scroll, flex row</td>
+</tr>
+<tr>
+<td>User Button</td>
+<td>Rounded rectangle, colored background</td>
+</tr>
+<tr>
+<td>User Name</td>
+<td>16px, white text</td>
+</tr>
+<tr>
+<td>Points Display</td>
+<td>14px, points count</td>
+</tr>
+<tr>
+<td>Super Points Display</td>
+<td>Star emoji + count</td>
+</tr>
+<tr>
+<td>Add User Button</td>
+<td>Dashed border circle</td>
+</tr>
+</tbody></table>
+<h3>Todo List Item</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Container</td>
+<td>White card, rounded, shadow</td>
+</tr>
+<tr>
+<td>Title</td>
+<td>18px, bold</td>
+</tr>
+<tr>
+<td>Time Badge</td>
+<td>Rounded pill, purple background</td>
+</tr>
+<tr>
+<td>Recurrence Badge</td>
+<td>Rounded pill, amber background</td>
+</tr>
+<tr>
+<td>Swipe Actions</td>
+<td>Hidden until swiped left</td>
+</tr>
+<tr>
+<td>Status Indicators</td>
+<td>Icons on right side</td>
+</tr>
+</tbody></table>
+<h3>Todo Detail View</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Header</td>
+<td>Purple gradient, back button</td>
+</tr>
+<tr>
+<td>Title</td>
+<td>28px heading</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>16px gray text</td>
+</tr>
+<tr>
+<td>Timer Circle</td>
+<td>280px diameter (240px mobile)</td>
+</tr>
+<tr>
+<td>Timer Display</td>
+<td>56px tabular numbers</td>
+</tr>
+<tr>
+<td>Timer Label</td>
+<td>16px below time</td>
+</tr>
+</tbody></table>
+<h3>Week Calendar</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Container</td>
+<td>7-day horizontal strip</td>
+</tr>
+<tr>
+<td>Day Cell</td>
+<td>Compact square</td>
+</tr>
+<tr>
+<td>Day Label</td>
+<td>Mon, Tue, Wed, etc.</td>
+</tr>
+<tr>
+<td>Status Icon</td>
+<td>✓, ○, or -</td>
+</tr>
+<tr>
+<td>Completed Day</td>
+<td>Green background</td>
+</tr>
+<tr>
+<td>Today</td>
+<td>Border highlight</td>
+</tr>
+</tbody></table>
+<h3>Forms (User &amp; Todo)</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Container</td>
+<td>Modal overlay</td>
+</tr>
+<tr>
+<td>Header</td>
+<td>Purple gradient, title + close</td>
+</tr>
+<tr>
+<td>Form Body</td>
+<td>White background, padding</td>
+</tr>
+<tr>
+<td>Form Groups</td>
+<td>Labeled input sections</td>
+</tr>
+<tr>
+<td>Button Row</td>
+<td>Flex row, centered buttons</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Visual Indicators</h2>
+<h3>Running Timer Indicator</h3>
+<ul>
+<li><strong>Icon</strong>: ▶️ (Play emoji)</li>
+<li><strong>Location</strong>: Top-right of todo item</li>
+<li><strong>Color</strong>: Orange/amber</li>
+<li><strong>Animation</strong>: Pulsing animation</li>
+</ul>
+<h3>Paused Timer Indicator</h3>
+<ul>
+<li><strong>Icon</strong>: ⏸️ (Pause emoji)</li>
+<li><strong>Location</strong>: Top-right of todo item</li>
+<li><strong>Color</strong>: Gray</li>
+<li><strong>Animation</strong>: Static</li>
+</ul>
+<h3>Completed Checkmark</h3>
+<ul>
+<li><strong>Icon</strong>: ✓</li>
+<li><strong>Location</strong>: Right side of todo item</li>
+<li><strong>Background</strong>: Green circle (#10b981)</li>
+<li><strong>Size</strong>: 32px diameter</li>
+</ul>
+<h3>Today Indicator (Week Calendar)</h3>
+<ul>
+<li><strong>Style</strong>: Border highlight</li>
+<li><strong>Color</strong>: Primary purple</li>
+</ul>
+<hr>
+<h2>Timer &amp; Progress Elements</h2>
+<h3>Countdown Timer (Normal Time)</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ring Color</td>
+<td>Green (#65b032)</td>
+</tr>
+<tr>
+<td>Background</td>
+<td>Light gray (#e5e7eb)</td>
+</tr>
+<tr>
+<td>Progress</td>
+<td>Conic gradient, decreasing</td>
+</tr>
+<tr>
+<td>Text Color</td>
+<td>Green (#65b032)</td>
+</tr>
+<tr>
+<td>Label</td>
+<td>&quot;remaining&quot; or &quot;Time&#39;s up!&quot;</td>
+</tr>
+<tr>
+<td>Size</td>
+<td>280px diameter (240px mobile)</td>
+</tr>
+<tr>
+<td>Ring Width</td>
+<td>12px stroke</td>
+</tr>
+</tbody></table>
+<h3>Overtime Timer (SVG Rings)</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Base Ring</td>
+<td>Light gray (#e5e7eb), 12px stroke</td>
+</tr>
+<tr>
+<td>Colored Rings</td>
+<td>Overlapping SVG circles</td>
+</tr>
+<tr>
+<td>Ring Width</td>
+<td>12px stroke (matching countdown)</td>
+</tr>
+<tr>
+<td>Animation</td>
+<td>Step-based (not smooth)</td>
+</tr>
+<tr>
+<td>Text Color</td>
+<td>Dark red (#a7194b)</td>
+</tr>
+<tr>
+<td>Label</td>
+<td>&quot;OVERTIME&quot; in uppercase</td>
+</tr>
+<tr>
+<td>Progress</td>
+<td>Each minute adds new ring</td>
+</tr>
+</tbody></table>
+<h3>SVG Ring Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ViewBox</td>
+<td>0 0 200 200</td>
+</tr>
+<tr>
+<td>Circle Center</td>
+<td>cx=&quot;100&quot; cy=&quot;100&quot;</td>
+</tr>
+<tr>
+<td>Circle Radius</td>
+<td>r=&quot;85&quot;</td>
+</tr>
+<tr>
+<td>Stroke Width</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Stroke Linecap</td>
+<td>round</td>
+</tr>
+<tr>
+<td>Transform</td>
+<td>rotate(-90 100 100)</td>
+</tr>
+</tbody></table>
+<h3>Progress Animation</h3>
+<ul>
+<li><strong>Normal Time</strong>: Smooth 1s transitions</li>
+<li><strong>Overtime</strong>: Step-based jumps (no transition)</li>
+<li><strong>Direction</strong>: Clockwise from top</li>
+</ul>
+<hr>
+<h2>Badges &amp; Labels</h2>
+<h3>Time Badge</h3>
+<ul>
+<li><strong>Background</strong>: <code>#e0e7ff</code></li>
+<li><strong>Text Color</strong>: <code>#4f46e5</code></li>
+<li><strong>Icon</strong>: ⏱️</li>
+<li><strong>Format</strong>: &quot;⏱️ MM:SS&quot; or &quot;N min&quot;</li>
+<li><strong>Border Radius</strong>: 12px</li>
+<li><strong>Font Size</strong>: 13px</li>
+</ul>
+<h3>Recurrence Badge</h3>
+<ul>
+<li><strong>Background</strong>: <code>#fef3c7</code></li>
+<li><strong>Text Color</strong>: <code>#d97706</code></li>
+<li><strong>Icon</strong>: 🔄</li>
+<li><strong>Format</strong>: &quot;🔄 Daily&quot; or &quot;🔄 Weekly&quot;</li>
+<li><strong>Border Radius</strong>: 12px</li>
+<li><strong>Font Size</strong>: 13px</li>
+</ul>
+<h3>Points Badge</h3>
+<ul>
+<li><strong>Format</strong>: &quot;NNN pts&quot;</li>
+<li><strong>Font Size</strong>: 14px</li>
+<li><strong>Color</strong>: Based on context</li>
+</ul>
+<h3>Super Points Badge</h3>
+<ul>
+<li><strong>Icon</strong>: ⭐</li>
+<li><strong>Format</strong>: &quot;⭐N&quot;</li>
+<li><strong>Font Size</strong>: 14px</li>
+<li><strong>Color</strong>: Gold/amber</li>
+</ul>
+<hr>
+<h2>Layout Elements</h2>
+<h3>Page Header</h3>
+<ul>
+<li><strong>Background</strong>: Linear gradient <code>#667eea</code> → <code>#764ba2</code></li>
+<li><strong>Height</strong>: 80px</li>
+<li><strong>Padding</strong>: 20px</li>
+<li><strong>Color</strong>: White</li>
+<li><strong>Items</strong>: Title, date picker, edit button</li>
+</ul>
+<h3>Content Area</h3>
+<ul>
+<li><strong>Background</strong>: <code>#f5f5f5</code></li>
+<li><strong>Padding</strong>: 20-30px</li>
+<li><strong>Max Width</strong>: 800px (centered)</li>
+</ul>
+<h3>Modal Overlay</h3>
+<ul>
+<li><strong>Background</strong>: <code>rgba(0, 0, 0, 0.5)</code></li>
+<li><strong>Position</strong>: Fixed, full screen</li>
+<li><strong>Z-index</strong>: High</li>
+</ul>
+<h3>Form Container</h3>
+<ul>
+<li><strong>Background</strong>: White</li>
+<li><strong>Border Radius</strong>: 16px</li>
+<li><strong>Shadow</strong>: Medium elevation</li>
+<li><strong>Padding</strong>: 20-30px</li>
+<li><strong>Max Width</strong>: 500px</li>
+</ul>
+<h3>Floating Action Button (FAB)</h3>
+<ul>
+<li><strong>Position</strong>: Fixed, bottom-right</li>
+<li><strong>Size</strong>: 60px diameter</li>
+<li><strong>Background</strong>: Gradient <code>#667eea</code> → <code>#764ba2</code></li>
+<li><strong>Shadow</strong>: Large elevation</li>
+<li><strong>Icon</strong>: + (white, 24px)</li>
+</ul>
+<h3>Swipe Actions</h3>
+<ul>
+<li><strong>Edit Button</strong>: Blue background, ✏️ icon</li>
+<li><strong>Delete Button</strong>: Red background, 🗑️ icon</li>
+<li><strong>Width</strong>: 80px each</li>
+<li><strong>Reveal</strong>: On left swipe</li>
+</ul>
+<hr>
+<h2>Points Celebration</h2>
+<h3>Celebration Modal</h3>
+<ul>
+<li><strong>Background</strong>: Gradient <code>#10b981</code> → <code>#059669</code></li>
+<li><strong>Text Color</strong>: White</li>
+<li><strong>Padding</strong>: 40px 20px</li>
+<li><strong>Border Radius</strong>: 16px</li>
+<li><strong>Animation</strong>: Scale pulse (1 → 1.05 → 1)</li>
+</ul>
+<h3>Points Breakdown</h3>
+<ul>
+<li><strong>Total Display</strong>: 48px bold</li>
+<li><strong>Details Background</strong>: <code>rgba(255, 255, 255, 0.2)</code></li>
+<li><strong>Detail Items</strong>: 18px font</li>
+<li><strong>Bonus Color</strong>: <code>#fef3c7</code> (light yellow)</li>
+<li><strong>Penalty Color</strong>: <code>#fecaca</code> (light red)</li>
+</ul>
+<hr>
+<h2>Confirmation Dialogs</h2>
+<h3>Delete Confirmation</h3>
+<ul>
+<li><strong>Header Background</strong>: Red (#EF4444)</li>
+<li><strong>Header Text</strong>: White</li>
+<li><strong>Body Background</strong>: White</li>
+<li><strong>Warning Icon</strong>: 🗑️</li>
+<li><strong>Button Colors</strong>: Red (confirm), Gray (cancel)</li>
+</ul>
+<hr>
+<h2>Responsive Breakpoints</h2>
+<h3>Mobile (&lt; 600px)</h3>
+<ul>
+<li>Timer: 240px diameter</li>
+<li>Font sizes: Reduced by 10-15%</li>
+<li>Buttons: Slightly smaller padding</li>
+<li>Points total: 36px (vs 48px)</li>
+</ul>
+<h3>Tablet/Desktop (≥ 600px)</h3>
+<ul>
+<li>Timer: 280px diameter</li>
+<li>Full font sizes</li>
+<li>Standard padding</li>
+<li>Points total: 48px</li>
+</ul>
+<hr>
+<h2>Animation Timings</h2>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Duration</th>
+<th>Easing</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Button Hover</td>
+<td>0.2s</td>
+<td>ease</td>
+</tr>
+<tr>
+<td>Timer Ring (normal)</td>
+<td>1s</td>
+<td>linear</td>
+</tr>
+<tr>
+<td>Timer Ring (overtime)</td>
+<td>none</td>
+<td>step-based</td>
+</tr>
+<tr>
+<td>Celebration Pulse</td>
+<td>1s</td>
+<td>ease-in-out</td>
+</tr>
+<tr>
+<td>Page Transitions</td>
+<td>0.3s</td>
+<td>ease</td>
+</tr>
+<tr>
+<td>Swipe Reveal</td>
+<td>0.3s</td>
+<td>ease-out</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Shadows &amp; Elevation</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Box Shadow</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Low</td>
+<td><code>0 1px 3px rgba(0,0,0,0.1)</code></td>
+</tr>
+<tr>
+<td>Medium</td>
+<td><code>0 2px 10px rgba(0,0,0,0.1)</code></td>
+</tr>
+<tr>
+<td>High</td>
+<td><code>0 8px 20px rgba(0,0,0,0.15)</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Border Radius Standards</h2>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Radius</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Small (badges)</td>
+<td>8px</td>
+</tr>
+<tr>
+<td>Medium (buttons)</td>
+<td>12px</td>
+</tr>
+<tr>
+<td>Large (cards)</td>
+<td>16px</td>
+</tr>
+<tr>
+<td>Extra Large (modals)</td>
+<td>20px</td>
+</tr>
+<tr>
+<td>Circular (user buttons)</td>
+<td>25px or 50%</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Touch Target Sizes</h2>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Minimum Size</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Primary Buttons</td>
+<td>48px height</td>
+</tr>
+<tr>
+<td>Icon Buttons</td>
+<td>44px × 44px</td>
+</tr>
+<tr>
+<td>Swipe Actions</td>
+<td>80px width</td>
+</tr>
+<tr>
+<td>List Items</td>
+<td>60px+ height</td>
+</tr>
+<tr>
+<td>FAB</td>
+<td>60px diameter</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility Features</h2>
+<h3>Color Contrast</h3>
+<ul>
+<li>All text meets WCAG AA standards</li>
+<li>Minimum 4.5:1 for normal text</li>
+<li>Minimum 3:1 for large text</li>
+</ul>
+<h3>Interactive Elements</h3>
+<ul>
+<li>Minimum 44px touch targets</li>
+<li>Clear focus indicators</li>
+<li>Keyboard navigation support</li>
+<li>Screen reader labels</li>
+</ul>
+<hr>
+<h2>Spacing System</h2>
+<table>
+<thead>
+<tr>
+<th>Size</th>
+<th>Value</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>XS</td>
+<td>5px</td>
+<td>Tight spacing</td>
+</tr>
+<tr>
+<td>SM</td>
+<td>10px</td>
+<td>Small gaps</td>
+</tr>
+<tr>
+<td>MD</td>
+<td>15px</td>
+<td>Standard gaps</td>
+</tr>
+<tr>
+<td>LG</td>
+<td>20px</td>
+<td>Large gaps</td>
+</tr>
+<tr>
+<td>XL</td>
+<td>30px</td>
+<td>Section spacing</td>
+</tr>
+<tr>
+<td>XXL</td>
+<td>40-50px</td>
+<td>Major sections</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Summary Statistics</h2>
+<h3>Total UI Elements</h3>
+<ul>
+<li><strong>Colors</strong>: 30+ defined colors</li>
+<li><strong>Buttons</strong>: 15+ button types</li>
+<li><strong>Icons/Emojis</strong>: 15+ unique symbols</li>
+<li><strong>Form Elements</strong>: 5 input types</li>
+<li><strong>Components</strong>: 8 major components</li>
+<li><strong>Badges</strong>: 4 badge types</li>
+<li><strong>Animations</strong>: 6 animation types</li>
+</ul>
+<h3>Design Principles</h3>
+<ol>
+<li><strong>Touch-First</strong>: All elements optimized for touchscreen</li>
+<li><strong>Color-Coded</strong>: Visual feedback through color</li>
+<li><strong>Gamified</strong>: Points, streaks, and celebrations</li>
+<li><strong>Responsive</strong>: Mobile-first, scales up</li>
+<li><strong>Accessible</strong>: High contrast, clear targets</li>
+<li><strong>Family-Friendly</strong>: Simple, intuitive interface</li>
+</ol>
+<hr>
+<p><em>Document Generated: October 28, 2025</em><br><em>Version: 1.0</em><br><em>Application: Family To-Do App</em></p>
+
+<div style="margin-top: 3em; padding-top: 2em; border-top: 2px solid #ddd; text-align: center; color: #999; font-size: 9pt;">
+    <p><em>Generated from design-inventory.md</em></p>
+    <p>Family To-Do App Design Inventory • Version 1.0 • October 2025</p>
+</div>
+</body>
+</html>
