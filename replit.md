@@ -20,6 +20,22 @@ A touch-optimized to-do list application designed for families to share on a Ras
 ✅ User customization (names and colors)
 
 ## Recent Changes
+- 2025-10-31: PIN Protection & UI Improvements
+  - **4-digit PIN protection for to-dos**:
+    - Users can set a 4-digit PIN in settings (edit user with pencil icon)
+    - PIN must be entered before editing existing to-dos
+    - Creating new to-dos does not require PIN
+    - Secure bcrypt hashing for PIN storage (never sent to client)
+    - Current PIN verification required to change or remove PIN
+  - **UI Improvements**:
+    - Fixed Save/Cancel button sizes in user settings (smaller, no overflow)
+    - Replaced "← Back" button in TodoDetail with round close button (×) matching other forms
+    - Title now shown in TodoDetail header instead of duplicated in content
+  - **Security**:
+    - Server-side PIN validation prevents bypass attacks
+    - PIN hash stored securely in database (never exposed to client)
+    - User-friendly error messages for incorrect PINs
+
 - 2025-10-28: Gradient overtime ring visualization
   - **Countdown timer**: Green ring (#65b032) that counts down during normal time
   - **Multi-colored overlapping rings**: Each overtime minute adds a new colored ring
@@ -135,6 +151,7 @@ A touch-optimized to-do list application designed for families to share on a Ras
 - id (serial, primary key)
 - name (varchar)
 - color (varchar) - for UI personalization
+- pin_hash (varchar) - bcrypt hashed 4-digit PIN for todo edit protection (optional)
 - total_points (integer) - accumulated points from completed tasks
 - super_points (integer) - special points for skipping penalties (default 12)
 - current_streak_days (integer) - current consecutive day streak
@@ -168,10 +185,12 @@ A touch-optimized to-do list application designed for families to share on a Ras
 
 ### API Endpoints
 **Users:**
-- `GET /api/users` - List all users
+- `GET /api/users` - List all users (excludes pin_hash for security)
 - `POST /api/users` - Create new user (validates name and color)
-- `PUT /api/users/:id` - Update user (validates name and color, returns 404 if not found)
+- `PUT /api/users/:id` - Update user (validates name, color, and optional PIN; requires current PIN to change/remove existing PIN)
 - `DELETE /api/users/:id` - Delete user (cascades to todos, returns 404 if not found)
+- `GET /api/users/:id/has-pin` - Check if user has a PIN set
+- `POST /api/users/:id/verify-pin` - Verify user's PIN (returns valid: true/false)
 
 **Todos:**
 - `GET /api/todos?user_id=X&date=YYYY-MM-DD` - Get todos for user/date
@@ -190,6 +209,7 @@ A touch-optimized to-do list application designed for families to share on a Ras
    - Edit existing users (pencil icon in header)
    - Delete users with confirmation dialog (cascade deletes all their to-dos)
    - User stats display: points earned and super points available
+   - **PIN Protection**: Set optional 4-digit PIN to prevent others from editing your to-dos
 2. **To-Do Creation**: Title, description, estimated time, date/recurrence
 3. **Swipe Gestures**: Swipe left to reveal edit/delete buttons
 4. **Timer Function**: 
