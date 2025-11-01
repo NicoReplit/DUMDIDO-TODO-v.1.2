@@ -63,11 +63,6 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
                       ? `${todo.estimated_minutes} min`
                       : 'No time set'}
                   </span>
-                  {todo.recurrence_type && (
-                    <span className="recurrence-badge">
-                      {todo.recurrence_type === 'daily' ? '🔄 Daily' : '🔄 Weekly'}
-                    </span>
-                  )}
                 </div>
               </div>
               {todo.completed && (
