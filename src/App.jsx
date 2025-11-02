@@ -6,12 +6,15 @@ import TodoDetail from './components/TodoDetail';
 import UserForm from './components/UserForm';
 import WeekCalendar from './components/WeekCalendar';
 import PINEntry from './components/PINEntry';
+import OpenList from './components/OpenList';
+import UserSelectionModal from './components/UserSelectionModal';
 import './App.css';
 
 function App() {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [todos, setTodos] = useState([]);
+  const [openTodos, setOpenTodos] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingTodo, setEditingTodo] = useState(null);
   const [selectedTodo, setSelectedTodo] = useState(null);
@@ -23,9 +26,12 @@ function App() {
   const [pendingEditTodo, setPendingEditTodo] = useState(null);
   const [pendingDeleteTodoId, setPendingDeleteTodoId] = useState(null);
   const [pinAction, setPinAction] = useState(null); // 'edit' or 'delete'
+  const [showUserSelectionModal, setShowUserSelectionModal] = useState(false);
+  const [pendingClaimTask, setPendingClaimTask] = useState(null);
 
   useEffect(() => {
     fetchUsers();
+    fetchOpenTodos();
   }, []);
 
   useEffect(() => {
@@ -33,6 +39,10 @@ function App() {
       fetchTodos();
     }
   }, [currentUser, currentDate]);
+  
+  useEffect(() => {
+    fetchOpenTodos();
+  }, [currentDate]);
 
   const fetchUsers = async () => {
     try {
@@ -71,6 +81,16 @@ function App() {
       setTodos(filteredTodos);
     } catch (error) {
       console.error('Error fetching todos:', error);
+    }
+  };
+
+  const fetchOpenTodos = async () => {
+    try {
+      const response = await fetch('/api/open-list');
+      const data = await response.json();
+      setOpenTodos(data);
+    } catch (error) {
+      console.error('Error fetching open list:', error);
     }
   };
 
@@ -344,6 +364,38 @@ function App() {
     return runningTimers[todoId] || null;
   };
 
+  const handleSelectOpenTask = (task) => {
+    setPendingClaimTask(task);
+    setShowUserSelectionModal(true);
+  };
+
+  const handleClaimTask = async (user) => {
+    try {
+      await fetch(`/api/todos/${pendingClaimTask.id}/claim`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: user.id })
+      });
+      
+      await fetchOpenTodos();
+      await fetchUsers();
+      
+      const claimedTask = { ...pendingClaimTask, claimed_by_user_id: user.id };
+      setShowUserSelectionModal(false);
+      setCurrentUser(user);
+      setSelectedTodo(claimedTask);
+      setPendingClaimTask(null);
+    } catch (error) {
+      console.error('Error claiming task:', error);
+      alert('Failed to claim task. Please try again.');
+    }
+  };
+
+  const handleCancelClaim = () => {
+    setShowUserSelectionModal(false);
+    setPendingClaimTask(null);
+  };
+
   if (selectedTodo) {
     return (
       <TodoDetail
@@ -418,17 +470,24 @@ function App() {
         onAddUser={() => setShowUserForm(true)}
       />
 
-      {currentUser && (
-        <WeekCalendar userId={currentUser.id} selectedDate={currentDate} />
-      )}
-
-      <TodoList
-        todos={todos}
-        onEdit={handleEditTodo}
-        onDelete={handleDeleteTodo}
-        onSelect={setSelectedTodo}
-        runningTimers={runningTimers}
+      <OpenList
+        tasks={openTodos}
+        onSelect={handleSelectOpenTask}
       />
+
+      {currentUser && (
+        <>
+          <WeekCalendar userId={currentUser.id} selectedDate={currentDate} />
+          
+          <TodoList
+            todos={todos}
+            onEdit={handleEditTodo}
+            onDelete={handleDeleteTodo}
+            onSelect={setSelectedTodo}
+            runningTimers={runningTimers}
+          />
+        </>
+      )}
 
       <button className="add-button" onClick={() => setShowForm(true)}>
         +
@@ -440,6 +499,15 @@ function App() {
           action={pinAction}
           onVerify={handlePinVerify}
           onCancel={handlePinCancel}
+        />
+      )}
+
+      {showUserSelectionModal && pendingClaimTask && (
+        <UserSelectionModal
+          users={users}
+          taskTitle={pendingClaimTask.title}
+          onSelect={handleClaimTask}
+          onCancel={handleCancelClaim}
         />
       )}
     </div>

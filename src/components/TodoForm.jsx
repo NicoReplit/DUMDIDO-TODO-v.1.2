@@ -8,7 +8,8 @@ function TodoForm({ todo, onSave, onCancel }) {
     estimated_minutes: todo?.estimated_minutes || '',
     specific_date: todo?.specific_date || '',
     recurrence_type: todo?.recurrence_type || '',
-    recurrence_days: todo?.recurrence_days ? JSON.parse(todo.recurrence_days) : []
+    recurrence_days: todo?.recurrence_days ? JSON.parse(todo.recurrence_days) : [],
+    is_open_list: todo?.is_open_list || false
   });
 
   const daysOfWeek = [
@@ -92,59 +93,82 @@ function TodoForm({ todo, onSave, onCancel }) {
         </div>
 
         <div className="form-group">
-          <label>Schedule</label>
-          <div className="schedule-options">
-            <button
-              type="button"
-              className={`schedule-btn ${!formData.recurrence_type && !formData.specific_date ? 'active' : ''}`}
-              onClick={() => handleRecurrenceChange('')}
-            >
-              One Time
-            </button>
-            <button
-              type="button"
-              className={`schedule-btn ${formData.recurrence_type === 'daily' ? 'active' : ''}`}
-              onClick={() => handleRecurrenceChange('daily')}
-            >
-              Daily
-            </button>
-            <button
-              type="button"
-              className={`schedule-btn ${formData.recurrence_type === 'weekly' ? 'active' : ''}`}
-              onClick={() => handleRecurrenceChange('weekly')}
-            >
-              Weekly
-            </button>
-          </div>
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={formData.is_open_list}
+              onChange={(e) => setFormData({ 
+                ...formData, 
+                is_open_list: e.target.checked,
+                specific_date: '',
+                recurrence_type: '',
+                recurrence_days: []
+              })}
+            />
+            <span className="checkbox-text">
+              📋 <strong>Open List</strong> - Anyone can claim and earn bonus points!
+            </span>
+          </label>
         </div>
 
-        {!formData.recurrence_type && (
-          <div className="form-group">
-            <label>Date</label>
-            <input
-              type="date"
-              value={formData.specific_date}
-              onChange={(e) => setFormData({ ...formData, specific_date: e.target.value })}
-            />
-          </div>
-        )}
-
-        {formData.recurrence_type === 'weekly' && (
-          <div className="form-group">
-            <label>Select Days</label>
-            <div className="days-selector">
-              {daysOfWeek.map(day => (
+        {!formData.is_open_list && (
+          <>
+            <div className="form-group">
+              <label>Schedule</label>
+              <div className="schedule-options">
                 <button
-                  key={day.value}
                   type="button"
-                  className={`day-btn ${formData.recurrence_days.includes(day.value) ? 'active' : ''}`}
-                  onClick={() => toggleDay(day.value)}
+                  className={`schedule-btn ${!formData.recurrence_type && !formData.specific_date ? 'active' : ''}`}
+                  onClick={() => handleRecurrenceChange('')}
                 >
-                  {day.label}
+                  One Time
                 </button>
-              ))}
+                <button
+                  type="button"
+                  className={`schedule-btn ${formData.recurrence_type === 'daily' ? 'active' : ''}`}
+                  onClick={() => handleRecurrenceChange('daily')}
+                >
+                  Daily
+                </button>
+                <button
+                  type="button"
+                  className={`schedule-btn ${formData.recurrence_type === 'weekly' ? 'active' : ''}`}
+                  onClick={() => handleRecurrenceChange('weekly')}
+                >
+                  Weekly
+                </button>
+              </div>
             </div>
-          </div>
+
+            {!formData.recurrence_type && (
+              <div className="form-group">
+                <label>Date</label>
+                <input
+                  type="date"
+                  value={formData.specific_date}
+                  onChange={(e) => setFormData({ ...formData, specific_date: e.target.value })}
+                />
+              </div>
+            )}
+
+            {formData.recurrence_type === 'weekly' && (
+              <div className="form-group">
+                <label>Select Days</label>
+                <div className="days-selector">
+                  {daysOfWeek.map(day => (
+                    <button
+                      key={day.value}
+                      type="button"
+                      className={`day-btn ${formData.recurrence_days.includes(day.value) ? 'active' : ''}`}
+                      onClick={() => toggleDay(day.value)}
+                    >
+                      {day.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         <div className="form-actions">

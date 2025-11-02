@@ -1,0 +1,109 @@
+.user-selection-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.user-selection-dialog {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.user-selection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.user-selection-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.close-btn:hover {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.task-title-display {
+  font-size: 1rem;
+  color: #6c5ce7;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: #f8f7ff;
+  border-radius: 8px;
+  border-left: 4px solid #6c5ce7;
+}
+
+.selection-prompt {
+  color: #666;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.user-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.user-select-btn {
+  background: white;
+  border: 3px solid;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.user-select-btn:active {
+  transform: scale(0.95);
+}
+
+.user-select-btn:hover {
+  background: #f8f7ff;
+}
+
+.user-name {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.user-stats {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}

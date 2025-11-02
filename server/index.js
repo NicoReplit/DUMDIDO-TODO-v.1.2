@@ -44,6 +44,8 @@ await pool.query(`
     super_point_used BOOLEAN DEFAULT FALSE,
     actual_time_seconds INTEGER,
     last_activity_date DATE,
+    is_open_list BOOLEAN DEFAULT FALSE,
+    claimed_by_user_id INTEGER REFERENCES users(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     completed_at TIMESTAMP
   )
@@ -346,18 +348,56 @@ app.get('/api/todos', async (req, res) => {
   }
 });
 
+app.get('/api/open-list', async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM todos 
+       WHERE is_open_list = true 
+         AND completed = false 
+         AND claimed_by_user_id IS NULL
+       ORDER BY created_at DESC`
+    );
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.post('/api/todos', async (req, res) => {
   try {
-    const { user_id, title, description, estimated_minutes, specific_date, recurrence_type, recurrence_days } = req.body;
+    const { user_id, title, description, estimated_minutes, specific_date, recurrence_type, recurrence_days, is_open_list } = req.body;
     const remaining_seconds = estimated_minutes ? estimated_minutes * 60 : null;
     
     const result = await pool.query(
       `INSERT INTO todos (user_id, title, description, estimated_minutes, remaining_seconds, 
-       specific_date, recurrence_type, recurrence_days) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+       specific_date, recurrence_type, recurrence_days, is_open_list) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
       [user_id, title, description, estimated_minutes, remaining_seconds, 
-       specific_date, recurrence_type, recurrence_days]
+       specific_date, recurrence_type, recurrence_days, is_open_list || false]
     );
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/todos/:id/claim', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { user_id } = req.body;
+    
+    const result = await pool.query(
+      `UPDATE todos 
+       SET claimed_by_user_id = $1, user_id = $1
+       WHERE id = $2 AND is_open_list = true AND claimed_by_user_id IS NULL
+       RETURNING *`,
+      [user_id, id]
+    );
+    
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Open list task not found or already claimed' });
+    }
+    
     res.json(result.rows[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -479,10 +519,13 @@ app.put('/api/todos/:id', async (req, res) => {
     const todo = todoResult.rows[0];
     
     if (completed && points_earned !== undefined) {
-      const userId = todo.user_id;
+      const userId = todo.claimed_by_user_id || todo.user_id;
+      const openListBonus = todo.is_open_list ? 10 : 0;
+      const totalPoints = points_earned + openListBonus;
+      
       await pool.query(
         'UPDATE users SET total_points = total_points + $1 WHERE id = $2',
-        [points_earned, userId]
+        [totalPoints, userId]
       );
       
       const dateToUse = completion_date || 

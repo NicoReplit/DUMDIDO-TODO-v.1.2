@@ -1,0 +1,72 @@
+.open-list {
+  padding: 0 1rem 1rem;
+}
+
+.open-list-title {
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  color: #6c5ce7;
+  font-weight: 600;
+}
+
+.open-task-item {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  color: white;
+}
+
+.open-task-item:active {
+  transform: scale(0.98);
+}
+
+.open-task-content {
+  flex: 1;
+}
+
+.open-task-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.task-description {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.9rem;
+  opacity: 0.95;
+}
+
+.task-meta {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.time-badge {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.bonus-badge {
+  background: rgba(255, 215, 0, 0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+}
+
+.claim-arrow {
+  font-size: 2rem;
+  opacity: 0.7;
+  margin-left: 1rem;
+}
