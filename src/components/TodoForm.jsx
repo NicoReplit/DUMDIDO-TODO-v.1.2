@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './TodoForm.css';
 
-function TodoForm({ todo, onSave, onCancel }) {
+function TodoForm({ todo, onSave, onCancel, defaultOpenList = false }) {
   const [formData, setFormData] = useState({
     title: todo?.title || '',
     description: todo?.description || '',
@@ -9,7 +9,7 @@ function TodoForm({ todo, onSave, onCancel }) {
     specific_date: todo?.specific_date || '',
     recurrence_type: todo?.recurrence_type || '',
     recurrence_days: todo?.recurrence_days ? JSON.parse(todo.recurrence_days) : [],
-    is_open_list: todo?.is_open_list || false
+    is_open_list: todo?.is_open_list || defaultOpenList
   });
 
   const daysOfWeek = [

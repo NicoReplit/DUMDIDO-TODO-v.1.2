@@ -112,7 +112,12 @@ function App() {
           body: JSON.stringify(cleanedData)
         });
       } else {
-        const payload = { ...cleanedData, user_id: currentUser.id };
+        let payload;
+        if (isOpenListSelected || todoData.is_open_list) {
+          payload = { ...cleanedData, is_open_list: true };
+        } else {
+          payload = { ...cleanedData, user_id: currentUser.id };
+        }
         await fetch('/api/todos', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -121,7 +126,11 @@ function App() {
       }
       setShowForm(false);
       setEditingTodo(null);
-      fetchTodos();
+      if (isOpenListSelected) {
+        fetchOpenTodos();
+      } else {
+        fetchTodos();
+      }
     } catch (error) {
       console.error('Error saving todo:', error);
     }
@@ -444,6 +453,7 @@ function App() {
           setShowForm(false);
           setEditingTodo(null);
         }}
+        defaultOpenList={isOpenListSelected}
       />
     );
   }
