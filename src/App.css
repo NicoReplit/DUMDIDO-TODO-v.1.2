@@ -76,6 +76,25 @@
   transform: scale(0.95);
 }
 
+.open-list-view {
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #764ba2;
+  margin: 0 0 8px 0;
+  text-align: center;
+}
+
+.section-description {
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
 @media (max-width: 600px) {
   .app {
     max-width: 100%;

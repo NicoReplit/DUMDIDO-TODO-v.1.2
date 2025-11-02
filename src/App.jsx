@@ -28,6 +28,7 @@ function App() {
   const [pinAction, setPinAction] = useState(null); // 'edit' or 'delete'
   const [showUserSelectionModal, setShowUserSelectionModal] = useState(false);
   const [pendingClaimTask, setPendingClaimTask] = useState(null);
+  const [isOpenListSelected, setIsOpenListSelected] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -396,6 +397,16 @@ function App() {
     setPendingClaimTask(null);
   };
 
+  const handleSelectOpenList = () => {
+    setIsOpenListSelected(true);
+    setCurrentUser(null);
+  };
+
+  const handleSelectUser = (user) => {
+    setIsOpenListSelected(false);
+    setCurrentUser(user);
+  };
+
   if (selectedTodo) {
     return (
       <TodoDetail
@@ -442,13 +453,15 @@ function App() {
       <header className="app-header">
         <h1>Family To-Do</h1>
         <div className="header-controls">
-          <input
-            type="date"
-            value={currentDate}
-            onChange={(e) => setCurrentDate(e.target.value)}
-            className="date-picker"
-          />
-          {currentUser && (
+          {!isOpenListSelected && (
+            <input
+              type="date"
+              value={currentDate}
+              onChange={(e) => setCurrentDate(e.target.value)}
+              className="date-picker"
+            />
+          )}
+          {currentUser && !isOpenListSelected && (
             <button 
               className="edit-user-button" 
               onClick={() => {
@@ -466,16 +479,26 @@ function App() {
       <UserSelector
         users={users}
         currentUser={currentUser}
-        onSelectUser={setCurrentUser}
+        onSelectUser={handleSelectUser}
         onAddUser={() => setShowUserForm(true)}
+        onSelectOpenList={handleSelectOpenList}
+        isOpenListSelected={isOpenListSelected}
       />
 
-      <OpenList
-        tasks={openTodos}
-        onSelect={handleSelectOpenTask}
-      />
-
-      {currentUser && (
+      {isOpenListSelected ? (
+        <div className="open-list-view">
+          <h2 className="section-title">Shared Family Tasks</h2>
+          <p className="section-description">Claim any task for +10 bonus points! 🎁</p>
+          <TodoList
+            todos={openTodos}
+            onEdit={() => {}}
+            onDelete={() => {}}
+            onSelect={handleSelectOpenTask}
+            runningTimers={runningTimers}
+            isOpenList={true}
+          />
+        </div>
+      ) : currentUser && (
         <>
           <WeekCalendar userId={currentUser.id} selectedDate={currentDate} />
           
