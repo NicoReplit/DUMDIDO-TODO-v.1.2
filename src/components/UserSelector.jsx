@@ -1,6 +1,6 @@
 import './UserSelector.css';
 
-function UserSelector({ users, currentUser, onSelectUser, onAddUser }) {
+function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpenList, isOpenListSelected }) {
   return (
     <div className="user-selector">
       {users.map(user => (
@@ -23,6 +23,15 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser }) {
           </div>
         </button>
       ))}
+      <button 
+        className={`user-button open-list-button ${isOpenListSelected ? 'active' : ''}`}
+        onClick={onSelectOpenList}
+      >
+        <div className="user-name">Open List</div>
+        <div className="user-stats">
+          <span className="open-list-icon">🎁</span>
+        </div>
+      </button>
       <button className="user-add-button" onClick={onAddUser}>
         +
       </button>
