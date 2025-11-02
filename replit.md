@@ -20,6 +20,18 @@ A touch-optimized to-do list application designed for families to share on a Ras
 ✅ User customization (names and colors)
 
 ## Recent Changes
+- 2025-11-02: Open List - Shared Family Tasks with Bonus Points
+  - **Open List feature for shared family tasks**:
+    - Create tasks that aren't assigned to anyone initially (no date/schedule required)
+    - Tasks appear in "Open List" section visible to all family members
+    - Any user can claim a task by selecting it and choosing their name
+    - Claiming assigns the task to that user's personal list
+    - **Bonus Points**: Completing an open list task awards +10 bonus points on top of regular points
+    - Encourages family members to voluntarily help with shared household tasks
+  - **Database**: Added is_open_list and claimed_by_user_id columns to todos table
+  - **UI**: Beautiful gradient purple styling for open list tasks with bonus badge
+  - **Integration**: Seamless claim flow with user selection modal
+
 - 2025-10-31: PIN Protection & UI Improvements
   - **4-digit PIN protection for to-dos**:
     - Users can set a 4-digit PIN in settings (edit user with pencil icon)
@@ -172,6 +184,8 @@ A touch-optimized to-do list application designed for families to share on a Ras
 - pause_used (boolean) - whether pause button was used
 - super_point_used (boolean) - whether super point was used
 - actual_time_seconds (integer) - actual time taken to complete
+- is_open_list (boolean) - whether task is in the shared open list
+- claimed_by_user_id (integer, foreign key) - user who claimed the open list task
 - created_at (timestamp)
 - completed_at (timestamp)
 
@@ -194,8 +208,10 @@ A touch-optimized to-do list application designed for families to share on a Ras
 
 **Todos:**
 - `GET /api/todos?user_id=X&date=YYYY-MM-DD` - Get todos for user/date
-- `POST /api/todos` - Create new todo
-- `PUT /api/todos/:id` - Update todo (includes points calculation and streak tracking)
+- `GET /api/open-list` - Get all unclaimed open list tasks
+- `POST /api/todos` - Create new todo (supports is_open_list flag)
+- `POST /api/todos/:id/claim` - Claim an open list task for a specific user
+- `PUT /api/todos/:id` - Update todo (includes points calculation and streak tracking, +10 bonus for open list)
 - `DELETE /api/todos/:id` - Delete todo
 
 **Gamification:**
@@ -209,18 +225,25 @@ A touch-optimized to-do list application designed for families to share on a Ras
    - Edit existing users (pencil icon in header)
    - Delete users with confirmation dialog (cascade deletes all their to-dos)
    - User stats display: points earned and super points available
-   - **PIN Protection**: Set optional 4-digit PIN to prevent others from editing your to-dos
-2. **To-Do Creation**: Title, description, estimated time, date/recurrence
-3. **Swipe Gestures**: Swipe left to reveal edit/delete buttons
-4. **Timer Function**: 
+   - **PIN Protection**: Set optional 4-digit PIN to prevent others from editing or deleting your to-dos
+2. **Open List - Shared Family Tasks**:
+   - Create tasks not assigned to anyone (no date/schedule required)
+   - Visible to all family members in dedicated "Open List" section
+   - Any user can claim a task for bonus points
+   - Claiming assigns task to that user's personal list
+   - Completing open list tasks awards +10 bonus points
+   - Encourages voluntary help with shared household chores
+3. **To-Do Creation**: Title, description, estimated time, date/recurrence/open list
+4. **Swipe Gestures**: Swipe left to reveal edit/delete buttons
+5. **Timer Function**: 
    - Start, pause, and complete tasks with countdown (tracks overtime)
    - Background timer persistence: timers continue running when navigating away
    - Multiple users can run timers simultaneously
    - Visual indicators show which tasks have active timers
-5. **Recurring Tasks**: Daily or specific days of the week
-6. **Visual Feedback**: Green checkmark for completed, pause icon for paused
-7. **Date Navigation**: Browse to-dos by date
-8. **Gamification System**:
+6. **Recurring Tasks**: Daily or specific days of the week
+7. **Visual Feedback**: Green checkmark for completed, pause icon for paused
+8. **Date Navigation**: Browse to-dos by date
+9. **Gamification System**:
    - **Points**: Base points (1/min) + time bonus/penalty + 10% no-pause bonus
    - **Super Points**: 12 per user, use to count task as on-time
    - **Week Calendar**: Mon-Sun strip showing completion status
