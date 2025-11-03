@@ -1,17 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --dumbledido-yellow: #FFD700;
-  --dumbledido-blue: #0066FF;
-  --dumbledido-pink: #FF69B4;
-  --dumbledido-coral: #FF6B4A;
-  --dumbledido-green: #00CC66;
-  --dumbledido-red: #FF3333;
-  --dumbledido-light-pink: #FFB3D9;
-  --dumbledido-light-blue: #80B3FF;
-  --dumbledido-orange: #FF9933;
-  --dumbledido-bg: #E8E8E8;
-  --dumbledido-border-blue: #0052CC;
+  --dumbledido-yellow: #FECE00;
+  --dumbledido-blue: #0061EE;
+  --dumbledido-pink: #FF006E;
+  --dumbledido-coral: #EE4100;
+  --dumbledido-green: #38D247;
+  --dumbledido-red: #EE4100;
+  --dumbledido-light-pink: #FF77B9;
+  --dumbledido-magenta: #EE00AE;
+  --dumbledido-orange: #FEBA00;
+  --dumbledido-gray: #707070;
+  --dumbledido-light-gray: #E4F4E4;
+  --dumbledido-bg: #E4F4E4;
+  --dumbledido-border-blue: #0061EE;
+  --dumbledido-black: #000000;
+  --dumbledido-white: #FFFFFF;
 }
 
 * {
