@@ -106,6 +106,22 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
+app.get('/api/users/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query(
+      'SELECT id, name, color, total_points, super_points, current_streak_days, created_at FROM users WHERE id = $1',
+      [id]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.post('/api/users', async (req, res) => {
   try {
     const { name, color } = req.body;

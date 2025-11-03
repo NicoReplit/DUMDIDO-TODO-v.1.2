@@ -5,6 +5,12 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
   const [swipedId, setSwipedId] = useState(null);
   const [touchStart, setTouchStart] = useState(null);
 
+  const colors = ['yellow', 'red', 'green', 'blue'];
+  
+  const getCardColor = (index) => {
+    return colors[index % colors.length];
+  };
+
   const handleTouchStart = (e, id) => {
     setTouchStart(e.touches[0].clientX);
   };
@@ -26,43 +32,40 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
   };
 
   const formatTime = (seconds) => {
-    if (!seconds) return '--:--';
+    if (seconds === null || seconds === undefined) return '--:--';
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (
-    <div className="todo-list">
+    <div className="todo-list dumbledido-todo-list">
       {todos.length === 0 ? (
         <div className="empty-state">
-          <p>No to-dos for today</p>
-          <p className="empty-hint">Tap the + button to add one</p>
+          <p>Keine Aufgaben für heute</p>
+          <p className="empty-hint">Tippe auf + um eine hinzuzufügen</p>
         </div>
       ) : (
-        todos.map(todo => (
+        todos.map((todo, index) => (
           <div
             key={todo.id}
-            className={`todo-item-wrapper ${swipedId === todo.id ? 'swiped' : ''}`}
+            className={`dumbledido-todo-wrapper ${swipedId === todo.id ? 'swiped' : ''}`}
           >
             <div
-              className={`todo-item ${todo.completed ? 'completed' : ''}`}
+              className={`dumbledido-todo-card ${getCardColor(index)} ${todo.completed ? 'completed' : ''}`}
               onClick={() => onSelect(todo)}
               onTouchStart={(e) => handleTouchStart(e, todo.id)}
               onTouchMove={(e) => handleTouchMove(e, todo.id)}
               onTouchEnd={handleTouchEnd}
             >
-              <div className="todo-content">
-                <h3>{todo.title}</h3>
-                {todo.description && <p className="todo-description">{todo.description}</p>}
-                <div className="todo-meta">
-                  <span className="time-badge">
-                    {todo.remaining_seconds !== null && !todo.completed
-                      ? `⏱️ ${formatTime(todo.remaining_seconds)}`
-                      : todo.estimated_minutes
-                      ? `${todo.estimated_minutes} min`
-                      : 'No time set'}
-                  </span>
+              <div className="todo-card-content">
+                <h3 className="todo-title">{todo.title}</h3>
+                <div className="todo-time-badge">
+                  {todo.remaining_seconds !== null && !todo.completed
+                    ? `⏱️ ${formatTime(todo.remaining_seconds)}`
+                    : todo.estimated_minutes
+                    ? `${todo.estimated_minutes} Min`
+                    : '--'}
                 </div>
               </div>
               {todo.completed && (

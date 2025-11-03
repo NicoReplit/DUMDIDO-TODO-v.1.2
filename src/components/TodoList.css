@@ -1,5 +1,164 @@
-.todo-list {
-  padding: 20px;
+.dumbledido-todo-list {
+  padding: 0 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dumbledido-todo-wrapper {
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.dumbledido-todo-wrapper.swiped .dumbledido-todo-card {
+  transform: translateX(-120px);
+}
+
+.dumbledido-todo-card {
+  position: relative;
+  padding: 18px 24px;
+  border-radius: 35px;
+  border: 4px solid var(--dumbledido-border-blue);
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+
+.dumbledido-todo-card:active {
+  transform: scale(0.98);
+}
+
+/* Color variations */
+.dumbledido-todo-card.yellow {
+  background: var(--dumbledido-yellow);
+}
+
+.dumbledido-todo-card.red {
+  background: linear-gradient(135deg, #FF6347 0%, #FF4500 100%);
+}
+
+.dumbledido-todo-card.green {
+  background: var(--dumbledido-green);
+}
+
+.dumbledido-todo-card.blue {
+  background: var(--dumbledido-blue);
+}
+
+.dumbledido-todo-card.completed {
+  opacity: 0.6;
+}
+
+.completed-check {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: var(--dumbledido-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  border: 3px solid var(--dumbledido-border-blue);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.running-indicator,
+.pause-indicator {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 32px;
+}
+
+.running-indicator {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.todo-card-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.todo-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  flex: 1;
+  line-height: 1.3;
+}
+
+.dumbledido-todo-card.yellow .todo-title {
+  color: var(--dumbledido-blue);
+  text-shadow: none;
+}
+
+.todo-time-badge {
+  background: var(--dumbledido-orange);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  border: 3px solid var(--dumbledido-border-blue);
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.action-buttons {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 8px;
+  padding-right: 10px;
+  z-index: 1;
+}
+
+.action-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid var(--dumbledido-border-blue);
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.edit-btn {
+  background: var(--dumbledido-yellow);
+}
+
+.delete-btn {
+  background: var(--dumbledido-red);
+}
+
+.action-btn:active {
+  transform: scale(0.9);
 }
 
 .empty-state {
@@ -10,171 +169,37 @@
 
 .empty-state p {
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .empty-hint {
   font-size: 14px;
-}
-
-.todo-item-wrapper {
-  position: relative;
-  margin-bottom: 15px;
-  overflow: hidden;
-  border-radius: 12px;
-  transition: transform 0.3s;
-}
-
-.todo-item-wrapper.swiped .todo-item {
-  transform: translateX(-140px);
-}
-
-.todo-item {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.2s;
-  position: relative;
-  z-index: 2;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.todo-item:active {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.todo-item.completed {
-  opacity: 0.7;
-  background: #f0fdf4;
-}
-
-.todo-content {
-  flex: 1;
-}
-
-.todo-item h3 {
-  font-size: 20px;
-  margin-bottom: 8px;
-  color: #333;
-}
-
-.todo-item.completed h3 {
-  text-decoration: line-through;
-  color: #10b981;
-}
-
-.todo-description {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 10px;
-  line-height: 1.4;
-}
-
-.todo-meta {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.time-badge,
-.recurrence-badge {
-  display: inline-block;
-  padding: 5px 12px;
-  background: #e0e7ff;
-  color: #4f46e5;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.recurrence-badge {
-  background: #fef3c7;
-  color: #d97706;
-}
-
-.completed-check {
-  width: 40px;
-  height: 40px;
-  background: #10b981;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.pause-indicator {
-  font-size: 24px;
-}
-
-.running-indicator {
-  font-size: 24px;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.action-buttons {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  gap: 0;
-  z-index: 1;
-}
-
-.action-btn {
-  width: 70px;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  transition: opacity 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.edit-btn {
-  background: #3b82f6;
-}
-
-.delete-btn {
-  background: #ef4444;
-}
-
-.action-btn:active {
-  opacity: 0.8;
+  color: #bbb;
 }
 
 @media (max-width: 600px) {
-  .todo-list {
-    padding: 15px;
+  .dumbledido-todo-list {
+    padding: 0 15px 15px 15px;
+    gap: 10px;
   }
-  
-  .todo-item {
-    padding: 16px;
+
+  .dumbledido-todo-card {
+    padding: 14px 20px;
+    min-height: 60px;
   }
-  
-  .todo-item h3 {
-    font-size: 18px;
+
+  .todo-title {
+    font-size: 17px;
   }
-  
+
+  .todo-time-badge {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+
   .action-btn {
-    width: 60px;
+    width: 45px;
+    height: 45px;
     font-size: 20px;
-  }
-  
-  .todo-item-wrapper.swiped .todo-item {
-    transform: translateX(-120px);
   }
 }

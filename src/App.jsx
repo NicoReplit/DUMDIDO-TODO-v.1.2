@@ -8,6 +8,8 @@ import WeekCalendar from './components/WeekCalendar';
 import PINEntry from './components/PINEntry';
 import OpenList from './components/OpenList';
 import UserSelectionModal from './components/UserSelectionModal';
+import BlobCharacters from './components/BlobCharacters';
+import ProgressBar from './components/ProgressBar';
 import './App.css';
 
 function App() {
@@ -458,29 +460,51 @@ function App() {
     );
   }
 
+  const handleOpenSettings = () => {
+    if (currentUser) {
+      setEditingUser(currentUser);
+      setShowUserForm(true);
+    }
+  };
+
+  const handleOpenListFromBlob = () => {
+    setIsOpenListSelected(true);
+    setCurrentUser(null);
+  };
+
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>Family To-Do</h1>
-        <div className="header-controls">
+    <div className="app dumbledido-app">
+      <header className="app-header dumbledido-header">
+        <h1 className="dumbledido-logo">
+          <span className="letter-d1">D</span>
+          <span className="letter-u">U</span>
+          <span className="letter-m">M</span>
+          <span className="letter-b">B</span>
+          <span className="letter-l">L</span>
+          <span className="letter-e">E</span>
+          <span className="letter-d2">D</span>
+          <span className="letter-i">I</span>
+          <span className="letter-d3">D</span>
+          <span className="letter-o">O</span>
+          <span className="letter-space"> </span>
+          <span className="letter-t">T</span>
+          <span className="letter-h">H</span>
+          <span className="letter-e2">E</span>
+          <span className="letter-space"> </span>
+          <span className="letter-d4">D</span>
+          <span className="letter-o2">O</span>
+        </h1>
+        <div className="header-content">
+          <div className="header-subtitle">FAMILY TO-DO LIST</div>
+          <input
+            type="date"
+            className="date-pill"
+            value={currentDate}
+            onChange={(e) => setCurrentDate(e.target.value)}
+          />
           {!isOpenListSelected && (
-            <input
-              type="date"
-              value={currentDate}
-              onChange={(e) => setCurrentDate(e.target.value)}
-              className="date-picker"
-            />
-          )}
-          {currentUser && !isOpenListSelected && (
-            <button 
-              className="edit-user-button" 
-              onClick={() => {
-                setEditingUser(currentUser);
-                setShowUserForm(true);
-              }}
-              title="Edit user"
-            >
-              ✏️
+            <button className="add-user-button" onClick={() => setShowUserForm(true)}>
+              +
             </button>
           )}
         </div>
@@ -494,6 +518,10 @@ function App() {
         onSelectOpenList={handleSelectOpenList}
         isOpenListSelected={isOpenListSelected}
       />
+
+      {currentUser && !isOpenListSelected && (
+        <ProgressBar points={currentUser.total_points || 0} maxPoints={1000} />
+      )}
 
       {isOpenListSelected ? (
         <div className="open-list-view">
@@ -522,9 +550,15 @@ function App() {
         </>
       )}
 
-      <button className="add-button" onClick={() => setShowForm(true)}>
+      <button className="add-button dumbledido-add-button" onClick={() => setShowForm(true)}>
         +
       </button>
+
+      <BlobCharacters
+        onOpenSettings={handleOpenSettings}
+        onOpenList={handleOpenListFromBlob}
+        superPoints={currentUser?.super_points || 0}
+      />
 
       {showPinEntry && currentUser && (
         <PINEntry
