@@ -59,7 +59,7 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
               onTouchEnd={handleTouchEnd}
             >
               <div className="todo-card-content">
-                <h3 className="todo-title">{todo.title}</h3>
+                <h3 className="dumbledido-todo-title">{todo.title}</h3>
               </div>
               <div className="todo-time-badge">
                 {todo.remaining_seconds !== null && !todo.completed
