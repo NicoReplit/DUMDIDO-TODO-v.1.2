@@ -60,13 +60,13 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
             >
               <div className="todo-card-content">
                 <h3 className="todo-title">{todo.title}</h3>
-                <div className="todo-time-badge">
-                  {todo.remaining_seconds !== null && !todo.completed
-                    ? `⏱️ ${formatTime(todo.remaining_seconds)}`
-                    : todo.estimated_minutes
-                    ? `${todo.estimated_minutes} Min`
-                    : '--'}
-                </div>
+              </div>
+              <div className="todo-time-badge">
+                {todo.remaining_seconds !== null && !todo.completed
+                  ? formatTime(todo.remaining_seconds)
+                  : todo.estimated_minutes
+                  ? `${todo.estimated_minutes} Min`
+                  : '--'}
               </div>
               {todo.completed && (
                 <div className="completed-check">✓</div>
