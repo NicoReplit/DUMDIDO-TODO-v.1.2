@@ -7,6 +7,19 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 - Mobile-first, touch-optimized design
 - Local-only operation (no internet required)
 - Family-friendly interface
+- DUMBLEDIDO theme: Playful, kid-friendly aesthetic with vibrant colors and rounded shapes
+
+## Recent Updates (November 2025)
+
+### DUMBLEDIDO Visual Redesign
+Complete visual transformation to a playful, kid-friendly design system:
+- **Typography**: MuseoModerno font (Google Fonts) applied globally
+- **Color Palette**: Custom 12-color palette with vibrant, saturated colors
+  - Yellow: #FECE00, Blue: #0061EE, Pink: #FF006E, Coral/Red: #EE4100
+  - Green: #38D247, Orange: #FEBA00, Light Pink: #FF77B9, Magenta: #EE00AE
+  - Gray: #707070, Light Gray/BG: #E4F4E4, Black: #000000, White: #FFFFFF
+- **Todo Cards**: Clean pill design with centered text, hard drop shadows (5px 5px blue), overlapping time pills
+- **User Interface**: Colorful pill buttons, animated blob characters, progress bars with heart-eyes emoji
 
 ## System Architecture
 
