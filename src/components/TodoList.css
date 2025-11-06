@@ -28,12 +28,12 @@
   box-sizing: border-box;
 }
 
-/* Bottom layer - RED (#EE4100), 100% width, HAS DROP SHADOW */
+/* Bottom layer - RED (#EE4100), 100% width, NO DROP SHADOW (shadow moved to top layer) */
 .pill-bottom {
   z-index: 1;
   width: 100%;
   background: #EE4100 !important;
-  box-shadow: 7px 7px 0 0 var(--dumbledido-blue);
+  box-shadow: none;
   justify-content: flex-end;
   padding-right: 17px;
 }
@@ -54,7 +54,7 @@
   width: 100%;
   justify-content: center;
   transition: width 0.3s ease, transform 0.2s ease;
-  box-shadow: none;
+  box-shadow: 7px 7px 0 0 var(--shadow-color);
 }
 
 .dumbledido-todo-wrapper.swiped .pill-top {
