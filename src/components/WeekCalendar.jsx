@@ -88,10 +88,10 @@ function WeekCalendar({ userId, selectedDate }) {
         
         {/* Main week pill */}
         <div className="week-content">
-          {/* Orange progress bar under icons - grows based on completed days */}
+          {/* Orange progress bar under icons */}
           <div 
             className="week-progress-bar"
-            style={{ width: `${(weekData.filter(d => d.completed).length / 7) * 100}%` }}
+            style={{ width: `${(streakDays / 7) * 100}%` }}
           ></div>
           
           <div className="streak-counter">{streakDays}</div>
