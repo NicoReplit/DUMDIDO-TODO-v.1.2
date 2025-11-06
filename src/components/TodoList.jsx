@@ -56,12 +56,41 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
           <div
             key={todo.id}
             className={`dumbledido-todo-wrapper ${swipedId === todo.id ? 'swiped' : ''}`}
+            style={{ 
+              '--card-rotation': `${getRandomRotation(todo.id)}deg`
+            }}
           >
+            {/* Bottom layer - delete button (right side) */}
+            <div className={`pill-layer pill-bottom ${getCardColor(index)}-dark`}>
+              <button
+                className="action-btn-layer delete-btn-layer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(todo.id);
+                  setSwipedId(null);
+                }}
+              >
+                🗑️
+              </button>
+            </div>
+            
+            {/* Middle layer - edit button (left side) */}
+            <div className={`pill-layer pill-middle ${getCardColor(index)}-darker`}>
+              <button
+                className="action-btn-layer edit-btn-layer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit(todo);
+                  setSwipedId(null);
+                }}
+              >
+                ✏️
+              </button>
+            </div>
+            
+            {/* Top layer - main content */}
             <div
-              className={`dumbledido-todo-card ${getCardColor(index)} ${todo.completed ? 'completed' : ''}`}
-              style={{ 
-                '--card-rotation': `${getRandomRotation(todo.id)}deg`
-              }}
+              className={`dumbledido-todo-card pill-top ${getCardColor(index)} ${todo.completed ? 'completed' : ''}`}
               onClick={() => onSelect(todo)}
               onTouchStart={(e) => handleTouchStart(e, todo.id)}
               onTouchMove={(e) => handleTouchMove(e, todo.id)}
@@ -87,28 +116,6 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
                todo.remaining_seconds < (todo.estimated_minutes * 60) && (
                 <div className="pause-indicator">⏸️</div>
               )}
-            </div>
-            <div className="action-buttons">
-              <button
-                className="action-btn edit-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onEdit(todo);
-                  setSwipedId(null);
-                }}
-              >
-                ✏️
-              </button>
-              <button
-                className="action-btn delete-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDelete(todo.id);
-                  setSwipedId(null);
-                }}
-              >
-                🗑️
-              </button>
             </div>
           </div>
         ))

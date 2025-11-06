@@ -7,11 +7,44 @@
 
 .dumbledido-todo-wrapper {
   position: relative;
-  transition: transform 0.3s;
+  transform: rotate(var(--card-rotation, 0deg));
 }
 
-.dumbledido-todo-wrapper.swiped .dumbledido-todo-card {
-  transform: translateX(-120px);
+/* Layer system */
+.pill-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 40px;
+  border-radius: 35px;
+  border: none;
+  box-shadow: 7px 7px 0 0 var(--dumbledido-blue);
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 1;
+}
+
+.pill-bottom {
+  z-index: 1;
+}
+
+.pill-middle {
+  z-index: 2;
+  transform: translateX(50px);
+  justify-content: flex-start;
+}
+
+.pill-top {
+  z-index: 3;
+  transition: clip-path 0.3s ease, transform 0.2s ease;
+  clip-path: inset(0 0 0 0 round 35px);
+}
+
+.dumbledido-todo-wrapper.swiped .pill-top {
+  clip-path: inset(0 100px 0 0 round 35px);
 }
 
 .dumbledido-todo-card {
@@ -20,19 +53,17 @@
   border-radius: 35px;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
   box-shadow: 7px 7px 0 0 var(--dumbledido-blue);
   min-height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2;
-  transform: rotate(var(--card-rotation, 0deg));
 }
 
 .dumbledido-todo-card:active {
-  transform: rotate(var(--card-rotation, 0deg)) translate(5px, 5px);
+  transform: translate(5px, 5px);
   box-shadow: 2px 2px 0 0 var(--dumbledido-blue);
+  transition: all 0.2s ease;
 }
 
 /* Color variations */
@@ -66,6 +97,39 @@
 
 .dumbledido-todo-card.blue:active {
   background: #0057d6;
+}
+
+/* Darker color variations for layers */
+.yellow-darker {
+  background: #d4b300;
+}
+
+.yellow-dark {
+  background: #bfa200;
+}
+
+.red-darker {
+  background: #d63200;
+}
+
+.red-dark {
+  background: #c22d00;
+}
+
+.green-darker {
+  background: #2fb83c;
+}
+
+.green-dark {
+  background: #2aa336;
+}
+
+.blue-darker {
+  background: #0054c7;
+}
+
+.blue-dark {
+  background: #004ab3;
 }
 
 .dumbledido-todo-card.completed {
@@ -144,18 +208,8 @@
   z-index: 3;
 }
 
-.action-buttons {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  gap: 8px;
-  padding-right: 10px;
-  z-index: 1;
-}
-
-.action-btn {
+/* Action buttons in layers */
+.action-btn-layer {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -167,17 +221,20 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  background: white;
+  margin: 0;
+  padding: 0;
 }
 
-.edit-btn {
-  background: var(--dumbledido-yellow);
+.edit-btn-layer {
+  margin-left: 10px;
 }
 
-.delete-btn {
-  background: var(--dumbledido-red);
+.delete-btn-layer {
+  margin-right: 10px;
 }
 
-.action-btn:active {
+.action-btn-layer:active {
   transform: scale(0.9);
 }
 
