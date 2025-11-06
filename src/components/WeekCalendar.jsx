@@ -73,12 +73,12 @@ function WeekCalendar({ userId, selectedDate }) {
     setWeekData(week);
   };
 
-  // Calculate how many days were completed (for visual progress)
-  const completedDays = weekData.filter(day => day.completed).length;
+  // Calculate how many days have passed (closed eyes)
+  const pastDays = weekData.filter(day => day.isPast).length;
   
-  // Calculate orange pill width - grows to cover completed days
-  // Base 50px + width per completed day (approximately 60px per day on desktop)
-  const pillWidth = 50 + (completedDays * 60);
+  // Calculate orange pill width - grows to cover past days (closed eyes)
+  // Base 50px + width per past day (approximately 60px per day on desktop)
+  const pillWidth = 50 + (pastDays * 60);
 
   return (
     <div className="dumbledido-week-calendar">
