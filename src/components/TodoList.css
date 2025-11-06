@@ -13,17 +13,14 @@
   margin-bottom: 10px;
 }
 
-/* Layer system - all layers have identical base sizing */
-.pill-layer,
-.dumbledido-todo-card {
+/* Layer system base */
+.pill-layer {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
   padding: 20px 40px;
   border-radius: 35px;
   border: none;
-  box-shadow: 7px 7px 0 0 var(--dumbledido-blue);
   min-height: 70px;
   height: 70px;
   display: flex;
@@ -31,37 +28,75 @@
   box-sizing: border-box;
 }
 
-/* Bottom layer - stays in original position, visible on right edge */
+/* Bottom layer - RED, 100% width, HAS DROP SHADOW */
 .pill-bottom {
   z-index: 1;
+  width: 100%;
+  background: var(--dumbledido-coral);
+  box-shadow: 7px 7px 0 0 var(--dumbledido-blue);
   justify-content: flex-end;
 }
 
-/* Middle layer - pushed 50px RIGHT, visible on right edge */
+/* Middle layer - GREEN, 50px less wide, NO DROP SHADOW */
 .pill-middle {
   z-index: 2;
-  left: 50px;
+  width: calc(100% - 50px);
+  background: var(--dumbledido-green);
+  box-shadow: none;
   justify-content: flex-end;
-  padding-right: 60px;
 }
 
-/* Top layer - shrinks from right when swiped */
+/* Top layer - swipeable, starts at 100% width, shrinks by 100px on X when swiped */
 .pill-top {
   z-index: 3;
+  width: 100%;
   justify-content: center;
   transition: width 0.3s ease, transform 0.2s ease;
-  width: calc(100% - 100px);
+  box-shadow: none;
 }
 
 .dumbledido-todo-wrapper.swiped .pill-top {
-  width: calc(100% - 200px);
+  width: calc(100% - 100px);
 }
 
 .dumbledido-todo-card {
   cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px;
+  border-radius: 35px;
+  border: none;
+  min-height: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  box-shadow: none;
 }
 
-.dumbledido-todo-card:active {
+/* Clickability - entire card in regular mode */
+.dumbledido-todo-wrapper:not(.swiped) .pill-top {
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.dumbledido-todo-wrapper:not(.swiped) .action-btn-layer {
+  pointer-events: none;
+}
+
+/* In edit mode - only icons clickable */
+.dumbledido-todo-wrapper.swiped .pill-top {
+  pointer-events: none;
+}
+
+.dumbledido-todo-wrapper.swiped .action-btn-layer {
+  pointer-events: all;
+}
+
+/* Click feedback on bottom layer (has the shadow) */
+.dumbledido-todo-wrapper:not(.swiped):active .pill-bottom {
   transform: translate(5px, 5px);
   box-shadow: 2px 2px 0 0 var(--dumbledido-blue);
   transition: all 0.2s ease;
@@ -209,35 +244,29 @@
   z-index: 10;
 }
 
-/* Action buttons in layers */
+/* Action buttons in layers - NO CIRCLE, NO SHADOW, just icon */
 .action-btn-layer {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 3px solid var(--dumbledido-border-blue);
-  font-size: 20px;
+  font-size: 28px;
   cursor: pointer;
   transition: transform 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-  background: white;
+  background: none;
+  border: none;
   margin: 0;
   padding: 0;
   flex-shrink: 0;
+  box-shadow: none;
 }
 
 .edit-btn-layer {
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 .delete-btn-layer {
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 .action-btn-layer:active {
-  transform: scale(0.9);
+  transform: scale(1.2);
 }
 
 .empty-state {
