@@ -106,17 +106,20 @@ function WeekCalendar({ userId, selectedDate }) {
             {streakDays}
           </div>
           
-          {weekData.map((day, index) => (
-            <div key={index} className="week-day-cell">
-              <div className="week-day-eye">
-                {day.isPast ? (
-                  <div className="week-eye-closed"></div>
-                ) : (
-                  <div className="week-eye-open"></div>
-                )}
+          {/* Day icons in fixed positions */}
+          <div className="week-days-container">
+            {weekData.map((day, index) => (
+              <div key={index} className="week-day-cell">
+                <div className="week-day-eye">
+                  {day.isPast ? (
+                    <div className="week-eye-closed"></div>
+                  ) : (
+                    <div className="week-eye-open"></div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
