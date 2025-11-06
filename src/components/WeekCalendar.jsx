@@ -88,6 +88,12 @@ function WeekCalendar({ userId, selectedDate }) {
         
         {/* Main week pill */}
         <div className="week-content">
+          {/* Orange progress bar under icons */}
+          <div 
+            className="week-progress-bar"
+            style={{ width: `${(streakDays / 7) * 100}%` }}
+          ></div>
+          
           <div className="streak-counter">{streakDays}</div>
           {weekData.map((day, index) => (
             <div key={index} className="week-day-cell">
