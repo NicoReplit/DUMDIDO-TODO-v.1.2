@@ -101,7 +101,7 @@ function WeekCalendar({ userId, selectedDate }) {
           {/* Orange progress bar grows underneath */}
           <div 
             className="week-progress-bar"
-            style={{ width: `calc(${pillWidthPercent}% - 10px)` }}
+            style={{ width: `calc(${pillWidthPercent}% - 14px)` }}
           ></div>
           
           {/* Number stays fixed on left */}
