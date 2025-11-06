@@ -59,7 +59,9 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
           >
             <div
               className={`dumbledido-todo-card ${getCardColor(index)} ${todo.completed ? 'completed' : ''}`}
-              style={{ transform: `rotate(${getRandomRotation(todo.id)}deg)` }}
+              style={{ 
+                '--card-rotation': `${getRandomRotation(todo.id)}deg`
+              }}
               onClick={() => onSelect(todo)}
               onTouchStart={(e) => handleTouchStart(e, todo.id)}
               onTouchMove={(e) => handleTouchMove(e, todo.id)}

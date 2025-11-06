@@ -20,17 +20,19 @@
   border-radius: 35px;
   border: none;
   cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 5px 5px 0 0 var(--dumbledido-blue);
+  transition: all 0.2s ease;
+  box-shadow: 7px 7px 0 0 var(--dumbledido-blue);
   min-height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2;
+  transform: rotate(var(--card-rotation, 0deg));
 }
 
 .dumbledido-todo-card:active {
-  transform: scale(0.98);
+  transform: rotate(var(--card-rotation, 0deg)) translate(5px, 5px);
+  box-shadow: 2px 2px 0 0 var(--dumbledido-blue);
 }
 
 /* Color variations */
@@ -38,16 +40,32 @@
   background: var(--dumbledido-yellow);
 }
 
+.dumbledido-todo-card.yellow:active {
+  background: #e5b900;
+}
+
 .dumbledido-todo-card.red {
   background: linear-gradient(135deg, #FF6347 0%, #FF4500 100%);
+}
+
+.dumbledido-todo-card.red:active {
+  background: linear-gradient(135deg, #e63b00 0%, #e63b00 100%);
 }
 
 .dumbledido-todo-card.green {
   background: var(--dumbledido-green);
 }
 
+.dumbledido-todo-card.green:active {
+  background: #32bd40;
+}
+
 .dumbledido-todo-card.blue {
   background: var(--dumbledido-blue);
+}
+
+.dumbledido-todo-card.blue:active {
+  background: #0057d6;
 }
 
 .dumbledido-todo-card.completed {
