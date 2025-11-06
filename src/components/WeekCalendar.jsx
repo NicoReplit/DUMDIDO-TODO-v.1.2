@@ -112,8 +112,10 @@ function WeekCalendar({ userId, selectedDate }) {
           {/* Day icons in fixed positions */}
           <div className="week-days-container">
             {weekData.map((day, index) => {
-              // Generate random rotation for open eyes (-15 to +15 degrees)
-              const randomRotation = Math.floor(Math.random() * 31) - 15;
+              // Each eye gets a unique rotation based on its index (-15 to +15 degrees)
+              // Using a deterministic pattern so rotations stay consistent
+              const rotations = [-12, 8, -5, 14, -9, 6, -14];
+              const eyeRotation = rotations[index];
               
               return (
                 <div key={index} className="week-day-cell">
@@ -123,7 +125,7 @@ function WeekCalendar({ userId, selectedDate }) {
                     ) : (
                       <div 
                         className="week-eye-open"
-                        style={{ transform: `rotate(${randomRotation}deg)` }}
+                        style={{ transform: `rotate(${eyeRotation}deg)` }}
                       ></div>
                     )}
                   </div>
