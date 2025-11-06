@@ -64,7 +64,7 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
             onTouchEnd={handleTouchEnd}
           >
             {/* Bottom layer - delete button (right side) - ALWAYS RED #EE4100 */}
-            <div className="pill-layer pill-bottom">
+            <div className={`pill-layer pill-bottom ${getCardColor(index)}`}>
               <button
                 className="action-btn-layer delete-btn-layer"
                 onClick={(e) => {

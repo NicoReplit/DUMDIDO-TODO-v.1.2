@@ -33,9 +33,25 @@
   z-index: 1;
   width: 100%;
   background: #EE4100 !important;
-  box-shadow: 7px 7px 0 0 var(--dumbledido-blue);
   justify-content: flex-end;
   padding-right: 17px;
+}
+
+/* Drop shadow colors based on card color */
+.pill-bottom.yellow {
+  box-shadow: 7px 7px 0 0 #0061EE; /* Blue shadow */
+}
+
+.pill-bottom.red {
+  box-shadow: 7px 7px 0 0 #FECE00; /* Yellow shadow */
+}
+
+.pill-bottom.green {
+  box-shadow: 7px 7px 0 0 #EE4100; /* Red shadow */
+}
+
+.pill-bottom.blue {
+  box-shadow: 7px 7px 0 0 #38D247; /* Green shadow */
 }
 
 /* Middle layer - GREEN (#38D247), 50px less wide, NO DROP SHADOW */
@@ -98,9 +114,27 @@
 }
 
 /* Click feedback on bottom layer (has the shadow) */
-.dumbledido-todo-wrapper:not(.swiped):active .pill-bottom {
+.dumbledido-todo-wrapper:not(.swiped):active .pill-bottom.yellow {
   transform: translate(5px, 5px);
-  box-shadow: 2px 2px 0 0 var(--dumbledido-blue);
+  box-shadow: 2px 2px 0 0 #0061EE;
+  transition: all 0.2s ease;
+}
+
+.dumbledido-todo-wrapper:not(.swiped):active .pill-bottom.red {
+  transform: translate(5px, 5px);
+  box-shadow: 2px 2px 0 0 #FECE00;
+  transition: all 0.2s ease;
+}
+
+.dumbledido-todo-wrapper:not(.swiped):active .pill-bottom.green {
+  transform: translate(5px, 5px);
+  box-shadow: 2px 2px 0 0 #EE4100;
+  transition: all 0.2s ease;
+}
+
+.dumbledido-todo-wrapper:not(.swiped):active .pill-bottom.blue {
+  transform: translate(5px, 5px);
+  box-shadow: 2px 2px 0 0 #38D247;
   transition: all 0.2s ease;
 }
 
