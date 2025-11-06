@@ -59,6 +59,9 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
             style={{ 
               '--card-rotation': `${getRandomRotation(todo.id)}deg`
             }}
+            onTouchStart={(e) => handleTouchStart(e, todo.id)}
+            onTouchMove={(e) => handleTouchMove(e, todo.id)}
+            onTouchEnd={handleTouchEnd}
           >
             {/* Bottom layer - delete button (right side) - ALWAYS RED #EE4100 */}
             <div className="pill-layer pill-bottom">
@@ -92,9 +95,6 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
             <div
               className={`dumbledido-todo-card pill-top ${getCardColor(index)} ${todo.completed ? 'completed' : ''}`}
               onClick={() => onSelect(todo)}
-              onTouchStart={(e) => handleTouchStart(e, todo.id)}
-              onTouchMove={(e) => handleTouchMove(e, todo.id)}
-              onTouchEnd={handleTouchEnd}
             >
               <div className="todo-card-content">
                 <h3 className="dumbledido-todo-title">{todo.title}</h3>
