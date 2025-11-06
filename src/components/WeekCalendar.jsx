@@ -50,7 +50,7 @@ function WeekCalendar({ userId, selectedDate }) {
           day: ['Mo', 'Di', 'Mit', 'Do', 'Fr', 'Sa', 'So'][i],
           date: dateStr,
           completed: data.all_completed_on_time,
-          isPast,
+          isPast: isPast || isToday, // Today counts as past for closed eyes
           isFuture,
           isToday
         });
@@ -63,7 +63,7 @@ function WeekCalendar({ userId, selectedDate }) {
           day: ['Mo', 'Di', 'Mit', 'Do', 'Fr', 'Sa', 'So'][i],
           date: dateStr,
           completed: false,
-          isPast,
+          isPast: isPast || isToday, // Today counts as past for closed eyes
           isFuture,
           isToday
         });
