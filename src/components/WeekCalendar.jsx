@@ -112,9 +112,8 @@ function WeekCalendar({ userId, selectedDate }) {
           {/* Day icons in fixed positions */}
           <div className="week-days-container">
             {weekData.map((day, index) => {
-              // Each eye gets a unique rotation based on its index (-15 to +15 degrees)
-              // Using a deterministic pattern so rotations stay consistent
-              const rotations = [-12, 8, -5, 14, -9, 6, -14];
+              // Each eye gets a unique rotation based on its index
+              const rotations = [14, 180, 45, -60, 80, 0, 120];
               const eyeRotation = rotations[index];
               
               return (
