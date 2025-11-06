@@ -18,7 +18,16 @@ Complete visual transformation to a playful, kid-friendly design system:
   - Yellow: #FECE00, Blue: #0061EE, Pink: #FF006E, Coral/Red: #EE4100
   - Green: #38D247, Orange: #FEBA00, Light Pink: #FF77B9, Magenta: #EE00AE
   - Gray: #707070, Light Gray/BG: #E4F4E4, Black: #000000, White: #FFFFFF
-- **Todo Cards**: Clean pill design with centered text, hard drop shadows (5px 5px blue), overlapping time pills
+- **Todo Cards**: Three-layer swipe-to-edit pill system
+  - Bottom layer: #EE4100 (red), 100% width, carries 7px 7px blue drop shadow, delete icon 25px from right edge
+  - Middle layer: #38D247 (green), 50px narrower, no shadow, edit icon 25px from right edge
+  - Top layer: Task color, 100% width initially, shrinks 100px when swiped to reveal icons underneath
+  - Time pill: Orange (#FEBA00), z-index 10, always on top of all layers
+  - Card spacing: 30px between cards (desktop), 25px (mobile)
+  - Random rotation: -2° to +2° per card for playful scattered appearance
+  - Icons: No circles, no shadows, just emoji (🗑️ bin, ✏️ pen)
+  - Swipe gestures: Left to open edit mode, right to close
+  - Clickability: Entire card in normal mode, only icons in edit mode
 - **User Interface**: Colorful pill buttons, animated blob characters, progress bars with heart-eyes emoji
 
 ## System Architecture
