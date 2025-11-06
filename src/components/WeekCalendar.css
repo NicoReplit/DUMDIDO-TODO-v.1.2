@@ -41,27 +41,15 @@
   background: #FECE00;
   border-radius: 30px;
   height: 50px;
-  box-shadow: -5px 18px 0 0 #FF77B9;
-  overflow: hidden;
+  box-shadow: -5px -18px 0 0 #FF77B9;
+  overflow: visible;
 }
 
-/* Orange progress bar - fills from left to right */
-.week-progress-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background: #FE8700;
-  border-radius: 30px;
-  z-index: 1;
-  transition: width 0.5s ease-out;
-}
-
-/* Day count display */
+/* Orange day count pill - grows to the right */
 .streak-counter {
   min-width: 50px;
   height: 50px;
-  background: transparent;
+  background: #FE8700;
   border-radius: 25px;
   display: flex;
   align-items: center;
@@ -72,6 +60,7 @@
   flex-shrink: 0;
   position: relative;
   z-index: 3;
+  transition: width 0.5s ease-out;
 }
 
 .week-day-cell {
