@@ -77,9 +77,9 @@ function WeekCalendar({ userId, selectedDate }) {
   const pastDays = weekData.filter(day => day.isPast).length;
   
   // Calculate orange pill width in 11% steps
-  // Minimum 11% for "Tage" section, then +11% for each past day
-  // 0 past days: 11%, 1 day: 22%, 2 days: 33%, 3 days: 44% (reaches "Do"), etc.
-  const pillWidthPercent = (pastDays + 1) * 11;
+  // Starts at 22% to cover "Tage" + number counter, then +11% for each past day
+  // 0 past days (Mo): 22%, 1 day (Di): 33%, 2 days (Mit): 44%, 3 days (Do): 55%, etc.
+  const pillWidthPercent = 22 + (pastDays * 11);
 
   return (
     <div className="dumbledido-week-calendar">
