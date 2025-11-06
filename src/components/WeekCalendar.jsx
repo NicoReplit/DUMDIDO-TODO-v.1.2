@@ -75,22 +75,32 @@ function WeekCalendar({ userId, selectedDate }) {
 
   return (
     <div className="dumbledido-week-calendar">
-      <div className="week-header">
-        <div className="week-label">TAGE</div>
-        {weekData.map((day, index) => (
-          <div key={index} className="week-day-header">
-            {day.day}
-          </div>
-        ))}
-      </div>
-      
-      <div className="week-content">
-        <div className="streak-counter">{streakDays}</div>
-        {weekData.map((day, index) => (
-          <div key={index} className="week-day-eye">
-            <AnimatedEyes closed={day.isPast} size="small" />
-          </div>
-        ))}
+      <div className="week-calendar-wrapper">
+        {/* Day labels on top */}
+        <div className="week-day-labels">
+          <div className="week-label-spacer"></div>
+          {weekData.map((day, index) => (
+            <div key={index} className="week-day-label">
+              {day.day}
+            </div>
+          ))}
+        </div>
+        
+        {/* Main week pill */}
+        <div className="week-content">
+          <div className="streak-counter">{streakDays}</div>
+          {weekData.map((day, index) => (
+            <div key={index} className="week-day-cell">
+              <div className="week-day-eye">
+                {day.isPast ? (
+                  <div className="week-eye-closed"></div>
+                ) : (
+                  <div className="week-eye-open"></div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

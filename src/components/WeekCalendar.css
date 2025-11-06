@@ -1,87 +1,150 @@
 .dumbledido-week-calendar {
   margin: 0 20px 15px 20px;
+  position: relative;
 }
 
-.week-header {
+.week-calendar-wrapper {
+  position: relative;
+}
+
+.week-day-labels {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: linear-gradient(90deg, var(--dumbledido-pink) 0%, var(--dumbledido-coral) 100%);
-  border-radius: 25px 25px 0 0;
-  border: 3px solid var(--dumbledido-border-blue);
-  border-bottom: none;
+  gap: 12px;
+  padding: 0 12px 8px 12px;
+  position: relative;
+  z-index: 2;
 }
 
-.week-label {
-  font-size: 12px;
-  font-weight: 700;
-  color: white;
-  letter-spacing: 0.5px;
-  min-width: 45px;
+.week-label-spacer {
+  min-width: 50px;
 }
 
-.week-day-header {
+.week-day-label {
   flex: 1;
   text-align: center;
-  font-size: 11px;
-  font-weight: 600;
-  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
 }
 
 .week-content {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: var(--dumbledido-orange);
-  border-radius: 0 0 25px 25px;
-  border: 3px solid var(--dumbledido-border-blue);
-  border-top: none;
+  gap: 12px;
+  padding: 12px;
+  background: #FECE00;
+  border-radius: 30px;
+  height: 50px;
+  box-shadow: -12px -12px 0 0 #EE4100;
 }
 
 .streak-counter {
-  min-width: 45px;
-  height: 42px;
-  background: white;
-  border-radius: 50%;
+  min-width: 50px;
+  height: 50px;
+  background: #FE8700;
+  border-radius: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
-  color: var(--dumbledido-blue);
-  border: 3px solid var(--dumbledido-border-blue);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  color: white;
+  flex-shrink: 0;
 }
 
-.week-day-eye {
+.week-day-cell {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 0;
+  height: 100%;
+  position: relative;
+}
+
+.week-day-eye {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Single eye - open */
+.week-eye-open {
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  position: relative;
+  border: 3px solid #000000;
+}
+
+.week-eye-open::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #000000;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Single eye - closed (bow open to top) */
+.week-eye-closed {
+  width: 24px;
+  height: 12px;
+  border: 3px solid #000000;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  position: relative;
 }
 
 @media (max-width: 600px) {
-  .week-header,
+  .week-day-labels {
+    gap: 8px;
+    padding: 0 8px 6px 8px;
+  }
+
+  .week-label-spacer {
+    min-width: 45px;
+  }
+
+  .week-day-label {
+    font-size: 12px;
+  }
+
   .week-content {
-    gap: 4px;
-    padding: 6px 8px;
-  }
-
-  .week-label {
-    font-size: 10px;
-    min-width: 38px;
-  }
-
-  .week-day-header {
-    font-size: 10px;
+    gap: 8px;
+    padding: 8px;
+    height: 45px;
   }
 
   .streak-counter {
-    min-width: 38px;
-    height: 38px;
-    font-size: 16px;
+    min-width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+
+  .week-day-eye {
+    width: 20px;
+    height: 20px;
+  }
+
+  .week-eye-open {
+    width: 20px;
+    height: 20px;
+  }
+
+  .week-eye-open::after {
+    width: 8px;
+    height: 8px;
+  }
+
+  .week-eye-closed {
+    width: 20px;
+    height: 10px;
   }
 }
