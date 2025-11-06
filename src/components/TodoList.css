@@ -25,36 +25,36 @@
   border: none;
   box-shadow: 7px 7px 0 0 var(--dumbledido-blue);
   min-height: 70px;
+  height: 70px;
   display: flex;
   align-items: center;
   box-sizing: border-box;
 }
 
-/* Bottom layer - stays in place, shows on RIGHT when swiped */
+/* Bottom layer - stays in original position, visible on right edge */
 .pill-bottom {
   z-index: 1;
   justify-content: flex-end;
 }
 
-/* Middle layer - pushed 50px RIGHT, shows on LEFT when swiped */
+/* Middle layer - pushed 50px RIGHT, visible on right edge */
 .pill-middle {
   z-index: 2;
   left: 50px;
-  width: calc(100% - 50px);
-  justify-content: flex-start;
-  overflow: hidden;
+  justify-content: flex-end;
+  padding-right: 60px;
 }
 
 /* Top layer - shrinks from right when swiped */
 .pill-top {
   z-index: 3;
   justify-content: center;
-  transition: clip-path 0.3s ease, transform 0.2s ease;
-  clip-path: inset(0 0 0 0 round 35px);
+  transition: width 0.3s ease, transform 0.2s ease;
+  width: calc(100% - 100px);
 }
 
 .dumbledido-todo-wrapper.swiped .pill-top {
-  clip-path: inset(0 100px 0 0 round 35px);
+  width: calc(100% - 200px);
 }
 
 .dumbledido-todo-card {
@@ -206,16 +206,16 @@
   border: none;
   white-space: nowrap;
   box-shadow: none;
-  z-index: 3;
+  z-index: 10;
 }
 
 /* Action buttons in layers */
 .action-btn-layer {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 3px solid var(--dumbledido-border-blue);
-  font-size: 24px;
+  font-size: 20px;
   cursor: pointer;
   transition: transform 0.2s;
   display: flex;
@@ -225,10 +225,11 @@
   background: white;
   margin: 0;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .edit-btn-layer {
-  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .delete-btn-layer {
