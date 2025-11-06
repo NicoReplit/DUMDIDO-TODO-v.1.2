@@ -11,6 +11,12 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
     return colors[index % colors.length];
   };
 
+  const getRandomRotation = (id) => {
+    const seed = id || 0;
+    const random = ((seed * 9301 + 49297) % 233280) / 233280;
+    return (random * 4) - 2;
+  };
+
   const handleTouchStart = (e, id) => {
     setTouchStart(e.touches[0].clientX);
   };
@@ -53,6 +59,7 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
           >
             <div
               className={`dumbledido-todo-card ${getCardColor(index)} ${todo.completed ? 'completed' : ''}`}
+              style={{ transform: `rotate(${getRandomRotation(todo.id)}deg)` }}
               onClick={() => onSelect(todo)}
               onTouchStart={(e) => handleTouchStart(e, todo.id)}
               onTouchMove={(e) => handleTouchMove(e, todo.id)}
