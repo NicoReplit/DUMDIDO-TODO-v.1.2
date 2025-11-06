@@ -45,9 +45,9 @@
 /* Orange progress bar - grows to the right under everything */
 .week-progress-bar {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
+  top: 3px;
+  left: 3px;
+  height: 44px;
   background: #FE8700;
   border-radius: 30px;
   z-index: 1;
