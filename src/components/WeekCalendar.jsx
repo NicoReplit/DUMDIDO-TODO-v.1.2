@@ -95,12 +95,17 @@ function WeekCalendar({ userId, selectedDate }) {
         
         {/* Main week pill */}
         <div className="week-content">
+          {/* Orange progress bar grows underneath */}
           <div 
-            className="streak-counter"
+            className="week-progress-bar"
             style={{ width: `${pillWidth}px` }}
-          >
+          ></div>
+          
+          {/* Number stays fixed on left */}
+          <div className="streak-counter">
             {streakDays}
           </div>
+          
           {weekData.map((day, index) => (
             <div key={index} className="week-day-cell">
               <div className="week-day-eye">
