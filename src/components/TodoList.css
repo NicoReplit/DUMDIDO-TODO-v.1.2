@@ -182,26 +182,27 @@
 @media (max-width: 600px) {
   .dumbledido-todo-list {
     padding: 0 15px 15px 15px;
-    gap: 10px;
+    gap: 25px;
   }
 
   .dumbledido-todo-card {
-    padding: 14px 20px;
-    min-height: 60px;
+    padding: 18px 30px;
+    min-height: 65px;
   }
 
-  .todo-title {
-    font-size: 17px;
+  .dumbledido-todo-title {
+    font-size: 24px;
   }
 
   .todo-time-badge {
-    font-size: 12px;
-    padding: 5px 12px;
+    font-size: 18px;
+    padding: 6px 14px;
+    right: 15px;
   }
 
   .action-btn {
-    width: 45px;
-    height: 45px;
-    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
   }
 }
