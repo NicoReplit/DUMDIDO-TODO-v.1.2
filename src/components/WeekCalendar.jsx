@@ -73,12 +73,20 @@ function WeekCalendar({ userId, selectedDate }) {
     setWeekData(week);
   };
 
+  // Calculate how many days were completed (for visual progress)
+  const completedDays = weekData.filter(day => day.completed).length;
+  
+  // Calculate pill width based on completed days
+  // Each day section is (100% - counter width) / 7
+  // Counter is 50px, total width varies, so we calculate dynamically
+  const pillExpandWidth = 50 + (completedDays * 60); // Base 50px + 60px per completed day
+
   return (
     <div className="dumbledido-week-calendar">
       <div className="week-calendar-wrapper">
         {/* Day labels on top */}
         <div className="week-day-labels">
-          <div className="week-label-spacer"></div>
+          <div className="week-label-tage">Tage</div>
           {weekData.map((day, index) => (
             <div key={index} className="week-day-label">
               {day.day}
@@ -88,13 +96,12 @@ function WeekCalendar({ userId, selectedDate }) {
         
         {/* Main week pill */}
         <div className="week-content">
-          {/* Orange progress bar under icons */}
           <div 
-            className="week-progress-bar"
-            style={{ width: `${(streakDays / 7) * 100}%` }}
-          ></div>
-          
-          <div className="streak-counter">{streakDays}</div>
+            className="streak-counter"
+            style={{ width: `${pillExpandWidth}px` }}
+          >
+            {streakDays}
+          </div>
           {weekData.map((day, index) => (
             <div key={index} className="week-day-cell">
               <div className="week-day-eye">
