@@ -76,12 +76,10 @@ function WeekCalendar({ userId, selectedDate }) {
   // Calculate how many days have passed (closed eyes)
   const pastDays = weekData.filter(day => day.isPast).length;
   
-  // Calculate orange pill width - divide total width by 8 steps (number + 7 days)
-  // Each step represents 1/8 of the total width
-  // pastDays 0 = 1/8, pastDays 1 = 2/8, pastDays 3 = 4/8, etc.
-  const totalSteps = 8;
-  const currentStep = pastDays + 1; // Include the number section as step 1
-  const pillWidthPercent = (currentStep / totalSteps) * 100;
+  // Calculate orange pill width in 11% steps
+  // Minimum 11% for "Tage" section, then +11% for each past day
+  // 0 past days: 11%, 1 day: 22%, 2 days: 33%, 3 days: 44% (reaches "Do"), etc.
+  const pillWidthPercent = (pastDays + 1) * 11;
 
   return (
     <div className="dumbledido-week-calendar">
