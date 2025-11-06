@@ -32,20 +32,20 @@
 .pill-bottom {
   z-index: 1;
   width: 100%;
-  background: #EE4100;
+  background: #EE4100 !important;
   box-shadow: 7px 7px 0 0 var(--dumbledido-blue);
   justify-content: flex-end;
-  padding-right: 25px;
+  padding-right: 17px;
 }
 
 /* Middle layer - GREEN (#38D247), 50px less wide, NO DROP SHADOW */
 .pill-middle {
   z-index: 2;
   width: calc(100% - 50px);
-  background: #38D247;
+  background: #38D247 !important;
   box-shadow: none;
   justify-content: flex-end;
-  padding-right: 25px;
+  padding-right: 17px;
 }
 
 /* Top layer - swipeable, starts at 100% width, shrinks by 100px on X when swiped */

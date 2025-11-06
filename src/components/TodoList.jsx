@@ -60,8 +60,8 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
               '--card-rotation': `${getRandomRotation(todo.id)}deg`
             }}
           >
-            {/* Bottom layer - delete button (right side) */}
-            <div className={`pill-layer pill-bottom ${getCardColor(index)}-dark`}>
+            {/* Bottom layer - delete button (right side) - ALWAYS RED #EE4100 */}
+            <div className="pill-layer pill-bottom">
               <button
                 className="action-btn-layer delete-btn-layer"
                 onClick={(e) => {
@@ -74,8 +74,8 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
               </button>
             </div>
             
-            {/* Middle layer - edit button (left side) */}
-            <div className={`pill-layer pill-middle ${getCardColor(index)}-darker`}>
+            {/* Middle layer - edit button (left side) - ALWAYS GREEN #38D247 */}
+            <div className="pill-layer pill-middle">
               <button
                 className="action-btn-layer edit-btn-layer"
                 onClick={(e) => {
