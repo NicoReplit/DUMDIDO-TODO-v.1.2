@@ -8,15 +8,18 @@
 .dumbledido-todo-wrapper {
   position: relative;
   transform: rotate(var(--card-rotation, 0deg));
+  min-height: 70px;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-/* Layer system - all layers must have identical sizing */
+/* Layer system - all layers have identical base sizing */
 .pill-layer,
 .dumbledido-todo-card {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
   padding: 20px 40px;
   border-radius: 35px;
   border: none;
@@ -24,23 +27,25 @@
   min-height: 70px;
   display: flex;
   align-items: center;
-}
-
-.pill-layer {
   box-sizing: border-box;
 }
 
+/* Bottom layer - stays in place, shows on RIGHT when swiped */
 .pill-bottom {
   z-index: 1;
   justify-content: flex-end;
 }
 
+/* Middle layer - pushed 50px RIGHT, shows on LEFT when swiped */
 .pill-middle {
   z-index: 2;
-  transform: translateX(50px);
+  left: 50px;
+  width: calc(100% - 50px);
   justify-content: flex-start;
+  overflow: hidden;
 }
 
+/* Top layer - shrinks from right when swiped */
 .pill-top {
   z-index: 3;
   justify-content: center;
