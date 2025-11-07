@@ -55,8 +55,8 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
     // Always prevent default to block native scrolling
     e.preventDefault();
     
-    // Fast swipe: velocity > 1.2 px/ms and distance > 40px → edit mode
-    if (gesture.targetPillId && gesture.gestureMode === 'pressing' && velocity > 1.2 && Math.abs(diff) > 40) {
+    // Fast swipe: velocity > 1.2 px/ms and distance > 20px → edit mode
+    if (gesture.targetPillId && gesture.gestureMode === 'pressing' && velocity > 1.2 && Math.abs(diff) > 20) {
       clearTimeout(gesture.holdTimeout);
       gesture.gestureMode = 'swipe';
       
@@ -83,12 +83,12 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
       const currentX = e.changedTouches[0].clientX;
       const diff = gesture.startX - currentX;
       
-      // Swipe left > 40px = open edit
-      if (diff > 40) {
+      // Swipe left > 20px = open edit
+      if (diff > 20) {
         setSwipedId(Number(gesture.targetPillId));
       }
-      // Swipe right > 40px = close edit
-      else if (diff < -40) {
+      // Swipe right > 20px = close edit
+      else if (diff < -20) {
         setSwipedId(null);
       }
     }

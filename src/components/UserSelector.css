@@ -40,8 +40,8 @@
   z-index: 1;
   width: 100%;
   background: #38D247;
-  justify-content: flex-start;
-  padding-left: 3px;
+  justify-content: flex-end;
+  padding-right: 20px;
   box-shadow: none;
   transition: all 0.3s ease;
 }
@@ -55,10 +55,10 @@
   overflow: hidden;
 }
 
-/* When swiped: top shrinks to perfect circle on the LEFT side */
+/* When swiped: top shrinks to 48x96 pill on the LEFT side */
 .user-pill-wrapper.swiped .user-pill-top {
-  width: 48px;
-  border-radius: 50%;
+  width: 96px;
+  border-radius: 30px;
   margin-left: 0;
   z-index: 0; /* Drop below green layer (z-index 1) to show edit icon */
 }
