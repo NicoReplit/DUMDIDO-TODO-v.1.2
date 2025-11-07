@@ -18,7 +18,8 @@ Redesigned todo cards to use iOS notification-style sticky stacking:
 - **Swipe-to-Reveal**: Horizontal swipe gestures reveal action buttons behind the card
   - Swipe left: Card slides 140px to reveal edit/delete buttons
   - Swipe right: Card slides back to normal position
-- **Dynamic Heights**: Container heights calculated per card to support unlimited stacking
+- **Dynamic Container Heights**: `350 + (index * 30) + 70px` - ensures persistent stickiness
+- **Full-Screen Masking**: Scrollable area fills entire viewport (100vh) with `padding-top: 350px; padding-bottom: 0;`
 - **Responsive Layout**: Fixed header (logo, calendar, user pills, progress, week calendar) + scrollable todo area + fixed footer (blob characters)
 - **Touch Optimized**: All interactions work with touch gestures on mobile/tablet devices
 
@@ -38,7 +39,8 @@ Complete visual transformation to a playful, kid-friendly design system:
   - iOS-style sticky stacking: Cards stack at top with 30px peek effect as you scroll (inverted from iOS - stacks at TOP)
   - Swipe-to-reveal: Swipe left 140px to reveal green edit button and red delete button behind card
   - Bidirectional swipe: Swipe right to close and hide action buttons
-  - Dynamic container heights: Each container height = (index * 30) + 90px for proper stacking
+  - Dynamic container heights: `350 + (index * 30) + 70px` ensures cards remain sticky until pushed by next card
+  - Full viewport masking: Scrollable area extends from top to bottom under blobs with padding-based layout
   - Icons: 🗑️ bin (red #EE4100 background), ✏️ pen (green #38D247 background)
 - **User Interface**: Colorful pill buttons, animated blob characters, progress bars with heart-eyes emoji
 
