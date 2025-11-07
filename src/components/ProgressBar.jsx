@@ -19,14 +19,9 @@ function ProgressBar({ points = 0, maxPoints = 1000 }) {
           className="progress-bar-yellow"
           style={{ width: `calc(80px + ${percentage}%)` }}
         >
-          {/* Heart emoji with eyes - positioned on yellow pill */}
-          <div className="progress-emoji">
-            <div className="heart-emoji">
-              <div className="heart-eyes">
-                <div className="heart-eye"></div>
-                <div className="heart-eye"></div>
-              </div>
-            </div>
+          {/* Eyes icon - positioned on yellow pill (replace with SVG later) */}
+          <div className="yellow-pill-icon">
+            👀
           </div>
         </div>
         
