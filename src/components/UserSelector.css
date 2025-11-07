@@ -30,7 +30,8 @@
 }
 
 .user-button.active {
-  transform: scale(1.05);
+  transform: translate(-5px, -5px);
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
 }
 
 .user-name {
