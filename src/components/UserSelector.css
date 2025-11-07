@@ -55,10 +55,10 @@
   overflow: hidden;
 }
 
-/* When swiped: top shrinks to 48x96 pill on the LEFT side */
+/* When swiped: top shrinks to 48x48 circle on the LEFT side */
 .user-pill-wrapper.swiped .user-pill-top {
-  width: 96px;
-  border-radius: 30px;
+  width: 48px;
+  border-radius: 50%;
   margin-left: 0;
   /* Keep z-index: 3 from parent - pointer-events handles clickability */
 }
