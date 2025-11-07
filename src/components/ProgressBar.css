@@ -19,7 +19,7 @@
   height: 100%;
   width: 40px;
   background: var(--dumbledido-yellow);
-  border-radius: 26px 0 0 26px;
+  border-radius: 26px; /* Full pill shape */
   z-index: 1;
 }
 
@@ -29,7 +29,7 @@
   left: 0;
   height: 100%;
   background: linear-gradient(90deg, var(--dumbledido-pink) 0%, var(--dumbledido-coral) 100%);
-  border-radius: 26px 0 0 26px;
+  border-radius: 26px; /* Full pill shape */
   transition: width 0.5s ease-out;
   min-width: 0;
   z-index: 2;
