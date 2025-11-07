@@ -6,6 +6,7 @@
   overflow-y: visible;
   background: transparent;
   scrollbar-width: none;
+  touch-action: none; /* Disable native touch scrolling */
 }
 
 .user-selector::-webkit-scrollbar {

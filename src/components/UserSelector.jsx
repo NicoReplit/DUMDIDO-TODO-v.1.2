@@ -36,15 +36,22 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
   const handleContainerTouchMove = (e) => {
     const gesture = gestureRef.current;
     
-    // Block scrolling unless in scroll mode
-    if (gesture.gestureMode !== 'scroll') {
-      e.preventDefault();
-    }
-    
     const currentX = e.touches[0].clientX;
     const diff = gesture.startX - currentX;
     const timeDiff = Date.now() - gesture.startTime;
     const velocity = Math.abs(diff) / timeDiff; // pixels per millisecond
+    
+    // If in scroll mode, manually scroll the container
+    if (gesture.gestureMode === 'scroll') {
+      if (scrollRef.current) {
+        scrollRef.current.scrollLeft += diff;
+        gesture.startX = currentX; // Update for next move
+      }
+      return;
+    }
+    
+    // Always prevent default to block native scrolling
+    e.preventDefault();
     
     // Fast swipe: velocity > 1.2 px/ms and distance > 40px → edit mode
     if (gesture.targetPillId && gesture.gestureMode === 'pressing' && velocity > 1.2 && Math.abs(diff) > 40) {
