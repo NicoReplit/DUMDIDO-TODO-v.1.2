@@ -13,8 +13,8 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
 
   const getAlternatingRotation = (index) => {
     // Alternate between positive and negative rotation
-    // Even index: +1 to +2 degrees, Odd index: -1 to -2 degrees
-    const baseRotation = 1.5; // 1.5 degrees base
+    // Even index: +1 degree, Odd index: -1 degree
+    const baseRotation = 1; // 1 degree base
     return (index % 2 === 0) ? baseRotation : -baseRotation;
   };
 
