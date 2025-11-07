@@ -12,10 +12,10 @@
 .dumbledido-fixed-header {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
   max-width: 800px;
-  margin: 0 auto;
   background: white;
   z-index: 1000;
   border-bottom: 4px solid var(--dumbledido-border-blue);
@@ -40,10 +40,10 @@
 .dumbledido-fixed-footer {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
   max-width: 800px;
-  margin: 0 auto;
   background: var(--dumbledido-bg);
   z-index: 999;
   padding: 10px 0;
