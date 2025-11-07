@@ -8,9 +8,6 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
         onClick={onSelectOpenList}
       >
         <div className="user-name">Open List</div>
-        <div className="user-stats">
-          <span className="open-list-icon">🎁</span>
-        </div>
       </button>
       {users.map(user => (
         <button
