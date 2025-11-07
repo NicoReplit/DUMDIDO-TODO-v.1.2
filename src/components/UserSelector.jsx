@@ -14,8 +14,7 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
           key={user.id}
           className={`user-button ${currentUser?.id === user.id ? 'active' : ''}`}
           style={{
-            backgroundColor: currentUser?.id === user.id ? user.color : 'transparent',
-            borderColor: user.color,
+            backgroundColor: currentUser?.id === user.id ? user.color : 'rgba(0,0,0,0.2)',
             color: currentUser?.id === user.id ? 'white' : user.color
           }}
           onClick={() => onSelectUser(user)}
