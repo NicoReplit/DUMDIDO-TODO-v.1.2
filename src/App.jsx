@@ -78,6 +78,10 @@ function App() {
           const days = JSON.parse(todo.recurrence_days);
           return days.includes(todayDay);
         }
+        // Show one-time todos (no specific date and no recurrence)
+        if (!todo.specific_date && !todo.recurrence_type) {
+          return true;
+        }
         return false;
       });
       

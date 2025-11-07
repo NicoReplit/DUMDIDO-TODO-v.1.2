@@ -1,58 +1,87 @@
 .dumbledido-todo-list {
   padding: 0 20px 20px 20px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
-/* iOS-style card container - height set dynamically via inline style */
-.dumbledido-todo-container {
+.dumbledido-todo-wrapper {
   position: relative;
-  /* height set inline: (index * 30) + 90px for proper stacking */
-  margin-bottom: 25px;
+  transform: rotate(var(--card-rotation, 0deg));
+  min-height: 70px;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-/* Action buttons layer - sits behind the card */
-.action-buttons-layer {
+/* Layer system base */
+.pill-layer {
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
+  padding: 20px 40px;
+  border-radius: 35px;
+  border: none;
+  min-height: 70px;
   height: 70px;
   display: flex;
-  gap: 10px;
   align-items: center;
-  padding-right: 10px;
-  z-index: calc(var(--card-z-index) - 1);
+  box-sizing: border-box;
 }
 
-.action-btn {
-  width: 60px;
-  height: 60px;
-  border: none;
-  border-radius: 10px;
-  font-size: 24px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+/* Bottom layer - RED (#EE4100), 100% width, HAS DROP SHADOW */
+.pill-bottom {
+  z-index: 1;
+  width: 100%;
+  background: #EE4100 !important;
+  justify-content: flex-end;
+  padding-right: 17px;
+}
+
+/* Drop shadow colors based on card color */
+.pill-bottom.yellow {
+  box-shadow: 7px 7px 0 0 #0061EE;
+}
+
+.pill-bottom.red {
+  box-shadow: 7px 7px 0 0 #FECE00;
+}
+
+.pill-bottom.green {
+  box-shadow: 7px 7px 0 0 #EE4100;
+}
+
+.pill-bottom.blue {
+  box-shadow: 7px 7px 0 0 #38D247;
+}
+
+/* Middle layer - GREEN (#38D247), 50px less wide, NO DROP SHADOW */
+.pill-middle {
+  z-index: 2;
+  width: calc(100% - 50px);
+  background: #38D247 !important;
+  box-shadow: none;
+  justify-content: flex-end;
+  padding-right: 17px;
+}
+
+/* Top layer - swipeable, starts at 100% width, shrinks by 100px on X when swiped */
+.pill-top {
+  z-index: 3;
+  width: 100%;
   justify-content: center;
-  transition: opacity 0.2s;
+  transition: width 0.3s ease, transform 0.2s ease;
+  box-shadow: none;
 }
 
-.edit-btn {
-  background: #38D247;
+.dumbledido-todo-wrapper.swiped .pill-top {
+  width: calc(100% - 100px);
 }
 
-.delete-btn {
-  background: #EE4100;
-}
-
-.action-btn:active {
-  opacity: 0.7;
-}
-
-/* Swipeable card with sticky positioning */
 .dumbledido-todo-card {
-  position: sticky;
-  top: var(--sticky-top);
   cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   padding: 20px 40px;
   border-radius: 35px;
@@ -62,19 +91,51 @@
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  transform: rotate(var(--card-rotation));
-  transition: transform 0.3s ease;
-  z-index: var(--card-z-index);
+  box-shadow: none;
 }
 
-/* Swipe animation */
-.dumbledido-todo-card.swiped {
-  transform: translateX(-140px) rotate(var(--card-rotation));
+/* Clickability - entire card in regular mode */
+.dumbledido-todo-wrapper:not(.swiped) .pill-top {
+  cursor: pointer;
+  pointer-events: all;
 }
 
-/* When swiped, allow touch events for swipe-back but prevent card click */
-.dumbledido-todo-card.swiped {
-  cursor: default;
+.dumbledido-todo-wrapper:not(.swiped) .action-btn-layer {
+  pointer-events: none;
+}
+
+/* In edit mode - only icons clickable */
+.dumbledido-todo-wrapper.swiped .pill-top {
+  pointer-events: none;
+}
+
+.dumbledido-todo-wrapper.swiped .action-btn-layer {
+  pointer-events: all;
+}
+
+/* Click feedback on bottom layer (has the shadow) */
+.dumbledido-todo-wrapper:not(.swiped):active .pill-bottom.yellow {
+  transform: translate(5px, 5px);
+  box-shadow: 2px 2px 0 0 #0061EE;
+  transition: all 0.2s ease;
+}
+
+.dumbledido-todo-wrapper:not(.swiped):active .pill-bottom.red {
+  transform: translate(5px, 5px);
+  box-shadow: 2px 2px 0 0 #FECE00;
+  transition: all 0.2s ease;
+}
+
+.dumbledido-todo-wrapper:not(.swiped):active .pill-bottom.green {
+  transform: translate(5px, 5px);
+  box-shadow: 2px 2px 0 0 #EE4100;
+  transition: all 0.2s ease;
+}
+
+.dumbledido-todo-wrapper:not(.swiped):active .pill-bottom.blue {
+  transform: translate(5px, 5px);
+  box-shadow: 2px 2px 0 0 #38D247;
+  transition: all 0.2s ease;
 }
 
 /* Color variations */

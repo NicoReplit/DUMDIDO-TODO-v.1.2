@@ -56,27 +56,19 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
         todos.map((todo, index) => (
           <div
             key={todo.id}
-            className="dumbledido-todo-container"
+            className={`dumbledido-todo-wrapper ${swipedId === todo.id ? 'swiped' : ''}`}
             style={{ 
-              '--sticky-top': `${350 + (index * 30)}px`, // Header offset (350px) + peek offset for stacking
-              '--card-z-index': 100 + index,
-              height: `${350 + (index * 30) + 70}px` // sticky-top + card height for persistent stickiness
+              '--card-rotation': `${getAlternatingRotation(index)}deg`,
+              '--card-z-index': 100 + index
             }}
+            onTouchStart={(e) => handleTouchStart(e, todo.id)}
+            onTouchMove={(e) => handleTouchMove(e, todo.id)}
+            onTouchEnd={handleTouchEnd}
           >
-            {/* Action buttons layer - positioned behind the card */}
-            <div className="action-buttons-layer">
+            {/* Bottom layer - delete button (right side) - ALWAYS RED #EE4100 */}
+            <div className={`pill-layer pill-bottom ${getCardColor(index)}`}>
               <button
-                className="action-btn edit-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onEdit(todo);
-                  setSwipedId(null);
-                }}
-              >
-                ✏️
-              </button>
-              <button
-                className="action-btn delete-btn"
+                className="action-btn-layer delete-btn-layer"
                 onClick={(e) => {
                   e.stopPropagation();
                   onDelete(todo.id);
@@ -87,20 +79,24 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
               </button>
             </div>
             
-            {/* Swipeable card - sticks as you scroll */}
+            {/* Middle layer - edit button (left side) - ALWAYS GREEN #38D247 */}
+            <div className="pill-layer pill-middle">
+              <button
+                className="action-btn-layer edit-btn-layer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit(todo);
+                  setSwipedId(null);
+                }}
+              >
+                ✏️
+              </button>
+            </div>
+            
+            {/* Top layer - main content */}
             <div
-              className={`dumbledido-todo-card ${getCardColor(index)} ${todo.completed ? 'completed' : ''} ${swipedId === todo.id ? 'swiped' : ''}`}
-              style={{ 
-                '--card-rotation': `${getAlternatingRotation(index)}deg`
-              }}
-              onClick={() => {
-                if (swipedId !== todo.id) {
-                  onSelect(todo);
-                }
-              }}
-              onTouchStart={(e) => handleTouchStart(e, todo.id)}
-              onTouchMove={(e) => handleTouchMove(e, todo.id)}
-              onTouchEnd={handleTouchEnd}
+              className={`dumbledido-todo-card pill-top ${getCardColor(index)} ${todo.completed ? 'completed' : ''}`}
+              onClick={() => onSelect(todo)}
             >
               <div className="todo-card-content">
                 <h3 className="dumbledido-todo-title">{todo.title}</h3>
