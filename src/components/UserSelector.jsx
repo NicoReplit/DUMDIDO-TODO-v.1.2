@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import './UserSelector.css';
 
 function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpenList, isOpenListSelected }) {
@@ -6,14 +6,21 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
   const [touchStart, setTouchStart] = useState(null);
   const [touchStartTime, setTouchStartTime] = useState(null);
   const [isHolding, setIsHolding] = useState(false);
+  const [targetPillId, setTargetPillId] = useState(null);
+  const scrollRef = useRef(null);
 
-  const handleTouchStart = (e, id) => {
+  const handleContainerTouchStart = (e) => {
+    // Find which pill was touched
+    const target = e.target.closest('.user-pill-wrapper');
+    const pillId = target?.dataset.userId;
+    
+    setTargetPillId(pillId || null);
     setTouchStart(e.touches[0].clientX);
     setTouchStartTime(Date.now());
     setIsHolding(false);
   };
 
-  const handleTouchMove = (e, id) => {
+  const handleContainerTouchMove = (e) => {
     if (!touchStart || !touchStartTime) return;
     
     const currentTouch = e.touches[0].clientX;
@@ -32,11 +39,11 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
       return; // Let the scroll happen naturally
     }
     
-    // Fast swipe: velocity > 1.2 px/ms and distance > 40px → edit mode
-    if (velocity > 1.2 && Math.abs(diff) > 40) {
+    // Fast swipe on a pill: velocity > 1.2 px/ms and distance > 40px → edit mode
+    if (targetPillId && velocity > 1.2 && Math.abs(diff) > 40) {
       if (diff > 0) {
         // Fast swipe left - show edit
-        setSwipedId(id);
+        setSwipedId(Number(targetPillId));
         e.preventDefault();
       } else if (diff < 0) {
         // Fast swipe right - close edit
@@ -49,10 +56,11 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
     }
   };
 
-  const handleTouchEnd = () => {
+  const handleContainerTouchEnd = () => {
     setTouchStart(null);
     setTouchStartTime(null);
     setIsHolding(false);
+    setTargetPillId(null);
   };
 
   const handleEditUser = (user) => {
@@ -62,7 +70,13 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
   };
 
   return (
-    <div className="user-selector">
+    <div 
+      className="user-selector"
+      ref={scrollRef}
+      onTouchStart={handleContainerTouchStart}
+      onTouchMove={handleContainerTouchMove}
+      onTouchEnd={handleContainerTouchEnd}
+    >
       <div className="user-pill-wrapper">
         <div className="user-pill-layer user-pill-bottom">
         </div>
@@ -78,10 +92,8 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
       {users.map(user => (
         <div
           key={user.id}
+          data-user-id={user.id}
           className={`user-pill-wrapper ${swipedId === user.id ? 'swiped' : ''}`}
-          onTouchStart={(e) => handleTouchStart(e, user.id)}
-          onTouchMove={(e) => handleTouchMove(e, user.id)}
-          onTouchEnd={handleTouchEnd}
         >
           {/* Bottom layer - GREEN (#38D247), edit button only */}
           <div className="user-pill-layer user-pill-bottom">
