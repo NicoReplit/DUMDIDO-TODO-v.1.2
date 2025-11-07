@@ -48,7 +48,7 @@
 
 .progress-points {
   position: absolute;
-  left: 20px; /* Positioned on left side */
+  left: 25px; /* Positioned 25px from left */
   top: 50%;
   transform: translateY(-50%);
   font-size: 24px;
