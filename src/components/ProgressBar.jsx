@@ -4,12 +4,12 @@ function ProgressBar({ points = 0, maxPoints = 1000 }) {
   const percentage = (points / maxPoints) * 100;
   
   // Starting sizes at 0 points:
-  // - Red pill: 50px (circle)
+  // - Red pill: 40px (perfect circle)
   // - Yellow pill: 90px
   
   // Calculate width using calc() to maintain pixel-based starting sizes
-  // Red: 50px base + percentage growth
-  // Yellow: 90px base + percentage growth (same rate, 40px ahead)
+  // Red: 40px base + percentage growth
+  // Yellow: 90px base + percentage growth (same rate, 50px ahead)
   
   return (
     <div className="progress-bar-container">
@@ -25,10 +25,10 @@ function ProgressBar({ points = 0, maxPoints = 1000 }) {
           </div>
         </div>
         
-        {/* Red/Coral pill - starts at 50px (circle), grows with percentage */}
+        {/* Red/Coral pill - starts at 40px (perfect circle), grows with percentage */}
         <div 
           className="progress-bar-coral" 
-          style={{ width: `calc(50px + ${percentage}%)` }}
+          style={{ width: `calc(40px + ${percentage}%)` }}
         ></div>
         
         {/* Points counter - positioned on left */}

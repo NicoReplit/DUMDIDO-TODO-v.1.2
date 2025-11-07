@@ -4,9 +4,9 @@
 
 .progress-bar-outer {
   position: relative;
-  height: 50px;
+  height: 40px;
   background: var(--dumbledido-blue);
-  border-radius: 30px;
+  border-radius: 20px;
   overflow: visible;
   border: 4px solid var(--dumbledido-border-blue);
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
@@ -17,9 +17,9 @@
   top: 0;
   left: 0;
   height: 100%;
-  min-width: 50px; /* Minimum circle size */
+  min-width: 40px; /* Minimum circle size */
   background: var(--dumbledido-yellow);
-  border-radius: 26px; /* Full pill shape */
+  border-radius: 20px; /* Full pill shape */
   z-index: 1;
   transition: width 0.5s ease-out;
 }
@@ -29,9 +29,9 @@
   top: 0;
   left: 0;
   height: 100%;
-  min-width: 50px; /* Minimum circle size at 0 points */
-  background: linear-gradient(90deg, var(--dumbledido-pink) 0%, var(--dumbledido-coral) 100%);
-  border-radius: 26px; /* Full pill shape */
+  min-width: 40px; /* Minimum circle size at 0 points */
+  background: #FF77B9;
+  border-radius: 20px; /* Full pill shape */
   transition: width 0.5s ease-out;
   z-index: 2;
 }
@@ -60,15 +60,14 @@
 
 @media (max-width: 600px) {
   .progress-bar-outer {
-    height: 45px;
+    height: 40px;
   }
 
   .progress-points {
     font-size: 20px;
   }
-
-  .heart-emoji {
-    width: 28px;
-    height: 28px;
+  
+  .yellow-pill-icon {
+    font-size: 24px;
   }
 }
