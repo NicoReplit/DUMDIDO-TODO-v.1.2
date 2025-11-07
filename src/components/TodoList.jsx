@@ -92,7 +92,11 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
               style={{ 
                 '--card-rotation': `${getAlternatingRotation(index)}deg`
               }}
-              onClick={() => swipedId === todo.id ? null : onSelect(todo)}
+              onClick={() => {
+                if (swipedId !== todo.id) {
+                  onSelect(todo);
+                }
+              }}
               onTouchStart={(e) => handleTouchStart(e, todo.id)}
               onTouchMove={(e) => handleTouchMove(e, todo.id)}
               onTouchEnd={handleTouchEnd}

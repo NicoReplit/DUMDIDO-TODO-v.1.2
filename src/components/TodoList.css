@@ -3,10 +3,10 @@
   position: relative;
 }
 
-/* iOS-style card container */
+/* iOS-style card container - needs enough height for stacking to work */
 .dumbledido-todo-container {
   position: relative;
-  height: 100px;
+  height: 120px; /* Increased to give sticky cards room to stack */
   margin-bottom: 25px;
 }
 
@@ -72,13 +72,9 @@
   transform: translateX(-140px) rotate(var(--card-rotation));
 }
 
-/* Prevent clicks when swiped */
+/* When swiped, allow touch events for swipe-back but prevent card click */
 .dumbledido-todo-card.swiped {
-  pointer-events: none;
-}
-
-.dumbledido-todo-card:not(.swiped) {
-  pointer-events: all;
+  cursor: default;
 }
 
 /* Color variations */
