@@ -5,19 +5,19 @@ function ProgressBar({ points = 0, maxPoints = 1000 }) {
   
   // Starting sizes at 0 points:
   // - Red pill: 50px (circle)
-  // - Yellow pill: 80px
+  // - Yellow pill: 90px
   
   // Calculate width using calc() to maintain pixel-based starting sizes
   // Red: 50px base + percentage growth
-  // Yellow: 80px base + percentage growth (same rate, 30px ahead)
+  // Yellow: 90px base + percentage growth (same rate, 40px ahead)
   
   return (
     <div className="progress-bar-container">
       <div className="progress-bar-outer">
-        {/* Yellow pill - starts at 80px, grows with percentage */}
+        {/* Yellow pill - starts at 90px, grows with percentage */}
         <div 
           className="progress-bar-yellow"
-          style={{ width: `calc(80px + ${percentage}%)` }}
+          style={{ width: `calc(90px + ${percentage}%)` }}
         >
           {/* Eyes icon - positioned on yellow pill (replace with SVG later) */}
           <div className="yellow-pill-icon">
