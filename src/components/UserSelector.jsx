@@ -70,12 +70,27 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
     }
   };
 
-  const handleContainerTouchEnd = () => {
+  const handleContainerTouchEnd = (e) => {
     const gesture = gestureRef.current;
     
     // Clear timer and reset
     if (gesture.holdTimeout) {
       clearTimeout(gesture.holdTimeout);
+    }
+    
+    // Detect slow swipes based on distance (for touchend without velocity trigger)
+    if (gesture.gestureMode === 'pressing' && gesture.targetPillId) {
+      const currentX = e.changedTouches[0].clientX;
+      const diff = gesture.startX - currentX;
+      
+      // Swipe left > 40px = open edit
+      if (diff > 40) {
+        setSwipedId(Number(gesture.targetPillId));
+      }
+      // Swipe right > 40px = close edit
+      else if (diff < -40) {
+        setSwipedId(null);
+      }
     }
     
     gesture.gestureMode = 'idle';
