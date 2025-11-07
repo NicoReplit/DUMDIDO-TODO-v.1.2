@@ -22,8 +22,8 @@ function ProgressBar({ points = 0, maxPoints = 1000 }) {
           {/* Single eye icon - positioned on yellow pill */}
           <div className="yellow-pill-icon">
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="15" cy="15" r="9" fill="white" />
-              <circle cx="15" cy="15" r="5.4" fill="black" />
+              <circle cx="15" cy="15" r="12" fill="white" />
+              <circle cx="20" cy="15" r="5.4" fill="black" />
             </svg>
           </div>
         </div>
