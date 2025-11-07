@@ -17,10 +17,11 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: 40px;
+  min-width: 50px; /* Minimum circle size */
   background: var(--dumbledido-yellow);
   border-radius: 26px; /* Full pill shape */
   z-index: 1;
+  transition: width 0.5s ease-out;
 }
 
 .progress-bar-coral {
@@ -28,16 +29,16 @@
   top: 0;
   left: 0;
   height: 100%;
+  min-width: 50px; /* Minimum circle size at 0 points */
   background: linear-gradient(90deg, var(--dumbledido-pink) 0%, var(--dumbledido-coral) 100%);
   border-radius: 26px; /* Full pill shape */
   transition: width 0.5s ease-out;
-  min-width: 0;
   z-index: 2;
 }
 
 .progress-emoji {
   position: absolute;
-  left: 10px;
+  left: 10px; /* Positioned on left edge of yellow pill */
   top: 50%;
   transform: translateY(-50%);
   z-index: 3;
@@ -95,7 +96,7 @@
 
 .progress-points {
   position: absolute;
-  left: 50px;
+  right: 20px; /* Positioned on right side */
   top: 50%;
   transform: translateY(-50%);
   font-size: 24px;
