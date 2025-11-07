@@ -3,64 +3,77 @@ import './UserSelector.css';
 
 function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpenList, isOpenListSelected }) {
   const [swipedId, setSwipedId] = useState(null);
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchStartTime, setTouchStartTime] = useState(null);
-  const [isHolding, setIsHolding] = useState(false);
-  const [targetPillId, setTargetPillId] = useState(null);
   const scrollRef = useRef(null);
+  
+  // Use ref for immediate gesture state (no async React state delays)
+  const gestureRef = useRef({
+    startX: 0,
+    startTime: 0,
+    targetPillId: null,
+    gestureMode: 'idle', // 'idle' | 'pressing' | 'scroll' | 'swipe'
+    holdTimeout: null
+  });
 
   const handleContainerTouchStart = (e) => {
-    // Find which pill was touched
     const target = e.target.closest('.user-pill-wrapper');
     const pillId = target?.dataset.userId;
     
-    setTargetPillId(pillId || null);
-    setTouchStart(e.touches[0].clientX);
-    setTouchStartTime(Date.now());
-    setIsHolding(false);
+    const gesture = gestureRef.current;
+    gesture.startX = e.touches[0].clientX;
+    gesture.startTime = Date.now();
+    gesture.targetPillId = pillId || null;
+    gesture.gestureMode = 'pressing';
+    
+    // Start 200ms hold timer
+    gesture.holdTimeout = setTimeout(() => {
+      // Only promote to scroll if still pressing with minimal movement
+      if (gesture.gestureMode === 'pressing') {
+        gesture.gestureMode = 'scroll';
+      }
+    }, 200);
   };
 
   const handleContainerTouchMove = (e) => {
-    if (!touchStart || !touchStartTime) return;
+    const gesture = gestureRef.current;
     
-    const currentTouch = e.touches[0].clientX;
-    const diff = touchStart - currentTouch;
-    const timeDiff = Date.now() - touchStartTime;
+    // Block scrolling unless in scroll mode
+    if (gesture.gestureMode !== 'scroll') {
+      e.preventDefault();
+    }
+    
+    const currentX = e.touches[0].clientX;
+    const diff = gesture.startX - currentX;
+    const timeDiff = Date.now() - gesture.startTime;
     const velocity = Math.abs(diff) / timeDiff; // pixels per millisecond
     
-    // Check if user has held down for 200ms with minimal movement
-    if (timeDiff > 200 && Math.abs(diff) < 10 && !isHolding) {
-      setIsHolding(true);
-      return; // Allow scrolling to start
-    }
-    
-    // If holding, allow scrolling (don't prevent default)
-    if (isHolding) {
-      return; // Let the scroll happen naturally
-    }
-    
-    // Fast swipe on a pill: velocity > 1.2 px/ms and distance > 40px → edit mode
-    if (targetPillId && velocity > 1.2 && Math.abs(diff) > 40) {
+    // Fast swipe: velocity > 1.2 px/ms and distance > 40px → edit mode
+    if (gesture.targetPillId && gesture.gestureMode === 'pressing' && velocity > 1.2 && Math.abs(diff) > 40) {
+      clearTimeout(gesture.holdTimeout);
+      gesture.gestureMode = 'swipe';
+      
       if (diff > 0) {
         // Fast swipe left - show edit
-        setSwipedId(Number(targetPillId));
-        e.preventDefault();
-      } else if (diff < 0) {
+        setSwipedId(Number(gesture.targetPillId));
+      } else {
         // Fast swipe right - close edit
         setSwipedId(null);
-        e.preventDefault();
       }
-    } else {
-      // Not fast enough for swipe, prevent accidental scrolling
-      e.preventDefault();
     }
   };
 
   const handleContainerTouchEnd = () => {
-    setTouchStart(null);
-    setTouchStartTime(null);
-    setIsHolding(false);
-    setTargetPillId(null);
+    const gesture = gestureRef.current;
+    
+    // Clear timer and reset
+    if (gesture.holdTimeout) {
+      clearTimeout(gesture.holdTimeout);
+    }
+    
+    gesture.gestureMode = 'idle';
+    gesture.startX = 0;
+    gesture.startTime = 0;
+    gesture.targetPillId = null;
+    gesture.holdTimeout = null;
   };
 
   const handleEditUser = (user) => {
