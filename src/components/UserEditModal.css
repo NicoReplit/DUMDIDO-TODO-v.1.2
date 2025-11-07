@@ -1,0 +1,124 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-content h2 {
+  font-family: 'MuseoModerno', sans-serif;
+  color: var(--dumbledido-blue);
+  margin-top: 0;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--dumbledido-black);
+  font-family: 'MuseoModerno', sans-serif;
+}
+
+.name-input,
+.pin-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 3px solid var(--dumbledido-blue);
+  border-radius: 15px;
+  font-size: 16px;
+  font-family: 'MuseoModerno', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  box-sizing: border-box;
+}
+
+.name-input:focus,
+.pin-input:focus {
+  outline: none;
+  border-color: var(--dumbledido-yellow);
+}
+
+.color-picker {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+
+.color-option {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.color-option:hover {
+  transform: scale(1.1);
+}
+
+.color-option.selected {
+  border-color: var(--dumbledido-black);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 3px white, 0 0 0 6px var(--dumbledido-blue);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn-cancel,
+.btn-save {
+  flex: 1;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'MuseoModerno', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+
+.btn-cancel {
+  background: var(--dumbledido-gray);
+  color: white;
+}
+
+.btn-cancel:hover {
+  background: #606060;
+}
+
+.btn-save {
+  background: var(--dumbledido-green);
+  color: white;
+}
+
+.btn-save:hover {
+  background: #2AB939;
+  transform: translateY(-2px);
+}

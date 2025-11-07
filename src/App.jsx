@@ -304,6 +304,39 @@ function App() {
     }
   };
 
+  const handleUpdateUser = async (userId, userData) => {
+    try {
+      const payload = {
+        name: userData.name,
+        color: userData.color
+      };
+      if (userData.pin) {
+        payload.pin = userData.pin;
+      }
+      
+      const response = await fetch(`/api/users/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update user');
+      }
+      
+      const updatedUser = await response.json();
+      if (currentUser?.id === userId) {
+        setCurrentUser(updatedUser);
+      }
+      await fetchUsers();
+    } catch (error) {
+      console.error('Error updating user:', error);
+      alert(error.message || 'Failed to update user. Please try again.');
+      throw error;
+    }
+  };
+
   const handleDeleteUser = async (userId) => {
     try {
       const response = await fetch(`/api/users/${userId}`, { method: 'DELETE' });
@@ -517,6 +550,7 @@ function App() {
         onAddUser={() => setShowUserForm(true)}
         onSelectOpenList={handleSelectOpenList}
         isOpenListSelected={isOpenListSelected}
+        onUpdateUser={handleUpdateUser}
       />
 
       {currentUser && !isOpenListSelected && (

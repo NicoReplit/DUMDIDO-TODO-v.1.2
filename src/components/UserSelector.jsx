@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react';
 import './UserSelector.css';
+import UserEditModal from './UserEditModal';
 
-function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpenList, isOpenListSelected }) {
+function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpenList, isOpenListSelected, onUpdateUser }) {
   const [swipedId, setSwipedId] = useState(null);
+  const [editingUser, setEditingUser] = useState(null);
   const scrollRef = useRef(null);
   
   // Use ref for immediate gesture state (no async React state delays)
@@ -84,9 +86,15 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
   };
 
   const handleEditUser = (user) => {
-    // TODO: Implement edit user functionality
-    console.log('Edit user:', user);
+    setEditingUser(user);
     setSwipedId(null);
+  };
+
+  const handleSaveUser = async (userData) => {
+    if (onUpdateUser) {
+      await onUpdateUser(editingUser.id, userData);
+    }
+    setEditingUser(null);
   };
 
   return (
@@ -146,6 +154,14 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
       <button className="user-add-button" onClick={onAddUser}>
         +
       </button>
+
+      {editingUser && (
+        <UserEditModal
+          user={editingUser}
+          onClose={() => setEditingUser(null)}
+          onSave={handleSaveUser}
+        />
+      )}
     </div>
   );
 }
