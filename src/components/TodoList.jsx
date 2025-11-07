@@ -58,7 +58,9 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
             key={todo.id}
             className={`dumbledido-todo-wrapper ${swipedId === todo.id ? 'swiped' : ''}`}
             style={{ 
-              '--card-rotation': `${getAlternatingRotation(index)}deg`
+              '--card-rotation': `${getAlternatingRotation(index)}deg`,
+              '--sticky-top': `${index * 30}px`,
+              '--card-z-index': 100 + index
             }}
             onTouchStart={(e) => handleTouchStart(e, todo.id)}
             onTouchMove={(e) => handleTouchMove(e, todo.id)}

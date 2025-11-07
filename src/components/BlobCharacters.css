@@ -1,11 +1,8 @@
 .blob-characters {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   height: 180px;
   pointer-events: none;
-  z-index: 50;
+  width: 100%;
 }
 
 .blob-container {

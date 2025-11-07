@@ -474,7 +474,8 @@ function App() {
 
   return (
     <div className="app dumbledido-app">
-      <header className="app-header dumbledido-header">
+      {/* FIXED HEADER */}
+      <header className="app-header dumbledido-header dumbledido-fixed-header">
         <h1 className="dumbledido-logo">
           <span className="letter-d1">D</span>
           <span className="letter-u">U</span>
@@ -508,57 +509,64 @@ function App() {
             </button>
           )}
         </div>
+        
+        <UserSelector
+          users={users}
+          currentUser={currentUser}
+          onSelectUser={handleSelectUser}
+          onAddUser={() => setShowUserForm(true)}
+          onSelectOpenList={handleSelectOpenList}
+          isOpenListSelected={isOpenListSelected}
+        />
       </header>
-      
-      <UserSelector
-        users={users}
-        currentUser={currentUser}
-        onSelectUser={handleSelectUser}
-        onAddUser={() => setShowUserForm(true)}
-        onSelectOpenList={handleSelectOpenList}
-        isOpenListSelected={isOpenListSelected}
-      />
 
-      {currentUser && !isOpenListSelected && (
-        <ProgressBar points={currentUser.total_points || 0} maxPoints={1000} />
-      )}
+      {/* SCROLLABLE MIDDLE */}
+      <div className="dumbledido-scrollable-content">
+        {currentUser && !isOpenListSelected && (
+          <ProgressBar points={currentUser.total_points || 0} maxPoints={1000} />
+        )}
 
-      {isOpenListSelected ? (
-        <div className="open-list-view">
-          <h2 className="section-title">Shared Family Tasks</h2>
-          <p className="section-description">Claim any task for +10 bonus points! 🎁</p>
-          <TodoList
-            todos={openTodos}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onSelect={handleSelectOpenTask}
-            runningTimers={runningTimers}
-            isOpenList={true}
-          />
-        </div>
-      ) : currentUser && (
-        <>
-          <WeekCalendar userId={currentUser.id} selectedDate={currentDate} />
-          
-          <TodoList
-            todos={todos}
-            onEdit={handleEditTodo}
-            onDelete={handleDeleteTodo}
-            onSelect={setSelectedTodo}
-            runningTimers={runningTimers}
-          />
-        </>
-      )}
+        {isOpenListSelected ? (
+          <div className="open-list-view">
+            <h2 className="section-title">Shared Family Tasks</h2>
+            <p className="section-description">Claim any task for +10 bonus points! 🎁</p>
+            <TodoList
+              todos={openTodos}
+              onEdit={() => {}}
+              onDelete={() => {}}
+              onSelect={handleSelectOpenTask}
+              runningTimers={runningTimers}
+              isOpenList={true}
+            />
+          </div>
+        ) : currentUser && (
+          <>
+            <WeekCalendar userId={currentUser.id} selectedDate={currentDate} />
+            
+            <TodoList
+              todos={todos}
+              onEdit={handleEditTodo}
+              onDelete={handleDeleteTodo}
+              onSelect={setSelectedTodo}
+              runningTimers={runningTimers}
+            />
+          </>
+        )}
+      </div>
 
+      {/* FIXED FOOTER */}
+      <div className="dumbledido-fixed-footer">
+        <BlobCharacters
+          onOpenSettings={handleOpenSettings}
+          onOpenList={handleOpenListFromBlob}
+          superPoints={currentUser?.super_points || 0}
+        />
+      </div>
+
+      {/* ADD BUTTON */}
       <button className="add-button dumbledido-add-button" onClick={() => setShowForm(true)}>
         +
       </button>
-
-      <BlobCharacters
-        onOpenSettings={handleOpenSettings}
-        onOpenList={handleOpenListFromBlob}
-        superPoints={currentUser?.super_points || 0}
-      />
 
       {showPinEntry && currentUser && (
         <PINEntry
