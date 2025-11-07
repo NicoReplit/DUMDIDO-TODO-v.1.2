@@ -4,25 +4,38 @@ import './UserSelector.css';
 function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpenList, isOpenListSelected }) {
   const [swipedId, setSwipedId] = useState(null);
   const [touchStart, setTouchStart] = useState(null);
+  const [touchStartTime, setTouchStartTime] = useState(null);
 
   const handleTouchStart = (e, id) => {
     setTouchStart(e.touches[0].clientX);
+    setTouchStartTime(Date.now());
   };
 
   const handleTouchMove = (e, id) => {
-    if (!touchStart) return;
+    if (!touchStart || !touchStartTime) return;
+    
     const currentTouch = e.touches[0].clientX;
     const diff = touchStart - currentTouch;
+    const timeDiff = Date.now() - touchStartTime;
+    const velocity = Math.abs(diff) / timeDiff; // pixels per millisecond
     
-    if (diff > 50) {
-      setSwipedId(id);
-    } else if (diff < -50) {
-      setSwipedId(null);
+    // Fast swipe: velocity > 0.5 px/ms and distance > 30px → edit mode
+    // Slow swipe: velocity <= 0.5 px/ms → allow scrolling
+    if (velocity > 0.5 && Math.abs(diff) > 30) {
+      if (diff > 0) {
+        setSwipedId(id);
+        e.preventDefault(); // Prevent scrolling for fast swipes
+      } else {
+        setSwipedId(null);
+        e.preventDefault();
+      }
     }
+    // For slow swipes, don't prevent default - let the container scroll
   };
 
   const handleTouchEnd = () => {
     setTouchStart(null);
+    setTouchStartTime(null);
   };
 
   const handleEditUser = (user) => {
