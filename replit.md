@@ -11,6 +11,17 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 
 ## Recent Updates (November 2025)
 
+### iOS-Style Sticky Stacking Implementation (November 7, 2025)
+Redesigned todo cards to use iOS notification-style sticky stacking:
+- **Sticky Positioning**: Cards use `position: sticky` to stack at the top as you scroll
+- **30px Peek Effect**: Each card offsets by 30px, creating a layered peek effect
+- **Swipe-to-Reveal**: Horizontal swipe gestures reveal action buttons behind the card
+  - Swipe left: Card slides 140px to reveal edit/delete buttons
+  - Swipe right: Card slides back to normal position
+- **Dynamic Heights**: Container heights calculated per card to support unlimited stacking
+- **Responsive Layout**: Fixed header (logo, calendar, user pills, progress, week calendar) + scrollable todo area + fixed footer (blob characters)
+- **Touch Optimized**: All interactions work with touch gestures on mobile/tablet devices
+
 ### DUMBLEDIDO Visual Redesign
 Complete visual transformation to a playful, kid-friendly design system:
 - **Typography**: MuseoModerno font (Google Fonts) applied globally
@@ -18,16 +29,17 @@ Complete visual transformation to a playful, kid-friendly design system:
   - Yellow: #FECE00, Blue: #0061EE, Pink: #FF006E, Coral/Red: #EE4100
   - Green: #38D247, Orange: #FEBA00, Light Pink: #FF77B9, Magenta: #EE00AE
   - Gray: #707070, Light Gray/BG: #E4F4E4, Black: #000000, White: #FFFFFF
-- **Todo Cards**: Three-layer swipe-to-edit pill system
-  - Bottom layer: #EE4100 (red), 100% width, carries 7px 7px blue drop shadow, delete icon 25px from right edge
-  - Middle layer: #38D247 (green), 50px narrower, no shadow, edit icon 25px from right edge
-  - Top layer: Task color, 100% width initially, shrinks 100px when swiped to reveal icons underneath
-  - Time pill: Orange (#FEBA00), z-index 10, always on top of all layers
-  - Card spacing: 30px between cards (desktop), 25px (mobile)
-  - Random rotation: -2° to +2° per card for playful scattered appearance
-  - Icons: No circles, no shadows, just emoji (🗑️ bin, ✏️ pen)
-  - Swipe gestures: Left to open edit mode, right to close
-  - Clickability: Entire card in normal mode, only icons in edit mode
+- **Todo Cards**: iOS-style sticky stacking with swipe-to-reveal actions
+  - Single sticky card layer with action buttons positioned behind
+  - Card colors: Alternating yellow (#FECE00), red gradient, green (#38D247), blue (#0061EE)
+  - Drop shadows: 7px 7px colored shadows (blue for yellow cards, yellow for red, red for green, green for blue)
+  - Card rotation: Alternating +1° / -1° per card for playful scattered appearance
+  - Time pill: Orange (#FEBA00), z-index above card, positioned bottom-right
+  - iOS-style sticky stacking: Cards stack at top with 30px peek effect as you scroll (inverted from iOS - stacks at TOP)
+  - Swipe-to-reveal: Swipe left 140px to reveal green edit button and red delete button behind card
+  - Bidirectional swipe: Swipe right to close and hide action buttons
+  - Dynamic container heights: Each container height = (index * 30) + 90px for proper stacking
+  - Icons: 🗑️ bin (red #EE4100 background), ✏️ pen (green #38D247 background)
 - **User Interface**: Colorful pill buttons, animated blob characters, progress bars with heart-eyes emoji
 
 ## System Architecture

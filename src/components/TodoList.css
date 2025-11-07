@@ -3,10 +3,10 @@
   position: relative;
 }
 
-/* iOS-style card container - needs enough height for stacking to work */
+/* iOS-style card container - height set dynamically via inline style */
 .dumbledido-todo-container {
   position: relative;
-  height: 120px; /* Increased to give sticky cards room to stack */
+  /* height set inline: (index * 30) + 90px for proper stacking */
   margin-bottom: 25px;
 }
 
