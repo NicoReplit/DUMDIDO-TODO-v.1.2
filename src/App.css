@@ -33,7 +33,7 @@
   flex: 1;
   overflow-y: auto;
   padding-top: 350px; /* Space for fixed header (includes progress + week calendar) */
-  padding-bottom: 180px; /* Space for fixed footer */
+  padding-bottom: 0; /* Mask extends all the way down under the blobs */
 }
 
 /* FIXED FOOTER */
