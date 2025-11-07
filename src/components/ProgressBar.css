@@ -40,9 +40,11 @@
   right: 5px; /* 5px from right edge of yellow pill */
   top: 50%;
   transform: translateY(-50%);
-  font-size: 28px;
   z-index: 3;
   line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .progress-points {
