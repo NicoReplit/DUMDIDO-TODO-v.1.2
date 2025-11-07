@@ -53,11 +53,11 @@
   box-shadow: none;
 }
 
-/* When swiped: top shrinks to perfect circle on the RIGHT side */
+/* When swiped: top shrinks to perfect circle on the LEFT side */
 .user-pill-wrapper.swiped .user-pill-top {
   width: 48px;
   border-radius: 50%;
-  margin-left: calc(100% - 48px);
+  margin-left: 0;
 }
 
 /* Action buttons - exact same as todo cards */

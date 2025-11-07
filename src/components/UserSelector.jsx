@@ -19,9 +19,9 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
     const timeDiff = Date.now() - touchStartTime;
     const velocity = Math.abs(diff) / timeDiff; // pixels per millisecond
     
-    // Fast swipe left: velocity > 0.5 px/ms and distance > 30px → edit mode
-    // Slow drag: velocity <= 0.5 px/ms → allow scrolling (hold and drag)
-    if (velocity > 0.5 && Math.abs(diff) > 30) {
+    // Fast swipe: velocity > 1.2 px/ms and distance > 40px → edit mode
+    // Slow drag: velocity <= 0.3 px/ms → allow scrolling (hold and drag)
+    if (velocity > 1.2 && Math.abs(diff) > 40) {
       if (diff > 0) {
         // Fast swipe left - show edit
         setSwipedId(id);
@@ -32,7 +32,7 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
         e.preventDefault();
       }
     }
-    // For slow drags, allow normal scrolling behavior
+    // For slow drags (velocity <= 0.3), allow normal scrolling behavior
   };
 
   const handleTouchEnd = () => {
@@ -48,12 +48,18 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
 
   return (
     <div className="user-selector">
-      <button 
-        className={`user-button open-list-button ${isOpenListSelected ? 'active' : ''}`}
-        onClick={onSelectOpenList}
-      >
-        <div className="user-name">Open List</div>
-      </button>
+      <div className="user-pill-wrapper">
+        <div className="user-pill-layer user-pill-bottom">
+        </div>
+        <div className="user-pill-layer user-pill-top">
+          <button 
+            className={`user-button open-list-button ${isOpenListSelected ? 'active' : ''}`}
+            onClick={onSelectOpenList}
+          >
+            <div className="user-name">Open List</div>
+          </button>
+        </div>
+      </div>
       {users.map(user => (
         <div
           key={user.id}
