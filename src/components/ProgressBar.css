@@ -37,7 +37,7 @@
 
 .yellow-pill-icon {
   position: absolute;
-  right: 3px; /* 3px from right edge of yellow pill (2px closer) */
+  right: 1px; /* 1px from right edge of yellow pill */
   top: 50%;
   transform: translateY(-50%);
   z-index: 3;
