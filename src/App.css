@@ -31,7 +31,7 @@
 .dumbledido-scrollable-content {
   flex: 1;
   overflow-y: auto;
-  margin-top: 200px; /* Space for fixed header */
+  margin-top: 350px; /* Space for fixed header (includes progress + week calendar) */
   margin-bottom: 180px; /* Space for fixed footer */
   padding-bottom: 20px;
 }

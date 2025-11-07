@@ -518,14 +518,18 @@ function App() {
           onSelectOpenList={handleSelectOpenList}
           isOpenListSelected={isOpenListSelected}
         />
+        
+        {/* Progress bar and week calendar - fixed in header */}
+        {currentUser && !isOpenListSelected && (
+          <>
+            <ProgressBar points={currentUser.total_points || 0} maxPoints={1000} />
+            <WeekCalendar userId={currentUser.id} selectedDate={currentDate} />
+          </>
+        )}
       </header>
 
-      {/* SCROLLABLE MIDDLE */}
+      {/* SCROLLABLE MIDDLE - Todos only */}
       <div className="dumbledido-scrollable-content">
-        {currentUser && !isOpenListSelected && (
-          <ProgressBar points={currentUser.total_points || 0} maxPoints={1000} />
-        )}
-
         {isOpenListSelected ? (
           <div className="open-list-view">
             <h2 className="section-title">Shared Family Tasks</h2>
@@ -540,17 +544,13 @@ function App() {
             />
           </div>
         ) : currentUser && (
-          <>
-            <WeekCalendar userId={currentUser.id} selectedDate={currentDate} />
-            
-            <TodoList
-              todos={todos}
-              onEdit={handleEditTodo}
-              onDelete={handleDeleteTodo}
-              onSelect={setSelectedTodo}
-              runningTimers={runningTimers}
-            />
-          </>
+          <TodoList
+            todos={todos}
+            onEdit={handleEditTodo}
+            onDelete={handleDeleteTodo}
+            onSelect={setSelectedTodo}
+            runningTimers={runningTimers}
+          />
         )}
       </div>
 
