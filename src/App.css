@@ -1,11 +1,12 @@
 .dumbledido-app {
   max-width: 800px;
   margin: 0 auto;
-  min-height: 100vh;
+  height: 100vh; /* Fixed height - no overflow */
   background: var(--dumbledido-bg);
   position: relative;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* Prevent app container scroll */
 }
 
 /* FIXED HEADER */

@@ -34,6 +34,8 @@ body {
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
   font-weight: 500;
+  overflow: hidden; /* Prevent body scroll - only middle section should scroll */
+  height: 100vh; /* Fixed height */
 }
 
 #root {
