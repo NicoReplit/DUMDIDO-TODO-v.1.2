@@ -19,18 +19,20 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
     const timeDiff = Date.now() - touchStartTime;
     const velocity = Math.abs(diff) / timeDiff; // pixels per millisecond
     
-    // Fast swipe: velocity > 0.5 px/ms and distance > 30px → edit mode
-    // Slow swipe: velocity <= 0.5 px/ms → allow scrolling
+    // Fast swipe left: velocity > 0.5 px/ms and distance > 30px → edit mode
+    // Slow drag: velocity <= 0.5 px/ms → allow scrolling (hold and drag)
     if (velocity > 0.5 && Math.abs(diff) > 30) {
       if (diff > 0) {
+        // Fast swipe left - show edit
         setSwipedId(id);
-        e.preventDefault(); // Prevent scrolling for fast swipes
-      } else {
+        e.preventDefault();
+      } else if (diff < 0) {
+        // Fast swipe right - close edit
         setSwipedId(null);
         e.preventDefault();
       }
     }
-    // For slow swipes, don't prevent default - let the container scroll
+    // For slow drags, allow normal scrolling behavior
   };
 
   const handleTouchEnd = () => {
