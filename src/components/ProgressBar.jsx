@@ -1,30 +1,23 @@
 import './ProgressBar.css';
 
 function ProgressBar({ points = 0, maxPoints = 1000 }) {
-  const percentage = Math.min((points / maxPoints) * 100, 100);
+  const percentage = (points / maxPoints) * 100;
   
-  // Pill height is 50px (from CSS)
-  const pillHeight = 50;
+  // Starting sizes at 0 points:
+  // - Red pill: 50px (circle)
+  // - Yellow pill: 100px (double the red)
   
-  // Red pill: minimum is a circle (50px), grows with percentage
-  // At 0 points: 50px (circle), at max points: 100%
-  const redPillPercent = Math.max(5, percentage); // Minimum 5% to ensure circle
-  
-  // Yellow pill: should be ahead of red pill by a constant offset
-  // At 117 points (11.7%), yellow should be where red currently is (11.7%)
-  // This means yellow = red + constant offset
-  // Offset = 0% at current design (they were the same), but we want yellow ahead
-  // Let's set offset so yellow is always slightly ahead
-  const offsetPercent = 5; // Yellow is always 5% ahead of red
-  const yellowPillPercent = Math.max(5, Math.min(percentage + offsetPercent, 100));
+  // Calculate width using calc() to maintain pixel-based starting sizes
+  // Red: 50px base + percentage growth
+  // Yellow: 100px base + percentage growth (same rate, 50px ahead)
   
   return (
     <div className="progress-bar-container">
       <div className="progress-bar-outer">
-        {/* Yellow pill - scales with points + offset */}
+        {/* Yellow pill - starts at 100px, grows with percentage */}
         <div 
           className="progress-bar-yellow"
-          style={{ width: `${yellowPillPercent}%` }}
+          style={{ width: `calc(100px + ${percentage}%)` }}
         >
           {/* Heart emoji with eyes - positioned on yellow pill */}
           <div className="progress-emoji">
@@ -37,13 +30,13 @@ function ProgressBar({ points = 0, maxPoints = 1000 }) {
           </div>
         </div>
         
-        {/* Red/Coral pill - grows from circle to full */}
+        {/* Red/Coral pill - starts at 50px (circle), grows with percentage */}
         <div 
           className="progress-bar-coral" 
-          style={{ width: `${redPillPercent}%` }}
+          style={{ width: `calc(50px + ${percentage}%)` }}
         ></div>
         
-        {/* Points counter - positioned on right */}
+        {/* Points counter - positioned on left */}
         <div className="progress-points">{points}</div>
       </div>
     </div>
