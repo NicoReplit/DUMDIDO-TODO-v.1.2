@@ -96,13 +96,13 @@
 
 .progress-points {
   position: absolute;
-  right: 20px; /* Positioned on right side */
+  left: 20px; /* Positioned on left side */
   top: 50%;
   transform: translateY(-50%);
   font-size: 24px;
   font-weight: 700;
   color: white;
-  z-index: 3;
+  z-index: 4; /* Above pills to stay visible */
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
