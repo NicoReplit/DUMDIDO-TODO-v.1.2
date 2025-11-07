@@ -31,24 +31,28 @@
   box-sizing: border-box;
 }
 
-/* Bottom layer - GREEN (#38D247), edit button only */
+/* Bottom layer - GREEN (#38D247), edit button only, HAS DROP SHADOW */
 .user-pill-bottom {
   z-index: 1;
   width: 100%;
   background: #38D247;
   justify-content: flex-end;
   padding-right: 17px;
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
 }
 
-/* Top layer - swipeable user pill */
+/* Top layer - swipeable user pill, same size as bottom */
 .user-pill-top {
   z-index: 3;
   width: 100%;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, border-radius 0.3s ease;
+  box-shadow: none;
 }
 
+/* When swiped: top shrinks to perfect circle on the left */
 .user-pill-wrapper.swiped .user-pill-top {
-  width: calc(100% - 100px);
+  width: 48px;
+  border-radius: 50%;
 }
 
 /* Action buttons - exact same as todo cards */
@@ -93,6 +97,7 @@
   transition: all 0.3s;
   white-space: nowrap;
   min-width: 120px;
+  width: 100%;
   height: 48px;
   display: flex;
   flex-direction: column;
@@ -103,9 +108,13 @@
   box-sizing: border-box;
 }
 
-.user-button.active {
+/* Active state - both layers move to show drop shadow */
+.user-pill-wrapper:has(.user-button.active) .user-pill-bottom {
   transform: translate(-5px, -5px);
-  box-shadow: 5px 5px 0 var(--dumbledido-blue);
+}
+
+.user-pill-wrapper:has(.user-button.active) .user-pill-top {
+  transform: translate(-5px, -5px);
 }
 
 .user-name {
