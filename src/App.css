@@ -28,13 +28,12 @@
   position: relative;
 }
 
-/* SCROLLABLE MIDDLE */
+/* SCROLLABLE MIDDLE - fills full viewport height with padding for fixed elements */
 .dumbledido-scrollable-content {
   flex: 1;
   overflow-y: auto;
-  margin-top: 350px; /* Space for fixed header (includes progress + week calendar) */
-  margin-bottom: 180px; /* Space for fixed footer */
-  padding-bottom: 20px;
+  padding-top: 350px; /* Space for fixed header (includes progress + week calendar) */
+  padding-bottom: 180px; /* Space for fixed footer */
 }
 
 /* FIXED FOOTER */
