@@ -5,10 +5,12 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
   const [swipedId, setSwipedId] = useState(null);
   const [touchStart, setTouchStart] = useState(null);
   const [touchStartTime, setTouchStartTime] = useState(null);
+  const [isHolding, setIsHolding] = useState(false);
 
   const handleTouchStart = (e, id) => {
     setTouchStart(e.touches[0].clientX);
     setTouchStartTime(Date.now());
+    setIsHolding(false);
   };
 
   const handleTouchMove = (e, id) => {
@@ -19,8 +21,18 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
     const timeDiff = Date.now() - touchStartTime;
     const velocity = Math.abs(diff) / timeDiff; // pixels per millisecond
     
+    // Check if user has held down for 200ms with minimal movement
+    if (timeDiff > 200 && Math.abs(diff) < 10 && !isHolding) {
+      setIsHolding(true);
+      return; // Allow scrolling to start
+    }
+    
+    // If holding, allow scrolling (don't prevent default)
+    if (isHolding) {
+      return; // Let the scroll happen naturally
+    }
+    
     // Fast swipe: velocity > 1.2 px/ms and distance > 40px → edit mode
-    // Slow drag: velocity <= 0.3 px/ms → allow scrolling (hold and drag)
     if (velocity > 1.2 && Math.abs(diff) > 40) {
       if (diff > 0) {
         // Fast swipe left - show edit
@@ -31,13 +43,16 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
         setSwipedId(null);
         e.preventDefault();
       }
+    } else {
+      // Not fast enough for swipe, prevent accidental scrolling
+      e.preventDefault();
     }
-    // For slow drags (velocity <= 0.3), allow normal scrolling behavior
   };
 
   const handleTouchEnd = () => {
     setTouchStart(null);
     setTouchStartTime(null);
+    setIsHolding(false);
   };
 
   const handleEditUser = (user) => {
