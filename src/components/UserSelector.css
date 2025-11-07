@@ -60,7 +60,7 @@
   width: 96px;
   border-radius: 30px;
   margin-left: 0;
-  z-index: 0; /* Drop below green layer (z-index 1) to show edit icon */
+  /* Keep z-index: 3 from parent - pointer-events handles clickability */
 }
 
 /* Hide text when swiped */
