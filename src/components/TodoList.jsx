@@ -58,7 +58,7 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
             key={todo.id}
             className="dumbledido-todo-container"
             style={{ 
-              '--sticky-top': `${10 + (index * 30)}px`, // 10px below fixed header + peek offset
+              '--sticky-top': `${350 + (index * 30)}px`, // Start at top of scrollable area (350px) + peek offset
               '--card-z-index': 100 + index,
               height: `${(index * 30) + 90}px` // Dynamic: sticky offset + card height (70) + buffer (20)
             }}
