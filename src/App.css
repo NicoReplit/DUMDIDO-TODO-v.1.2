@@ -4,49 +4,14 @@
   min-height: 100vh;
   background: var(--dumbledido-bg);
   position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-/* FIXED HEADER */
-.dumbledido-fixed-header {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 800px;
-  background: white;
-  z-index: 1000;
-  border-bottom: 4px solid var(--dumbledido-border-blue);
+  padding-bottom: 200px;
 }
 
 .dumbledido-header {
   background: white;
   padding: 15px 20px;
+  border-bottom: 4px solid var(--dumbledido-border-blue);
   position: relative;
-}
-
-/* SCROLLABLE MIDDLE */
-.dumbledido-scrollable-content {
-  flex: 1;
-  overflow-y: auto;
-  margin-top: 350px; /* Space for fixed header (includes progress + week calendar) */
-  margin-bottom: 180px; /* Space for fixed footer */
-  padding-bottom: 20px;
-}
-
-/* FIXED FOOTER */
-.dumbledido-fixed-footer {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 800px;
-  background: var(--dumbledido-bg);
-  z-index: 999;
-  padding: 10px 0;
 }
 
 .dumbledido-logo {
@@ -134,7 +99,7 @@
 
 .dumbledido-add-button {
   position: fixed;
-  bottom: 200px;  /* Above the 180px footer */
+  bottom: 200px;
   right: 30px;
   width: 70px;
   height: 70px;
@@ -147,7 +112,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s;
-  z-index: 998;  /* Below footer (999) but above content */
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;

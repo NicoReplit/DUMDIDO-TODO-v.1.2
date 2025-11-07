@@ -3,8 +3,6 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
-  margin-top: 0;
-  padding-top: 0;
 }
 
 .dumbledido-todo-wrapper {
@@ -41,19 +39,19 @@
 
 /* Drop shadow colors based on card color */
 .pill-bottom.yellow {
-  box-shadow: 7px 7px 0 0 #0061EE;
+  box-shadow: 7px 7px 0 0 #0061EE; /* Blue shadow */
 }
 
 .pill-bottom.red {
-  box-shadow: 7px 7px 0 0 #FECE00;
+  box-shadow: 7px 7px 0 0 #FECE00; /* Yellow shadow */
 }
 
 .pill-bottom.green {
-  box-shadow: 7px 7px 0 0 #EE4100;
+  box-shadow: 7px 7px 0 0 #EE4100; /* Red shadow */
 }
 
 .pill-bottom.blue {
-  box-shadow: 7px 7px 0 0 #38D247;
+  box-shadow: 7px 7px 0 0 #38D247; /* Green shadow */
 }
 
 /* Middle layer - GREEN (#38D247), 50px less wide, NO DROP SHADOW */
@@ -143,42 +141,67 @@
 /* Color variations */
 .dumbledido-todo-card.yellow {
   background: var(--dumbledido-yellow);
-  box-shadow: 7px 7px 0 0 #0061EE;
 }
 
-.dumbledido-todo-card.yellow:active:not(.swiped) {
-  transform: translate(5px, 5px) rotate(var(--card-rotation));
-  box-shadow: 2px 2px 0 0 #0061EE;
+.dumbledido-todo-card.yellow:active {
+  background: #e5b900;
 }
 
 .dumbledido-todo-card.red {
   background: linear-gradient(135deg, #FF6347 0%, #FF4500 100%);
-  box-shadow: 7px 7px 0 0 #FECE00;
 }
 
-.dumbledido-todo-card.red:active:not(.swiped) {
-  transform: translate(5px, 5px) rotate(var(--card-rotation));
-  box-shadow: 2px 2px 0 0 #FECE00;
+.dumbledido-todo-card.red:active {
+  background: linear-gradient(135deg, #e63b00 0%, #e63b00 100%);
 }
 
 .dumbledido-todo-card.green {
   background: var(--dumbledido-green);
-  box-shadow: 7px 7px 0 0 #EE4100;
 }
 
-.dumbledido-todo-card.green:active:not(.swiped) {
-  transform: translate(5px, 5px) rotate(var(--card-rotation));
-  box-shadow: 2px 2px 0 0 #EE4100;
+.dumbledido-todo-card.green:active {
+  background: #32bd40;
 }
 
 .dumbledido-todo-card.blue {
   background: var(--dumbledido-blue);
-  box-shadow: 7px 7px 0 0 #38D247;
 }
 
-.dumbledido-todo-card.blue:active:not(.swiped) {
-  transform: translate(5px, 5px) rotate(var(--card-rotation));
-  box-shadow: 2px 2px 0 0 #38D247;
+.dumbledido-todo-card.blue:active {
+  background: #0057d6;
+}
+
+/* Darker color variations for layers */
+.yellow-darker {
+  background: #d4b300;
+}
+
+.yellow-dark {
+  background: #bfa200;
+}
+
+.red-darker {
+  background: #d63200;
+}
+
+.red-dark {
+  background: #c22d00;
+}
+
+.green-darker {
+  background: #2fb83c;
+}
+
+.green-dark {
+  background: #2aa336;
+}
+
+.blue-darker {
+  background: #0054c7;
+}
+
+.blue-dark {
+  background: #004ab3;
 }
 
 .dumbledido-todo-card.completed {
@@ -254,7 +277,32 @@
   border: none;
   white-space: nowrap;
   box-shadow: none;
-  z-index: calc(var(--card-z-index) + 1);
+  z-index: 10;
+}
+
+/* Action buttons in layers - NO CIRCLE, NO SHADOW, just icon */
+.action-btn-layer {
+  font-size: 28px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+  box-shadow: none;
+}
+
+.edit-btn-layer {
+  margin: 0;
+}
+
+.delete-btn-layer {
+  margin: 0;
+}
+
+.action-btn-layer:active {
+  transform: scale(1.2);
 }
 
 .empty-state {
@@ -276,16 +324,12 @@
 @media (max-width: 600px) {
   .dumbledido-todo-list {
     padding: 0 15px 15px 15px;
-  }
-  
-  .dumbledido-todo-container {
-    margin-bottom: 20px;
+    gap: 25px;
   }
 
   .dumbledido-todo-card {
     padding: 18px 30px;
     min-height: 65px;
-    height: 65px;
   }
 
   .dumbledido-todo-title {

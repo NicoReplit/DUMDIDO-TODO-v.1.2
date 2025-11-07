@@ -11,11 +11,10 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
     return colors[index % colors.length];
   };
 
-  const getAlternatingRotation = (index) => {
-    // Alternate between positive and negative rotation
-    // Even index: +1 degree, Odd index: -1 degree
-    const baseRotation = 1; // 1 degree base
-    return (index % 2 === 0) ? baseRotation : -baseRotation;
+  const getRandomRotation = (id) => {
+    const seed = id || 0;
+    const random = ((seed * 9301 + 49297) % 233280) / 233280;
+    return (random * 4) - 2;
   };
 
   const handleTouchStart = (e, id) => {
@@ -58,8 +57,7 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
             key={todo.id}
             className={`dumbledido-todo-wrapper ${swipedId === todo.id ? 'swiped' : ''}`}
             style={{ 
-              '--card-rotation': `${getAlternatingRotation(index)}deg`,
-              '--card-z-index': 100 + index
+              '--card-rotation': `${getRandomRotation(todo.id)}deg`
             }}
             onTouchStart={(e) => handleTouchStart(e, todo.id)}
             onTouchMove={(e) => handleTouchMove(e, todo.id)}
