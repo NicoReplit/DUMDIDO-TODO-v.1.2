@@ -60,10 +60,10 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
           onTouchMove={(e) => handleTouchMove(e, user.id)}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Middle layer - edit button (only layer shown) - GREEN #38D247 */}
-          <div className="user-pill-layer user-pill-middle">
+          {/* Bottom layer - GREEN (#38D247), edit button only */}
+          <div className="user-pill-layer user-pill-bottom">
             <button
-              className="user-action-btn-layer user-edit-btn-layer"
+              className="user-action-btn-layer"
               onClick={(e) => {
                 e.stopPropagation();
                 handleEditUser(user);
@@ -73,17 +73,19 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
             </button>
           </div>
           
-          {/* Top layer - main content */}
-          <button
-            className={`user-button user-pill-top ${currentUser?.id === user.id ? 'active' : ''}`}
-            style={{
-              backgroundColor: user.color,
-              color: 'white'
-            }}
-            onClick={() => onSelectUser(user)}
-          >
-            <div className="user-name">{user.name}</div>
-          </button>
+          {/* Top layer - swipeable user pill */}
+          <div className="user-pill-layer user-pill-top">
+            <button
+              className={`user-button ${currentUser?.id === user.id ? 'active' : ''}`}
+              style={{
+                backgroundColor: user.color,
+                color: 'white'
+              }}
+              onClick={() => onSelectUser(user)}
+            >
+              <div className="user-name">{user.name}</div>
+            </button>
+          </div>
         </div>
       ))}
       <button className="user-add-button" onClick={onAddUser}>
