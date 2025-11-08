@@ -1,7 +1,7 @@
 .red-menu {
   position: fixed;
   left: 50%;
-  bottom: -42vmin;
+  bottom: calc(-42vmin + 30px);
   transform: translateX(-50%);
   transform-origin: center 70%;
   width: 60vmin;
