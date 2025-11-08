@@ -17,11 +17,11 @@
 
 .red-menu-eyes {
   position: absolute;
-  top: 5%;
+  top: -19px;
   left: 50%;
   transform: translateX(-50%) scale(calc(1 / var(--menu-scale, 1)));
   display: flex;
-  gap: 20px;
+  gap: 6px;
   pointer-events: none;
 }
 
