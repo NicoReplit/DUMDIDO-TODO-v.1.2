@@ -155,13 +155,13 @@ function App() {
   };
 
   const handleDeleteTodo = async (id) => {
-    // Check if user has a PIN set
+    // Check if global PIN is set
     try {
-      const response = await fetch(`/api/users/${currentUser.id}/has-pin`);
+      const response = await fetch('/api/settings/has-pin');
       const data = await response.json();
       
       if (data.hasPin) {
-        // User has PIN, show PIN entry dialog
+        // Global PIN is set, show PIN entry dialog
         setPendingDeleteTodoId(id);
         setPinAction('delete');
         setShowPinEntry(true);
@@ -176,13 +176,13 @@ function App() {
   };
 
   const handleEditTodo = async (todo) => {
-    // Check if user has a PIN set
+    // Check if global PIN is set
     try {
-      const response = await fetch(`/api/users/${currentUser.id}/has-pin`);
+      const response = await fetch('/api/settings/has-pin');
       const data = await response.json();
       
       if (data.hasPin) {
-        // User has PIN, show PIN entry dialog
+        // Global PIN is set, show PIN entry dialog
         setPendingEditTodo(todo);
         setPinAction('edit');
         setShowPinEntry(true);
@@ -201,7 +201,7 @@ function App() {
 
   const handlePinVerify = async (pin) => {
     try {
-      const response = await fetch(`/api/users/${currentUser.id}/verify-pin`, {
+      const response = await fetch('/api/settings/verify-pin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pin })
@@ -280,13 +280,6 @@ function App() {
           name: userData.name,
           color: userData.color
         };
-        // Include PIN fields if provided
-        if (userData.pin !== undefined) {
-          payload.pin = userData.pin;
-        }
-        if (userData.currentPin !== undefined) {
-          payload.currentPin = userData.currentPin;
-        }
         
         const response = await fetch(`/api/users/${editingUser.id}`, {
           method: 'PUT',
@@ -326,9 +319,6 @@ function App() {
         name: userData.name,
         color: userData.color
       };
-      if (userData.pin) {
-        payload.pin = userData.pin;
-      }
       
       const response = await fetch(`/api/users/${userId}`, {
         method: 'PUT',

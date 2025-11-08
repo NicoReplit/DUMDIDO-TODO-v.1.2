@@ -156,7 +156,7 @@ app.post('/api/users', async (req, res) => {
 app.put('/api/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, color, pin, currentPin } = req.body;
+    const { name, color } = req.body;
     if (!name || !name.trim()) {
       return res.status(400).json({ error: 'Name is required' });
     }
@@ -165,50 +165,15 @@ app.put('/api/users/:id', async (req, res) => {
       return res.status(400).json({ error: 'Invalid color format' });
     }
 
-    // Get current user to check existing PIN
-    const userResult = await pool.query('SELECT pin_hash FROM users WHERE id = $1', [id]);
-    if (userResult.rowCount === 0) {
+    const result = await pool.query(
+      'UPDATE users SET name = $1, color = $2 WHERE id = $3 RETURNING id, name, color, total_points, super_points, current_streak_days, created_at',
+      [name.trim(), color, id]
+    );
+    
+    if (result.rowCount === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
-
-    const existingPinHash = userResult.rows[0].pin_hash;
-
-    let updateQuery, updateValues;
     
-    // Handle PIN update
-    if (pin !== undefined) {
-      // If user has an existing PIN, they MUST verify it before changing or removing
-      if (existingPinHash) {
-        if (!currentPin) {
-          return res.status(403).json({ error: 'Current PIN is required to change or remove PIN' });
-        }
-        const isCurrentPinValid = await bcrypt.compare(currentPin, existingPinHash);
-        if (!isCurrentPinValid) {
-          return res.status(403).json({ error: 'Current PIN is incorrect' });
-        }
-      }
-      
-      if (pin === null || pin === '') {
-        // Remove PIN (already verified current PIN if it existed)
-        updateQuery = 'UPDATE users SET name = $1, color = $2, pin_hash = NULL WHERE id = $3 RETURNING id, name, color, total_points, super_points, current_streak_days, created_at';
-        updateValues = [name.trim(), color, id];
-      } else {
-        // Validate PIN format (4 digits)
-        if (!/^\d{4}$/.test(pin)) {
-          return res.status(400).json({ error: 'PIN must be exactly 4 digits' });
-        }
-        // Hash and set new PIN (already verified current PIN if it existed)
-        const pinHash = await bcrypt.hash(pin, 10);
-        updateQuery = 'UPDATE users SET name = $1, color = $2, pin_hash = $3 WHERE id = $4 RETURNING id, name, color, total_points, super_points, current_streak_days, created_at';
-        updateValues = [name.trim(), color, pinHash, id];
-      }
-    } else {
-      // No PIN change
-      updateQuery = 'UPDATE users SET name = $1, color = $2 WHERE id = $3 RETURNING id, name, color, total_points, super_points, current_streak_days, created_at';
-      updateValues = [name.trim(), color, id];
-    }
-
-    const result = await pool.query(updateQuery, updateValues);
     res.json(result.rows[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -228,41 +193,37 @@ app.delete('/api/users/:id', async (req, res) => {
   }
 });
 
-// Check if user has a PIN set
-app.get('/api/users/:id/has-pin', async (req, res) => {
+// Check if global PIN is set
+app.get('/api/settings/has-pin', async (req, res) => {
   try {
-    const { id } = req.params;
-    const result = await pool.query('SELECT pin_hash FROM users WHERE id = $1', [id]);
-    if (result.rowCount === 0) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    res.json({ hasPin: !!result.rows[0].pin_hash });
+    const result = await pool.query('SELECT global_pin_hash FROM settings WHERE id = 1');
+    const settings = result.rows[0];
+    res.json({ hasPin: !!(settings && settings.global_pin_hash) });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Verify user PIN
-app.post('/api/users/:id/verify-pin', async (req, res) => {
+// Verify global PIN
+app.post('/api/settings/verify-pin', async (req, res) => {
   try {
-    const { id } = req.params;
     const { pin } = req.body;
     
     if (!pin || !/^\d{4}$/.test(pin)) {
       return res.status(400).json({ error: 'Invalid PIN format' });
     }
 
-    const result = await pool.query('SELECT pin_hash FROM users WHERE id = $1', [id]);
+    const result = await pool.query('SELECT global_pin_hash FROM settings WHERE id = 1');
     if (result.rowCount === 0) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: 'Settings not found' });
     }
 
-    const pinHash = result.rows[0].pin_hash;
-    if (!pinHash) {
+    const globalPinHash = result.rows[0].global_pin_hash;
+    if (!globalPinHash) {
       return res.json({ valid: true }); // No PIN set, always valid
     }
 
-    const isValid = await bcrypt.compare(pin, pinHash);
+    const isValid = await bcrypt.compare(pin, globalPinHash);
     res.json({ valid: isValid });
   } catch (error) {
     res.status(500).json({ error: error.message });
