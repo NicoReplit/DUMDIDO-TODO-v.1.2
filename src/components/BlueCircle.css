@@ -1,10 +1,11 @@
 .blue-circle-wrapper {
   position: fixed;
-  left: 0;
-  bottom: 0;
-  transform: translate(-20%, 20%) rotate(45deg);
-  z-index: 9998;
+  left: 50%;
+  bottom: calc(-33.6vmin + 30px);
+  transform: translateX(-50%) rotate(45deg);
+  z-index: 10000;
   pointer-events: none;
+  transform-origin: center 70%;
 }
 
 .blue-circle-inner {
