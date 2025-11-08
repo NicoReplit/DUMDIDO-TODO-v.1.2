@@ -33,6 +33,7 @@ function RedMenu({ onClick }) {
       style={{
         transform: `translateX(-50%) scale(${scale})`,
         transition: scale === 1 ? 'none' : 'transform 2s ease-out',
+        animation: scale === 1 ? undefined : 'none',
         '--menu-scale': scale
       }}
       onTouchStart={handleTouchStart}
