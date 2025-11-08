@@ -37,11 +37,11 @@
 }
 
 .blue-circle-eye:first-child {
-  transform: rotate(-30deg);
+  transform: rotate(20deg);
 }
 
 .blue-circle-eye:last-child {
-  transform: rotate(10deg);
+  transform: rotate(-80deg);
 }
 
 .blue-circle-eye::after {
