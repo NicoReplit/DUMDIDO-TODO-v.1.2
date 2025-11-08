@@ -8,8 +8,8 @@
 }
 
 .blue-circle-inner {
-  width: 38.4vmin;
-  height: 38.4vmin;
+  width: 34.56vmin;
+  height: 34.56vmin;
   background-color: #0061EE;
   border-radius: 50%;
   position: relative;
@@ -34,6 +34,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.blue-circle-eye:first-child {
+  transform: rotate(-30deg);
+}
+
+.blue-circle-eye:last-child {
+  transform: rotate(10deg);
 }
 
 .blue-circle-eye::after {
