@@ -21,13 +21,13 @@
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 6px;
+  gap: 2px;
   pointer-events: none;
 }
 
 .blue-circle-eye {
-  width: 38px;
-  height: 38px;
+  width: 30.4px;
+  height: 30.4px;
   background-color: white;
   border-radius: 50%;
   position: relative;
@@ -46,9 +46,9 @@
 
 .blue-circle-eye::after {
   content: '';
-  width: 15px;
-  height: 15px;
+  width: 12px;
+  height: 12px;
   background-color: black;
   border-radius: 50%;
-  transform: translateY(11.5px);
+  transform: translateY(9.2px);
 }
