@@ -8,7 +8,6 @@ import WeekCalendar from './components/WeekCalendar';
 import PINEntry from './components/PINEntry';
 import OpenList from './components/OpenList';
 import UserSelectionModal from './components/UserSelectionModal';
-import BlobCharacters from './components/BlobCharacters';
 import ProgressBar from './components/ProgressBar';
 import SettingsModal from './components/SettingsModal';
 import './App.css';
@@ -499,17 +498,6 @@ function App() {
     );
   }
 
-  const handleOpenSettings = () => {
-    if (currentUser) {
-      setEditingUser(currentUser);
-      setShowUserForm(true);
-    }
-  };
-
-  const handleOpenListFromBlob = () => {
-    setIsOpenListSelected(true);
-    setCurrentUser(null);
-  };
 
   const handleSaveGlobalPin = async (newPin, currentPinInput) => {
     try {
@@ -623,12 +611,6 @@ function App() {
       <button className="add-button dumbledido-add-button" onClick={() => setShowForm(true)}>
         +
       </button>
-
-      <BlobCharacters
-        onOpenSettings={handleOpenSettings}
-        onOpenList={handleOpenListFromBlob}
-        superPoints={currentUser?.super_points || 0}
-      />
 
       {showPinEntry && currentUser && (
         <PINEntry
