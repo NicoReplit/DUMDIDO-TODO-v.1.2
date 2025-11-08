@@ -19,8 +19,6 @@ const AVAILABLE_COLORS = [
 function UserEditModal({ user, onClose, onSave }) {
   const [name, setName] = useState(user?.name || '');
   const [color, setColor] = useState(user?.color || AVAILABLE_COLORS[0]);
-  const [pin, setPin] = useState('');
-  const [confirmPin, setConfirmPin] = useState('');
 
   const handleSave = async () => {
     if (!name.trim()) {
@@ -28,20 +26,9 @@ function UserEditModal({ user, onClose, onSave }) {
       return;
     }
 
-    if (pin && pin !== confirmPin) {
-      alert('PINs do not match');
-      return;
-    }
-
-    if (pin && pin.length !== 4) {
-      alert('PIN must be 4 digits');
-      return;
-    }
-
     const userData = {
       name: name.toUpperCase(),
-      color,
-      ...(pin && { pin })
+      color
     };
 
     await onSave(userData);
@@ -77,38 +64,6 @@ function UserEditModal({ user, onClose, onSave }) {
             ))}
           </div>
         </div>
-
-        <div className="form-group">
-          <label>
-            🔴 PIN (optional - 4 digits)
-          </label>
-          <input
-            type="password"
-            value={pin}
-            onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-            placeholder="Enter 4-digit PIN"
-            className="pin-input"
-            maxLength="4"
-            pattern="[0-9]*"
-            inputMode="numeric"
-          />
-        </div>
-
-        {pin && (
-          <div className="form-group">
-            <label>Confirm PIN</label>
-            <input
-              type="password"
-              value={confirmPin}
-              onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-              placeholder="Confirm PIN"
-              className="pin-input"
-              maxLength="4"
-              pattern="[0-9]*"
-              inputMode="numeric"
-            />
-          </div>
-        )}
 
         <div className="modal-actions">
           <button className="btn-cancel" onClick={onClose}>

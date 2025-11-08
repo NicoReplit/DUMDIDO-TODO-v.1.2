@@ -1,0 +1,45 @@
+.settings-modal {
+  max-width: 600px;
+}
+
+.settings-section {
+  background: var(--dumbledido-light-gray);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.settings-section h3 {
+  font-family: 'MuseoModerno', sans-serif;
+  color: var(--dumbledido-blue);
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.settings-description {
+  color: var(--dumbledido-gray);
+  font-size: 14px;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.btn-remove {
+  flex: 1;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'MuseoModerno', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  background: var(--dumbledido-coral);
+  color: white;
+}
+
+.btn-remove:hover {
+  background: #D63700;
+  transform: translateY(-2px);
+}
