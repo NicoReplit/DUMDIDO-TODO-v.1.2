@@ -20,9 +20,8 @@ function RedMenu({ onClick }) {
     const deltaY = touchStartY.current - currentY;
     
     const maxScale = 3.85;
-    const swipeDistance = Math.max(0, deltaY);
     const maxSwipeDistance = window.innerHeight * 0.7;
-    const scaleFactor = (swipeDistance / maxSwipeDistance) * (maxScale - 1);
+    const scaleFactor = (deltaY / maxSwipeDistance) * (maxScale - 1);
     
     const newScale = Math.min(maxScale, Math.max(1, touchStartScale.current + scaleFactor));
     setScale(newScale);
@@ -30,7 +29,14 @@ function RedMenu({ onClick }) {
 
   const handleTouchEnd = () => {
     touchStartY.current = null;
-    setIsTransitioning(false);
+    
+    if (scale < 1.1) {
+      setIsTransitioning(true);
+      setScale(1);
+      setTimeout(() => setIsTransitioning(false), 400);
+    } else {
+      setIsTransitioning(false);
+    }
   };
 
   return (
@@ -38,7 +44,7 @@ function RedMenu({ onClick }) {
       className="red-menu" 
       style={{
         transform: `translateX(-50%) scale(${scale})`,
-        transition: isTransitioning ? 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)' : 'none'
+        transition: isTransitioning ? 'transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)' : 'none'
       }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
