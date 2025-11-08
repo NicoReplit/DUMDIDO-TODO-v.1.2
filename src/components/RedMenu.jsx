@@ -32,12 +32,17 @@ function RedMenu({ onClick }) {
       className="red-menu" 
       style={{
         transform: `translateX(-50%) scale(${scale})`,
-        transition: 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)'
+        transition: 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        '--menu-scale': scale
       }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onClick={onClick}
     >
+      <div className="red-menu-eyes" style={{ transform: `translateX(-50%) scale(${1 / scale})` }}>
+        <div className="red-menu-eye"></div>
+        <div className="red-menu-eye"></div>
+      </div>
     </div>
   );
 }

@@ -14,3 +14,33 @@
   user-select: none;
   -webkit-user-select: none;
 }
+
+.red-menu-eyes {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%) scale(calc(1 / var(--menu-scale, 1)));
+  display: flex;
+  gap: 20px;
+  pointer-events: none;
+}
+
+.red-menu-eye {
+  width: 38px;
+  height: 38px;
+  background: white;
+  border-radius: 50%;
+  position: relative;
+}
+
+.red-menu-eye::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: #000000;
+  border-radius: 50%;
+  top: 30%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+}
