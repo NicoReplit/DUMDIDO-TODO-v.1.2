@@ -3,8 +3,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 20vmin;
-  height: 20vmin;
+  width: 60vmin;
+  height: 60vmin;
   background-color: #EE4100;
   z-index: 9999;
   cursor: pointer;
