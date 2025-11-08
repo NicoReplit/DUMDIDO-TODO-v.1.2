@@ -39,7 +39,13 @@ function RedMenu({ onClick }) {
       onTouchEnd={handleTouchEnd}
       onClick={onClick}
     >
-      <div className="red-menu-eyes" style={{ transform: `translateX(-50%) scale(${1 / scale})` }}>
+      <div 
+        className="red-menu-eyes" 
+        style={{ 
+          transform: `translateX(-50%) scale(${1 / scale})`,
+          animationPlayState: scale === 1 ? 'running' : 'paused'
+        }}
+      >
         <div className="red-menu-eye"></div>
         <div className="red-menu-eye"></div>
       </div>

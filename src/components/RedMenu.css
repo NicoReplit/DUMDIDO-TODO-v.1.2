@@ -31,6 +31,11 @@
   background: white;
   border-radius: 50%;
   position: relative;
+  animation: eyeWiggle 3s ease-in-out infinite;
+}
+
+.red-menu-eye:nth-child(2) {
+  animation-delay: 0.5s;
 }
 
 .red-menu-eye::after {
@@ -43,4 +48,19 @@
   top: 30%;
   left: 60%;
   transform: translate(-50%, -50%);
+}
+
+@keyframes eyeWiggle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.05);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  75% {
+    transform: scale(1.02);
+  }
 }
