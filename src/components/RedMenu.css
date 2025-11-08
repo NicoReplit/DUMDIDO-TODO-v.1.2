@@ -39,7 +39,7 @@
   position: absolute;
   top: -19px;
   left: 50%;
-  transform: translateX(-50%) scale(calc(1 / var(--menu-scale, 1)));
+  transform: translateX(-50%);
   display: flex;
   gap: 6px;
   pointer-events: none;
