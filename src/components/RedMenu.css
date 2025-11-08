@@ -1,36 +1,37 @@
-.red-menu {
-  position: fixed;
-  left: 50%;
-  bottom: calc(-33.6vmin + 30px);
-  transform: translateX(-50%) scale(1);
-  transform-origin: center 70%;
-  width: 48vmin;
-  height: 48vmin;
-  background-color: #EE4100;
+.red-menu-wrapper {
   z-index: 9999;
-  cursor: pointer;
-  border-radius: 50%;
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+  pointer-events: auto;
 }
 
-.red-menu.wiggling {
+.red-menu-inner {
+  width: 48vmin;
+  height: 48vmin;
+  background-color: #EE4100;
+  cursor: pointer;
+  border-radius: 50%;
+  position: relative;
+  transform: scale(1);
+}
+
+.red-menu-inner.wiggling {
   animation: circleWiggle 4s ease-in-out infinite;
 }
 
 @keyframes circleWiggle {
   0%, 100% {
-    transform: translateX(-50%) scale(1);
+    transform: scale(1);
   }
   25% {
-    transform: translateX(-50%) scale(1.1);
+    transform: scale(1.1);
   }
   50% {
-    transform: translateX(-50%) scale(0.9);
+    transform: scale(0.9);
   }
   75% {
-    transform: translateX(-50%) scale(1.05);
+    transform: scale(1.05);
   }
 }
 

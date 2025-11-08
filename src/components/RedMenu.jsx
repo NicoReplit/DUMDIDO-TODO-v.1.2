@@ -29,26 +29,31 @@ function RedMenu({ onClick }) {
 
   return (
     <div 
-      className={`red-menu ${scale === 1 ? 'wiggling' : ''}`}
+      className="red-menu-wrapper"
       style={{
+        position: 'fixed',
+        left: '50%',
+        bottom: 'calc(-33.6vmin + 30px)',
         transform: `translateX(-50%) scale(${scale})`,
-        transition: scale === 1 ? 'none' : 'transform 2s ease-out',
-        animation: scale === 1 ? undefined : 'none',
+        transition: 'transform 2s ease-out',
+        transformOrigin: 'center 70%',
         '--menu-scale': scale
       }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onClick={onClick}
     >
-      <div 
-        className="red-menu-eyes" 
-        style={{ 
-          transform: `translateX(-50%) scale(${1 / scale})`,
-          animationPlayState: scale === 1 ? 'running' : 'paused'
-        }}
-      >
-        <div className="red-menu-eye"></div>
-        <div className="red-menu-eye"></div>
+      <div className={`red-menu-inner ${scale === 1 ? 'wiggling' : ''}`}>
+        <div 
+          className="red-menu-eyes" 
+          style={{ 
+            transform: `translateX(-50%) scale(${1 / scale})`,
+            animationPlayState: scale === 1 ? 'running' : 'paused'
+          }}
+        >
+          <div className="red-menu-eye"></div>
+          <div className="red-menu-eye"></div>
+        </div>
       </div>
     </div>
   );
