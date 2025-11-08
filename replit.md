@@ -33,11 +33,18 @@ Complete visual transformation to a playful, kid-friendly design system:
 ## System Architecture
 
 ### UI/UX Decisions
-The application features a touch-friendly interface optimized for tablets and touchscreens, incorporating swipe gestures for task management. It includes a user selection interface, a week calendar for tracking completion statuses, and visual feedback elements like green checkmarks and pause icons. A prominent feature is the gradient overtime ring visualization for the timer, which uses a color gradient from yellow-green to red to indicate accumulated overtime. PIN protection adds a layer of security for editing or deleting personal tasks.
+The application features a touch-friendly interface optimized for tablets and touchscreens, incorporating swipe gestures for task management. It includes a user selection interface with four-gesture interaction system:
+- **TAP**: Select user
+- **HOLD (200ms)**: Scroll through users
+- **SWIPE LEFT/RIGHT**: Show/hide edit icon for user editing
+- **SWIPE UP**: Open global PIN settings (parent access)
+
+Additional features include a week calendar for tracking completion statuses, and visual feedback elements like green checkmarks and pause icons. A prominent feature is the gradient overtime ring visualization for the timer, which uses a color gradient from yellow-green to red to indicate accumulated overtime. A global PIN system (accessed via swipe-up on any user blob) protects all todo edit/delete operations for the entire family.
 
 ### Technical Implementations
 The application is a full-stack solution with a React frontend and a Node.js/Express backend. It uses a PostgreSQL database for data persistence. Key features include:
-- **User Management**: Creation, editing, and deletion of users with custom names, colors, and optional 4-digit PIN protection.
+- **User Management**: Creation, editing, and deletion of users with custom names and colors.
+- **Global PIN Security**: Single family-wide 4-digit PIN accessible via swipe-up gesture on any user blob. Protects all todo edit/delete operations across all users. Stored in `settings` table with bcrypt hashing.
 - **Open List - Shared Family Tasks**: A dedicated section for tasks not assigned to any specific user, allowing any family member to claim them for bonus points.
 - **To-Do Management**: Creation, updating, and deletion of tasks with title, description, estimated time, and recurrence options (daily, weekly, or one-time).
 - **Timer Functionality**: Start, pause, and complete tasks with a countdown timer that tracks overtime and persists across navigation, allowing multiple simultaneous timers.
@@ -49,8 +56,11 @@ The application is a full-stack solution with a React frontend and a Node.js/Exp
 
 ### System Design Choices
 - **Technology Stack**: React 18 with Vite for the frontend, Node.js with Express for the backend, and PostgreSQL for the database.
-- **Database Schema**: Structured with `users`, `todos`, and `daily_completions` tables to manage user profiles, task details (including recurrence, open list status, and gamification metrics), and daily completion records.
-- **API Endpoints**: Comprehensive RESTful API for managing users, todos (including claiming open list tasks), and gamification features. Server-side validation and secure PIN hashing (bcrypt) are implemented.
+- **Database Schema**: Structured with `users`, `todos`, `daily_completions`, and `settings` tables. The `settings` table stores the global PIN hash for family-wide security.
+- **API Endpoints**: Comprehensive RESTful API for managing users, todos (including claiming open list tasks), gamification features, and global settings. Key security endpoints include:
+  - `GET /api/settings/has-pin`: Check if global PIN is set
+  - `POST /api/settings/verify-pin`: Verify global PIN for protected operations
+  - `PUT /api/settings`: Update global PIN (set, change, or remove)
 - **Mobile-First Design**: CSS is implemented with a mobile-first approach, ensuring optimal performance on touch devices.
 
 ## External Dependencies

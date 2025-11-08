@@ -563,9 +563,6 @@ function App() {
         <div className="header-content">
           <div className="header-subtitle">FAMILY TO-DO LIST</div>
           <div className="header-buttons">
-            <button className="settings-button" onClick={() => setShowSettings(true)}>
-              ⚙️
-            </button>
             <input
               type="date"
               className="date-pill"
@@ -589,6 +586,7 @@ function App() {
         onSelectOpenList={handleSelectOpenList}
         isOpenListSelected={isOpenListSelected}
         onUpdateUser={handleUpdateUser}
+        onOpenSettings={() => setShowSettings(true)}
       />
 
       {currentUser && !isOpenListSelected && (

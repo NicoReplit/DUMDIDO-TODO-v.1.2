@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import './UserSelector.css';
 import UserEditModal from './UserEditModal';
 
-function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpenList, isOpenListSelected, onUpdateUser }) {
+function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpenList, isOpenListSelected, onUpdateUser, onOpenSettings }) {
   const [swipedId, setSwipedId] = useState(null);
   const [editingUser, setEditingUser] = useState(null);
   const scrollRef = useRef(null);
@@ -10,6 +10,7 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
   // Use ref for immediate gesture state (no async React state delays)
   const gestureRef = useRef({
     startX: 0,
+    startY: 0,
     startTime: 0,
     targetPillId: null,
     gestureMode: 'idle', // 'idle' | 'pressing' | 'scroll' | 'swipe'
@@ -22,6 +23,7 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
     
     const gesture = gestureRef.current;
     gesture.startX = e.touches[0].clientX;
+    gesture.startY = e.touches[0].clientY;
     gesture.startTime = Date.now();
     gesture.targetPillId = pillId || null;
     gesture.gestureMode = 'pressing';
@@ -39,14 +41,17 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
     const gesture = gestureRef.current;
     
     const currentX = e.touches[0].clientX;
-    const diff = gesture.startX - currentX;
+    const currentY = e.touches[0].clientY;
+    const diffX = gesture.startX - currentX;
+    const diffY = gesture.startY - currentY;
     const timeDiff = Date.now() - gesture.startTime;
-    const velocity = Math.abs(diff) / timeDiff; // pixels per millisecond
+    const velocityX = Math.abs(diffX) / timeDiff; // pixels per millisecond
+    const velocityY = Math.abs(diffY) / timeDiff;
     
     // If in scroll mode, manually scroll the container
     if (gesture.gestureMode === 'scroll') {
       if (scrollRef.current) {
-        scrollRef.current.scrollLeft += diff;
+        scrollRef.current.scrollLeft += diffX;
         gesture.startX = currentX; // Update for next move
       }
       return;
@@ -55,12 +60,22 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
     // Always prevent default to block native scrolling
     e.preventDefault();
     
-    // Fast swipe: velocity > 1.2 px/ms and distance > 20px → edit mode
-    if (gesture.targetPillId && gesture.gestureMode === 'pressing' && velocity > 1.2 && Math.abs(diff) > 20) {
+    // Check for vertical swipe UP - open settings
+    if (gesture.targetPillId && gesture.gestureMode === 'pressing' && diffY > 20 && Math.abs(diffY) > Math.abs(diffX)) {
+      clearTimeout(gesture.holdTimeout);
+      gesture.gestureMode = 'swipe';
+      if (onOpenSettings) {
+        onOpenSettings();
+      }
+      return;
+    }
+    
+    // Fast horizontal swipe: velocity > 1.2 px/ms and distance > 20px → edit mode
+    if (gesture.targetPillId && gesture.gestureMode === 'pressing' && velocityX > 1.2 && Math.abs(diffX) > 20) {
       clearTimeout(gesture.holdTimeout);
       gesture.gestureMode = 'swipe';
       
-      if (diff > 0) {
+      if (diffX > 0) {
         // Fast swipe left - show edit
         setSwipedId(Number(gesture.targetPillId));
       } else {
@@ -81,20 +96,30 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
     // Detect slow swipes based on distance (for touchend without velocity trigger)
     if (gesture.gestureMode === 'pressing' && gesture.targetPillId) {
       const currentX = e.changedTouches[0].clientX;
-      const diff = gesture.startX - currentX;
+      const currentY = e.changedTouches[0].clientY;
+      const diffX = gesture.startX - currentX;
+      const diffY = gesture.startY - currentY;
       
+      // Check for vertical swipe UP - open settings
+      if (diffY > 20 && Math.abs(diffY) > Math.abs(diffX)) {
+        if (onOpenSettings) {
+          onOpenSettings();
+        }
+      }
+      // Horizontal swipes
       // Swipe left > 20px = open edit
-      if (diff > 20) {
+      else if (diffX > 20) {
         setSwipedId(Number(gesture.targetPillId));
       }
       // Swipe right > 20px = close edit
-      else if (diff < -20) {
+      else if (diffX < -20) {
         setSwipedId(null);
       }
     }
     
     gesture.gestureMode = 'idle';
     gesture.startX = 0;
+    gesture.startY = 0;
     gesture.startTime = 0;
     gesture.targetPillId = null;
     gesture.holdTimeout = null;
