@@ -57,6 +57,37 @@
   letter-spacing: 0.5px;
 }
 
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--dumbledido-gray);
+  color: white;
+  border: 3px solid var(--dumbledido-border-blue);
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.settings-button:hover {
+  background: #606060;
+  transform: scale(1.05);
+}
+
+.settings-button:active {
+  transform: scale(0.9);
+}
+
 .date-pill {
   background: var(--dumbledido-yellow);
   color: var(--dumbledido-blue);

@@ -81,11 +81,21 @@ await pool.query(`
   ADD COLUMN IF NOT EXISTS last_activity_date DATE
 `);
 
-// Add PIN column to users table (stored as hashed value for security)
+// Create global settings table for app-wide configurations
 await pool.query(`
-  ALTER TABLE users 
-  ADD COLUMN IF NOT EXISTS pin_hash VARCHAR(255)
+  CREATE TABLE IF NOT EXISTS settings (
+    id SERIAL PRIMARY KEY,
+    global_pin_hash VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )
 `);
+
+// Ensure there's always one settings row
+const settingsCount = await pool.query('SELECT COUNT(*) FROM settings');
+if (parseInt(settingsCount.rows[0].count) === 0) {
+  await pool.query('INSERT INTO settings (id) VALUES (1)');
+}
 
 const defaultUsers = await pool.query('SELECT COUNT(*) FROM users');
 if (parseInt(defaultUsers.rows[0].count) === 0) {
@@ -636,6 +646,55 @@ app.delete('/api/todos/:id', async (req, res) => {
     const { id } = req.params;
     await pool.query('DELETE FROM todos WHERE id = $1', [id]);
     res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/settings', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT global_pin_hash FROM settings WHERE id = 1');
+    const settings = result.rows[0];
+    res.json({
+      global_pin: settings && settings.global_pin_hash ? true : null
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.put('/api/settings', async (req, res) => {
+  try {
+    const { global_pin, current_pin } = req.body;
+    
+    // Get current PIN hash
+    const currentSettings = await pool.query('SELECT global_pin_hash FROM settings WHERE id = 1');
+    const currentPinHash = currentSettings.rows[0]?.global_pin_hash;
+    
+    // If there's a current PIN, verify it before allowing changes
+    if (currentPinHash && current_pin) {
+      const isValid = await bcrypt.compare(current_pin, currentPinHash);
+      if (!isValid) {
+        return res.status(401).json({ error: 'Invalid current PIN' });
+      }
+    } else if (currentPinHash && !current_pin) {
+      return res.status(400).json({ error: 'Current PIN required to change settings' });
+    }
+    
+    // Update or remove PIN
+    let newPinHash = null;
+    if (global_pin) {
+      newPinHash = await bcrypt.hash(global_pin, 10);
+    }
+    
+    await pool.query(
+      'UPDATE settings SET global_pin_hash = $1, updated_at = CURRENT_TIMESTAMP WHERE id = 1',
+      [newPinHash]
+    );
+    
+    res.json({
+      global_pin: newPinHash ? true : null
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

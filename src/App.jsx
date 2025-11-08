@@ -10,6 +10,7 @@ import OpenList from './components/OpenList';
 import UserSelectionModal from './components/UserSelectionModal';
 import BlobCharacters from './components/BlobCharacters';
 import ProgressBar from './components/ProgressBar';
+import SettingsModal from './components/SettingsModal';
 import './App.css';
 
 function App() {
@@ -31,10 +32,13 @@ function App() {
   const [showUserSelectionModal, setShowUserSelectionModal] = useState(false);
   const [pendingClaimTask, setPendingClaimTask] = useState(null);
   const [isOpenListSelected, setIsOpenListSelected] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [globalPin, setGlobalPin] = useState(null);
 
   useEffect(() => {
     fetchUsers();
     fetchOpenTodos();
+    fetchGlobalSettings();
   }, []);
 
   useEffect(() => {
@@ -46,6 +50,18 @@ function App() {
   useEffect(() => {
     fetchOpenTodos();
   }, [currentDate]);
+
+  const fetchGlobalSettings = async () => {
+    try {
+      const response = await fetch('/api/settings');
+      if (response.ok) {
+        const data = await response.json();
+        setGlobalPin(data.global_pin);
+      }
+    } catch (error) {
+      console.error('Error fetching settings:', error);
+    }
+  };
 
   const fetchUsers = async () => {
     try {
@@ -505,6 +521,33 @@ function App() {
     setCurrentUser(null);
   };
 
+  const handleSaveGlobalPin = async (newPin, currentPinInput) => {
+    try {
+      const payload = { global_pin: newPin };
+      if (globalPin && currentPinInput) {
+        payload.current_pin = currentPinInput;
+      }
+      
+      const response = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update settings');
+      }
+      
+      const data = await response.json();
+      setGlobalPin(data.global_pin);
+    } catch (error) {
+      console.error('Error saving global PIN:', error);
+      alert(error.message || 'Failed to save settings');
+      throw error;
+    }
+  };
+
   return (
     <div className="app dumbledido-app">
       <header className="app-header dumbledido-header">
@@ -529,17 +572,22 @@ function App() {
         </h1>
         <div className="header-content">
           <div className="header-subtitle">FAMILY TO-DO LIST</div>
-          <input
-            type="date"
-            className="date-pill"
-            value={currentDate}
-            onChange={(e) => setCurrentDate(e.target.value)}
-          />
-          {!isOpenListSelected && (
-            <button className="add-user-button" onClick={() => setShowUserForm(true)}>
-              +
+          <div className="header-buttons">
+            <button className="settings-button" onClick={() => setShowSettings(true)}>
+              ⚙️
             </button>
-          )}
+            <input
+              type="date"
+              className="date-pill"
+              value={currentDate}
+              onChange={(e) => setCurrentDate(e.target.value)}
+            />
+            {!isOpenListSelected && (
+              <button className="add-user-button" onClick={() => setShowUserForm(true)}>
+                +
+              </button>
+            )}
+          </div>
         </div>
       </header>
       
@@ -609,6 +657,14 @@ function App() {
           taskTitle={pendingClaimTask.title}
           onSelect={handleClaimTask}
           onCancel={handleCancelClaim}
+        />
+      )}
+
+      {showSettings && (
+        <SettingsModal
+          globalPin={globalPin}
+          onClose={() => setShowSettings(false)}
+          onSavePin={handleSaveGlobalPin}
         />
       )}
     </div>
