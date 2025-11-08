@@ -32,9 +32,9 @@ function RedMenu({ onClick }) {
       className="red-menu-wrapper"
       style={{
         position: 'fixed',
-        left: '50%',
-        bottom: 'calc(-33.6vmin + 30px)',
-        transform: `translateX(calc(-50% - 10px)) scale(${scale})`,
+        left: '0',
+        bottom: '0',
+        transform: `translate(-20%, 20%) scale(${scale})`,
         transition: 'transform 1.2s ease-out',
         transformOrigin: 'center 70%',
         '--menu-scale': scale
