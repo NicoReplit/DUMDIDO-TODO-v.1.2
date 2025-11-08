@@ -1,10 +1,20 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './RedMenu.css';
 
-function RedMenu({ onClick }) {
+function RedMenu({ onClick, onSwipeUp }) {
   const [scale, setScale] = useState(1);
   const touchStartY = useRef(null);
   const swipeThreshold = 50;
+
+  useEffect(() => {
+    if (scale === 3.85 && onSwipeUp) {
+      const timer = setTimeout(() => {
+        onSwipeUp();
+        setScale(1);
+      }, 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [scale, onSwipeUp]);
 
   const handleTouchStart = (e) => {
     touchStartY.current = e.touches[0].clientY;

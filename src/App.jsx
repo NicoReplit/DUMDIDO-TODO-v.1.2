@@ -640,7 +640,10 @@ function App() {
         />
       )}
 
-      <RedMenu onClick={() => console.log('Red menu clicked')} />
+      <RedMenu 
+        onClick={() => console.log('Red menu clicked')} 
+        onSwipeUp={() => setShowSettings(true)}
+      />
       <BlueCircle />
     </div>
   );
