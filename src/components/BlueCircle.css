@@ -3,7 +3,7 @@
   left: 0;
   bottom: 0;
   transform: translate(-20%, 20%) rotate(45deg);
-  z-index: 9998;
+  z-index: 9997;
   pointer-events: none;
 }
 
