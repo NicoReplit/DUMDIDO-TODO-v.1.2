@@ -32,7 +32,7 @@ function RedMenu({ onClick }) {
       className={`red-menu ${scale === 1 ? 'wiggling' : ''}`}
       style={{
         transform: `translateX(-50%) scale(${scale})`,
-        transition: scale === 1 ? 'none' : 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transition: scale === 1 ? 'none' : 'transform 0.8s ease-in',
         '--menu-scale': scale
       }}
       onTouchStart={handleTouchStart}
