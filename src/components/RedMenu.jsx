@@ -19,7 +19,7 @@ function RedMenu({ onClick }) {
     const currentY = e.touches[0].clientY;
     const deltaY = touchStartY.current - currentY;
     
-    const maxScale = 3.5;
+    const maxScale = 3.85;
     const swipeDistance = Math.max(0, deltaY);
     const maxSwipeDistance = window.innerHeight * 0.7;
     const scaleFactor = (swipeDistance / maxSwipeDistance) * (maxScale - 1);
@@ -30,8 +30,7 @@ function RedMenu({ onClick }) {
 
   const handleTouchEnd = () => {
     touchStartY.current = null;
-    setIsTransitioning(true);
-    setScale(1);
+    setIsTransitioning(false);
   };
 
   return (
