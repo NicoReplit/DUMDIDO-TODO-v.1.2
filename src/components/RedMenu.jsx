@@ -48,6 +48,7 @@ function RedMenu({ onClick }) {
           className="red-menu-eyes" 
           style={{ 
             transform: `translateX(-50%) scale(${1 / scale})`,
+            transition: 'transform 1.2s ease-out',
             animationPlayState: scale === 1 ? 'running' : 'paused'
           }}
         >
