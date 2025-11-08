@@ -1,8 +1,9 @@
 .red-menu {
   position: fixed;
-  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  bottom: -30%;
+  transform: translateX(-50%);
+  transform-origin: center 70%;
   width: 60vmin;
   height: 60vmin;
   background-color: #EE4100;
