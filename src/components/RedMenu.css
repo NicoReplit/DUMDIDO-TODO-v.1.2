@@ -2,7 +2,7 @@
   position: fixed;
   left: 50%;
   bottom: calc(-33.6vmin + 30px);
-  transform: translateX(-50%);
+  transform: translateX(-50%) scale(1);
   transform-origin: center 70%;
   width: 48vmin;
   height: 48vmin;
@@ -10,4 +10,7 @@
   z-index: 9999;
   cursor: pointer;
   border-radius: 50%;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
