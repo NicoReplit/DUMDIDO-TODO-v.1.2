@@ -10,6 +10,7 @@ import OpenList from './components/OpenList';
 import UserSelectionModal from './components/UserSelectionModal';
 import ProgressBar from './components/ProgressBar';
 import SettingsModal from './components/SettingsModal';
+import RedMenu from './components/RedMenu';
 import './App.css';
 
 function App() {
@@ -637,6 +638,8 @@ function App() {
           onSavePin={handleSaveGlobalPin}
         />
       )}
+
+      <RedMenu onClick={() => console.log('Red menu clicked')} />
     </div>
   );
 }
