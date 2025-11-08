@@ -1,11 +1,11 @@
 .red-menu {
   position: fixed;
   left: 50%;
-  bottom: calc(-42vmin + 30px);
+  bottom: calc(-33.6vmin + 30px);
   transform: translateX(-50%);
   transform-origin: center 70%;
-  width: 60vmin;
-  height: 60vmin;
+  width: 48vmin;
+  height: 48vmin;
   background-color: #EE4100;
   z-index: 9999;
   cursor: pointer;
