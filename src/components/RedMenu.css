@@ -2,7 +2,7 @@
   position: fixed;
   left: 50%;
   bottom: -30%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) scaleY(-1);
   transform-origin: center 70%;
   width: 60vmin;
   height: 60vmin;
