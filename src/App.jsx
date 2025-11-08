@@ -11,6 +11,7 @@ import UserSelectionModal from './components/UserSelectionModal';
 import ProgressBar from './components/ProgressBar';
 import SettingsModal from './components/SettingsModal';
 import RedMenu from './components/RedMenu';
+import BlueCircle from './components/BlueCircle';
 import './App.css';
 
 function App() {
@@ -640,6 +641,7 @@ function App() {
       )}
 
       <RedMenu onClick={() => console.log('Red menu clicked')} />
+      <BlueCircle />
     </div>
   );
 }
