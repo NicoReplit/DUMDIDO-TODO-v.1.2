@@ -1,9 +1,9 @@
 .blue-circle-wrapper {
   position: fixed;
-  left: 50%;
-  bottom: calc(-33.6vmin + 30px);
-  transform: translateX(calc(-50% - 10px)) translateY(10px) rotate(45deg);
-  z-index: 10000;
+  left: 0;
+  bottom: 0;
+  transform: translate(-20%, 20%) rotate(45deg);
+  z-index: 9998;
   pointer-events: none;
 }
 
