@@ -29,10 +29,10 @@ function RedMenu({ onClick }) {
 
   return (
     <div 
-      className="red-menu" 
+      className={`red-menu ${scale === 1 ? 'wiggling' : ''}`}
       style={{
         transform: `translateX(-50%) scale(${scale})`,
-        transition: 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transition: scale === 1 ? 'none' : 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
         '--menu-scale': scale
       }}
       onTouchStart={handleTouchStart}

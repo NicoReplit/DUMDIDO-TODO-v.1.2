@@ -15,6 +15,25 @@
   -webkit-user-select: none;
 }
 
+.red-menu.wiggling {
+  animation: circleWiggle 4s ease-in-out infinite;
+}
+
+@keyframes circleWiggle {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+  }
+  25% {
+    transform: translateX(-50%) scale(1.2);
+  }
+  50% {
+    transform: translateX(-50%) scale(0.8);
+  }
+  75% {
+    transform: translateX(-50%) scale(1.1);
+  }
+}
+
 .red-menu-eyes {
   position: absolute;
   top: -19px;
