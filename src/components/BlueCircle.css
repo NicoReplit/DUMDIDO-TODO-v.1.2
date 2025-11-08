@@ -41,7 +41,7 @@
 }
 
 .blue-circle-eye:last-child {
-  transform: rotate(300deg);
+  transform: rotate(240deg);
 }
 
 .blue-circle-eye::after {
