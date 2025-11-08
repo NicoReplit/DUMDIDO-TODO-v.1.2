@@ -35,7 +35,7 @@ function RedMenu({ onClick }) {
         left: '50%',
         bottom: 'calc(-33.6vmin + 30px)',
         transform: `translateX(-50%) scale(${scale})`,
-        transition: 'transform 2s ease-out',
+        transition: 'transform 1.2s ease-out',
         transformOrigin: 'center 70%',
         '--menu-scale': scale
       }}
