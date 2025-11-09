@@ -9,7 +9,6 @@ import PINEntry from './components/PINEntry';
 import OpenList from './components/OpenList';
 import UserSelectionModal from './components/UserSelectionModal';
 import ProgressBar from './components/ProgressBar';
-import SettingsModal from './components/SettingsModal';
 import RedMenu from './components/RedMenu';
 import BlueCircle from './components/BlueCircle';
 import './App.css';
@@ -33,7 +32,6 @@ function App() {
   const [showUserSelectionModal, setShowUserSelectionModal] = useState(false);
   const [pendingClaimTask, setPendingClaimTask] = useState(null);
   const [isOpenListSelected, setIsOpenListSelected] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
   const [globalPin, setGlobalPin] = useState(null);
 
   useEffect(() => {
@@ -576,7 +574,6 @@ function App() {
         onSelectOpenList={handleSelectOpenList}
         isOpenListSelected={isOpenListSelected}
         onUpdateUser={handleUpdateUser}
-        onOpenSettings={() => setShowSettings(true)}
       />
 
       {currentUser && !isOpenListSelected && (
@@ -632,17 +629,9 @@ function App() {
         />
       )}
 
-      {showSettings && (
-        <SettingsModal
-          globalPin={globalPin}
-          onClose={() => setShowSettings(false)}
-          onSavePin={handleSaveGlobalPin}
-        />
-      )}
-
       <RedMenu 
-        onClick={() => console.log('Red menu clicked')} 
-        onSwipeUp={() => setShowSettings(true)}
+        globalPin={globalPin}
+        onSavePin={handleSaveGlobalPin}
       />
       <BlueCircle />
     </div>

@@ -84,3 +84,32 @@
     transform: scale(1.02);
   }
 }
+
+.red-menu-settings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center;
+  width: 80%;
+  max-width: 400px;
+  padding: 30px;
+  box-sizing: border-box;
+  text-align: center;
+  pointer-events: auto;
+}
+
+.settings-field {
+  margin-bottom: 15px;
+}
+
+.settings-field input {
+  font-family: 'MuseoModerno', sans-serif;
+  border-radius: 12px;
+  border: 3px solid white;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.settings-field input:focus {
+  outline: none;
+  border-color: #FECE00;
+}

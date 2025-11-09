@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import './UserSelector.css';
 import UserEditModal from './UserEditModal';
 
-function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpenList, isOpenListSelected, onUpdateUser, onOpenSettings }) {
+function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpenList, isOpenListSelected, onUpdateUser }) {
   const [swipedId, setSwipedId] = useState(null);
   const [editingUser, setEditingUser] = useState(null);
   const scrollRef = useRef(null);
@@ -60,16 +60,6 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
     // Always prevent default to block native scrolling
     e.preventDefault();
     
-    // Check for vertical swipe UP - open settings
-    if (gesture.targetPillId && gesture.gestureMode === 'pressing' && diffY > 20 && Math.abs(diffY) > Math.abs(diffX)) {
-      clearTimeout(gesture.holdTimeout);
-      gesture.gestureMode = 'swipe';
-      if (onOpenSettings) {
-        onOpenSettings();
-      }
-      return;
-    }
-    
     // Fast horizontal swipe: velocity > 1.2 px/ms and distance > 20px → edit mode
     if (gesture.targetPillId && gesture.gestureMode === 'pressing' && velocityX > 1.2 && Math.abs(diffX) > 20) {
       clearTimeout(gesture.holdTimeout);
@@ -96,19 +86,11 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
     // Detect slow swipes based on distance (for touchend without velocity trigger)
     if (gesture.gestureMode === 'pressing' && gesture.targetPillId) {
       const currentX = e.changedTouches[0].clientX;
-      const currentY = e.changedTouches[0].clientY;
       const diffX = gesture.startX - currentX;
-      const diffY = gesture.startY - currentY;
       
-      // Check for vertical swipe UP - open settings
-      if (diffY > 20 && Math.abs(diffY) > Math.abs(diffX)) {
-        if (onOpenSettings) {
-          onOpenSettings();
-        }
-      }
       // Horizontal swipes
       // Swipe left > 20px = open edit
-      else if (diffX > 20) {
+      if (diffX > 20) {
         setSwipedId(Number(gesture.targetPillId));
       }
       // Swipe right > 20px = close edit
