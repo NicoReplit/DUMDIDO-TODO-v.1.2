@@ -100,66 +100,57 @@ function RedMenu({ globalPin, onSavePin }) {
           <div 
             className="red-menu-settings"
             style={{
-              transform: `translate(-50%, -50%) scale(${1 / scale})`,
+              top: '30px',
+              transform: `translate(-50%, 0) scale(${1 / scale})`,
               transition: 'opacity 0.3s ease-out',
               opacity: 1
             }}
           >
-            <h3 style={{ margin: '0 0 20px 0', color: 'white' }}>🔒 PIN Settings</h3>
-
             {globalPin && (
-              <div className="settings-field">
-                <input
-                  type="password"
-                  value={currentPin}
-                  onChange={(e) => setCurrentPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                  placeholder="Current PIN"
-                  maxLength="4"
-                  pattern="[0-9]*"
-                  inputMode="numeric"
-                  style={{ width: '100%', padding: '10px', fontSize: '18px', marginBottom: '10px' }}
-                />
-              </div>
-            )}
-
-            <div className="settings-field">
               <input
                 type="password"
-                value={pin}
-                onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                placeholder={globalPin ? 'New PIN' : 'PIN (4 digits)'}
+                value={currentPin}
+                onChange={(e) => setCurrentPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                placeholder="Current PIN"
                 maxLength="4"
                 pattern="[0-9]*"
                 inputMode="numeric"
-                style={{ width: '100%', padding: '10px', fontSize: '18px', marginBottom: '10px' }}
+                className="pin-input"
               />
-            </div>
-
-            {pin && (
-              <div className="settings-field">
-                <input
-                  type="password"
-                  value={confirmPin}
-                  onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                  placeholder="Repeat PIN"
-                  maxLength="4"
-                  pattern="[0-9]*"
-                  inputMode="numeric"
-                  style={{ width: '100%', padding: '10px', fontSize: '18px', marginBottom: '10px' }}
-                />
-              </div>
             )}
 
-            <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+            <input
+              type="password"
+              value={pin}
+              onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+              placeholder={globalPin ? 'New PIN' : 'PIN (4 digits)'}
+              maxLength="4"
+              pattern="[0-9]*"
+              inputMode="numeric"
+              className="pin-input"
+            />
+
+            <input
+              type="password"
+              value={confirmPin}
+              onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+              placeholder="Repeat PIN"
+              maxLength="4"
+              pattern="[0-9]*"
+              inputMode="numeric"
+              className="pin-input"
+            />
+
+            <div className="button-group">
               {globalPin && (
-                <button onClick={handleRemovePin} style={{ flex: 1, padding: '12px', fontSize: '16px', backgroundColor: '#FF006E', color: 'white', border: 'none', borderRadius: '8px' }}>
+                <button onClick={handleRemovePin} className="remove-button">
                   Remove
                 </button>
               )}
-              <button onClick={handleClose} style={{ flex: 1, padding: '12px', fontSize: '16px', backgroundColor: '#707070', color: 'white', border: 'none', borderRadius: '8px' }}>
+              <button onClick={handleClose} className="cancel-button">
                 Cancel
               </button>
-              <button onClick={handleSave} style={{ flex: 1, padding: '12px', fontSize: '16px', backgroundColor: '#38D247', color: 'white', border: 'none', borderRadius: '8px' }}>
+              <button onClick={handleSave} className="save-button">
                 Save
               </button>
             </div>
