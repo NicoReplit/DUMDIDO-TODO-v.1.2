@@ -141,7 +141,7 @@
 @keyframes slideInPill {
   0% {
     opacity: 0;
-    transform: translateY(100vh);
+    transform: translateY(-100vh);
   }
   100% {
     opacity: 1;
