@@ -66,13 +66,13 @@ function RedMenu({ globalPin, onSavePin }) {
     setClosing(true);
     setTimeout(() => {
       setScale(1);
-    }, 100);
+    }, 900);
     setTimeout(() => {
       setClosing(false);
       setPin('');
       setConfirmPin('');
       setCurrentPin('');
-    }, 1300);
+    }, 1500);
   };
 
   return (
