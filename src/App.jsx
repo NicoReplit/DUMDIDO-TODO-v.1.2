@@ -675,6 +675,8 @@ function App() {
                 return;
               }
               
+              const updatedUser = await response.json();
+              
               const basePoints = selectedTodo.estimated_minutes || 0;
               
               await handleUpdateTodo(selectedTodo.id, {
@@ -686,6 +688,7 @@ function App() {
                 actual_time_seconds: 0
               });
               
+              setCurrentUser(updatedUser);
               setSelectedTodo(null);
               await fetchTodos();
               await fetchOpenTodos();
