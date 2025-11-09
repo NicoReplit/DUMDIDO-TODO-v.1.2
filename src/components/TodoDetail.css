@@ -1,6 +1,8 @@
 .todo-detail {
   min-height: 100vh;
   background: white;
+  position: relative;
+  z-index: 100;
 }
 
 .detail-header {

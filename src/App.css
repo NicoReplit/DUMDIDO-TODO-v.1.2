@@ -182,7 +182,7 @@
   height: 200px;
   background-color: #EE4100;
   border-radius: 40px;
-  z-index: 0;
+  z-index: 9998;
   display: flex;
   align-items: flex-start;
   justify-content: center;
