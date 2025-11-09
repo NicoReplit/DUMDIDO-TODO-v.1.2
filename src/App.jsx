@@ -637,9 +637,9 @@ function App() {
       
       <div style={{
         position: 'fixed',
-        top: '70%',
-        left: '50%',
-        transform: 'translate(-50%, -50%) rotate(20deg)',
+        bottom: '20px',
+        right: '20px',
+        transform: 'rotate(20deg)',
         zIndex: 5000
       }}>
         <ZigZag />
