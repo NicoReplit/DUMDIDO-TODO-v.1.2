@@ -152,7 +152,7 @@
 .button-group {
   display: flex;
   gap: 15px;
-  margin-top: 10px;
+  margin-top: 40px;
 }
 
 .remove-button,
@@ -185,15 +185,15 @@
   transform: scale(0.95);
 }
 
-/* Animation classes for buttons */
+/* Animation classes for buttons - 0.5s delay after circle scale */
 .button-animate-3 {
-  animation: slideInPill 0.6s ease-out 0.3s both;
+  animation: slideInPill 0.6s ease-out 0.8s both;
 }
 
 .button-animate-4 {
-  animation: slideInPill 0.6s ease-out 0.3s both;
+  animation: slideInPill 0.6s ease-out 0.8s both;
 }
 
 .button-animate-5 {
-  animation: slideInPill 0.6s ease-out 0.4s both;
+  animation: slideInPill 0.6s ease-out 0.9s both;
 }
