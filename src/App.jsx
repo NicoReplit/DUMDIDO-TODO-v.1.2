@@ -638,7 +638,7 @@ function App() {
       <div style={{
         position: 'fixed',
         bottom: '20px',
-        right: '20px',
+        right: '-130px',
         transform: 'rotate(20deg)',
         zIndex: 5000
       }}>
