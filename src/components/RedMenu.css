@@ -106,8 +106,8 @@
   padding: 12px 24px;
   border-radius: 24px;
   border: none;
-  background-color: #FECE00;
-  box-shadow: 5px 5px 0 0 #0061EE;
+  background-color: #0061EE;
+  box-shadow: 5px 5px 0 0 #FECE00;
   color: white;
   font-size: 18px;
   font-weight: 700;
@@ -141,7 +141,7 @@
 @keyframes slideInPill {
   0% {
     opacity: 0;
-    transform: translateY(-30px);
+    transform: translateY(100vh);
   }
   100% {
     opacity: 1;
@@ -152,7 +152,7 @@
 .button-group {
   display: flex;
   gap: 15px;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .remove-button,
