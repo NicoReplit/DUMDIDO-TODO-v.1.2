@@ -102,7 +102,7 @@ function RedMenu({ globalPin, onSavePin }) {
           <div 
             className="red-menu-settings"
             style={{
-              top: '0px',
+              top: '50px',
               transform: `translate(-50%, 0) scale(${1 / scale})`,
             }}
           >
