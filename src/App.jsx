@@ -634,6 +634,8 @@ function App() {
         onSavePin={handleSaveGlobalPin}
       />
       <BlueCircle />
+      
+      <div className="left-red-pill"></div>
     </div>
   );
 }
