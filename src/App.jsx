@@ -639,7 +639,7 @@ function App() {
         position: 'fixed',
         top: '70%',
         left: '50%',
-        transform: 'translate(-50%, -50%)',
+        transform: 'translate(-50%, -50%) rotate(20deg)',
         zIndex: 5000
       }}>
         <ZigZag />

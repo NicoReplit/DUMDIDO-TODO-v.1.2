@@ -9,7 +9,7 @@ export default function ZigZag() {
     >
       <path
         d="M 45,90 L 85,190 L 130,50 L 175,190 L 215,110"
-        stroke="#FF006E"
+        stroke="#FF77B9"
         strokeWidth="60"
         strokeLinecap="round"
         strokeLinejoin="round"
