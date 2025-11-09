@@ -44,7 +44,11 @@ function WeekCalendar({ userId, selectedDate }) {
       const eyeCenterX = eyeRect.left + (eyeRect.width / 2) - containerRect.left;
       
       // Bar starts at 7px from left, so we need to reach eyeCenterX from that point
-      const barWidthPx = eyeCenterX - 7;
+      let barWidthPx = eyeCenterX - 7;
+      
+      // Max width: container width - 7px (left start) - 2px (right edge margin)
+      const maxBarWidth = containerRect.width - 9;
+      barWidthPx = Math.min(barWidthPx, maxBarWidth);
       
       setBarWidth(barWidthPx > 0 ? barWidthPx : 0);
     };
