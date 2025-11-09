@@ -17,12 +17,13 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
     return (random * 4) - 2;
   };
 
-  const handleTouchStart = (e, id) => {
+  const handleTouchStart = (e, id, todo) => {
+    if (todo.completed) return;
     setTouchStart(e.touches[0].clientX);
   };
 
-  const handleTouchMove = (e, id) => {
-    if (!touchStart) return;
+  const handleTouchMove = (e, id, todo) => {
+    if (todo.completed || !touchStart) return;
     const currentTouch = e.touches[0].clientX;
     const diff = touchStart - currentTouch;
     
@@ -55,12 +56,12 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
         todos.map((todo, index) => (
           <div
             key={todo.id}
-            className={`dumbledido-todo-wrapper ${swipedId === todo.id ? 'swiped' : ''}`}
+            className={`dumbledido-todo-wrapper ${swipedId === todo.id ? 'swiped' : ''} ${todo.completed ? 'completed' : ''}`}
             style={{ 
               '--card-rotation': `${getRandomRotation(todo.id)}deg`
             }}
-            onTouchStart={(e) => handleTouchStart(e, todo.id)}
-            onTouchMove={(e) => handleTouchMove(e, todo.id)}
+            onTouchStart={(e) => handleTouchStart(e, todo.id, todo)}
+            onTouchMove={(e) => handleTouchMove(e, todo.id, todo)}
             onTouchEnd={handleTouchEnd}
           >
             {/* Bottom layer - delete button (right side) - ALWAYS RED #EE4100 */}
