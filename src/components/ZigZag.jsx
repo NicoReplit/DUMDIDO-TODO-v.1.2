@@ -15,6 +15,14 @@ export default function ZigZag() {
         strokeLinejoin="round"
         fill="none"
       />
+      
+      {/* Left eye */}
+      <circle cx="100" cy="50" r="19" fill="white" />
+      <circle cx="106" cy="56" r="7.5" fill="black" />
+      
+      {/* Right eye */}
+      <circle cx="160" cy="50" r="19" fill="white" />
+      <circle cx="166" cy="56" r="7.5" fill="black" />
     </svg>
   );
 }
