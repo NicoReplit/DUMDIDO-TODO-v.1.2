@@ -66,7 +66,7 @@ function RedMenu({ globalPin, onSavePin }) {
     setClosing(true);
     setTimeout(() => {
       setScale(1);
-    }, 200);
+    }, 400);
     setTimeout(() => {
       setClosing(false);
       setPin('');
