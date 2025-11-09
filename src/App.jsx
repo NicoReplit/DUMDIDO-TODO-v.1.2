@@ -652,12 +652,17 @@ function App() {
             return;
           }
 
+          if (selectedTodo.completed) {
+            alert('This task is already completed!');
+            return;
+          }
+
           if (selectedTodo.super_point_used) {
             alert('This task already has a super point applied!');
             return;
           }
 
-          if (window.confirm('Use 1 super point on this task? This will count it as completed on-time.')) {
+          if (window.confirm('Use 1 super point to complete this task on-time?')) {
             try {
               const response = await fetch(`/api/users/${currentUser.id}/use-super-point`, {
                 method: 'POST',
@@ -670,9 +675,23 @@ function App() {
                 return;
               }
               
-              await handleUpdateTodo(selectedTodo.id, { super_point_used: true });
+              const basePoints = selectedTodo.estimated_minutes || 0;
+              
+              await handleUpdateTodo(selectedTodo.id, {
+                completed: true,
+                super_point_used: true,
+                points_earned: basePoints,
+                remaining_seconds: 0,
+                pause_used: false,
+                actual_time_seconds: 0
+              });
+              
+              setSelectedTodo(null);
+              await fetchTodos();
+              await fetchOpenTodos();
               await fetchUsers();
-              alert('Super point activated! ⭐ This task now counts as on-time!');
+              
+              alert('Super point used! ⭐ Task completed on-time!');
             } catch (error) {
               console.error('Error using super point:', error);
               alert('Failed to use super point. Please try again.');
