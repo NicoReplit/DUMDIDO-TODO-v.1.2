@@ -635,15 +635,28 @@ function App() {
       />
       <BlueCircle />
       
-      <div className="left-red-pill">
+      <button 
+        className="left-red-pill" 
+        onClick={() => {
+          if (currentUser) {
+            if (currentUser.super_points <= 0) {
+              alert('No super points available! Super points are earned through completing tasks and streaks.');
+            } else {
+              alert(`You have ${currentUser.super_points} super points available!\n\nSuper points can be used when completing a task to count it as "on-time" regardless of how long it took.\n\nTo use a super point: Complete a task and click the "Use Super Point" button in the task details.`);
+            }
+          } else {
+            alert('Please select a user first!');
+          }
+        }}
+      >
         <div className="left-red-pill-text">
           <div className="super-punkte-header">
             <span className="star-emoji">⭐</span>
-            <span className="super-punkte-counter">12</span>
+            <span className="super-punkte-counter">{currentUser ? currentUser.super_points : 0}</span>
           </div>
           Super<br />Punkte
         </div>
-      </div>
+      </button>
     </div>
   );
 }
