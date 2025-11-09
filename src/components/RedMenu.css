@@ -107,6 +107,7 @@
   border-radius: 35px;
   border: none;
   background-color: #FECE00;
+  box-shadow: 5px 5px 0 0 #0061EE;
   color: white;
   font-size: 24px;
   font-weight: 700;
@@ -122,7 +123,30 @@
 
 .pin-input:focus {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+}
+
+/* Animation classes for staggered entrance */
+.pin-input-1 {
+  animation: slideInPill 0.6s ease-out;
+}
+
+.pin-input-2 {
+  animation: slideInPill 0.6s ease-out 0.1s both;
+}
+
+.pin-input-3 {
+  animation: slideInPill 0.6s ease-out 0.2s both;
+}
+
+@keyframes slideInPill {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .button-group {
@@ -132,7 +156,6 @@
 }
 
 .remove-button,
-.cancel-button,
 .save-button {
   flex: 1;
   height: 70px;
@@ -149,18 +172,28 @@
 
 .remove-button {
   background-color: #EE4100;
-}
-
-.cancel-button {
-  background-color: #FF006E;
+  box-shadow: 5px 5px 0 0 #0061EE;
 }
 
 .save-button {
   background-color: #38D247;
+  box-shadow: 5px 5px 0 0 #0061EE;
 }
 
 .remove-button:active,
-.cancel-button:active,
 .save-button:active {
   transform: scale(0.95);
+}
+
+/* Animation classes for buttons */
+.button-animate-3 {
+  animation: slideInPill 0.6s ease-out 0.3s both;
+}
+
+.button-animate-4 {
+  animation: slideInPill 0.6s ease-out 0.3s both;
+}
+
+.button-animate-5 {
+  animation: slideInPill 0.6s ease-out 0.4s both;
 }

@@ -63,9 +63,11 @@ function RedMenu({ globalPin, onSavePin }) {
 
   const handleClose = () => {
     setScale(1);
-    setPin('');
-    setConfirmPin('');
-    setCurrentPin('');
+    setTimeout(() => {
+      setPin('');
+      setConfirmPin('');
+      setCurrentPin('');
+    }, 300);
   };
 
   return (
@@ -100,10 +102,8 @@ function RedMenu({ globalPin, onSavePin }) {
           <div 
             className="red-menu-settings"
             style={{
-              top: '30px',
+              top: '0px',
               transform: `translate(-50%, 0) scale(${1 / scale})`,
-              transition: 'opacity 0.3s ease-out',
-              opacity: 1
             }}
           >
             {globalPin && (
@@ -115,7 +115,7 @@ function RedMenu({ globalPin, onSavePin }) {
                 maxLength="4"
                 pattern="[0-9]*"
                 inputMode="numeric"
-                className="pin-input"
+                className="pin-input pin-input-1"
               />
             )}
 
@@ -127,7 +127,7 @@ function RedMenu({ globalPin, onSavePin }) {
               maxLength="4"
               pattern="[0-9]*"
               inputMode="numeric"
-              className="pin-input"
+              className={`pin-input ${globalPin ? 'pin-input-2' : 'pin-input-1'}`}
             />
 
             <input
@@ -138,19 +138,16 @@ function RedMenu({ globalPin, onSavePin }) {
               maxLength="4"
               pattern="[0-9]*"
               inputMode="numeric"
-              className="pin-input"
+              className={`pin-input ${globalPin ? 'pin-input-3' : 'pin-input-2'}`}
             />
 
             <div className="button-group">
               {globalPin && (
-                <button onClick={handleRemovePin} className="remove-button">
+                <button onClick={handleRemovePin} className={`remove-button ${globalPin ? 'button-animate-4' : 'button-animate-3'}`}>
                   Remove
                 </button>
               )}
-              <button onClick={handleClose} className="cancel-button">
-                Cancel
-              </button>
-              <button onClick={handleSave} className="save-button">
+              <button onClick={handleSave} className={`save-button ${globalPin ? 'button-animate-5' : 'button-animate-3'}`}>
                 Save
               </button>
             </div>
