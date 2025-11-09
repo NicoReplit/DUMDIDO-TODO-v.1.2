@@ -142,12 +142,7 @@ function RedMenu({ globalPin, onSavePin }) {
             />
 
             <div className="button-group">
-              {globalPin && (
-                <button onClick={handleRemovePin} className={`remove-button ${globalPin ? 'button-animate-4' : 'button-animate-3'}`}>
-                  Remove
-                </button>
-              )}
-              <button onClick={handleSave} className={`save-button ${globalPin ? 'button-animate-5' : 'button-animate-3'}`}>
+              <button onClick={handleSave} className="save-button button-animate-3">
                 Save
               </button>
             </div>
