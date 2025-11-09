@@ -3,6 +3,7 @@ import './RedMenu.css';
 
 function RedMenu({ globalPin, onSavePin }) {
   const [scale, setScale] = useState(1);
+  const [closing, setClosing] = useState(false);
   const [pin, setPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
   const [currentPin, setCurrentPin] = useState('');
@@ -62,12 +63,16 @@ function RedMenu({ globalPin, onSavePin }) {
   };
 
   const handleClose = () => {
-    setScale(1);
+    setClosing(true);
     setTimeout(() => {
+      setScale(1);
+    }, 100);
+    setTimeout(() => {
+      setClosing(false);
       setPin('');
       setConfirmPin('');
       setCurrentPin('');
-    }, 300);
+    }, 1300);
   };
 
   return (
@@ -98,7 +103,7 @@ function RedMenu({ globalPin, onSavePin }) {
           <div className="red-menu-eye"></div>
         </div>
 
-        {scale === 3.85 && (
+        {(scale === 3.85 || closing) && (
           <div 
             className="red-menu-settings"
             style={{
@@ -115,7 +120,7 @@ function RedMenu({ globalPin, onSavePin }) {
                 maxLength="4"
                 pattern="[0-9]*"
                 inputMode="numeric"
-                className="pin-input pin-input-1"
+                className={`pin-input ${closing ? 'pin-input-1-close' : 'pin-input-1'}`}
               />
             )}
 
@@ -127,7 +132,7 @@ function RedMenu({ globalPin, onSavePin }) {
               maxLength="4"
               pattern="[0-9]*"
               inputMode="numeric"
-              className={`pin-input ${globalPin ? 'pin-input-2' : 'pin-input-1'}`}
+              className={`pin-input ${closing ? (globalPin ? 'pin-input-2-close' : 'pin-input-1-close') : (globalPin ? 'pin-input-2' : 'pin-input-1')}`}
             />
 
             <input
@@ -138,11 +143,11 @@ function RedMenu({ globalPin, onSavePin }) {
               maxLength="4"
               pattern="[0-9]*"
               inputMode="numeric"
-              className={`pin-input ${globalPin ? 'pin-input-3' : 'pin-input-2'}`}
+              className={`pin-input ${closing ? (globalPin ? 'pin-input-3-close' : 'pin-input-2-close') : (globalPin ? 'pin-input-3' : 'pin-input-2')}`}
             />
 
             <div className="button-group">
-              <button onClick={handleSave} className="save-button button-animate-3">
+              <button onClick={handleSave} className={`save-button ${closing ? 'button-animate-3-close' : 'button-animate-3'}`}>
                 Save
               </button>
             </div>

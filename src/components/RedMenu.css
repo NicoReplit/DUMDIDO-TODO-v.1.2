@@ -197,3 +197,39 @@
 .button-animate-5 {
   animation: slideInPill 0.6s ease-out 0.9s both;
 }
+
+/* Closing animations - reverse of opening */
+.pin-input-1-close {
+  animation: slideOutPill 0.6s ease-out both;
+}
+
+.pin-input-2-close {
+  animation: slideOutPill 0.6s ease-out 0.1s both;
+}
+
+.pin-input-3-close {
+  animation: slideOutPill 0.6s ease-out 0.2s both;
+}
+
+.button-animate-3-close {
+  animation: slideOutPill 0.6s ease-out 0.3s both;
+}
+
+.button-animate-4-close {
+  animation: slideOutPill 0.6s ease-out 0.3s both;
+}
+
+.button-animate-5-close {
+  animation: slideOutPill 0.6s ease-out 0.4s both;
+}
+
+@keyframes slideOutPill {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh);
+  }
+}
