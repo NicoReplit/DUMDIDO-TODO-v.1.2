@@ -637,6 +637,10 @@ function App() {
       
       <div className="left-red-pill">
         <div className="left-red-pill-text">
+          <div className="super-punkte-header">
+            <span className="star-emoji">⭐</span>
+            <span className="super-punkte-counter">12</span>
+          </div>
           Super<br />Punkte
         </div>
       </div>

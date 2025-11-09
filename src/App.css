@@ -198,6 +198,23 @@
   margin-top: 40px;
 }
 
+.super-punkte-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.star-emoji {
+  font-size: 20px;
+}
+
+.super-punkte-counter {
+  font-weight: 700;
+  font-size: 16px;
+}
+
 @media (max-width: 600px) {
   .app {
     max-width: 100%;
