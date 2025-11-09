@@ -175,32 +175,6 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
     onClose();
   };
 
-  const handleUseSuperPoint = async () => {
-    if (currentUser.super_points <= 0) {
-      alert('No super points available!');
-      return;
-    }
-    if (window.confirm('Use 1 super point on this task? This will count it as completed on-time.')) {
-      try {
-        const response = await fetch(`/api/users/${currentUser.id}/use-super-point`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-        });
-        
-        if (!response.ok) {
-          const error = await response.text();
-          alert(`Failed to use super point: ${error}`);
-          return;
-        }
-        
-        setSuperPointUsed(true);
-        onUpdate({ super_point_used: true });
-      } catch (error) {
-        console.error('Error using super point:', error);
-        alert('Failed to use super point. Please try again.');
-      }
-    }
-  };
 
   return (
     <div className="todo-detail">
@@ -298,15 +272,6 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
                 </div>
               )}
             </div>
-
-            {currentUser && currentUser.super_points > 0 && !superPointUsed && (
-              <div className="super-point-section">
-                <button className="super-point-btn" onClick={handleUseSuperPoint}>
-                  ⭐ Use Super Point ({currentUser.super_points} available)
-                </button>
-                {superPointUsed && <p className="super-point-used">Super point activated! ⭐</p>}
-              </div>
-            )}
 
             {superPointUsed && (
               <p className="super-point-active">⭐ Super Point Active - This task counts as on-time!</p>

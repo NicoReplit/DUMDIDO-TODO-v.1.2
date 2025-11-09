@@ -636,15 +636,47 @@ function App() {
       
       <button 
         className="left-red-pill" 
-        onClick={() => {
-          if (currentUser) {
-            if (currentUser.super_points <= 0) {
-              alert('No super points available! Super points are earned through completing tasks and streaks.');
-            } else {
-              alert(`You have ${currentUser.super_points} super points available!\n\nSuper points can be used when completing a task to count it as "on-time" regardless of how long it took.\n\nTo use a super point: Complete a task and click the "Use Super Point" button in the task details.`);
-            }
-          } else {
+        onClick={async () => {
+          if (!currentUser) {
             alert('Please select a user first!');
+            return;
+          }
+
+          if (currentUser.super_points <= 0) {
+            alert('No super points available! Super points are earned through completing tasks and streaks.');
+            return;
+          }
+
+          if (!selectedTodo) {
+            alert(`You have ${currentUser.super_points} super points available!\n\nSuper points can be used when completing a task to count it as "on-time" regardless of how long it took.\n\nOpen a task to use a super point.`);
+            return;
+          }
+
+          if (selectedTodo.super_point_used) {
+            alert('This task already has a super point applied!');
+            return;
+          }
+
+          if (window.confirm('Use 1 super point on this task? This will count it as completed on-time.')) {
+            try {
+              const response = await fetch(`/api/users/${currentUser.id}/use-super-point`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+              });
+              
+              if (!response.ok) {
+                const error = await response.text();
+                alert(`Failed to use super point: ${error}`);
+                return;
+              }
+              
+              await handleUpdateTodo(selectedTodo.id, { super_point_used: true });
+              await fetchUsers();
+              alert('Super point activated! ⭐ This task now counts as on-time!');
+            } catch (error) {
+              console.error('Error using super point:', error);
+              alert('Failed to use super point. Please try again.');
+            }
           }
         }}
       >
