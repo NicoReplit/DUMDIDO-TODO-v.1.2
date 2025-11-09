@@ -456,19 +456,6 @@ function App() {
     setCurrentUser(user);
   };
 
-  if (selectedTodo) {
-    return (
-      <TodoDetail
-        todo={selectedTodo}
-        currentUser={currentUser}
-        onClose={() => setSelectedTodo(null)}
-        onUpdate={(updates) => handleUpdateTodo(selectedTodo.id, updates)}
-        startTimer={startTimer}
-        stopTimer={stopTimer}
-        getTimerState={getTimerState}
-      />
-    );
-  }
 
   if (showUserForm) {
     return (
@@ -626,6 +613,18 @@ function App() {
           taskTitle={pendingClaimTask.title}
           onSelect={handleClaimTask}
           onCancel={handleCancelClaim}
+        />
+      )}
+
+      {selectedTodo && (
+        <TodoDetail
+          todo={selectedTodo}
+          currentUser={currentUser}
+          onClose={() => setSelectedTodo(null)}
+          onUpdate={(updates) => handleUpdateTodo(selectedTodo.id, updates)}
+          startTimer={startTimer}
+          stopTimer={stopTimer}
+          getTimerState={getTimerState}
         />
       )}
 
