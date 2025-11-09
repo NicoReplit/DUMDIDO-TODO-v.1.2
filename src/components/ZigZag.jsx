@@ -8,7 +8,7 @@ export default function ZigZag() {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M 30,40 L 70,160 L 130,40 L 170,160"
+        d="M 15,40 L 55,160 L 100,40 L 145,160 L 185,40"
         stroke="#FF006E"
         strokeWidth="30"
         strokeLinecap="round"
