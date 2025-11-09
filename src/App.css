@@ -177,13 +177,12 @@
 .left-red-pill {
   position: fixed;
   left: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  bottom: 0;
   width: 40px;
   height: 200px;
   background-color: #EE4100;
   border-radius: 20px;
-  z-index: -3;
+  z-index: -1;
 }
 
 @media (max-width: 600px) {
