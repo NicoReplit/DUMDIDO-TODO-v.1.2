@@ -635,7 +635,11 @@ function App() {
       />
       <BlueCircle />
       
-      <div className="left-red-pill"></div>
+      <div className="left-red-pill">
+        <div className="left-red-pill-text">
+          Super<br />Punkte
+        </div>
+      </div>
     </div>
   );
 }
