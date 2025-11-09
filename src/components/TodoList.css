@@ -83,6 +83,12 @@
   pointer-events: all;
 }
 
+/* Hide middle and bottom layers on completed cards */
+.dumbledido-todo-wrapper.completed .pill-bottom,
+.dumbledido-todo-wrapper.completed .pill-middle {
+  display: none;
+}
+
 .dumbledido-todo-card {
   cursor: pointer;
   position: absolute;
@@ -210,8 +216,9 @@
   background: #004ab3;
 }
 
+/* Completed cards stay fully opaque - no transparency */
 .dumbledido-todo-card.completed {
-  opacity: 0.6;
+  opacity: 1;
 }
 
 .completed-check {
