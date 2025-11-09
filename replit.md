@@ -38,7 +38,13 @@ The application features a touch-friendly interface optimized for tablets and to
 - **HOLD (200ms)**: Scroll through users
 - **SWIPE LEFT/RIGHT**: Show/hide edit icon for user editing
 
-Additional features include a week calendar for tracking completion statuses, and visual feedback elements like green checkmarks and pause icons. A prominent feature is the gradient overtime ring visualization for the timer, which uses a color gradient from yellow-green to red to indicate accumulated overtime.
+Additional features include a week calendar for tracking completion statuses with dynamic progress visualization:
+- **Week Calendar Progress Bar**: Orange bar (#FF8800) that grows to reach each day's eye as days pass
+- **Day Counter**: Shows days since Monday (1-7), resets each Monday
+- **Eye States**: Closed eyes (smiley faces) for completed/current days, open eyes for future days
+- **Responsive Calculation**: Bar width calculated dynamically using DOM measurements to work on any screen resolution
+- Visual feedback elements like green checkmarks and pause icons
+- A prominent feature is the gradient overtime ring visualization for the timer, which uses a color gradient from yellow-green to red to indicate accumulated overtime.
 
 **RedMenu Character**: A playful red circular character at the bottom center of the screen that provides access to global PIN settings:
 - **SWIPE UP**: Opens settings UI inside the scaled-up red circle

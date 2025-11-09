@@ -1,26 +1,64 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import AnimatedEyes from './AnimatedEyes';
 import './WeekCalendar.css';
 
 function WeekCalendar({ userId, selectedDate }) {
   const [weekData, setWeekData] = useState([]);
-  const [streakDays, setStreakDays] = useState(0);
+  const [barWidth, setBarWidth] = useState(0);
+  const containerRef = useRef(null);
+  const eyeRefs = useRef([]);
 
   useEffect(() => {
     if (!userId) return;
     fetchWeekCompletions();
-    fetchUserStreak();
   }, [userId, selectedDate]);
 
-  const fetchUserStreak = async () => {
-    try {
-      const response = await fetch(`/api/users/${userId}`);
-      const user = await response.json();
-      setStreakDays(user.current_streak_days || 0);
-    } catch (error) {
-      console.error('Error fetching user streak:', error);
-    }
-  };
+  // Calculate bar width based on actual eye positions
+  useEffect(() => {
+    if (weekData.length === 0 || !containerRef.current) return;
+
+    const updateBarWidth = () => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      // Count how many days have passed (including today)
+      const pastDays = weekData.filter(day => day.isPast).length;
+      
+      if (pastDays === 0) {
+        // No days passed yet, bar stays at base size
+        setBarWidth(0);
+        return;
+      }
+
+      // Get the eye we need to reach (pastDays - 1 because array is 0-indexed)
+      const targetEyeIndex = pastDays - 1;
+      const targetEye = eyeRefs.current[targetEyeIndex];
+      
+      if (!targetEye) return;
+
+      // Get positions relative to container
+      const containerRect = container.getBoundingClientRect();
+      const eyeRect = targetEye.getBoundingClientRect();
+      
+      // Calculate the center of the target eye relative to container start
+      const eyeCenterX = eyeRect.left + (eyeRect.width / 2) - containerRect.left;
+      
+      // Bar starts at 7px from left, so we need to reach eyeCenterX from that point
+      const barWidthPx = eyeCenterX - 7;
+      
+      setBarWidth(barWidthPx > 0 ? barWidthPx : 0);
+    };
+
+    // Delay to ensure DOM is fully rendered
+    const timer = setTimeout(updateBarWidth, 100);
+
+    // Update on window resize
+    window.addEventListener('resize', updateBarWidth);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateBarWidth);
+    };
+  }, [weekData]);
 
   const fetchWeekCompletions = async () => {
     const current = new Date(selectedDate);
@@ -73,13 +111,8 @@ function WeekCalendar({ userId, selectedDate }) {
     setWeekData(week);
   };
 
-  // Calculate how many days have passed (closed eyes)
-  const pastDays = weekData.filter(day => day.isPast).length;
-  
-  // Calculate orange pill width
-  // Base 14% for "Tage" label + 11% for number + 12.5% per past day
-  // 0 past days: 25%, 1 day (Mo): 37.5%, 2 days (Di): 50%, 3 days (Mit): 62.5%, etc.
-  const pillWidthPercent = 25 + (pastDays * 12.5);
+  // Calculate how many days have passed since Monday (1-based counting)
+  const daysSinceMonday = weekData.filter(day => day.isPast).length;
 
   return (
     <div className="dumbledido-week-calendar">
@@ -95,16 +128,16 @@ function WeekCalendar({ userId, selectedDate }) {
         </div>
         
         {/* Main week pill */}
-        <div className="week-content">
+        <div className="week-content" ref={containerRef}>
           {/* Orange progress bar grows underneath */}
           <div 
             className="week-progress-bar"
-            style={{ width: `calc(${pillWidthPercent}% - 14px)` }}
+            style={{ width: `${barWidth}px` }}
           ></div>
           
           {/* Number stays fixed on left */}
           <div className="streak-counter">
-            {streakDays}
+            {daysSinceMonday}
           </div>
           
           {/* Day icons in fixed positions */}
@@ -115,7 +148,11 @@ function WeekCalendar({ userId, selectedDate }) {
               const eyeRotation = rotations[index];
               
               return (
-                <div key={index} className="week-day-cell">
+                <div 
+                  key={index} 
+                  className="week-day-cell"
+                  ref={(el) => eyeRefs.current[index] = el}
+                >
                   <div className="week-day-eye">
                     {day.isPast ? (
                       <div className="week-eye-closed"></div>
