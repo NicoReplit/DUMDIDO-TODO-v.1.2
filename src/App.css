@@ -178,10 +178,10 @@
   position: fixed;
   left: 0;
   bottom: 0;
-  width: 120px;
+  width: 80px;
   height: 200px;
   background-color: #EE4100;
-  border-radius: 60px;
+  border-radius: 40px;
   z-index: 0;
 }
 
