@@ -33,18 +33,26 @@ Complete visual transformation to a playful, kid-friendly design system:
 ## System Architecture
 
 ### UI/UX Decisions
-The application features a touch-friendly interface optimized for tablets and touchscreens, incorporating swipe gestures for task management. It includes a user selection interface with four-gesture interaction system:
+The application features a touch-friendly interface optimized for tablets and touchscreens, incorporating swipe gestures for task management. It includes a user selection interface with three-gesture interaction system:
 - **TAP**: Select user
 - **HOLD (200ms)**: Scroll through users
 - **SWIPE LEFT/RIGHT**: Show/hide edit icon for user editing
-- **SWIPE UP**: Open global PIN settings (parent access)
 
-Additional features include a week calendar for tracking completion statuses, and visual feedback elements like green checkmarks and pause icons. A prominent feature is the gradient overtime ring visualization for the timer, which uses a color gradient from yellow-green to red to indicate accumulated overtime. A global PIN system (accessed via swipe-up on any user blob) protects all todo edit/delete operations for the entire family.
+Additional features include a week calendar for tracking completion statuses, and visual feedback elements like green checkmarks and pause icons. A prominent feature is the gradient overtime ring visualization for the timer, which uses a color gradient from yellow-green to red to indicate accumulated overtime.
+
+**RedMenu Character**: A playful red circular character at the bottom center of the screen that provides access to global PIN settings:
+- **SWIPE UP**: Opens settings UI inside the scaled-up red circle
+- **SWIPE DOWN**: Closes settings and resets form
+- Settings are displayed centered within the enlarged red circle (scale 3.85x)
+- PIN confirmation required when creating or changing PIN (must enter twice)
+- Current PIN verification required for all protected operations (change/remove PIN)
+
+A global PIN system (accessed via RedMenu) protects all todo edit/delete operations for the entire family.
 
 ### Technical Implementations
 The application is a full-stack solution with a React frontend and a Node.js/Express backend. It uses a PostgreSQL database for data persistence. Key features include:
 - **User Management**: Creation, editing, and deletion of users with custom names and colors.
-- **Global PIN Security**: Single family-wide 4-digit PIN accessible via swipe-up gesture on any user blob. Protects all todo edit/delete operations across all users. Stored in `settings` table with bcrypt hashing.
+- **Global PIN Security**: Single family-wide 4-digit PIN accessible via RedMenu character (swipe up to open). Protects all todo edit/delete operations across all users. PIN must be entered twice when creating or changing. Current PIN required for all sensitive operations. Stored in `settings` table with bcrypt hashing.
 - **Open List - Shared Family Tasks**: A dedicated section for tasks not assigned to any specific user, allowing any family member to claim them for bonus points.
 - **To-Do Management**: Creation, updating, and deletion of tasks with title, description, estimated time, and recurrence options (daily, weekly, or one-time).
 - **Timer Functionality**: Start, pause, and complete tasks with a countdown timer that tracks overtime and persists across navigation, allowing multiple simultaneous timers.
