@@ -1,14 +1,14 @@
 export default function ZigZag() {
   return (
     <svg 
-      width="200" 
-      height="200" 
-      viewBox="0 0 200 200" 
+      width="260" 
+      height="260" 
+      viewBox="0 0 260 260" 
       fill="none" 
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M 15,60 L 55,160 L 100,20 L 145,160 L 185,80"
+        d="M 45,90 L 85,190 L 130,50 L 175,190 L 215,110"
         stroke="#FF006E"
         strokeWidth="60"
         strokeLinecap="round"
