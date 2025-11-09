@@ -17,12 +17,12 @@ export default function ZigZag() {
       />
       
       {/* Left eye */}
-      <circle cx="100" cy="50" r="19" fill="white" />
-      <circle cx="106" cy="56" r="7.5" fill="black" />
+      <circle cx="114.8" cy="50" r="15.2" fill="white" />
+      <circle cx="119.8" cy="54.5" r="6" fill="black" />
       
       {/* Right eye */}
-      <circle cx="160" cy="50" r="19" fill="white" />
-      <circle cx="166" cy="56" r="7.5" fill="black" />
+      <circle cx="145.2" cy="50" r="15.2" fill="white" />
+      <circle cx="150.2" cy="54.5" r="6" fill="black" />
     </svg>
   );
 }
