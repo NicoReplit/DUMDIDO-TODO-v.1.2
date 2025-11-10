@@ -11,6 +11,14 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 
 ## Recent Updates (November 2025)
 
+### Timer Interface Redesign (November 10, 2025)
+Simplified todo detail timer controls for better visual hierarchy:
+- **Centered Play Button**: Rounded yellow (#FECE00) play button (80px diameter, 70px on mobile) positioned in the center of the timer circle when not running
+- **Estimated Time Display**: Shows estimated minutes below the play button inside the circle (fallback to "No estimate" if missing)
+- **Removed Standalone Start Button**: Eliminated separate start button below timer; play functionality now integrated within the circle
+- **Accessibility**: Added aria-label to play button for screen reader support
+- **Responsive Design**: Play button and estimated time scale appropriately on smaller screens
+
 ### DUMBLEDIDO Visual Redesign
 Complete visual transformation to a playful, kid-friendly design system:
 - **Typography**: MuseoModerno font (Google Fonts) applied globally
