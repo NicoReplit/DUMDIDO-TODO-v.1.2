@@ -216,12 +216,25 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
                   background: `conic-gradient(#65b032 ${countdownProgress}%, #e5e7eb ${countdownProgress}%)`
                 }}>
                   <div className="timer-inner">
-                    <div className="timer-display" style={{ color: '#65b032' }}>
-                      {formatTime(countdownTime)}
-                    </div>
-                    <div className="timer-label">
-                      {countdownTime === 0 ? 'Time\'s up!' : 'remaining'}
-                    </div>
+                    {!isRunning && timeRemaining > 0 ? (
+                      <>
+                        <button className="play-btn-circle" onClick={handleStart} aria-label="Start timer">
+                          ▶
+                        </button>
+                        <div className="estimated-time-circle">
+                          {todo.estimated_minutes ? `${todo.estimated_minutes} Min` : 'No estimate'}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="timer-display" style={{ color: '#65b032' }}>
+                          {formatTime(countdownTime)}
+                        </div>
+                        <div className="timer-label">
+                          {countdownTime === 0 ? 'Time\'s up!' : 'remaining'}
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               )}
@@ -278,12 +291,6 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
             )}
 
             <div className="detail-actions">
-              {!isRunning && timeRemaining > 0 && (
-                <button className="start-btn" onClick={handleStart}>
-                  Start
-                </button>
-              )}
-              
               {isRunning && (
                 <>
                   <button className="pause-btn" onClick={handlePause}>
