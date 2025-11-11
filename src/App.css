@@ -245,6 +245,52 @@
   margin-top: 11px;
 }
 
+/* Right pink pill - duplicate of green pill */
+.right-pink-pill {
+  position: fixed;
+  left: 160px;
+  bottom: -120px;
+  width: 90px;
+  height: 280px;
+  background-color: #FF77B9;
+  border-radius: 45px;
+  z-index: 9998;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: bottom 0.3s ease, transform 0.2s ease;
+}
+
+.right-pink-pill.slide-up {
+  bottom: 0;
+}
+
+.right-pink-pill:hover {
+  transform: scale(1.05);
+}
+
+.right-pink-pill:active {
+  transform: scale(0.95);
+}
+
+.blue-circle {
+  width: 68px;
+  height: 68px;
+  background-color: #0061EE;
+  border-radius: 50%;
+  margin-top: 212px;
+  transition: margin-top 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blue-circle.animate {
+  margin-top: 11px;
+}
+
 .left-red-pill-text {
   font-family: 'MuseoModerno', sans-serif;
   color: white;
