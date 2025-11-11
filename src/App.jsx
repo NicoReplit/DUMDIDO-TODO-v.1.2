@@ -36,6 +36,7 @@ function App() {
   const [globalPin, setGlobalPin] = useState(null);
   const [doneCallback, setDoneCallback] = useState(null);
   const [pauseCallback, setPauseCallback] = useState(null);
+  const [celebrationTick, setCelebrationTick] = useState(0);
 
   useEffect(() => {
     fetchUsers();
@@ -265,6 +266,10 @@ function App() {
       setTodos(prevTodos => 
         prevTodos.map(todo => todo.id === id ? updatedTodo : todo)
       );
+      
+      if (updates.completed) {
+        setCelebrationTick(tick => tick + 1);
+      }
       
       if (updates.completed || updates.super_point_used) {
         await fetchUsers();
@@ -637,7 +642,7 @@ function App() {
         globalPin={globalPin}
         onSavePin={handleSaveGlobalPin}
       />
-      <BlueCircle />
+      <BlueCircle celebrationTick={celebrationTick} />
       
       <div style={{
         position: 'fixed',

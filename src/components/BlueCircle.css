@@ -15,6 +15,25 @@
   position: relative;
 }
 
+.blue-circle-inner.wiggling {
+  animation: blueCircleWiggle 4s ease-in-out infinite;
+}
+
+@keyframes blueCircleWiggle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  75% {
+    transform: scale(1.05);
+  }
+}
+
 .blue-circle-eyes {
   position: absolute;
   top: -15.2px;
