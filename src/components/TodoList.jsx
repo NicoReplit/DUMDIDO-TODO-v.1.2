@@ -95,7 +95,7 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
             {/* Top layer - main content */}
             <div
               className={`dumbledido-todo-card pill-top ${getCardColor(index)} ${todo.completed ? 'completed' : ''}`}
-              onClick={() => onSelect(todo)}
+              onClick={() => !todo.completed && onSelect(todo)}
             >
               <div className="todo-card-content">
                 <h3 className="dumbledido-todo-title">{todo.title}</h3>
@@ -108,14 +108,24 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
                   : '--'}
               </div>
               {todo.completed && (
-                <div className="completed-check">✓</div>
-              )}
-              {!todo.completed && runningTimers[todo.id] && (
-                <div className="running-indicator">▶️</div>
+                <div className="status-icon done-icon">
+                  <div className="icon-circle yellow-circle"></div>
+                  <svg className="icon-stroke" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
               )}
               {!todo.completed && !runningTimers[todo.id] && todo.remaining_seconds !== null && 
                todo.remaining_seconds < (todo.estimated_minutes * 60) && (
-                <div className="pause-indicator">⏸️</div>
+                <div className="status-icon pause-icon">
+                  <div className="icon-circle blue-circle"></div>
+                  <svg className="icon-stroke" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="7" y="6" width="3" height="12" fill="white" rx="1.5"/>
+                    <rect x="14" y="6" width="3" height="12" fill="white" rx="1.5"/>
+                    <circle cx="8.5" cy="4" r="1.5" fill="black"/>
+                    <circle cx="15.5" cy="4" r="1.5" fill="black"/>
+                  </svg>
+                </div>
               )}
             </div>
           </div>
