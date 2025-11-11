@@ -8,8 +8,6 @@ function BlueCircle({ celebrationTick, points }) {
 
   useEffect(() => {
     if (celebrationTick > 0) {
-      console.log('BlueCircle celebration triggered!', { celebrationTick, points });
-      
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
@@ -57,7 +55,7 @@ function BlueCircle({ celebrationTick, points }) {
           <div 
             className="blue-circle-points"
             style={{ 
-              transform: `scale(${1 / scale})`,
+              transform: `rotate(-${scale === 1 ? 45 : 25}deg) scale(${1 / scale})`,
               transition: 'transform 0.2s ease-out'
             }}
           >

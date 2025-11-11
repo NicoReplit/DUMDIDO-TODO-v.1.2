@@ -137,7 +137,7 @@ function App() {
       } else {
         let payload;
         if (isOpenListSelected || todoData.is_open_list) {
-          payload = { ...cleanedData, is_open_list: true };
+          payload = { ...cleanedData, is_open_list: true, user_id: null };
         } else {
           payload = { ...cleanedData, user_id: currentUser.id };
         }
@@ -270,13 +270,9 @@ function App() {
       );
       
       if (updates.completed) {
-        console.log('Todo completed! Celebration data:', updates.celebrationPoints);
         setCelebrationTick(tick => tick + 1);
         if (updates.celebrationPoints) {
-          console.log('Setting celebration points:', updates.celebrationPoints);
           setCelebrationPoints(updates.celebrationPoints);
-        } else {
-          console.log('No celebration points in updates!');
         }
       }
       
