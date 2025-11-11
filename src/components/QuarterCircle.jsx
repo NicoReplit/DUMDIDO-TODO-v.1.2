@@ -1,9 +1,9 @@
 import React from 'react';
 import './QuarterCircle.css';
 
-function QuarterCircle() {
+function QuarterCircle({ onClick }) {
   return (
-    <div className="quarter-circle-wrapper">
+    <div className="quarter-circle-wrapper" onClick={onClick}>
       <div className="quarter-circle-inner">
         <svg 
           className="quarter-circle-cross" 

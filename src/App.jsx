@@ -644,7 +644,13 @@ function App() {
         onSavePin={handleSaveGlobalPin}
       />
       <BlueCircle celebrationTick={celebrationTick} />
-      <QuarterCircle />
+      <QuarterCircle onClick={() => {
+        if (!currentUser) {
+          alert('Please select a user first to create a new todo!');
+          return;
+        }
+        setShowForm(true);
+      }} />
       
       <div style={{
         position: 'fixed',
