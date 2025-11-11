@@ -199,6 +199,32 @@
   transform: scale(0.95);
 }
 
+/* Left green pill - duplicate of red pill */
+.left-green-pill {
+  position: fixed;
+  left: 80px;
+  bottom: 0;
+  width: 80px;
+  height: 200px;
+  background-color: #38D247;
+  border-radius: 40px;
+  z-index: 9998;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.left-green-pill:hover {
+  transform: scale(1.05);
+}
+
+.left-green-pill:active {
+  transform: scale(0.95);
+}
+
 .left-red-pill-text {
   font-family: 'MuseoModerno', sans-serif;
   color: white;

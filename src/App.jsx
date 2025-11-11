@@ -721,6 +721,16 @@ function App() {
           Super<br />Punkte
         </div>
       </button>
+
+      <button className="left-green-pill">
+        <div className="left-red-pill-text">
+          <div className="super-punkte-header">
+            <span className="star-emoji">⭐</span>
+            <span className="super-punkte-counter">{currentUser ? currentUser.super_points : 0}</span>
+          </div>
+          Super<br />Punkte
+        </div>
+      </button>
     </div>
   );
 }
