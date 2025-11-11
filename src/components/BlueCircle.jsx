@@ -11,7 +11,7 @@ function BlueCircle({ celebrationTick }) {
         clearTimeout(timeoutRef.current);
       }
       
-      setScale(6.3);
+      setScale(7.56);
       
       timeoutRef.current = setTimeout(() => {
         setScale(1);
