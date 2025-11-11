@@ -11,7 +11,7 @@ function BlueCircle({ celebrationTick }) {
         clearTimeout(timeoutRef.current);
       }
       
-      setScale(2.5);
+      setScale(7);
       
       timeoutRef.current = setTimeout(() => {
         setScale(1);
@@ -30,8 +30,8 @@ function BlueCircle({ celebrationTick }) {
     <div 
       className="blue-circle-wrapper"
       style={{
-        transform: `translate(-20%, 20%) rotate(45deg) scale(${scale})`,
-        transition: 'transform 1.2s ease-out',
+        transform: `translate(-20%, 20%) rotate(${scale === 1 ? 45 : 25}deg) scale(${scale})`,
+        transition: 'transform 1.0s ease-out',
         transformOrigin: 'center center'
       }}
     >
@@ -40,7 +40,7 @@ function BlueCircle({ celebrationTick }) {
           className="blue-circle-eyes"
           style={{ 
             transform: `translateX(-50%) scale(${1 / scale})`,
-            transition: 'transform 1.2s ease-out',
+            transition: 'transform 1.0s ease-out',
             animationPlayState: scale === 1 ? 'running' : 'paused'
           }}
         >
