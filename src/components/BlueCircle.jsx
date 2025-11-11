@@ -8,6 +8,8 @@ function BlueCircle({ celebrationTick, points }) {
 
   useEffect(() => {
     if (celebrationTick > 0) {
+      console.log('BlueCircle celebration triggered!', { celebrationTick, points });
+      
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
@@ -27,7 +29,7 @@ function BlueCircle({ celebrationTick, points }) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [celebrationTick]);
+  }, [celebrationTick, points]);
 
   return (
     <div 

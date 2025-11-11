@@ -270,9 +270,13 @@ function App() {
       );
       
       if (updates.completed) {
+        console.log('Todo completed! Celebration data:', updates.celebrationPoints);
         setCelebrationTick(tick => tick + 1);
         if (updates.celebrationPoints) {
+          console.log('Setting celebration points:', updates.celebrationPoints);
           setCelebrationPoints(updates.celebrationPoints);
+        } else {
+          console.log('No celebration points in updates!');
         }
       }
       
