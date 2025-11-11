@@ -11,6 +11,7 @@ import UserSelectionModal from './components/UserSelectionModal';
 import ProgressBar from './components/ProgressBar';
 import RedMenu from './components/RedMenu';
 import BlueCircle from './components/BlueCircle';
+import GreenPill from './components/GreenPill';
 import ZigZag from './components/ZigZag';
 import './App.css';
 
@@ -633,6 +634,7 @@ function App() {
         globalPin={globalPin}
         onSavePin={handleSaveGlobalPin}
       />
+      <GreenPill />
       <BlueCircle />
       
       <div style={{
