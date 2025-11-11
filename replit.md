@@ -11,12 +11,6 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 
 ## Recent Updates (November 2025)
 
-### GreenPill Character Addition (November 11, 2025)
-Added a new decorative character to the bottom interface:
-- **GreenPill**: Vertical green pill (48vmin × 64vmin) positioned with left edge touching RedMenu's right edge
-- Matches RedMenu's eye design with white circles and black pupils
-- Creates a playful character family alongside RedMenu, BlueCircle, and ZigZag
-
 ### Timer Interface Redesign (November 10, 2025)
 Simplified todo detail timer controls for better visual hierarchy:
 - **Centered Play Button**: Rounded yellow (#FECE00) play button (80px diameter, 70px on mobile) positioned in the center of the timer circle when not running
@@ -66,13 +60,6 @@ Additional features include a week calendar for tracking completion statuses wit
 - Settings are displayed centered within the enlarged red circle (scale 3.85x)
 - PIN confirmation required when creating or changing PIN (must enter twice)
 - Current PIN verification required for all protected operations (change/remove PIN)
-
-**GreenPill Character**: A green vertical pill character positioned adjacent to RedMenu:
-- Size: 48vmin wide × 64vmin tall (1/3 taller than RedMenu's 48×48vmin)
-- Position: Left edge touching right edge of RedMenu
-- Color: #38D247 (DUMBLEDIDO green)
-- Features: Two white eyes with black pupils, matching RedMenu's eye style
-- Z-index: 9998 (below RedMenu's 9999)
 
 A global PIN system (accessed via RedMenu) protects all todo edit/delete operations for the entire family.
 
