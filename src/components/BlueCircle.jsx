@@ -39,7 +39,19 @@ function BlueCircle({ celebrationTick, points }) {
       }}
     >
       <div className={`blue-circle-inner ${scale === 1 ? 'wiggling' : ''}`}>
-        {showPoints && points ? (
+        <div 
+          className="blue-circle-eyes"
+          style={{ 
+            transform: `translateX(-50%) scale(${1 / scale})`,
+            transition: 'transform 0.2s ease-out',
+            animationPlayState: scale === 1 ? 'running' : 'paused'
+          }}
+        >
+          <div className="blue-circle-eye"></div>
+          <div className="blue-circle-eye"></div>
+        </div>
+        
+        {showPoints && points && (
           <div 
             className="blue-circle-points"
             style={{ 
@@ -60,18 +72,6 @@ function BlueCircle({ celebrationTick, points }) {
                 <div className="bonus">No-Pause: +{points.noPauseBonus}</div>
               )}
             </div>
-          </div>
-        ) : (
-          <div 
-            className="blue-circle-eyes"
-            style={{ 
-              transform: `translateX(-50%) scale(${1 / scale})`,
-              transition: 'transform 0.2s ease-out',
-              animationPlayState: scale === 1 ? 'running' : 'paused'
-            }}
-          >
-            <div className="blue-circle-eye"></div>
-            <div className="blue-circle-eye"></div>
           </div>
         )}
       </div>

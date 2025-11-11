@@ -80,29 +80,36 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 200px;
+  width: 300px;
+  z-index: 10;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .blue-circle-points-total {
-  font-size: 48px;
+  font-size: 64px;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  line-height: 1;
 }
 
 .blue-circle-points-label {
-  font-size: 24px;
-  margin-bottom: 10px;
+  font-size: 32px;
+  margin-bottom: 15px;
+  font-weight: bold;
 }
 
 .blue-circle-points-details {
-  font-size: 16px;
-  line-height: 1.4;
+  font-size: 20px;
+  line-height: 1.6;
+  font-weight: 600;
 }
 
 .blue-circle-points-details .bonus {
-  color: #38D247;
+  color: #FECE00;
+  font-weight: bold;
 }
 
 .blue-circle-points-details .penalty {
-  color: #EE4100;
+  color: #FF006E;
+  font-weight: bold;
 }
