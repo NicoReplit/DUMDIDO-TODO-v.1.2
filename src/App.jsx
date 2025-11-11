@@ -733,8 +733,10 @@ function App() {
       <button className={`right-pink-pill ${selectedTodo ? 'slide-up' : ''}`}>
         <div className={`blue-circle ${selectedTodo ? 'animate' : ''}`}>
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="20" y1="10" x2="20" y2="30" stroke="white" strokeWidth="8" strokeLinecap="round"/>
-            <circle cx="20" cy="10" r="4" fill="black"/>
+            <line x1="14" y1="10" x2="14" y2="30" stroke="white" strokeWidth="8" strokeLinecap="round"/>
+            <circle cx="14" cy="10" r="4" fill="black"/>
+            <line x1="26" y1="10" x2="26" y2="30" stroke="white" strokeWidth="8" strokeLinecap="round"/>
+            <circle cx="26" cy="10" r="4" fill="black"/>
           </svg>
         </div>
       </button>
