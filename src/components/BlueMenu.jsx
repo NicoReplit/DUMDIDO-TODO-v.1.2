@@ -80,11 +80,11 @@ function BlueMenu({ globalPin, onSavePin }) {
       className="blue-menu-wrapper"
       style={{
         position: 'fixed',
-        left: 'calc(-33.6vmin + 30px)',
-        top: '50%',
-        transform: `translateY(calc(-50% - 10px)) scale(${scale})`,
+        left: '20px',
+        bottom: '25%',
+        transform: `scale(${scale})`,
         transition: 'transform 1.2s ease-out',
-        transformOrigin: '70% center',
+        transformOrigin: 'center center',
         '--menu-scale': scale
       }}
       onTouchStart={handleTouchStart}
