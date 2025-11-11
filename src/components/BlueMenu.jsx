@@ -80,8 +80,8 @@ function BlueMenu({ globalPin, onSavePin }) {
       className="blue-menu-wrapper"
       style={{
         position: 'fixed',
-        left: '20px',
-        bottom: '25%',
+        left: '0',
+        bottom: '0',
         transform: `scale(${scale})`,
         transition: 'transform 1.2s ease-out',
         transformOrigin: 'center center',
