@@ -205,7 +205,7 @@
   left: 80px;
   bottom: 0;
   width: 80px;
-  height: 200px;
+  height: 280px;
   background-color: #38D247;
   border-radius: 40px;
   z-index: 9998;
@@ -223,6 +223,14 @@
 
 .left-green-pill:active {
   transform: scale(0.95);
+}
+
+.yellow-circle {
+  width: 76px;
+  height: 76px;
+  background-color: #FECE00;
+  border-radius: 50%;
+  margin-top: 2px;
 }
 
 .left-red-pill-text {
