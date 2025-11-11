@@ -226,11 +226,11 @@
 }
 
 .yellow-circle {
-  width: 76px;
-  height: 76px;
+  width: 68px;
+  height: 68px;
   background-color: #FECE00;
   border-radius: 50%;
-  margin-top: 2px;
+  margin-top: 6px;
 }
 
 .left-red-pill-text {
