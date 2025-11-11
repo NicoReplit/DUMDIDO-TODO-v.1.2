@@ -603,10 +603,6 @@ function App() {
         </>
       )}
 
-      <button className="add-button dumbledido-add-button" onClick={() => setShowForm(true)}>
-        +
-      </button>
-
       {showPinEntry && currentUser && (
         <PINEntry
           userName={currentUser.name}
