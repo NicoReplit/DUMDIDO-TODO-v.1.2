@@ -33,7 +33,7 @@ function BlueCircle({ celebrationTick, points }) {
     <div 
       className="blue-circle-wrapper"
       style={{
-        transform: `translate(-20%, 20%) rotate(${scale === 1 ? 45 : 25}deg) scale(${scale})`,
+        transform: `scale(${scale})`,
         transition: 'transform 0.2s ease-out',
         transformOrigin: 'center center'
       }}
@@ -42,7 +42,7 @@ function BlueCircle({ celebrationTick, points }) {
         <div 
           className="blue-circle-eyes"
           style={{ 
-            transform: `translateX(-50%) rotate(${scale === 1 ? -45 : -25}deg) scale(${1 / scale})`,
+            transform: `translateX(-50%) scale(${1 / scale})`,
             transition: 'transform 0.2s ease-out',
             animationPlayState: scale === 1 ? 'running' : 'paused'
           }}
@@ -55,8 +55,8 @@ function BlueCircle({ celebrationTick, points }) {
           <div 
             className="blue-circle-points"
             style={{ 
-              top: '50%',
-              transform: `translate(-50%, -50%) rotate(${scale === 1 ? -45 : -25}deg) scale(${1 / scale})`,
+              top: '20px',
+              transform: `translate(-50%, 0) scale(${1 / scale})`,
               transition: 'transform 0.2s ease-out'
             }}
           >

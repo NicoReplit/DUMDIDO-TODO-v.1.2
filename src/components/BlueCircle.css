@@ -2,7 +2,6 @@
   position: fixed;
   left: 0;
   bottom: 0;
-  transform: translate(-20%, 20%) rotate(45deg);
   z-index: 10000;
   pointer-events: none;
 }
@@ -13,6 +12,7 @@
   background-color: #0061EE;
   border-radius: 50%;
   position: relative;
+  transform: translate(-20%, 20%) rotate(45deg);
 }
 
 .blue-circle-inner.wiggling {
