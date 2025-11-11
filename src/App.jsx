@@ -34,6 +34,8 @@ function App() {
   const [pendingClaimTask, setPendingClaimTask] = useState(null);
   const [isOpenListSelected, setIsOpenListSelected] = useState(false);
   const [globalPin, setGlobalPin] = useState(null);
+  const [doneCallback, setDoneCallback] = useState(null);
+  const [pauseCallback, setPauseCallback] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -626,6 +628,8 @@ function App() {
           startTimer={startTimer}
           stopTimer={stopTimer}
           getTimerState={getTimerState}
+          onDone={(callback) => setDoneCallback(() => callback)}
+          onPause={(callback) => setPauseCallback(() => callback)}
         />
       )}
 
@@ -722,7 +726,14 @@ function App() {
         </div>
       </button>
 
-      <button className={`left-green-pill ${selectedTodo ? 'slide-up' : ''}`}>
+      <button 
+        className={`left-green-pill ${selectedTodo ? 'slide-up' : ''}`}
+        onClick={() => {
+          if (selectedTodo && doneCallback) {
+            doneCallback();
+          }
+        }}
+      >
         <div className={`yellow-circle ${selectedTodo ? 'animate' : ''}`}>
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M8 20 L16 28 L29 10" stroke="white" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -730,7 +741,14 @@ function App() {
         </div>
       </button>
 
-      <button className={`right-pink-pill ${selectedTodo ? 'slide-up' : ''}`}>
+      <button 
+        className={`right-pink-pill ${selectedTodo ? 'slide-up' : ''}`}
+        onClick={() => {
+          if (selectedTodo && pauseCallback) {
+            pauseCallback();
+          }
+        }}
+      >
         <div className={`blue-circle ${selectedTodo ? 'animate' : ''}`}>
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <line x1="14" y1="10" x2="14" y2="30" stroke="white" strokeWidth="8" strokeLinecap="round"/>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './TodoDetail.css';
 
-function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTimer, getTimerState }) {
+function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTimer, getTimerState, onDone, onPause }) {
   const timerState = getTimerState(todo.id);
   const [isRunning, setIsRunning] = useState(!!timerState);
   const [timeRemaining, setTimeRemaining] = useState(
@@ -14,30 +14,6 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
   const [superPointUsed, setSuperPointUsed] = useState(todo.super_point_used || false);
   const [showPointsBreakdown, setShowPointsBreakdown] = useState(false);
   const [earnedPoints, setEarnedPoints] = useState(null);
-
-  useEffect(() => {
-    const currentTimerState = getTimerState(todo.id);
-    if (currentTimerState) {
-      setTimeRemaining(currentTimerState.timeRemaining);
-      setElapsedTime(currentTimerState.elapsedTime);
-      setIsRunning(true);
-    }
-    
-    const interval = setInterval(() => {
-      const state = getTimerState(todo.id);
-      if (state) {
-        setTimeRemaining(state.timeRemaining);
-        setElapsedTime(state.elapsedTime);
-      }
-    }, 100);
-    
-    return () => clearInterval(interval);
-  }, [todo.id, getTimerState]);
-
-  const handleStart = () => {
-    setIsRunning(true);
-    startTimer(todo.id, timeRemaining, elapsedTime);
-  };
 
   const handlePause = () => {
     stopTimer(todo.id);
@@ -63,14 +39,10 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
     const basePoints = todo.estimated_minutes;
     const timeDiffSeconds = estimatedSeconds - actualTimeSeconds;
     
-    // For overtime (negative diff), use floor to immediately apply penalty at 0:00 overtime
-    // For early finish (positive diff), use round for fair rounding
     let timeDiffMinutes;
     if (timeDiffSeconds < 0) {
-      // Overtime: floor makes any overtime count as full minute penalty
       timeDiffMinutes = Math.floor(timeDiffSeconds / 60);
     } else {
-      // Early or on-time: round normally
       timeDiffMinutes = Math.round(timeDiffSeconds / 60);
     }
     
@@ -112,6 +84,39 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
       });
       onClose();
     }, 3000);
+  };
+
+  useEffect(() => {
+    if (onDone) {
+      onDone(handleDone);
+    }
+    if (onPause) {
+      onPause(handlePause);
+    }
+  }, [timeRemaining, elapsedTime, pauseUsed, superPointUsed]);
+
+  useEffect(() => {
+    const currentTimerState = getTimerState(todo.id);
+    if (currentTimerState) {
+      setTimeRemaining(currentTimerState.timeRemaining);
+      setElapsedTime(currentTimerState.elapsedTime);
+      setIsRunning(true);
+    }
+    
+    const interval = setInterval(() => {
+      const state = getTimerState(todo.id);
+      if (state) {
+        setTimeRemaining(state.timeRemaining);
+        setElapsedTime(state.elapsedTime);
+      }
+    }, 100);
+    
+    return () => clearInterval(interval);
+  }, [todo.id, getTimerState]);
+
+  const handleStart = () => {
+    setIsRunning(true);
+    startTimer(todo.id, timeRemaining, elapsedTime);
   };
 
   const formatTime = (seconds) => {
@@ -289,25 +294,6 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
             {superPointUsed && (
               <p className="super-point-active">⭐ Super Point Active - This task counts as on-time!</p>
             )}
-
-            <div className="detail-actions">
-              {isRunning && (
-                <>
-                  <button className="pause-btn" onClick={handlePause}>
-                    ⏸️ Pause
-                  </button>
-                  <button className="done-btn" onClick={handleDone}>
-                    ✓ Done
-                  </button>
-                </>
-              )}
-
-              {!isRunning && timeRemaining <= 0 && (
-                <button className="done-btn full-width" onClick={handleDone}>
-                  ✓ Mark as Done
-                </button>
-              )}
-            </div>
           </>
         )}
       </div>
