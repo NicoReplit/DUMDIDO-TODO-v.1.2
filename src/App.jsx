@@ -10,6 +10,7 @@ import OpenList from './components/OpenList';
 import UserSelectionModal from './components/UserSelectionModal';
 import ProgressBar from './components/ProgressBar';
 import RedMenu from './components/RedMenu';
+import BlueMenu from './components/BlueMenu';
 import QuarterCircle from './components/QuarterCircle';
 import ZigZag from './components/ZigZag';
 import './App.css';
@@ -630,6 +631,10 @@ function App() {
       )}
 
       <RedMenu 
+        globalPin={globalPin}
+        onSavePin={handleSaveGlobalPin}
+      />
+      <BlueMenu 
         globalPin={globalPin}
         onSavePin={handleSaveGlobalPin}
       />

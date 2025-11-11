@@ -1,0 +1,232 @@
+.blue-menu-wrapper {
+  z-index: 9999;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: auto;
+}
+
+.blue-menu-inner {
+  width: 48vmin;
+  height: 48vmin;
+  background-color: #0061EE;
+  cursor: pointer;
+  border-radius: 50%;
+  position: relative;
+  transform: scale(1);
+}
+
+.blue-menu-inner.wiggling {
+  animation: blueCircleWiggle 4s ease-in-out infinite;
+}
+
+@keyframes blueCircleWiggle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  75% {
+    transform: scale(1.05);
+  }
+}
+
+.blue-menu-eyes {
+  position: absolute;
+  top: -19px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.blue-menu-eye {
+  width: 38px;
+  height: 38px;
+  background: white;
+  border-radius: 50%;
+  position: relative;
+  animation: blueEyeWiggle 3s ease-in-out infinite;
+}
+
+.blue-menu-eye:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.blue-menu-eye::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: #000000;
+  border-radius: 50%;
+  top: 30%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes blueEyeWiggle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.05);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  75% {
+    transform: scale(1.02);
+  }
+}
+
+.blue-menu-settings {
+  position: absolute;
+  left: 50%;
+  transform-origin: top center;
+  width: 90%;
+  max-width: 500px;
+  box-sizing: border-box;
+  text-align: center;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.blue-pin-input {
+  font-family: 'MuseoModerno', sans-serif;
+  width: 100%;
+  height: 48px;
+  padding: 12px 24px;
+  border-radius: 24px;
+  border: none;
+  background-color: #EE4100;
+  box-shadow: 5px 5px 0 0 #FECE00;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 6px;
+  box-sizing: border-box;
+}
+
+.blue-pin-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: normal;
+}
+
+.blue-pin-input:focus {
+  outline: none;
+}
+
+.blue-pin-input-1 {
+  animation: slideInPillBlue 0.6s ease-out;
+}
+
+.blue-pin-input-2 {
+  animation: slideInPillBlue 0.6s ease-out 0.1s both;
+}
+
+.blue-pin-input-3 {
+  animation: slideInPillBlue 0.6s ease-out 0.2s both;
+}
+
+@keyframes slideInPillBlue {
+  0% {
+    opacity: 0;
+    transform: translateX(-100vw);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.blue-button-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.blue-remove-button,
+.blue-save-button {
+  flex: 1;
+  height: 48px;
+  padding: 12px 24px;
+  border-radius: 24px;
+  border: none;
+  font-family: 'MuseoModerno', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.blue-remove-button {
+  background-color: #EE4100;
+  box-shadow: 5px 5px 0 0 #FECE00;
+}
+
+.blue-save-button {
+  background-color: #38D247;
+  box-shadow: 5px 5px 0 0 #FECE00;
+}
+
+.blue-remove-button:active,
+.blue-save-button:active {
+  transform: scale(0.95);
+}
+
+.blue-button-animate-3 {
+  animation: slideInPillBlue 0.6s ease-out 0.8s both;
+}
+
+.blue-button-animate-4 {
+  animation: slideInPillBlue 0.6s ease-out 0.8s both;
+}
+
+.blue-button-animate-5 {
+  animation: slideInPillBlue 0.6s ease-out 0.9s both;
+}
+
+.blue-button-animate-3-close {
+  animation: slideOutPillBlue 0.6s ease-in both;
+}
+
+.blue-pin-input-3-close {
+  animation: slideOutPillBlue 0.6s ease-in 0.1s both;
+}
+
+.blue-pin-input-2-close {
+  animation: slideOutPillBlue 0.6s ease-in 0.2s both;
+}
+
+.blue-pin-input-1-close {
+  animation: slideOutPillBlue 0.6s ease-in 0.3s both;
+}
+
+.blue-button-animate-4-close {
+  animation: slideOutPillBlue 0.6s ease-in both;
+}
+
+.blue-button-animate-5-close {
+  animation: slideOutPillBlue 0.6s ease-in 0.1s both;
+}
+
+@keyframes slideOutPillBlue {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100vw);
+  }
+}
