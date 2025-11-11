@@ -71,19 +71,17 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
     
     const points = calculatePoints();
     setEarnedPoints(points);
-    setShowPointsBreakdown(true);
     
-    setTimeout(() => {
-      onUpdate({ 
-        completed: true, 
-        remaining_seconds: 0,
-        pause_used: pauseUsed,
-        super_point_used: superPointUsed,
-        points_earned: points.total,
-        actual_time_seconds: points.actualTimeSeconds
-      });
-      onClose();
-    }, 3000);
+    onUpdate({ 
+      completed: true, 
+      remaining_seconds: 0,
+      pause_used: pauseUsed,
+      super_point_used: superPointUsed,
+      points_earned: points.total,
+      actual_time_seconds: points.actualTimeSeconds,
+      celebrationPoints: points
+    });
+    onClose();
   };
 
   useEffect(() => {
@@ -193,27 +191,7 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
           <p className="detail-description">{todo.description}</p>
         )}
 
-        {showPointsBreakdown && earnedPoints && (
-          <div className="points-celebration">
-            <h2>🎉 Task Complete! 🎉</h2>
-            <div className="points-breakdown">
-              <div className="points-total">{earnedPoints.total} Points!</div>
-              <div className="points-details">
-                <div>Base Points: {earnedPoints.basePoints}</div>
-                {earnedPoints.timeBonus !== 0 && (
-                  <div className={earnedPoints.timeBonus > 0 ? 'bonus' : 'penalty'}>
-                    Time {earnedPoints.timeBonus > 0 ? 'Bonus' : 'Penalty'}: {earnedPoints.timeBonus > 0 ? '+' : ''}{earnedPoints.timeBonus}
-                  </div>
-                )}
-                {earnedPoints.noPauseBonus > 0 && (
-                  <div className="bonus">No-Pause Bonus: +{earnedPoints.noPauseBonus}</div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {!showPointsBreakdown && (
+        {(
           <>
             <div className="timer-container">
               {!isOvertime && (

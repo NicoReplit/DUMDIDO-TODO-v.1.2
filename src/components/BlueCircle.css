@@ -71,3 +71,38 @@
   border-radius: 50%;
   transform: translateY(9.2px);
 }
+
+.blue-circle-points {
+  color: white;
+  text-align: center;
+  font-family: 'MuseoModerno', sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+}
+
+.blue-circle-points-total {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.blue-circle-points-label {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.blue-circle-points-details {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.blue-circle-points-details .bonus {
+  color: #38D247;
+}
+
+.blue-circle-points-details .penalty {
+  color: #EE4100;
+}

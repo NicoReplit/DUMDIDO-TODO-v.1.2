@@ -38,6 +38,7 @@ function App() {
   const [doneCallback, setDoneCallback] = useState(null);
   const [pauseCallback, setPauseCallback] = useState(null);
   const [celebrationTick, setCelebrationTick] = useState(0);
+  const [celebrationPoints, setCelebrationPoints] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -270,6 +271,9 @@ function App() {
       
       if (updates.completed) {
         setCelebrationTick(tick => tick + 1);
+        if (updates.celebrationPoints) {
+          setCelebrationPoints(updates.celebrationPoints);
+        }
       }
       
       if (updates.completed || updates.super_point_used) {
@@ -639,7 +643,7 @@ function App() {
         globalPin={globalPin}
         onSavePin={handleSaveGlobalPin}
       />
-      <BlueCircle celebrationTick={celebrationTick} />
+      <BlueCircle celebrationTick={celebrationTick} points={celebrationPoints} />
       <QuarterCircle onClick={() => {
         if (!currentUser) {
           alert('Please select a user first to create a new todo!');
