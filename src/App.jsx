@@ -723,7 +723,7 @@ function App() {
       </button>
 
       <button className="left-green-pill">
-        <div className="yellow-circle"></div>
+        <div className={`yellow-circle ${selectedTodo ? 'animate' : ''}`}></div>
       </button>
     </div>
   );
