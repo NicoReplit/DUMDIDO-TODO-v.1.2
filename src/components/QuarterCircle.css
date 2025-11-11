@@ -2,9 +2,9 @@
   position: fixed;
   bottom: 0;
   right: 0;
-  width: 100px;
-  height: 100px;
-  z-index: 1000;
+  width: 20px;
+  height: 20px;
+  z-index: 6000;
 }
 
 .quarter-circle-inner {
