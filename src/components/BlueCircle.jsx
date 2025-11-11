@@ -51,11 +51,12 @@ function BlueCircle({ celebrationTick, points }) {
           <div className="blue-circle-eye"></div>
         </div>
         
-        {showPoints && points && (
+        {(scale === 7.56 || showPoints) && points && (
           <div 
             className="blue-circle-points"
             style={{ 
-              transform: `rotate(-${scale === 1 ? 45 : 25}deg) scale(${1 / scale})`,
+              top: '50%',
+              transform: `translate(-50%, -50%) scale(${1 / scale})`,
               transition: 'transform 0.2s ease-out'
             }}
           >

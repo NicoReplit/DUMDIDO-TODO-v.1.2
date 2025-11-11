@@ -36,55 +36,68 @@
 
 .blue-circle-eyes {
   position: absolute;
-  top: -15.2px;
+  top: -19px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 2px;
+  gap: 6px;
   pointer-events: none;
-  z-index: 1;
 }
 
 .blue-circle-eye {
-  width: 30.4px;
-  height: 30.4px;
-  background-color: white;
+  width: 38px;
+  height: 38px;
+  background: white;
   border-radius: 50%;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  animation: eyeWiggle 3s ease-in-out infinite;
 }
 
-.blue-circle-eye:first-child {
-  transform: rotate(20deg);
-}
-
-.blue-circle-eye:last-child {
-  transform: rotate(240deg);
+.blue-circle-eye:nth-child(2) {
+  animation-delay: 0.5s;
 }
 
 .blue-circle-eye::after {
   content: '';
-  width: 12px;
-  height: 12px;
-  background-color: black;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: #000000;
   border-radius: 50%;
-  transform: translateY(9.2px);
+  top: 30%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes eyeWiggle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.05);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  75% {
+    transform: scale(1.02);
+  }
 }
 
 .blue-circle-points {
-  color: white;
-  text-align: center;
-  font-family: 'MuseoModerno', sans-serif;
   position: absolute;
-  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  z-index: 100;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  transform-origin: center center;
+  width: 90%;
+  max-width: 500px;
+  box-sizing: border-box;
+  text-align: center;
   pointer-events: none;
+  color: white;
+  font-family: 'MuseoModerno', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .blue-circle-points-total {
