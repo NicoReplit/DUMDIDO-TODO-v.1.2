@@ -5,7 +5,7 @@
   left: -40px;
   width: 70px; /* 30% smaller than 100px */
   height: 70px;
-  z-index: 999;
+  z-index: 99999;
   pointer-events: auto;
   cursor: pointer;
   transition: transform 1.2s ease-out;

@@ -5,12 +5,6 @@ function CelebrationMenu({ celebrationData, onClose }) {
   const [isOpen, setIsOpen] = useState(false);
   const [closing, setClosing] = useState(false);
 
-  useEffect(() => {
-    if (celebrationData) {
-      setIsOpen(true);
-    }
-  }, [celebrationData]);
-
   const handleClose = () => {
     setClosing(true);
     setTimeout(() => {
@@ -21,6 +15,19 @@ function CelebrationMenu({ celebrationData, onClose }) {
       if (onClose) onClose();
     }, 1500);
   };
+
+  useEffect(() => {
+    if (celebrationData) {
+      setIsOpen(true);
+      
+      // Auto-close after 2.5 seconds
+      const autoCloseTimer = setTimeout(() => {
+        handleClose();
+      }, 2500);
+      
+      return () => clearTimeout(autoCloseTimer);
+    }
+  }, [celebrationData]);
 
   const handleOverlayClick = (e) => {
     if (e.target.classList.contains('celebration-settings-overlay')) {
