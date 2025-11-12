@@ -112,7 +112,7 @@
   flex-direction: column;
   gap: 15px;
   pointer-events: auto;
-  padding-top: 80px;
+  padding-top: 160px;
 }
 
 /* Match user button pill styling - 48px height, 24px border-radius */
@@ -204,15 +204,15 @@
 
 /* Animation classes for buttons */
 .button-animate-3 {
-  animation: slideInPillBlue 0.6s ease-out 1.4s both;
+  animation: slideInPillBlue 0.6s ease-out 0.6s both;
 }
 
 .button-animate-4 {
-  animation: slideInPillBlue 0.6s ease-out 1.4s both;
+  animation: slideInPillBlue 0.6s ease-out 0.6s both;
 }
 
 .button-animate-5 {
-  animation: slideInPillBlue 0.6s ease-out 1.5s both;
+  animation: slideInPillBlue 0.6s ease-out 0.6s both;
 }
 
 /* Closing animations */
