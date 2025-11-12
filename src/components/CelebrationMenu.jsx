@@ -49,7 +49,6 @@ function CelebrationMenu({ celebrationData, onClose }) {
         style={{
           transform: isOpen ? 'translateX(-50%) scale(4.62) rotate(22deg)' : 'translateX(-50%) scale(0.8) rotate(22deg)',
         }}
-        onClick={handleClose}
       >
         <div className={`celebration-circle ${!isOpen ? 'wiggling' : ''}`}>
           <div 
