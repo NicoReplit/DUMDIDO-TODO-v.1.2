@@ -271,14 +271,42 @@ function App() {
       
       if (updates.completed || updates.super_point_used) {
         await fetchUsers();
-        
-        // Show celebration if celebrationPoints are provided
-        if (updates.celebrationPoints) {
-          setCelebrationData(updates.celebrationPoints);
-        }
       }
     } catch (error) {
       console.error('Error updating todo:', error);
+      fetchTodos();
+    }
+  };
+
+  const handleToggleComplete = async (todo) => {
+    try {
+      const response = await fetch(`/api/todos/${todo.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          completed: false,
+          completion_date: null
+        })
+      });
+      const updatedTodo = await response.json();
+      
+      setTodos(prevTodos => 
+        prevTodos.map(t => t.id === todo.id ? updatedTodo : t)
+      );
+      
+      await fetchUsers();
+      
+      if (todo.points_earned && todo.points_earned > 0) {
+        setCelebrationData({
+          total: todo.points_earned,
+          basePoints: todo.estimated_minutes || 0,
+          timeBonus: 0,
+          noPauseBonus: 0,
+          actualTimeSeconds: todo.actual_time_seconds || 0
+        });
+      }
+    } catch (error) {
+      console.error('Error toggling todo:', error);
       fetchTodos();
     }
   };
@@ -587,6 +615,7 @@ function App() {
             onEdit={() => {}}
             onDelete={() => {}}
             onSelect={handleSelectOpenTask}
+            onToggle={handleToggleComplete}
             runningTimers={runningTimers}
             isOpenList={true}
           />
@@ -600,6 +629,7 @@ function App() {
             onEdit={handleEditTodo}
             onDelete={handleDeleteTodo}
             onSelect={setSelectedTodo}
+            onToggle={handleToggleComplete}
             runningTimers={runningTimers}
           />
         </>

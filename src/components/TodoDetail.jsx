@@ -78,8 +78,7 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
       pause_used: pauseUsed,
       super_point_used: superPointUsed,
       points_earned: points.total,
-      actual_time_seconds: points.actualTimeSeconds,
-      celebrationPoints: points
+      actual_time_seconds: points.actualTimeSeconds
     });
     onClose();
   };
