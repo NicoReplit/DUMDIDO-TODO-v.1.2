@@ -43,7 +43,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
       <div 
         className="celebration-circle-background"
         style={{
-          transform: isOpen ? 'translateX(-50%) scale(3.08) rotate(42deg)' : 'translateX(-50%) scale(0.8) rotate(42deg)',
+          transform: isOpen ? 'translateX(-50%) scale(3.08) rotate(22deg)' : 'translateX(-50%) scale(0.8) rotate(22deg)',
         }}
         onClick={handleClose}
       >

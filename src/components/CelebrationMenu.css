@@ -2,8 +2,8 @@
 .celebration-circle-background {
   position: fixed;
   left: 10%;
-  bottom: calc(-33.6vmin + 30px);
-  transform: translateX(-50%) scale(0.8) rotate(42deg);
+  bottom: calc(-33.6vmin + 50px);
+  transform: translateX(-50%) scale(0.8) rotate(22deg);
   transform-origin: center 70%;
   transition: transform 1.2s ease-out;
   z-index: 99999;
