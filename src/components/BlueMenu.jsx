@@ -11,23 +11,19 @@ function BlueMenu({ globalPin, onSavePin }) {
   const swipeThreshold = 50;
 
   const handleTouchStart = (e) => {
+    if (isOpen) return;
     touchStartX.current = e.touches[0].clientX;
   };
 
   const handleTouchEnd = (e) => {
-    if (touchStartX.current === null) return;
+    if (isOpen || touchStartX.current === null) return;
 
     const touchEndX = e.changedTouches[0].clientX;
     const deltaX = touchEndX - touchStartX.current;
 
-    if (Math.abs(deltaX) > swipeThreshold) {
-      if (!isOpen && deltaX > 0) {
-        // Swipe right to open
-        setIsOpen(true);
-      } else if (isOpen && deltaX < 0) {
-        // Swipe left to close
-        handleClose();
-      }
+    if (Math.abs(deltaX) > swipeThreshold && deltaX > 0) {
+      // Swipe right to open
+      setIsOpen(true);
     }
 
     touchStartX.current = null;
@@ -83,6 +79,25 @@ function BlueMenu({ globalPin, onSavePin }) {
     }
   };
 
+  const handleOverlayTouchStart = (e) => {
+    if (!isOpen) return;
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleOverlayTouchEnd = (e) => {
+    if (!isOpen || touchStartX.current === null) return;
+
+    const touchEndX = e.changedTouches[0].clientX;
+    const deltaX = touchEndX - touchStartX.current;
+
+    if (Math.abs(deltaX) > swipeThreshold && deltaX < 0) {
+      // Swipe left to close
+      handleClose();
+    }
+
+    touchStartX.current = null;
+  };
+
   return (
     <>
       {/* Background circle - scales independently */}
@@ -112,7 +127,12 @@ function BlueMenu({ globalPin, onSavePin }) {
 
       {/* Settings content - positioned absolutely, no scaling */}
       {(isOpen || closing) && (
-        <div className="blue-settings-overlay" onClick={handleOverlayClick}>
+        <div 
+          className="blue-settings-overlay" 
+          onClick={handleOverlayClick}
+          onTouchStart={handleOverlayTouchStart}
+          onTouchEnd={handleOverlayTouchEnd}
+        >
           <div className="blue-settings-content">
             {globalPin && (
               <input

@@ -11,23 +11,19 @@ function RedMenu({ globalPin, onSavePin }) {
   const swipeThreshold = 50;
 
   const handleTouchStart = (e) => {
+    if (isOpen) return;
     touchStartY.current = e.touches[0].clientY;
   };
 
   const handleTouchEnd = (e) => {
-    if (touchStartY.current === null) return;
+    if (isOpen || touchStartY.current === null) return;
 
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY.current - touchEndY;
 
-    if (Math.abs(deltaY) > swipeThreshold) {
-      if (!isOpen && deltaY > 0) {
-        // Swipe up to open
-        setIsOpen(true);
-      } else if (isOpen && deltaY < 0) {
-        // Swipe down to close
-        handleClose();
-      }
+    if (Math.abs(deltaY) > swipeThreshold && deltaY > 0) {
+      // Swipe up to open
+      setIsOpen(true);
     }
 
     touchStartY.current = null;
@@ -83,6 +79,25 @@ function RedMenu({ globalPin, onSavePin }) {
     }
   };
 
+  const handleOverlayTouchStart = (e) => {
+    if (!isOpen) return;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleOverlayTouchEnd = (e) => {
+    if (!isOpen || touchStartY.current === null) return;
+
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaY = touchStartY.current - touchEndY;
+
+    if (Math.abs(deltaY) > swipeThreshold && deltaY < 0) {
+      // Swipe down to close
+      handleClose();
+    }
+
+    touchStartY.current = null;
+  };
+
   return (
     <>
       {/* Background circle - scales independently */}
@@ -112,7 +127,12 @@ function RedMenu({ globalPin, onSavePin }) {
 
       {/* Settings content - positioned absolutely, no scaling */}
       {(isOpen || closing) && (
-        <div className="red-settings-overlay" onClick={handleOverlayClick}>
+        <div 
+          className="red-settings-overlay" 
+          onClick={handleOverlayClick}
+          onTouchStart={handleOverlayTouchStart}
+          onTouchEnd={handleOverlayTouchEnd}
+        >
           <div className="red-settings-content">
             {globalPin && (
               <input
