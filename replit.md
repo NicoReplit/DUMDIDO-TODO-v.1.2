@@ -11,6 +11,21 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 
 ## Recent Updates (November 2025)
 
+### Z-Index Hierarchy for Modals (November 12, 2025)
+Implemented a systematic z-index hierarchy to ensure all popup windows appear correctly layered:
+- **CSS Custom Properties**: Centralized z-index values in `:root` for consistency
+  - `--z-base`: 0 (default elements)
+  - `--z-floating`: 100 (floating buttons, add button)
+  - `--z-sticky`: 500 (sticky elements)
+  - `--z-menu`: 10000 (RedMenu, BlueMenu, and their settings overlays)
+  - `--z-modal-overlay`: 11000 (all modal overlays - warnings, PIN entry, user settings)
+  - `--z-modal-content`: 11001 (modal dialog content)
+  - `--z-celebration-overlay`: 12000 (CelebrationMenu and victory animations)
+  - `--z-confetti`: 13000 (confetti particles - highest layer)
+- **Modal Priority**: All modals (UserEditModal, PINEntry, DeleteConfirmationModal, SettingsModal, UserSelectionModal) now appear above menus (z-index 11000+)
+- **Layering Order**: Confetti (13000) > Celebration UI (12000) > Modals (11000+) > Menus (10000) > Floating elements (100) > Base (0)
+- **Non-blocking Animations**: Confetti uses `pointer-events: none` to stay on top without blocking interaction
+
 ### User Settings Reset Features (November 12, 2025)
 Implemented reset functionality in UserEditModal with robust state management:
 - **Color Selection**: Limited to first 5 colors (Yellow, Blue, Pink, Coral/Red, Green) for consistency

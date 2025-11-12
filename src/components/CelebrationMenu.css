@@ -6,7 +6,7 @@
   transform: translateX(-50%) scale(0.8) rotate(22deg);
   transform-origin: center 70%;
   transition: transform 0.6s ease-out;
-  z-index: 100000;
+  z-index: var(--z-celebration-overlay);
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
@@ -102,7 +102,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100001;
+  z-index: calc(var(--z-celebration-overlay) + 1);
   pointer-events: auto;
 }
 

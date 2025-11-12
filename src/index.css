@@ -16,6 +16,16 @@
   --dumbledido-border-blue: #0061EE;
   --dumbledido-black: #000000;
   --dumbledido-white: #FFFFFF;
+  
+  /* Z-index hierarchy for layering */
+  --z-base: 0;
+  --z-floating: 100;
+  --z-sticky: 500;
+  --z-menu: 10000;
+  --z-modal-overlay: 11000;
+  --z-modal-content: 11001;
+  --z-celebration-overlay: 12000;
+  --z-confetti: 13000;
 }
 
 * {

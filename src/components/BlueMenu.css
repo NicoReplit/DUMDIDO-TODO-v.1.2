@@ -6,7 +6,7 @@
   transform: scale(1);
   transform-origin: center center;
   transition: transform 1.2s ease-out;
-  z-index: 9999;
+  z-index: var(--z-menu);
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
@@ -101,7 +101,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10000;
+  z-index: calc(var(--z-menu) + 1);
   pointer-events: auto;
 }
 
