@@ -43,7 +43,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
       <div 
         className="celebration-circle-background"
         style={{
-          transform: isOpen ? 'translateX(-50%) scale(3.08) rotate(22deg)' : 'translateX(-50%) scale(0.8) rotate(22deg)',
+          transform: isOpen ? 'translateX(-50%) scale(4.62) rotate(22deg)' : 'translateX(-50%) scale(0.8) rotate(22deg)',
         }}
         onClick={handleClose}
       >
@@ -51,7 +51,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
           <div 
             className="celebration-circle-eyes" 
             style={{ 
-              transform: isOpen ? 'translateX(-50%) scale(0.2597)' : 'translateX(-50%)',
+              transform: isOpen ? 'translateX(-50%) scale(0.1732)' : 'translateX(-50%)',
               transition: 'transform 1.2s ease-out',
               animationPlayState: !isOpen ? 'running' : 'paused'
             }}
