@@ -3,6 +3,7 @@ import './Confetti.css';
 
 const Confetti = ({ isActive }) => {
   const confettiPieces = useMemo(() => {
+    // DUMBLEDIDO color palette (excluding gray/black/white for vibrant confetti)
     const colors = ['#FECE00', '#0061EE', '#FF006E', '#EE4100', '#38D247', '#FEBA00', '#FF77B9', '#EE00AE'];
     const pieces = [];
     const count = 25;
