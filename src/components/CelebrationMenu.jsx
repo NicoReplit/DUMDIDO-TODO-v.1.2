@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import './CelebrationMenu.css';
+import Confetti from './Confetti';
 
 function CelebrationMenu({ celebrationData, onClose }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +40,9 @@ function CelebrationMenu({ celebrationData, onClose }) {
 
   return (
     <>
+      {/* Confetti animation */}
+      <Confetti isActive={isOpen} />
+      
       {/* Background circle - scales independently */}
       <div 
         className="celebration-circle-background"
