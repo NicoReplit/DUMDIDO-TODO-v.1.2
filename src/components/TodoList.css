@@ -77,14 +77,12 @@
   width: calc(100% - 100px);
 }
 
-/* Completed cards stay solid, no swipe */
+/* Completed cards can swipe to reveal delete button */
 .dumbledido-todo-wrapper.completed .pill-top {
-  width: 100% !important;
-  pointer-events: all;
+  cursor: default;
 }
 
-/* Hide middle and bottom layers on completed cards */
-.dumbledido-todo-wrapper.completed .pill-bottom,
+/* Hide only the middle layer (edit button) on completed cards */
 .dumbledido-todo-wrapper.completed .pill-middle {
   display: none;
 }
@@ -274,10 +272,9 @@
   }
 }
 
-/* Completed cards - block clicks */
-.dumbledido-todo-wrapper.completed .pill-top {
-  cursor: not-allowed;
-  pointer-events: all;
+/* Completed cards - prevent opening detail view but allow swipe */
+.dumbledido-todo-wrapper.completed:not(.swiped) .pill-top {
+  cursor: default;
 }
 
 .todo-card-content {
