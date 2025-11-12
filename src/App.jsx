@@ -97,9 +97,13 @@ function App() {
     }
   };
 
-  const fetchTodos = async () => {
+  const fetchTodos = async (user = null) => {
     try {
-      const response = await fetch(`/api/todos?user_id=${currentUser.id}&date=${currentDate}`);
+      // Use provided user or fall back to currentUser
+      const targetUser = user || currentUser;
+      if (!targetUser) return; // No-op if no user available
+      
+      const response = await fetch(`/api/todos?user_id=${targetUser.id}&date=${currentDate}`);
       const data = await response.json();
       
       const filteredTodos = data.filter(todo => {
@@ -451,12 +455,22 @@ function App() {
       if (!response.ok) {
         throw new Error('Failed to reset todos');
       }
+      
+      // Capture state before fetchUsers modifies it
+      const wasCurrentUser = currentUser?.id === userId;
+      const wasNotOpenList = !isOpenListSelected;
+      
       // Refresh users list while preserving Open List mode
-      await fetchUsers({ preserveSelection: true });
-      // Only fetch todos if a current user is selected (not in Open List mode)
-      if (currentUser) {
-        await fetchTodos();
+      const refreshedUsers = await fetchUsers({ preserveSelection: true });
+      
+      // Only fetch todos if the reset user was the current user AND we weren't in Open List mode
+      if (wasCurrentUser && wasNotOpenList) {
+        const refreshedUser = refreshedUsers.find(u => u.id === userId);
+        if (refreshedUser) {
+          await fetchTodos(refreshedUser);
+        }
       }
+      
       alert('All to-dos have been deleted for this user.');
     } catch (error) {
       console.error('Error resetting todos:', error);

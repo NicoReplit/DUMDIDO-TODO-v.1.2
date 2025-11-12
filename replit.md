@@ -11,6 +11,22 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 
 ## Recent Updates (November 2025)
 
+### User Settings Reset Features (November 12, 2025)
+Implemented reset functionality in UserEditModal with robust state management:
+- **Color Selection**: Limited to first 5 colors (Yellow, Blue, Pink, Coral/Red, Green) for consistency
+- **Reset To-dos Button**: Deletes all todos for a user with double confirmation + PIN verification
+- **Reset Points Button**: Resets total_points, super_points, and current_streak_days to 0 with double confirmation + PIN verification
+- **Smart State Management**: 
+  - fetchUsers now accepts `{ preserveSelection }` parameter to preserve Open List mode during refreshes
+  - fetchTodos accepts optional user parameter to avoid stale state issues
+  - Reset operations refresh currentUser when affected user is selected
+  - Open List mode is preserved through reset operations (currentUser stays null)
+- **Backend Safety**: DELETE /api/users/:id/todos checks user existence and returns 404 if not found
+- **Confirmation Flow**: 
+  1. First modal explains what will be reset
+  2. PIN entry (if global PIN is set)
+  3. Final native confirm dialog before execution
+
 ### Swipe-to-Delete for Completed Todos (November 12, 2025)
 Implemented swipe-to-delete functionality for completed todos with intelligent recurring deletion handling:
 - **Swipe Gestures**: Completed todos can be swiped left to reveal delete button (edit button hidden)
@@ -95,6 +111,8 @@ The application is a full-stack solution with a React frontend and a Node.js/Exp
   - `POST /api/settings/verify-pin`: Verify global PIN for protected operations
   - `PUT /api/settings`: Update global PIN (set, change, or remove)
   - `DELETE /api/todos/:id`: Delete todos with optional scope parameter (single/series) and date for recurring exceptions
+  - `DELETE /api/users/:id/todos`: Reset all todos for a user (validates user existence)
+  - `PUT /api/users/:id/reset-points`: Reset points, super points, and streak for a user
 - **Mobile-First Design**: CSS is implemented with a mobile-first approach, ensuring optimal performance on touch devices.
 
 ## External Dependencies
