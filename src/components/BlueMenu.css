@@ -103,7 +103,6 @@
   justify-content: center;
   z-index: 10000;
   pointer-events: auto;
-  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .blue-settings-content {
@@ -158,18 +157,18 @@
 @keyframes slideInPillBlue {
   0% {
     opacity: 0;
-    transform: translateX(-100vw);
+    transform: translateY(50vh);
   }
   100% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
 .blue-button-group {
   display: flex;
   gap: 15px;
-  margin-top: 30px;
+  margin-top: 110px;
 }
 
 .blue-remove-button,
@@ -243,10 +242,10 @@
 @keyframes slideOutPillBlue {
   0% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
   100% {
     opacity: 0;
-    transform: translateX(-100vw);
+    transform: translateY(50vh);
   }
 }

@@ -96,6 +96,8 @@ function RedMenu({ globalPin, onSavePin }) {
           <div 
             className="red-circle-eyes" 
             style={{ 
+              transform: isOpen ? 'translateX(-50%) scale(0.2597)' : 'translateX(-50%)',
+              transition: 'transform 1.2s ease-out',
               animationPlayState: !isOpen ? 'running' : 'paused'
             }}
           >

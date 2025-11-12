@@ -103,7 +103,6 @@
   justify-content: center;
   z-index: 10000;
   pointer-events: auto;
-  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .red-settings-content {
@@ -158,7 +157,7 @@
 @keyframes slideInPill {
   0% {
     opacity: 0;
-    transform: translateY(100vh);
+    transform: translateY(50vh);
   }
   100% {
     opacity: 1;
@@ -169,7 +168,7 @@
 .red-button-group {
   display: flex;
   gap: 15px;
-  margin-top: 30px;
+  margin-top: 110px;
 }
 
 .red-remove-button,
@@ -247,6 +246,6 @@
   }
   100% {
     opacity: 0;
-    transform: translateY(100vh);
+    transform: translateY(50vh);
   }
 }

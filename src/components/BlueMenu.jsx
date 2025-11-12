@@ -96,6 +96,8 @@ function BlueMenu({ globalPin, onSavePin }) {
           <div 
             className="blue-circle-eyes" 
             style={{ 
+              transform: isOpen ? 'translateX(calc(-50% + 30px)) scale(0.2597)' : 'translateX(calc(-50% + 30px))',
+              transition: 'transform 1.2s ease-out',
               animationPlayState: !isOpen ? 'running' : 'paused'
             }}
           >
