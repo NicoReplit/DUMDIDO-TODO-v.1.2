@@ -13,6 +13,7 @@ import RedMenu from './components/RedMenu';
 import BlueMenu from './components/BlueMenu';
 import CelebrationMenu from './components/CelebrationMenu';
 import QuarterCircle from './components/QuarterCircle';
+import ZigZag from './components/ZigZag';
 import './App.css';
 
 function App() {
@@ -656,6 +657,16 @@ function App() {
         setShowForm(true);
       }} />
       
+      <div style={{
+        position: 'fixed',
+        bottom: '-100px',
+        right: '-50px',
+        transform: 'rotate(20deg) scale(1.1)',
+        zIndex: 5000
+      }}>
+        <ZigZag />
+      </div>
+      
       <button 
         className="left-red-pill" 
         onClick={async () => {
@@ -733,42 +744,38 @@ function App() {
         </div>
       </button>
 
-      {selectedTodo && (
-        <>
-          <button 
-            className="left-green-pill slide-up"
-            onClick={() => {
-              if (doneCallback) {
-                doneCallback();
-              }
-            }}
-          >
-            <div className="yellow-circle animate">
-              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 20 L16 28 L29 10" stroke="white" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-          </button>
+      <button 
+        className={`left-green-pill ${selectedTodo ? 'slide-up' : ''}`}
+        onClick={() => {
+          if (selectedTodo && doneCallback) {
+            doneCallback();
+          }
+        }}
+      >
+        <div className={`yellow-circle ${selectedTodo ? 'animate' : ''}`}>
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 20 L16 28 L29 10" stroke="white" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+      </button>
 
-          <button 
-            className="right-pink-pill slide-up"
-            onClick={() => {
-              if (pauseCallback) {
-                pauseCallback();
-              }
-            }}
-          >
-            <div className="blue-circle animate">
-              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <line x1="14" y1="10" x2="14" y2="30" stroke="white" strokeWidth="8" strokeLinecap="round"/>
-                <circle cx="14" cy="10" r="4" fill="black"/>
-                <line x1="26" y1="10" x2="26" y2="30" stroke="white" strokeWidth="8" strokeLinecap="round"/>
-                <circle cx="26" cy="10" r="4" fill="black"/>
-              </svg>
-            </div>
-          </button>
-        </>
-      )}
+      <button 
+        className={`right-pink-pill ${selectedTodo ? 'slide-up' : ''}`}
+        onClick={() => {
+          if (selectedTodo && pauseCallback) {
+            pauseCallback();
+          }
+        }}
+      >
+        <div className={`blue-circle ${selectedTodo ? 'animate' : ''}`}>
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="14" y1="10" x2="14" y2="30" stroke="white" strokeWidth="8" strokeLinecap="round"/>
+            <circle cx="14" cy="10" r="4" fill="black"/>
+            <line x1="26" y1="10" x2="26" y2="30" stroke="white" strokeWidth="8" strokeLinecap="round"/>
+            <circle cx="26" cy="10" r="4" fill="black"/>
+          </svg>
+        </div>
+      </button>
     </div>
   );
 }
