@@ -52,23 +52,9 @@ function CelebrationMenu({ celebrationData, onClose }) {
         onClick={handleClose}
       >
         <div className={`celebration-circle ${!isOpen ? 'wiggling' : ''}`}>
-          <div 
-            className="celebration-circle-eyes" 
-            style={{ 
-              transform: isOpen ? 'translate(-50%, -122px) scale(0.1732)' : 'translateX(-50%)',
-              transition: 'transform 0.6s ease-out',
-              animationPlayState: !isOpen ? 'running' : 'paused'
-            }}
-          >
+          <div className="celebration-circle-eyes">
             <div className="celebration-circle-eye"></div>
-            <div 
-              className="celebration-circle-eye"
-              style={{
-                width: isOpen ? '64px' : '49px',
-                height: isOpen ? '64px' : '49px',
-                transition: 'width 0.6s ease-out, height 0.6s ease-out'
-              }}
-            ></div>
+            <div className="celebration-circle-eye"></div>
           </div>
         </div>
       </div>
