@@ -159,7 +159,15 @@ function WeekCalendar({ userId, selectedDate }) {
                 >
                   <div className="week-day-eye">
                     {day.isPast ? (
-                      <div className="week-eye-closed"></div>
+                      <svg className="week-eye-closed" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+                        <path 
+                          d="M 8 19 Q 19 30, 30 19" 
+                          fill="none" 
+                          stroke="#000000" 
+                          strokeWidth="8" 
+                          strokeLinecap="round"
+                        />
+                      </svg>
                     ) : (
                       <div 
                         className="week-eye-open"
