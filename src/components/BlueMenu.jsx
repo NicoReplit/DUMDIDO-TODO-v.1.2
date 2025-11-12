@@ -11,11 +11,12 @@ function BlueMenu({ globalPin, onSavePin }) {
   const swipeThreshold = 50;
 
   const handleTouchStart = (e) => {
+    if (isOpen) return;
     touchStartX.current = e.touches[0].clientX;
   };
 
   const handleTouchEnd = (e) => {
-    if (touchStartX.current === null) return;
+    if (isOpen || touchStartX.current === null) return;
 
     const touchEndX = e.changedTouches[0].clientX;
     const deltaX = touchEndX - touchStartX.current;
@@ -23,8 +24,6 @@ function BlueMenu({ globalPin, onSavePin }) {
     if (Math.abs(deltaX) > swipeThreshold) {
       if (deltaX > 0) {
         setIsOpen(true);
-      } else {
-        handleClose();
       }
     }
 
@@ -75,6 +74,12 @@ function BlueMenu({ globalPin, onSavePin }) {
     }, 1500);
   };
 
+  const handleOverlayClick = (e) => {
+    if (e.target.classList.contains('blue-settings-overlay')) {
+      handleClose();
+    }
+  };
+
   return (
     <>
       {/* Background circle - scales independently */}
@@ -85,6 +90,7 @@ function BlueMenu({ globalPin, onSavePin }) {
         }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
+        onClick={() => !isOpen && setIsOpen(true)}
       >
         <div className={`blue-circle ${!isOpen ? 'wiggling' : ''}`}>
           <div 
@@ -101,7 +107,7 @@ function BlueMenu({ globalPin, onSavePin }) {
 
       {/* Settings content - positioned absolutely, no scaling */}
       {(isOpen || closing) && (
-        <div className="blue-settings-overlay">
+        <div className="blue-settings-overlay" onClick={handleOverlayClick}>
           <div className="blue-settings-content">
             {globalPin && (
               <input
@@ -139,7 +145,12 @@ function BlueMenu({ globalPin, onSavePin }) {
             />
 
             <div className="blue-button-group">
-              <button onClick={handleSave} className={`blue-save-button ${closing ? 'button-animate-3-close' : 'button-animate-3'}`}>
+              {globalPin && (
+                <button onClick={handleRemovePin} className={`blue-remove-button ${closing ? 'button-animate-4-close' : 'button-animate-4'}`}>
+                  Remove PIN
+                </button>
+              )}
+              <button onClick={handleSave} className={`blue-save-button ${closing ? (globalPin ? 'button-animate-5-close' : 'button-animate-3-close') : (globalPin ? 'button-animate-5' : 'button-animate-3')}`}>
                 Save
               </button>
             </div>
