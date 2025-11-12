@@ -61,7 +61,14 @@ function CelebrationMenu({ celebrationData, onClose }) {
             }}
           >
             <div className="celebration-circle-eye"></div>
-            <div className="celebration-circle-eye"></div>
+            <div 
+              className="celebration-circle-eye"
+              style={{
+                width: isOpen ? '64px' : '49px',
+                height: isOpen ? '64px' : '49px',
+                transition: 'width 0.6s ease-out, height 0.6s ease-out'
+              }}
+            ></div>
           </div>
         </div>
       </div>

@@ -63,8 +63,6 @@
 
 .celebration-circle-eye:nth-child(2) {
   animation-delay: 0.5s;
-  width: 64px;
-  height: 64px;
 }
 
 .celebration-circle-eye::after {
