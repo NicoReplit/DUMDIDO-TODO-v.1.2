@@ -37,17 +37,17 @@
 
 .blue-menu-eyes {
   position: absolute;
-  top: -19px;
+  top: 1px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + 30px));
   display: flex;
-  gap: 6px;
+  gap: 0px;
   pointer-events: none;
 }
 
 .blue-menu-eye {
-  width: 38px;
-  height: 38px;
+  width: 30px;
+  height: 30px;
   background: white;
   border-radius: 50%;
   position: relative;
