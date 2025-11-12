@@ -11,19 +11,22 @@ function RedMenu({ globalPin, onSavePin }) {
   const swipeThreshold = 50;
 
   const handleTouchStart = (e) => {
-    if (isOpen) return;
     touchStartY.current = e.touches[0].clientY;
   };
 
   const handleTouchEnd = (e) => {
-    if (isOpen || touchStartY.current === null) return;
+    if (touchStartY.current === null) return;
 
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY.current - touchEndY;
 
     if (Math.abs(deltaY) > swipeThreshold) {
-      if (deltaY > 0) {
+      if (!isOpen && deltaY > 0) {
+        // Swipe up to open
         setIsOpen(true);
+      } else if (isOpen && deltaY < 0) {
+        // Swipe down to close
+        handleClose();
       }
     }
 

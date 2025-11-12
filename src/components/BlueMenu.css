@@ -112,7 +112,7 @@
   flex-direction: column;
   gap: 15px;
   pointer-events: auto;
-  padding-top: 100px;
+  padding-top: 200px;
 }
 
 /* Match user button pill styling - 48px height, 24px border-radius */

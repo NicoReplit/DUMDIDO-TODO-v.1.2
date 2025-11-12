@@ -11,19 +11,22 @@ function BlueMenu({ globalPin, onSavePin }) {
   const swipeThreshold = 50;
 
   const handleTouchStart = (e) => {
-    if (isOpen) return;
     touchStartX.current = e.touches[0].clientX;
   };
 
   const handleTouchEnd = (e) => {
-    if (isOpen || touchStartX.current === null) return;
+    if (touchStartX.current === null) return;
 
     const touchEndX = e.changedTouches[0].clientX;
     const deltaX = touchEndX - touchStartX.current;
 
     if (Math.abs(deltaX) > swipeThreshold) {
-      if (deltaX > 0) {
+      if (!isOpen && deltaX > 0) {
+        // Swipe right to open
         setIsOpen(true);
+      } else if (isOpen && deltaX < 0) {
+        // Swipe left to close
+        handleClose();
       }
     }
 
