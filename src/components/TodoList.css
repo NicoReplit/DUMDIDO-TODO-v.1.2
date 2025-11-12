@@ -43,7 +43,7 @@
 }
 
 .pill-bottom.red {
-  box-shadow: 7px 7px 0 0 red; /* Yellow shadow */
+  box-shadow: 7px 7px 0 0 #FECE00; /* Yellow shadow */
 }
 
 .pill-bottom.green {
