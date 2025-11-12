@@ -38,6 +38,11 @@ function CelebrationMenu({ celebrationData, onClose }) {
 
   const { basePoints, timeBonus, noPauseBonus, total } = celebrationData || {};
 
+  // Don't render anything if no celebration data
+  if (!celebrationData && !closing) {
+    return null;
+  }
+
   return (
     <>
       {/* Confetti animation */}

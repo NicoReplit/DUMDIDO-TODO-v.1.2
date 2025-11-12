@@ -11,6 +11,12 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 
 ## Recent Updates (November 2025)
 
+### CelebrationMenu Click-Through Fix (November 12, 2025)
+Fixed bug where clicking on the super points red pill would accidentally trigger the CelebrationMenu:
+- **Issue**: CelebrationMenu blue circle was always rendered (even when inactive) with z-index 12000, higher than super points pill (9998)
+- **Solution**: CelebrationMenu now only renders when `celebrationData` exists or during closing animation
+- **Result**: Super points pill is now fully clickable without interference from celebration overlay
+
 ### Z-Index Hierarchy for Modals (November 12, 2025)
 Implemented a systematic z-index hierarchy to ensure all popup windows appear correctly layered:
 - **CSS Custom Properties**: Centralized z-index values in `:root` for consistency
