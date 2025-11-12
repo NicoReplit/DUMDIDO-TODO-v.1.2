@@ -38,11 +38,6 @@ function CelebrationMenu({ celebrationData, onClose }) {
 
   const { basePoints, timeBonus, noPauseBonus, total } = celebrationData || {};
 
-  // Don't render anything if no celebration data
-  if (!celebrationData && !closing) {
-    return null;
-  }
-
   return (
     <>
       {/* Confetti animation */}
@@ -50,7 +45,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
       
       {/* Background circle - scales independently */}
       <div 
-        className="celebration-circle-background"
+        className={`celebration-circle-background ${isOpen ? 'active' : ''}`}
         style={{
           transform: isOpen ? 'translateX(-50%) scale(4.62) rotate(22deg)' : 'translateX(-50%) scale(0.8) rotate(22deg)',
         }}

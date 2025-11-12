@@ -102,7 +102,7 @@ function BlueMenu({ globalPin, onSavePin }) {
     <>
       {/* Background circle - scales independently */}
       <div 
-        className="blue-circle-background"
+        className={`blue-circle-background ${isOpen ? 'active' : ''}`}
         style={{
           transform: isOpen ? 'scale(3.85)' : 'scale(1)',
         }}
