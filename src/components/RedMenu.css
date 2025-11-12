@@ -1,4 +1,11 @@
-.red-menu-wrapper {
+/* Background circle wrapper - scales */
+.red-circle-background {
+  position: fixed;
+  left: 50%;
+  bottom: calc(-33.6vmin + 30px);
+  transform: translateX(calc(-50% - 10px)) scale(1);
+  transform-origin: center 70%;
+  transition: transform 1.2s ease-out;
   z-index: 9999;
   touch-action: none;
   user-select: none;
@@ -6,17 +13,16 @@
   pointer-events: auto;
 }
 
-.red-menu-inner {
+.red-circle {
   width: 48vmin;
   height: 48vmin;
   background-color: #EE4100;
   cursor: pointer;
   border-radius: 50%;
   position: relative;
-  transform: scale(1);
 }
 
-.red-menu-inner.wiggling {
+.red-circle.wiggling {
   animation: circleWiggle 4s ease-in-out infinite;
 }
 
@@ -35,7 +41,7 @@
   }
 }
 
-.red-menu-eyes {
+.red-circle-eyes {
   position: absolute;
   top: -19px;
   left: 50%;
@@ -45,7 +51,7 @@
   pointer-events: none;
 }
 
-.red-menu-eye {
+.red-circle-eye {
   width: 38px;
   height: 38px;
   background: white;
@@ -54,11 +60,11 @@
   animation: eyeWiggle 3s ease-in-out infinite;
 }
 
-.red-menu-eye:nth-child(2) {
+.red-circle-eye:nth-child(2) {
   animation-delay: 0.5s;
 }
 
-.red-menu-eye::after {
+.red-circle-eye::after {
   content: '';
   position: absolute;
   width: 15px;
@@ -85,21 +91,31 @@
   }
 }
 
-.red-menu-settings {
-  position: absolute;
-  left: 50%;
-  transform-origin: top center;
+/* Settings overlay - no scaling, positioned absolutely */
+.red-settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.red-settings-content {
   width: 90%;
   max-width: 500px;
-  box-sizing: border-box;
-  text-align: center;
-  pointer-events: auto;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  pointer-events: auto;
 }
 
-.pin-input {
+/* Match user button pill styling - 48px height, 24px border-radius */
+.red-pin-input {
   font-family: 'MuseoModerno', sans-serif;
   width: 100%;
   height: 48px;
@@ -116,12 +132,12 @@
   box-sizing: border-box;
 }
 
-.pin-input::placeholder {
+.red-pin-input::placeholder {
   color: rgba(255, 255, 255, 0.7);
   letter-spacing: normal;
 }
 
-.pin-input:focus {
+.red-pin-input:focus {
   outline: none;
 }
 
@@ -149,14 +165,14 @@
   }
 }
 
-.button-group {
+.red-button-group {
   display: flex;
   gap: 15px;
   margin-top: 30px;
 }
 
-.remove-button,
-.save-button {
+.red-remove-button,
+.red-save-button {
   flex: 1;
   height: 48px;
   padding: 12px 24px;
@@ -170,22 +186,22 @@
   transition: transform 0.1s;
 }
 
-.remove-button {
+.red-remove-button {
   background-color: #EE4100;
   box-shadow: 5px 5px 0 0 #0061EE;
 }
 
-.save-button {
+.red-save-button {
   background-color: #38D247;
   box-shadow: 5px 5px 0 0 #0061EE;
 }
 
-.remove-button:active,
-.save-button:active {
+.red-remove-button:active,
+.red-save-button:active {
   transform: scale(0.95);
 }
 
-/* Animation classes for buttons - 0.5s delay after circle scale */
+/* Animation classes for buttons */
 .button-animate-3 {
   animation: slideInPill 0.6s ease-out 0.8s both;
 }
@@ -198,7 +214,7 @@
   animation: slideInPill 0.6s ease-out 0.9s both;
 }
 
-/* Closing animations - green pill first, then inputs with delay */
+/* Closing animations */
 .button-animate-3-close {
   animation: slideOutPill 0.6s ease-in both;
 }

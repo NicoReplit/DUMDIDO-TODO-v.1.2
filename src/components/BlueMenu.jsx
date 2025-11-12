@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import './BlueMenu.css';
 
 function BlueMenu({ globalPin, onSavePin }) {
-  const [scale, setScale] = useState(1);
+  const [isOpen, setIsOpen] = useState(false);
   const [closing, setClosing] = useState(false);
   const [pin, setPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
@@ -22,7 +22,7 @@ function BlueMenu({ globalPin, onSavePin }) {
 
     if (Math.abs(deltaX) > swipeThreshold) {
       if (deltaX > 0) {
-        setScale(3.85);
+        setIsOpen(true);
       } else {
         handleClose();
       }
@@ -65,7 +65,7 @@ function BlueMenu({ globalPin, onSavePin }) {
   const handleClose = () => {
     setClosing(true);
     setTimeout(() => {
-      setScale(1);
+      setIsOpen(false);
     }, 500);
     setTimeout(() => {
       setClosing(false);
@@ -76,41 +76,33 @@ function BlueMenu({ globalPin, onSavePin }) {
   };
 
   return (
-    <div 
-      className="blue-menu-wrapper"
-      style={{
-        position: 'fixed',
-        left: '-35px',
-        bottom: '-90px',
-        transform: `scale(${scale})`,
-        transition: 'transform 1.2s ease-out',
-        transformOrigin: 'center center',
-        '--menu-scale': scale
-      }}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-    >
-      <div className={`blue-menu-inner ${scale === 1 ? 'wiggling' : ''}`}>
-        <div 
-          className="blue-menu-eyes" 
-          style={{ 
-            transform: `translateX(-50%) scale(${1 / scale})`,
-            transition: 'transform 1.2s ease-out',
-            animationPlayState: scale === 1 ? 'running' : 'paused'
-          }}
-        >
-          <div className="blue-menu-eye"></div>
-          <div className="blue-menu-eye"></div>
-        </div>
-
-        {(scale === 3.85 || closing) && (
+    <>
+      {/* Background circle - scales independently */}
+      <div 
+        className="blue-circle-background"
+        style={{
+          transform: isOpen ? 'scale(3.85)' : 'scale(1)',
+        }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className={`blue-circle ${!isOpen ? 'wiggling' : ''}`}>
           <div 
-            className="blue-menu-settings"
-            style={{
-              top: '20px',
-              transform: `translate(-50%, 0) scale(${1 / scale})`,
+            className="blue-circle-eyes" 
+            style={{ 
+              animationPlayState: !isOpen ? 'running' : 'paused'
             }}
           >
+            <div className="blue-circle-eye"></div>
+            <div className="blue-circle-eye"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Settings content - positioned absolutely, no scaling */}
+      {(isOpen || closing) && (
+        <div className="blue-settings-overlay">
+          <div className="blue-settings-content">
             {globalPin && (
               <input
                 type="password"
@@ -120,7 +112,7 @@ function BlueMenu({ globalPin, onSavePin }) {
                 maxLength="4"
                 pattern="[0-9]*"
                 inputMode="numeric"
-                className={`blue-pin-input ${closing ? 'blue-pin-input-1-close' : 'blue-pin-input-1'}`}
+                className={`blue-pin-input ${closing ? 'pin-input-1-close' : 'pin-input-1'}`}
               />
             )}
 
@@ -132,7 +124,7 @@ function BlueMenu({ globalPin, onSavePin }) {
               maxLength="4"
               pattern="[0-9]*"
               inputMode="numeric"
-              className={`blue-pin-input ${closing ? (globalPin ? 'blue-pin-input-2-close' : 'blue-pin-input-1-close') : (globalPin ? 'blue-pin-input-2' : 'blue-pin-input-1')}`}
+              className={`blue-pin-input ${closing ? (globalPin ? 'pin-input-2-close' : 'pin-input-1-close') : (globalPin ? 'pin-input-2' : 'pin-input-1')}`}
             />
 
             <input
@@ -143,18 +135,18 @@ function BlueMenu({ globalPin, onSavePin }) {
               maxLength="4"
               pattern="[0-9]*"
               inputMode="numeric"
-              className={`blue-pin-input ${closing ? (globalPin ? 'blue-pin-input-3-close' : 'blue-pin-input-2-close') : (globalPin ? 'blue-pin-input-3' : 'blue-pin-input-2')}`}
+              className={`blue-pin-input ${closing ? (globalPin ? 'pin-input-3-close' : 'pin-input-2-close') : (globalPin ? 'pin-input-3' : 'pin-input-2')}`}
             />
 
             <div className="blue-button-group">
-              <button onClick={handleSave} className={`blue-save-button ${closing ? 'blue-button-animate-3-close' : 'blue-button-animate-3'}`}>
+              <button onClick={handleSave} className={`blue-save-button ${closing ? 'button-animate-3-close' : 'button-animate-3'}`}>
                 Save
               </button>
             </div>
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 }
 

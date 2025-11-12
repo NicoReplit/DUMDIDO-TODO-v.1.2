@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import './RedMenu.css';
 
 function RedMenu({ globalPin, onSavePin }) {
-  const [scale, setScale] = useState(1);
+  const [isOpen, setIsOpen] = useState(false);
   const [closing, setClosing] = useState(false);
   const [pin, setPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
@@ -22,7 +22,7 @@ function RedMenu({ globalPin, onSavePin }) {
 
     if (Math.abs(deltaY) > swipeThreshold) {
       if (deltaY > 0) {
-        setScale(3.85);
+        setIsOpen(true);
       } else {
         handleClose();
       }
@@ -65,7 +65,7 @@ function RedMenu({ globalPin, onSavePin }) {
   const handleClose = () => {
     setClosing(true);
     setTimeout(() => {
-      setScale(1);
+      setIsOpen(false);
     }, 500);
     setTimeout(() => {
       setClosing(false);
@@ -76,41 +76,33 @@ function RedMenu({ globalPin, onSavePin }) {
   };
 
   return (
-    <div 
-      className="red-menu-wrapper"
-      style={{
-        position: 'fixed',
-        left: '50%',
-        bottom: 'calc(-33.6vmin + 30px)',
-        transform: `translateX(calc(-50% - 10px)) scale(${scale})`,
-        transition: 'transform 1.2s ease-out',
-        transformOrigin: 'center 70%',
-        '--menu-scale': scale
-      }}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-    >
-      <div className={`red-menu-inner ${scale === 1 ? 'wiggling' : ''}`}>
-        <div 
-          className="red-menu-eyes" 
-          style={{ 
-            transform: `translateX(-50%) scale(${1 / scale})`,
-            transition: 'transform 1.2s ease-out',
-            animationPlayState: scale === 1 ? 'running' : 'paused'
-          }}
-        >
-          <div className="red-menu-eye"></div>
-          <div className="red-menu-eye"></div>
-        </div>
-
-        {(scale === 3.85 || closing) && (
+    <>
+      {/* Background circle - scales independently */}
+      <div 
+        className="red-circle-background"
+        style={{
+          transform: isOpen ? 'scale(3.85)' : 'scale(1)',
+        }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className={`red-circle ${!isOpen ? 'wiggling' : ''}`}>
           <div 
-            className="red-menu-settings"
-            style={{
-              top: '20px',
-              transform: `translate(-50%, 0) scale(${1 / scale})`,
+            className="red-circle-eyes" 
+            style={{ 
+              animationPlayState: !isOpen ? 'running' : 'paused'
             }}
           >
+            <div className="red-circle-eye"></div>
+            <div className="red-circle-eye"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Settings content - positioned absolutely, no scaling */}
+      {(isOpen || closing) && (
+        <div className="red-settings-overlay">
+          <div className="red-settings-content">
             {globalPin && (
               <input
                 type="password"
@@ -120,7 +112,7 @@ function RedMenu({ globalPin, onSavePin }) {
                 maxLength="4"
                 pattern="[0-9]*"
                 inputMode="numeric"
-                className={`pin-input ${closing ? 'pin-input-1-close' : 'pin-input-1'}`}
+                className={`red-pin-input ${closing ? 'pin-input-1-close' : 'pin-input-1'}`}
               />
             )}
 
@@ -132,7 +124,7 @@ function RedMenu({ globalPin, onSavePin }) {
               maxLength="4"
               pattern="[0-9]*"
               inputMode="numeric"
-              className={`pin-input ${closing ? (globalPin ? 'pin-input-2-close' : 'pin-input-1-close') : (globalPin ? 'pin-input-2' : 'pin-input-1')}`}
+              className={`red-pin-input ${closing ? (globalPin ? 'pin-input-2-close' : 'pin-input-1-close') : (globalPin ? 'pin-input-2' : 'pin-input-1')}`}
             />
 
             <input
@@ -143,18 +135,18 @@ function RedMenu({ globalPin, onSavePin }) {
               maxLength="4"
               pattern="[0-9]*"
               inputMode="numeric"
-              className={`pin-input ${closing ? (globalPin ? 'pin-input-3-close' : 'pin-input-2-close') : (globalPin ? 'pin-input-3' : 'pin-input-2')}`}
+              className={`red-pin-input ${closing ? (globalPin ? 'pin-input-3-close' : 'pin-input-2-close') : (globalPin ? 'pin-input-3' : 'pin-input-2')}`}
             />
 
-            <div className="button-group">
-              <button onClick={handleSave} className={`save-button ${closing ? 'button-animate-3-close' : 'button-animate-3'}`}>
+            <div className="red-button-group">
+              <button onClick={handleSave} className={`red-save-button ${closing ? 'button-animate-3-close' : 'button-animate-3'}`}>
                 Save
               </button>
             </div>
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 }
 
