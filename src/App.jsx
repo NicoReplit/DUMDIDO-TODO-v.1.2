@@ -11,6 +11,7 @@ import UserSelectionModal from './components/UserSelectionModal';
 import ProgressBar from './components/ProgressBar';
 import RedMenu from './components/RedMenu';
 import BlueMenu from './components/BlueMenu';
+import CelebrationMenu from './components/CelebrationMenu';
 import QuarterCircle from './components/QuarterCircle';
 import ZigZag from './components/ZigZag';
 import './App.css';
@@ -37,6 +38,7 @@ function App() {
   const [globalPin, setGlobalPin] = useState(null);
   const [doneCallback, setDoneCallback] = useState(null);
   const [pauseCallback, setPauseCallback] = useState(null);
+  const [celebrationData, setCelebrationData] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -269,6 +271,11 @@ function App() {
       
       if (updates.completed || updates.super_point_used) {
         await fetchUsers();
+        
+        // Show celebration if celebrationPoints are provided
+        if (updates.celebrationPoints) {
+          setCelebrationData(updates.celebrationPoints);
+        }
       }
     } catch (error) {
       console.error('Error updating todo:', error);
@@ -637,6 +644,10 @@ function App() {
       <BlueMenu 
         globalPin={globalPin}
         onSavePin={handleSaveGlobalPin}
+      />
+      <CelebrationMenu 
+        celebrationData={celebrationData}
+        onClose={() => setCelebrationData(null)}
       />
       <QuarterCircle onClick={() => {
         if (!currentUser) {

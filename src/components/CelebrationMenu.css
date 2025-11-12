@@ -1,0 +1,204 @@
+/* Blue celebration circle - 30% smaller, rotated 42°, positioned outside frame */
+.celebration-circle-background {
+  position: fixed;
+  bottom: -20px;
+  left: -40px;
+  width: 70px; /* 30% smaller than 100px */
+  height: 70px;
+  z-index: 999;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 1.2s ease-out;
+  transform-origin: center center;
+}
+
+.celebration-circle {
+  width: 100%;
+  height: 100%;
+  background-color: #0061EE;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transform: rotate(42deg);
+  box-shadow: 5px 5px 0 0 #FECE00;
+}
+
+/* Eyes positioned and animated like BlueMenu */
+.celebration-circle-eyes {
+  display: flex;
+  gap: 0px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(calc(-50% + 30px)) translateY(-50%);
+}
+
+.celebration-circle-eye {
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border-radius: 50%;
+  position: relative;
+}
+
+.celebration-circle-eye::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: #000000;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: eyeMove 3s ease-in-out infinite;
+}
+
+.celebration-circle-eye:first-child::after {
+  animation: eyeMove 3s ease-in-out infinite;
+}
+
+.celebration-circle-eye:last-child::after {
+  animation: eyeMove 3s ease-in-out infinite 0.1s;
+}
+
+@keyframes eyeMove {
+  0%, 100% { transform: translate(-50%, -50%); }
+  25% { transform: translate(-30%, -50%); }
+  50% { transform: translate(-50%, -30%); }
+  75% { transform: translate(-70%, -50%); }
+}
+
+/* Wiggle animation */
+.wiggling {
+  animation: wiggle 2s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(42deg); }
+  25% { transform: rotate(40deg); }
+  50% { transform: rotate(44deg); }
+  75% { transform: rotate(40deg); }
+}
+
+/* Settings overlay - no scaling, positioned absolutely */
+.celebration-settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  pointer-events: auto;
+}
+
+.celebration-settings-content {
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  pointer-events: auto;
+  padding-top: 200px;
+}
+
+/* Info pill styling */
+.celebration-info-pill,
+.celebration-total-pill {
+  font-family: 'MuseoModerno', sans-serif;
+  width: 100%;
+  height: 48px;
+  padding: 12px 24px;
+  border-radius: 24px;
+  border: none;
+  background-color: #0061EE;
+  box-shadow: 5px 5px 0 0 #FECE00;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.celebration-total-pill {
+  background-color: #38D247;
+  margin-top: 10px;
+  height: 56px;
+  font-size: 20px;
+}
+
+.celebration-label {
+  text-align: left;
+}
+
+.celebration-value {
+  text-align: right;
+  font-weight: 900;
+}
+
+.celebration-total-value {
+  font-size: 24px;
+}
+
+/* Animation classes for staggered entrance */
+.info-pill-1 {
+  animation: slideInPillCelebration 0.6s ease-out 0.3s both;
+}
+
+.info-pill-2 {
+  animation: slideInPillCelebration 0.6s ease-out 0.4s both;
+}
+
+.info-pill-3 {
+  animation: slideInPillCelebration 0.6s ease-out 0.5s both;
+}
+
+.total-pill {
+  animation: slideInPillCelebration 0.6s ease-out 0.6s both;
+}
+
+@keyframes slideInPillCelebration {
+  0% {
+    opacity: 0;
+    transform: translateY(50vh);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Closing animations */
+.info-pill-1-close {
+  animation: slideOutPillCelebration 0.6s ease-in 0.3s both;
+}
+
+.info-pill-2-close {
+  animation: slideOutPillCelebration 0.6s ease-in 0.2s both;
+}
+
+.info-pill-3-close {
+  animation: slideOutPillCelebration 0.6s ease-in 0.1s both;
+}
+
+.total-pill-close {
+  animation: slideOutPillCelebration 0.6s ease-in both;
+}
+
+@keyframes slideOutPillCelebration {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(50vh);
+  }
+}
