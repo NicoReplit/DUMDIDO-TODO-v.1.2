@@ -52,7 +52,13 @@ function CelebrationMenu({ celebrationData, onClose }) {
         onClick={handleClose}
       >
         <div className={`celebration-circle ${!isOpen ? 'wiggling' : ''}`}>
-          <div className="celebration-circle-eyes">
+          <div 
+            className="celebration-circle-eyes"
+            style={{
+              transform: isOpen ? 'translateX(-50%) scale(0.1732)' : 'translateX(-50%)',
+              transition: 'transform 0.6s ease-out'
+            }}
+          >
             <div className="celebration-circle-eye"></div>
             <div className="celebration-circle-eye"></div>
           </div>
