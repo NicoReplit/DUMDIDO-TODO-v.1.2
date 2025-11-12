@@ -35,9 +35,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
     }
   };
 
-  if (!celebrationData) return null;
-
-  const { basePoints, timeBonus, noPauseBonus, total } = celebrationData;
+  const { basePoints, timeBonus, noPauseBonus, total } = celebrationData || {};
 
   return (
     <>
@@ -45,7 +43,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
       <div 
         className="celebration-circle-background"
         style={{
-          transform: isOpen ? 'scale(3.85)' : 'scale(1)',
+          transform: isOpen ? 'translateX(-50%) scale(3.08) rotate(42deg)' : 'translateX(-50%) scale(0.8) rotate(42deg)',
         }}
         onClick={handleClose}
       >
@@ -53,7 +51,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
           <div 
             className="celebration-circle-eyes" 
             style={{ 
-              transform: isOpen ? 'translateX(calc(-50% + 30px)) scale(0.2597)' : 'translateX(calc(-50% + 30px))',
+              transform: isOpen ? 'translateX(-50%) scale(0.2597)' : 'translateX(-50%)',
               transition: 'transform 1.2s ease-out',
               animationPlayState: !isOpen ? 'running' : 'paused'
             }}

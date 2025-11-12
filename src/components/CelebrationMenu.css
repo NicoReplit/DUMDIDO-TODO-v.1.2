@@ -1,86 +1,95 @@
-/* Blue celebration circle - 30% smaller, rotated 42°, positioned outside frame */
+/* Background circle wrapper - scales, 20% smaller than RedMenu */
 .celebration-circle-background {
   position: fixed;
-  bottom: -20px;
-  left: -40px;
-  width: 70px; /* 30% smaller than 100px */
-  height: 70px;
-  z-index: 99999;
-  pointer-events: auto;
-  cursor: pointer;
+  left: 10%;
+  bottom: calc(-33.6vmin + 30px);
+  transform: translateX(-50%) scale(0.8) rotate(42deg);
+  transform-origin: center 70%;
   transition: transform 1.2s ease-out;
-  transform-origin: center center;
+  z-index: 99999;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .celebration-circle {
-  width: 100%;
-  height: 100%;
+  width: 48vmin;
+  height: 48vmin;
   background-color: #0061EE;
+  cursor: pointer;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
-  transform: rotate(42deg);
-  box-shadow: 5px 5px 0 0 #FECE00;
+  pointer-events: auto;
 }
 
-/* Eyes positioned and animated like BlueMenu */
+.celebration-circle.wiggling {
+  animation: celebrationCircleWiggle 4s ease-in-out infinite;
+}
+
+@keyframes celebrationCircleWiggle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  75% {
+    transform: scale(1.05);
+  }
+}
+
+/* Eyes positioned on top like RedMenu */
 .celebration-circle-eyes {
-  display: flex;
-  gap: 0px;
   position: absolute;
+  top: -19px;
   left: 50%;
-  top: 50%;
-  transform: translateX(calc(-50% + 30px)) translateY(-50%);
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  pointer-events: none;
 }
 
 .celebration-circle-eye {
-  width: 30px;
-  height: 30px;
-  background-color: white;
+  width: 38px;
+  height: 38px;
+  background: white;
   border-radius: 50%;
   position: relative;
+  animation: celebrationEyeWiggle 3s ease-in-out infinite;
+}
+
+.celebration-circle-eye:nth-child(2) {
+  animation-delay: 0.5s;
 }
 
 .celebration-circle-eye::after {
   content: '';
   position: absolute;
-  width: 16px;
-  height: 16px;
-  background-color: #000000;
+  width: 15px;
+  height: 15px;
+  background: #000000;
   border-radius: 50%;
-  top: 50%;
-  left: 50%;
+  top: 30%;
+  left: 60%;
   transform: translate(-50%, -50%);
-  animation: eyeMove 3s ease-in-out infinite;
 }
 
-.celebration-circle-eye:first-child::after {
-  animation: eyeMove 3s ease-in-out infinite;
-}
-
-.celebration-circle-eye:last-child::after {
-  animation: eyeMove 3s ease-in-out infinite 0.1s;
-}
-
-@keyframes eyeMove {
-  0%, 100% { transform: translate(-50%, -50%); }
-  25% { transform: translate(-30%, -50%); }
-  50% { transform: translate(-50%, -30%); }
-  75% { transform: translate(-70%, -50%); }
-}
-
-/* Wiggle animation */
-.wiggling {
-  animation: wiggle 2s ease-in-out infinite;
-}
-
-@keyframes wiggle {
-  0%, 100% { transform: rotate(42deg); }
-  25% { transform: rotate(40deg); }
-  50% { transform: rotate(44deg); }
-  75% { transform: rotate(40deg); }
+@keyframes celebrationEyeWiggle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.05);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  75% {
+    transform: scale(1.02);
+  }
 }
 
 /* Settings overlay - no scaling, positioned absolutely */
