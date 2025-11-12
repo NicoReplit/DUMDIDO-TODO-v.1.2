@@ -63,6 +63,8 @@
 
 .celebration-circle-eye:nth-child(2) {
   animation-delay: 0.5s;
+  width: 64px;
+  height: 64px;
 }
 
 .celebration-circle-eye::after {
@@ -72,7 +74,7 @@
   height: 15px;
   background: #000000;
   border-radius: 50%;
-  top: 50%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -116,12 +118,18 @@
   padding-top: 200px;
 }
 
-/* Info text styling */
+/* Info pill styling */
 .celebration-info-pill,
 .celebration-total-pill {
   font-family: 'MuseoModerno', sans-serif;
   width: 100%;
-  color: #0061EE;
+  height: 48px;
+  padding: 12px 24px;
+  border-radius: 24px;
+  border: none;
+  background-color: #0061EE;
+  box-shadow: 5px 5px 0 0 #FECE00;
+  color: white;
   font-size: 18px;
   font-weight: 700;
   display: flex;
@@ -131,7 +139,10 @@
 }
 
 .celebration-total-pill {
+  background-color: #38D247;
   margin-top: 10px;
+  height: 56px;
+  font-size: 20px;
 }
 
 .celebration-label {
@@ -145,7 +156,6 @@
 
 .celebration-total-value {
   font-size: 30px;
-  color: white;
   font-weight: 700;
 }
 
