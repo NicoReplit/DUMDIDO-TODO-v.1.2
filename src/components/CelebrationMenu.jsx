@@ -56,7 +56,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
             className="celebration-circle-eyes" 
             style={{ 
               transform: isOpen ? 'translateX(-50%) scale(0.1732)' : 'translateX(-50%)',
-              transition: 'transform 1.2s ease-out',
+              transition: 'transform 0.6s ease-out',
               animationPlayState: !isOpen ? 'running' : 'paused'
             }}
           >

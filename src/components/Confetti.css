@@ -14,16 +14,13 @@
   top: -50px;
   border-radius: 50%;
   animation: confetti-fall linear forwards;
-  opacity: 0.9;
 }
 
 @keyframes confetti-fall {
   0% {
     transform: translateY(0) rotate(0deg);
-    opacity: 0.9;
   }
   100% {
     transform: translateY(calc(100vh + 50px)) rotate(720deg);
-    opacity: 0;
   }
 }
