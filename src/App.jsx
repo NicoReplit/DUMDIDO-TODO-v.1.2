@@ -14,6 +14,7 @@ import BlueMenu from './components/BlueMenu';
 import CelebrationMenu from './components/CelebrationMenu';
 import QuarterCircle from './components/QuarterCircle';
 import ZigZag from './components/ZigZag';
+import DeleteConfirmationModal from './components/DeleteConfirmationModal';
 import './App.css';
 
 function App() {
@@ -39,6 +40,9 @@ function App() {
   const [doneCallback, setDoneCallback] = useState(null);
   const [pauseCallback, setPauseCallback] = useState(null);
   const [celebrationData, setCelebrationData] = useState(null);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [todoToDelete, setTodoToDelete] = useState(null);
+  const [deleteScope, setDeleteScope] = useState(null); // 'single' or 'series'
 
   useEffect(() => {
     fetchUsers();
@@ -160,21 +164,76 @@ function App() {
   };
 
   const handleDeleteTodo = async (id) => {
-    // Check if global PIN is set
+    // Find the todo to check if it's recurring
+    const todo = todos.find(t => t.id === id);
+    if (!todo) return;
+    
+    const isRecurring = todo.recurrence_type && todo.recurrence_type !== 'once';
+    
+    if (isRecurring) {
+      // Show confirmation modal for recurring todos
+      setTodoToDelete(todo);
+      setShowDeleteConfirmation(true);
+    } else {
+      // Non-recurring todo - proceed with PIN check directly
+      try {
+        const response = await fetch('/api/settings/has-pin');
+        const data = await response.json();
+        
+        if (data.hasPin) {
+          // Global PIN is set, show PIN entry dialog
+          setPendingDeleteTodoId(id);
+          setDeleteScope(null); // No scope for non-recurring todos
+          setPinAction('delete');
+          setShowPinEntry(true);
+        } else {
+          // No PIN, proceed directly - delete without scope
+          await fetch(`/api/todos/${id}`, { method: 'DELETE' });
+          fetchTodos();
+        }
+      } catch (error) {
+        console.error('Error deleting todo:', error);
+      }
+    }
+  };
+  
+  const handleDeleteConfirmed = async (scope) => {
+    setShowDeleteConfirmation(false);
+    setDeleteScope(scope);
+    
+    // Now check for PIN
     try {
       const response = await fetch('/api/settings/has-pin');
       const data = await response.json();
       
       if (data.hasPin) {
         // Global PIN is set, show PIN entry dialog
-        setPendingDeleteTodoId(id);
+        setPendingDeleteTodoId(todoToDelete.id);
         setPinAction('delete');
         setShowPinEntry(true);
       } else {
         // No PIN, proceed directly
-        await fetch(`/api/todos/${id}`, { method: 'DELETE' });
-        fetchTodos();
+        await performDelete(todoToDelete.id, scope);
       }
+    } catch (error) {
+      console.error('Error checking PIN:', error);
+    }
+  };
+  
+  const performDelete = async (id, scope) => {
+    try {
+      let url = `/api/todos/${id}`;
+      if (scope === 'series') {
+        url += '?scope=series';
+      } else if (scope === 'single') {
+        url += `?scope=single&date=${currentDate}`;
+      }
+      // If scope is null (non-recurring), just delete without query params
+      
+      await fetch(url, { method: 'DELETE' });
+      fetchTodos();
+      setTodoToDelete(null);
+      setDeleteScope(null);
     } catch (error) {
       console.error('Error deleting todo:', error);
     }
@@ -223,10 +282,10 @@ function App() {
           setShowForm(true);
           setPendingEditTodo(null);
         } else if (pinAction === 'delete') {
-          // Proceed with deleting
-          await fetch(`/api/todos/${pendingDeleteTodoId}`, { method: 'DELETE' });
-          fetchTodos();
+          // Proceed with deleting using the stored scope (can be null for non-recurring)
+          await performDelete(pendingDeleteTodoId, deleteScope);
           setPendingDeleteTodoId(null);
+          setDeleteScope(null);
         }
         
         setPinAction(null);
@@ -649,6 +708,17 @@ function App() {
         celebrationData={celebrationData}
         onClose={() => setCelebrationData(null)}
       />
+      {showDeleteConfirmation && todoToDelete && (
+        <DeleteConfirmationModal
+          todo={todoToDelete}
+          onClose={() => {
+            setShowDeleteConfirmation(false);
+            setTodoToDelete(null);
+          }}
+          onDeleteOne={() => handleDeleteConfirmed('single')}
+          onDeleteAll={() => handleDeleteConfirmed('series')}
+        />
+      )}
       <QuarterCircle onClick={() => {
         if (!currentUser) {
           alert('Please select a user first to create a new todo!');

@@ -81,6 +81,18 @@ await pool.query(`
   ADD COLUMN IF NOT EXISTS last_activity_date DATE
 `);
 
+// Create recurring_todo_exceptions table to track deleted instances of recurring todos
+await pool.query(`
+  CREATE TABLE IF NOT EXISTS recurring_todo_exceptions (
+    id SERIAL PRIMARY KEY,
+    todo_id INTEGER REFERENCES todos(id) ON DELETE CASCADE,
+    exception_date DATE NOT NULL,
+    exception_type VARCHAR(20) DEFAULT 'deleted',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(todo_id, exception_date)
+  )
+`);
+
 // Create global settings table for app-wide configurations
 await pool.query(`
   CREATE TABLE IF NOT EXISTS settings (
@@ -276,7 +288,9 @@ app.get('/api/todos', async (req, res) => {
       FROM todos t
       LEFT JOIN recurring_todo_completions rtc 
         ON t.id = rtc.todo_id AND rtc.completion_date = $1
-      WHERE 1=1
+      LEFT JOIN recurring_todo_exceptions rte
+        ON t.id = rte.todo_id AND rte.exception_date = $1
+      WHERE rte.id IS NULL
     `;
     const params = [date];
     
@@ -605,7 +619,20 @@ app.put('/api/todos/:id', async (req, res) => {
 app.delete('/api/todos/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await pool.query('DELETE FROM todos WHERE id = $1', [id]);
+    const { scope, date } = req.query; // 'single' or 'series', and date for single deletions
+    
+    if (scope === 'single') {
+      // For recurring todos, add an exception for the specified date instead of deleting
+      const exceptionDate = date || new Date().toISOString().split('T')[0];
+      await pool.query(
+        'INSERT INTO recurring_todo_exceptions (todo_id, exception_date, exception_type) VALUES ($1, $2, $3) ON CONFLICT (todo_id, exception_date) DO NOTHING',
+        [id, exceptionDate, 'deleted']
+      );
+    } else {
+      // Delete the entire todo (series or non-recurring)
+      await pool.query('DELETE FROM todos WHERE id = $1', [id]);
+    }
+    
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });

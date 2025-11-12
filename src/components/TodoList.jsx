@@ -18,12 +18,11 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
   };
 
   const handleTouchStart = (e, id, todo) => {
-    if (todo.completed) return;
     setTouchStart(e.touches[0].clientX);
   };
 
   const handleTouchMove = (e, id, todo) => {
-    if (todo.completed || !touchStart) return;
+    if (!touchStart) return;
     const currentTouch = e.touches[0].clientX;
     const diff = touchStart - currentTouch;
     
@@ -78,24 +77,26 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
               </button>
             </div>
             
-            {/* Middle layer - edit button (left side) - ALWAYS GREEN #38D247 */}
-            <div className="pill-layer pill-middle">
-              <button
-                className="action-btn-layer edit-btn-layer"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onEdit(todo);
-                  setSwipedId(null);
-                }}
-              >
-                ✏️
-              </button>
-            </div>
+            {/* Middle layer - edit button (left side) - ALWAYS GREEN #38D247 - Only shown for non-completed todos */}
+            {!todo.completed && (
+              <div className="pill-layer pill-middle">
+                <button
+                  className="action-btn-layer edit-btn-layer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEdit(todo);
+                    setSwipedId(null);
+                  }}
+                >
+                  ✏️
+                </button>
+              </div>
+            )}
             
             {/* Top layer - main content */}
             <div
               className={`dumbledido-todo-card pill-top ${getCardColor(index)} ${todo.completed ? 'completed' : ''}`}
-              onClick={() => !todo.completed && onSelect(todo)}
+              onClick={() => swipedId !== todo.id && !todo.completed && onSelect(todo)}
             >
               <div className="todo-card-content">
                 <h3 className="dumbledido-todo-title">{todo.title}</h3>
