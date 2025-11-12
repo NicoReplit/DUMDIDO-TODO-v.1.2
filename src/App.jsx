@@ -72,16 +72,28 @@ function App() {
     }
   };
 
-  const fetchUsers = async () => {
+  const fetchUsers = async ({ preserveSelection = false } = {}) => {
     try {
       const response = await fetch('/api/users');
       const data = await response.json();
       setUsers(data);
-      if (data.length > 0 && !currentUser) {
+      
+      // Rehydrate currentUser if one is already selected
+      if (currentUser) {
+        const updatedUser = data.find(u => u.id === currentUser.id);
+        if (updatedUser) {
+          setCurrentUser(updatedUser);
+        }
+      }
+      // Auto-select first user only on initial load (not in Open List mode, not when preserving)
+      else if (data.length > 0 && !isOpenListSelected && !preserveSelection) {
         setCurrentUser(data[0]);
       }
+      
+      return data;
     } catch (error) {
       console.error('Error fetching users:', error);
+      return [];
     }
   };
 
@@ -433,6 +445,43 @@ function App() {
     }
   };
 
+  const handleResetTodos = async (userId) => {
+    try {
+      const response = await fetch(`/api/users/${userId}/todos`, { method: 'DELETE' });
+      if (!response.ok) {
+        throw new Error('Failed to reset todos');
+      }
+      // Refresh users list while preserving Open List mode
+      await fetchUsers({ preserveSelection: true });
+      // Only fetch todos if a current user is selected (not in Open List mode)
+      if (currentUser) {
+        await fetchTodos();
+      }
+      alert('All to-dos have been deleted for this user.');
+    } catch (error) {
+      console.error('Error resetting todos:', error);
+      alert('Failed to reset todos. Please try again.');
+    }
+  };
+
+  const handleResetPoints = async (userId) => {
+    try {
+      const response = await fetch(`/api/users/${userId}/reset-points`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (!response.ok) {
+        throw new Error('Failed to reset points');
+      }
+      // Refresh users list while preserving Open List mode
+      await fetchUsers({ preserveSelection: true });
+      alert('All points have been reset for this user.');
+    } catch (error) {
+      console.error('Error resetting points:', error);
+      alert('Failed to reset points. Please try again.');
+    }
+  };
+
   const startTimer = (todoId, initialRemaining, initialElapsed) => {
     if (runningTimers[todoId]) return;
     
@@ -631,6 +680,8 @@ function App() {
         onSelectOpenList={handleSelectOpenList}
         isOpenListSelected={isOpenListSelected}
         onUpdateUser={handleUpdateUser}
+        onResetTodos={handleResetTodos}
+        onResetPoints={handleResetPoints}
       />
 
       {currentUser && !isOpenListSelected && (

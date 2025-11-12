@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import './UserSelector.css';
 import UserEditModal from './UserEditModal';
 
-function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpenList, isOpenListSelected, onUpdateUser }) {
+function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpenList, isOpenListSelected, onUpdateUser, onResetTodos, onResetPoints }) {
   const [swipedId, setSwipedId] = useState(null);
   const [editingUser, setEditingUser] = useState(null);
   const scrollRef = useRef(null);
@@ -182,6 +182,8 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
           user={editingUser}
           onClose={() => setEditingUser(null)}
           onSave={handleSaveUser}
+          onResetTodos={onResetTodos}
+          onResetPoints={onResetPoints}
         />
       )}
     </div>

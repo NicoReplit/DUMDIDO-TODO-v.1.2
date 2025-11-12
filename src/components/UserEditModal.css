@@ -122,3 +122,66 @@
   background: #2AB939;
   transform: translateY(-2px);
 }
+
+.btn-save:disabled {
+  background: var(--dumbledido-gray);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn-danger {
+  flex: 1;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'MuseoModerno', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  background: #EE4100;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #D63800;
+  transform: translateY(-2px);
+}
+
+.reset-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #E4F4E4;
+}
+
+.btn-reset {
+  flex: 1;
+  padding: 12px 20px;
+  border: 2px solid #EE4100;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'MuseoModerno', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  background: white;
+  color: #EE4100;
+}
+
+.btn-reset:hover {
+  background: #EE4100;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.warning-text {
+  font-family: 'MuseoModerno', sans-serif;
+  font-size: 16px;
+  color: var(--dumbledido-black);
+  line-height: 1.5;
+  margin: 20px 0;
+}

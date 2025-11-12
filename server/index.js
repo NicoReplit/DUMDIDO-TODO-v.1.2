@@ -205,6 +205,40 @@ app.delete('/api/users/:id', async (req, res) => {
   }
 });
 
+// Reset all todos for a user (delete all todos)
+app.delete('/api/users/:id/todos', async (req, res) => {
+  try {
+    const { id } = req.params;
+    // Check if user exists first
+    const userCheck = await pool.query('SELECT id FROM users WHERE id = $1', [id]);
+    if (userCheck.rowCount === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    // Delete all todos for this user
+    await pool.query('DELETE FROM todos WHERE user_id = $1', [id]);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Reset all points for a user (points, super points, streak)
+app.put('/api/users/:id/reset-points', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query(
+      'UPDATE users SET total_points = 0, super_points = 0, current_streak_days = 0 WHERE id = $1 RETURNING *',
+      [id]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Check if global PIN is set
 app.get('/api/settings/has-pin', async (req, res) => {
   try {
