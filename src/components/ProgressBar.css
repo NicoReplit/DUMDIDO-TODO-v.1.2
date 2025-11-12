@@ -17,7 +17,7 @@
   left: 0;
   height: 100%;
   min-width: 40px; /* Minimum circle size */
-  background: var(--dumbledido-yellow);
+  background: red;
   border-radius: 20px; /* Full pill shape */
   z-index: 1;
   transition: width 0.5s ease-out;
