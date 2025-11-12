@@ -13,7 +13,6 @@ import RedMenu from './components/RedMenu';
 import BlueMenu from './components/BlueMenu';
 import CelebrationMenu from './components/CelebrationMenu';
 import QuarterCircle from './components/QuarterCircle';
-import ZigZag from './components/ZigZag';
 import './App.css';
 
 function App() {
@@ -656,16 +655,6 @@ function App() {
         }
         setShowForm(true);
       }} />
-      
-      <div style={{
-        position: 'fixed',
-        bottom: '-100px',
-        right: '-50px',
-        transform: 'rotate(20deg) scale(1.1)',
-        zIndex: 5000
-      }}>
-        <ZigZag />
-      </div>
       
       <button 
         className="left-red-pill" 
