@@ -11,6 +11,17 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 
 ## Recent Updates (November 2025)
 
+### Swipe-to-Delete for Completed Todos (November 12, 2025)
+Implemented swipe-to-delete functionality for completed todos with intelligent recurring deletion handling:
+- **Swipe Gestures**: Completed todos can be swiped left to reveal delete button (edit button hidden)
+- **Recurring Todo Support**: Modal confirmation for recurring todos with two options:
+  - "Nur diese Aufgabe löschen" (Delete only this task): Creates exception for current date
+  - "Gesamte {recurrence_type} Aufgabe löschen" (Delete entire recurring task): Removes entire series
+- **PIN Protection**: Delete operations require global PIN verification (if set)
+- **Database Architecture**: Uses `recurring_todo_exceptions` table to track deleted instances with `todo_id`, `exception_date`, and `exception_type` fields
+- **Smart Filtering**: GET /api/todos endpoint excludes todos with exceptions matching query date
+- **Delete Flow**: Modal (for recurring) → User selects scope → PIN verification → Backend deletion with scope parameter (null/single/series)
+
 ### Timer Interface Redesign (November 10, 2025)
 Simplified todo detail timer controls for better visual hierarchy:
 - **Centered Play Button**: Rounded yellow (#FECE00) play button (80px diameter, 70px on mobile) positioned in the center of the timer circle when not running
@@ -78,11 +89,12 @@ The application is a full-stack solution with a React frontend and a Node.js/Exp
 
 ### System Design Choices
 - **Technology Stack**: React 18 with Vite for the frontend, Node.js with Express for the backend, and PostgreSQL for the database.
-- **Database Schema**: Structured with `users`, `todos`, `daily_completions`, and `settings` tables. The `settings` table stores the global PIN hash for family-wide security.
-- **API Endpoints**: Comprehensive RESTful API for managing users, todos (including claiming open list tasks), gamification features, and global settings. Key security endpoints include:
+- **Database Schema**: Structured with `users`, `todos`, `daily_completions`, `recurring_todo_exceptions`, and `settings` tables. The `settings` table stores the global PIN hash for family-wide security. The `recurring_todo_exceptions` table tracks deleted instances of recurring todos.
+- **API Endpoints**: Comprehensive RESTful API for managing users, todos (including claiming open list tasks), gamification features, and global settings. Key endpoints include:
   - `GET /api/settings/has-pin`: Check if global PIN is set
   - `POST /api/settings/verify-pin`: Verify global PIN for protected operations
   - `PUT /api/settings`: Update global PIN (set, change, or remove)
+  - `DELETE /api/todos/:id`: Delete todos with optional scope parameter (single/series) and date for recurring exceptions
 - **Mobile-First Design**: CSS is implemented with a mobile-first approach, ensuring optimal performance on touch devices.
 
 ## External Dependencies
