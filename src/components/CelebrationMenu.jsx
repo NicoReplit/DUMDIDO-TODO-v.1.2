@@ -132,7 +132,8 @@ function CelebrationMenu({ celebrationData, onClose }) {
               viewBox="0 0 100 100" 
               xmlns="http://www.w3.org/2000/svg"
               style={{
-                transform: 'translateX(-50%) rotate(-90deg)',
+                transform: isOpen ? 'translateX(-50%) rotate(-90deg) scale(1.3)' : 'translateX(-50%) rotate(-90deg) scale(0.8)',
+                transition: 'transform 0.6s ease-out'
               }}
             >
               <defs>
