@@ -117,7 +117,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
           <div 
             className="celebration-circle-eyes"
             style={{
-              transform: isOpen ? 'translateX(-50%) scale(0.1732)' : 'translateX(-50%)',
+              transform: isOpen ? 'translate(-50%, 10px) scale(0.1732)' : 'translateX(-50%)',
               transition: 'transform 0.6s ease-out'
             }}
           >
@@ -132,7 +132,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
               viewBox="0 0 100 100" 
               xmlns="http://www.w3.org/2000/svg"
               style={{
-                transform: isOpen ? 'translateX(-50%) rotate(-90deg) scale(1.3)' : 'translateX(-50%) rotate(-90deg) scale(0.8)',
+                transform: isOpen ? 'translateX(-50%) rotate(-90deg) scale(1.3)' : 'translateX(-50%) rotate(-90deg) scale(0.7)',
                 transition: 'transform 0.6s ease-out'
               }}
             >
