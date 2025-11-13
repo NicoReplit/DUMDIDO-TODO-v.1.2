@@ -11,6 +11,18 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 
 ## Recent Updates (November 2025)
 
+### Todo Detail Timer Redesign (November 13, 2025)
+Redesigned the todo detail view with playful character elements:
+- **Header**: Removed gradient background, close button now has solid red (#EE4100) border (8px stroke, round endings), transparent background
+- **Timer Circle**: 
+  - Pushed up 30px closer to top (margin reduced from 50px to 20px)
+  - Inner color changed to green (#38D247) from palette
+  - Play button triangle has rounded corners (3px border-radius)
+  - Play button positioned at exact center using absolute positioning
+  - Added two eyes at top edge with random rotation (-20° to +20°)
+  - Black pupils positioned off-center for playful look
+  - Text color changed to white for better contrast on green background
+
 ### Super Points Double-Click Bug Fix (November 12, 2025)
 Fixed bug where double-clicking the super points red pill would accidentally trigger BlueMenu/CelebrationMenu:
 - **Issue**: BlueMenu (z-index 10000) and CelebrationMenu (z-index 12000) were always interactive, positioned near super points pill (z-index 9998)

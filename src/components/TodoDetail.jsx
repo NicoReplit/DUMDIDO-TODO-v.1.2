@@ -179,10 +179,13 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
   };
 
 
+  // Random rotation for eyes
+  const eye1Rotation = useRef(Math.random() * 40 - 20).current; // -20 to +20 degrees
+  const eye2Rotation = useRef(Math.random() * 40 - 20).current;
+
   return (
     <div className="todo-detail">
       <div className="detail-header">
-        <h2 className="detail-header-title">{todo.title}</h2>
         <button className="close-btn" onClick={handleBack}>×</button>
       </div>
 
@@ -199,21 +202,23 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
                   background: `conic-gradient(#65b032 ${countdownProgress}%, #e5e7eb ${countdownProgress}%)`
                 }}>
                   <div className="timer-inner">
+                    <div className="timer-eyes">
+                      <div className="timer-eye" style={{ transform: `rotate(${eye1Rotation}deg)` }}></div>
+                      <div className="timer-eye" style={{ transform: `rotate(${eye2Rotation}deg)` }}></div>
+                    </div>
                     {!isRunning && timeRemaining > 0 ? (
                       <>
-                        <button className="play-btn-circle" onClick={handleStart} aria-label="Start timer">
-                          ▶
-                        </button>
+                        <button className="play-btn-circle" onClick={handleStart} aria-label="Start timer"></button>
                         <div className="estimated-time-circle">
                           {todo.estimated_minutes ? `${todo.estimated_minutes} Min` : 'No estimate'}
                         </div>
                       </>
                     ) : (
                       <>
-                        <div className="timer-display" style={{ color: '#65b032' }}>
+                        <div className="timer-display" style={{ color: 'white' }}>
                           {formatTime(countdownTime)}
                         </div>
-                        <div className="timer-label">
+                        <div className="timer-label" style={{ color: 'white' }}>
                           {countdownTime === 0 ? 'Time\'s up!' : 'remaining'}
                         </div>
                       </>
@@ -258,10 +263,14 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
                     })}
                   </svg>
                   <div className="timer-inner">
-                    <div className="timer-display" style={{ color: '#a7194b' }}>
+                    <div className="timer-eyes">
+                      <div className="timer-eye" style={{ transform: `rotate(${eye1Rotation}deg)` }}></div>
+                      <div className="timer-eye" style={{ transform: `rotate(${eye2Rotation}deg)` }}></div>
+                    </div>
+                    <div className="timer-display" style={{ color: 'white' }}>
                       +{formatTime(overtimeSeconds)}
                     </div>
-                    <div className="timer-label" style={{ color: '#a7194b' }}>
+                    <div className="timer-label" style={{ color: 'white' }}>
                       OVERTIME
                     </div>
                   </div>
