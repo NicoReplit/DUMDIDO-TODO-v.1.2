@@ -43,9 +43,6 @@ function App() {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [todoToDelete, setTodoToDelete] = useState(null);
   const [deleteScope, setDeleteScope] = useState(null); // 'single' or 'series'
-  const [moonAnimating, setMoonAnimating] = useState(false);
-  const [moonRx, setMoonRx] = useState(80);
-  const [moonRy, setMoonRy] = useState(48);
 
   useEffect(() => {
     fetchUsers();
@@ -62,79 +59,6 @@ function App() {
   useEffect(() => {
     fetchOpenTodos();
   }, [currentDate]);
-
-  useEffect(() => {
-    if (celebrationData) {
-      setMoonAnimating(true);
-      setMoonRx(80);
-      setMoonRy(48);
-      
-      const startTime = performance.now();
-      const phase1Duration = 700;  // 0.7s
-      const phase2Duration = 200;  // 0.2s
-      const phase3Duration = 1000; // 1s
-      const forwardDuration = phase1Duration + phase2Duration + phase3Duration;
-      const reverseDuration = forwardDuration; // Same duration for reverse
-      const totalDuration = forwardDuration + reverseDuration;
-      
-      // Easing function (ease-in-out)
-      const easeInOutCubic = (t) => {
-        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      };
-      
-      const animate = (currentTime) => {
-        const elapsed = currentTime - startTime;
-        
-        // Forward animation
-        if (elapsed < phase1Duration) {
-          // Phase 1: shrink to overshoot (80 -> 26.6, 48 -> 38)
-          const progress = easeInOutCubic(elapsed / phase1Duration);
-          setMoonRx(80 - (80 - 26.6) * progress);
-          setMoonRy(48 - (48 - 38) * progress);
-          requestAnimationFrame(animate);
-        } else if (elapsed < phase1Duration + phase2Duration) {
-          // Phase 2: bounce back (26.6 -> 28.7, 38 -> 40.8)
-          const progress = easeInOutCubic((elapsed - phase1Duration) / phase2Duration);
-          setMoonRx(26.6 + (28.7 - 26.6) * progress);
-          setMoonRy(38 + (40.8 - 38) * progress);
-          requestAnimationFrame(animate);
-        } else if (elapsed < forwardDuration) {
-          // Phase 3: settle (28.7 -> 28, 40.8 -> 40)
-          const progress = easeInOutCubic((elapsed - phase1Duration - phase2Duration) / phase3Duration);
-          setMoonRx(28.7 + (28 - 28.7) * progress);
-          setMoonRy(40.8 + (40 - 40.8) * progress);
-          requestAnimationFrame(animate);
-        } 
-        // Reverse animation - mirror the forward animation
-        else if (elapsed < forwardDuration + phase3Duration) {
-          // Reverse Phase 3: unsettling (28 -> 28.7, 40 -> 40.8)
-          const progress = easeInOutCubic((elapsed - forwardDuration) / phase3Duration);
-          setMoonRx(28 + (28.7 - 28) * progress);
-          setMoonRy(40 + (40.8 - 40) * progress);
-          requestAnimationFrame(animate);
-        } else if (elapsed < forwardDuration + phase3Duration + phase2Duration) {
-          // Reverse Phase 2: unbounce (28.7 -> 26.6, 40.8 -> 38)
-          const progress = easeInOutCubic((elapsed - forwardDuration - phase3Duration) / phase2Duration);
-          setMoonRx(28.7 + (26.6 - 28.7) * progress);
-          setMoonRy(40.8 + (38 - 40.8) * progress);
-          requestAnimationFrame(animate);
-        } else if (elapsed < totalDuration) {
-          // Reverse Phase 1: grow back (26.6 -> 80, 38 -> 48)
-          const progress = easeInOutCubic((elapsed - forwardDuration - phase3Duration - phase2Duration) / phase1Duration);
-          setMoonRx(26.6 + (80 - 26.6) * progress);
-          setMoonRy(38 + (48 - 38) * progress);
-          requestAnimationFrame(animate);
-        } else {
-          // Animation complete - back to original covered state
-          setMoonRx(80);
-          setMoonRy(48);
-          setMoonAnimating(false);
-        }
-      };
-      
-      requestAnimationFrame(animate);
-    }
-  }, [celebrationData]);
 
   const fetchGlobalSettings = async () => {
     try {
@@ -987,17 +911,6 @@ function App() {
           </svg>
         </div>
       </button>
-
-      <svg className="half-moon-shape" width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <mask id="blackShapeMask">
-            <circle cx="50" cy="50" r="40" fill="white"/>
-          </mask>
-        </defs>
-        <circle cx="50" cy="50" r="40" fill="black"/>
-        <circle cx="10" cy="50" r="30" fill="#EE4100" mask="url(#blackShapeMask)"/>
-        <ellipse className="moon-reveal" cx="80" cy="50" rx={moonRx} ry={moonRy} fill="#0061ee" />
-      </svg>
     </div>
   );
 }

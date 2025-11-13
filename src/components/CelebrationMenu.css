@@ -97,6 +97,16 @@
   }
 }
 
+/* Half-moon positioned under eyes with -45° rotation */
+.celebration-half-moon {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform-origin: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* Settings overlay - no scaling, positioned absolutely */
 .celebration-settings-overlay {
   position: fixed;
