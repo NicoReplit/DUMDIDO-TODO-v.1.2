@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './RedMenu.css';
 
 function RedMenu({ globalPin, onSavePin }) {
@@ -9,6 +9,18 @@ function RedMenu({ globalPin, onSavePin }) {
   const [currentPin, setCurrentPin] = useState('');
   const touchStartY = useRef(null);
   const swipeThreshold = 50;
+
+  // Block scrolling when menu is open or closing
+  useEffect(() => {
+    if (isOpen || closing) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, closing]);
 
   const handleTouchStart = (e) => {
     if (isOpen) return;
@@ -31,17 +43,17 @@ function RedMenu({ globalPin, onSavePin }) {
 
   const handleSave = async () => {
     if (globalPin && !currentPin) {
-      alert('Please enter your current PIN');
+      alert('Bitte aktuelle PIN eingeben');
       return;
     }
 
     if (pin && pin !== confirmPin) {
-      alert('PINs do not match');
+      alert('PINs stimmen nicht überein');
       return;
     }
 
     if (pin && pin.length !== 4) {
-      alert('PIN must be 4 digits');
+      alert('PIN muss 4 Ziffern haben');
       return;
     }
 
@@ -51,10 +63,10 @@ function RedMenu({ globalPin, onSavePin }) {
 
   const handleRemovePin = async () => {
     if (!currentPin || currentPin.length !== 4) {
-      alert('Please enter your current PIN to remove it');
+      alert('Bitte aktuelle PIN eingeben um sie zu entfernen');
       return;
     }
-    if (confirm('Are you sure you want to remove the global PIN?')) {
+    if (confirm('Möchtest du die globale PIN wirklich entfernen?')) {
       await onSavePin(null, currentPin);
       handleClose();
     }
@@ -139,7 +151,7 @@ function RedMenu({ globalPin, onSavePin }) {
                 type="password"
                 value={currentPin}
                 onChange={(e) => setCurrentPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                placeholder="Current PIN"
+                placeholder="Aktuelle PIN"
                 maxLength="4"
                 pattern="[0-9]*"
                 inputMode="numeric"
@@ -151,7 +163,7 @@ function RedMenu({ globalPin, onSavePin }) {
               type="password"
               value={pin}
               onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-              placeholder={globalPin ? 'New PIN' : 'PIN (4 digits)'}
+              placeholder={globalPin ? 'Neue PIN' : 'PIN (4 Ziffern)'}
               maxLength="4"
               pattern="[0-9]*"
               inputMode="numeric"
@@ -162,7 +174,7 @@ function RedMenu({ globalPin, onSavePin }) {
               type="password"
               value={confirmPin}
               onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-              placeholder="Repeat PIN"
+              placeholder="PIN wiederholen"
               maxLength="4"
               pattern="[0-9]*"
               inputMode="numeric"
@@ -172,11 +184,11 @@ function RedMenu({ globalPin, onSavePin }) {
             <div className="red-button-group">
               {globalPin && (
                 <button onClick={handleRemovePin} className={`red-remove-button ${closing ? 'button-animate-4-close' : 'button-animate-4'}`}>
-                  Remove PIN
+                  PIN entfernen
                 </button>
               )}
               <button onClick={handleSave} className={`red-save-button ${closing ? (globalPin ? 'button-animate-5-close' : 'button-animate-3-close') : (globalPin ? 'button-animate-5' : 'button-animate-3')}`}>
-                Save
+                Speichern
               </button>
             </div>
           </div>

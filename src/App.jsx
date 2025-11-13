@@ -307,11 +307,11 @@ function App() {
         setPinAction(null);
       } else {
         // PIN incorrect
-        alert('Incorrect PIN. Please try again.');
+        alert('Falsche PIN. Bitte erneut versuchen.');
       }
     } catch (error) {
       console.error('Error verifying PIN:', error);
-      alert('Error verifying PIN. Please try again.');
+      alert('Fehler beim Überprüfen der PIN. Bitte erneut versuchen.');
     }
   };
 
@@ -423,7 +423,7 @@ function App() {
       await fetchUsers();
     } catch (error) {
       console.error('Error updating user:', error);
-      alert(error.message || 'Failed to update user. Please try again.');
+      alert(error.message || 'Fehler beim Aktualisieren des Benutzers. Bitte erneut versuchen.');
       throw error;
     }
   };
@@ -445,7 +445,7 @@ function App() {
       setEditingUser(null);
     } catch (error) {
       console.error('Error deleting user:', error);
-      alert('Failed to delete user. Please try again.');
+      alert('Fehler beim Löschen des Benutzers. Bitte erneut versuchen.');
     }
   };
 
@@ -471,10 +471,10 @@ function App() {
         }
       }
       
-      alert('All to-dos have been deleted for this user.');
+      alert('Alle Aufgaben wurden für diesen Benutzer gelöscht.');
     } catch (error) {
       console.error('Error resetting todos:', error);
-      alert('Failed to reset todos. Please try again.');
+      alert('Fehler beim Zurücksetzen der Aufgaben. Bitte erneut versuchen.');
     }
   };
 
@@ -489,10 +489,10 @@ function App() {
       }
       // Refresh users list while preserving Open List mode
       await fetchUsers({ preserveSelection: true });
-      alert('All points have been reset for this user.');
+      alert('Alle Punkte wurden für diesen Benutzer zurückgesetzt.');
     } catch (error) {
       console.error('Error resetting points:', error);
-      alert('Failed to reset points. Please try again.');
+      alert('Fehler beim Zurücksetzen der Punkte. Bitte erneut versuchen.');
     }
   };
 
@@ -573,7 +573,7 @@ function App() {
       setPendingClaimTask(null);
     } catch (error) {
       console.error('Error claiming task:', error);
-      alert('Failed to claim task. Please try again.');
+      alert('Fehler beim Übernehmen der Aufgabe. Bitte erneut versuchen.');
     }
   };
 
@@ -644,7 +644,7 @@ function App() {
       setGlobalPin(data.global_pin);
     } catch (error) {
       console.error('Error saving global PIN:', error);
-      alert(error.message || 'Failed to save settings');
+      alert(error.message || 'Fehler beim Speichern der Einstellungen');
       throw error;
     }
   };
@@ -672,7 +672,7 @@ function App() {
           <span className="letter-o2">O</span>
         </h1>
         <div className="header-content">
-          <div className="header-subtitle">FAMILY TO-DO LIST</div>
+          <div className="header-subtitle">FAMILIEN-AUFGABENLISTE</div>
           <div className="header-buttons">
             <input
               type="date"
@@ -680,11 +680,6 @@ function App() {
               value={currentDate}
               onChange={(e) => setCurrentDate(e.target.value)}
             />
-            {!isOpenListSelected && (
-              <button className="add-user-button" onClick={() => setShowUserForm(true)}>
-                +
-              </button>
-            )}
           </div>
         </div>
       </header>
@@ -707,8 +702,8 @@ function App() {
 
       {isOpenListSelected ? (
         <div className="open-list-view">
-          <h2 className="section-title">Shared Family Tasks</h2>
-          <p className="section-description">Claim any task for +10 bonus points! 🎁</p>
+          <h2 className="section-title">Geteilte Familienaufgaben</h2>
+          <p className="section-description">Übernimm eine Aufgabe und verdiene +10 Bonuspunkte! 🎁</p>
           <TodoList
             todos={openTodos}
             onEdit={() => {}}
@@ -789,7 +784,7 @@ function App() {
       )}
       <QuarterCircle onClick={() => {
         if (!currentUser && !isOpenListSelected) {
-          alert('Please select a user first to create a new todo!');
+          alert('Bitte zuerst einen Benutzer auswählen!');
           return;
         }
         setShowForm(true);
@@ -809,31 +804,31 @@ function App() {
         className="left-red-pill" 
         onClick={async () => {
           if (!currentUser) {
-            alert('Please select a user first!');
+            alert('Bitte zuerst einen Benutzer auswählen!');
             return;
           }
 
           if (currentUser.super_points <= 0) {
-            alert('No super points available! Super points are earned through completing tasks and streaks.');
+            alert('Keine Super-Punkte verfügbar! Super-Punkte werden durch das Erledigen von Aufgaben und Streaks verdient.');
             return;
           }
 
           if (!selectedTodo) {
-            alert(`You have ${currentUser.super_points} super points available!\n\nSuper points can be used when completing a task to count it as "on-time" regardless of how long it took.\n\nOpen a task to use a super point.`);
+            alert(`Du hast ${currentUser.super_points} Super-Punkte verfügbar!\n\nSuper-Punkte können beim Abschließen einer Aufgabe verwendet werden, um sie als "pünktlich" zu zählen, unabhängig davon, wie lange sie gedauert hat.\n\nÖffne eine Aufgabe, um einen Super-Punkt zu verwenden.`);
             return;
           }
 
           if (selectedTodo.completed) {
-            alert('This task is already completed!');
+            alert('Diese Aufgabe ist bereits erledigt!');
             return;
           }
 
           if (selectedTodo.super_point_used) {
-            alert('This task already has a super point applied!');
+            alert('Diese Aufgabe hat bereits einen Super-Punkt!');
             return;
           }
 
-          if (window.confirm('Use 1 super point to complete this task on-time?')) {
+          if (window.confirm('1 Super-Punkt verwenden, um diese Aufgabe pünktlich abzuschließen?')) {
             try {
               const response = await fetch(`/api/users/${currentUser.id}/use-super-point`, {
                 method: 'POST',
@@ -842,7 +837,7 @@ function App() {
               
               if (!response.ok) {
                 const error = await response.text();
-                alert(`Failed to use super point: ${error}`);
+                alert(`Fehler beim Verwenden des Super-Punkts: ${error}`);
                 return;
               }
               
@@ -865,10 +860,10 @@ function App() {
               await fetchOpenTodos();
               await fetchUsers();
               
-              alert('Super point used! ⭐ Task completed on-time!');
+              alert('Super-Punkt verwendet! ⭐ Aufgabe pünktlich erledigt!');
             } catch (error) {
               console.error('Error using super point:', error);
-              alert('Failed to use super point. Please try again.');
+              alert('Fehler beim Verwenden des Super-Punkts. Bitte erneut versuchen.');
             }
           }
         }}

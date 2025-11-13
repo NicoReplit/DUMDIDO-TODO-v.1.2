@@ -13,13 +13,13 @@ function TodoForm({ todo, onSave, onCancel, defaultOpenList = false }) {
   });
 
   const daysOfWeek = [
-    { value: 0, label: 'Sun' },
-    { value: 1, label: 'Mon' },
-    { value: 2, label: 'Tue' },
-    { value: 3, label: 'Wed' },
-    { value: 4, label: 'Thu' },
-    { value: 5, label: 'Fri' },
-    { value: 6, label: 'Sat' }
+    { value: 0, label: 'So' },
+    { value: 1, label: 'Mo' },
+    { value: 2, label: 'Di' },
+    { value: 3, label: 'Mi' },
+    { value: 4, label: 'Do' },
+    { value: 5, label: 'Fr' },
+    { value: 6, label: 'Sa' }
   ];
 
   const handleSubmit = (e) => {
@@ -54,35 +54,35 @@ function TodoForm({ todo, onSave, onCancel, defaultOpenList = false }) {
   return (
     <div className="todo-form-container">
       <div className="form-header">
-        <h2>{todo ? 'Edit To-Do' : 'New To-Do'}</h2>
+        <h2>{todo ? 'Aufgabe bearbeiten' : 'Neue Aufgabe'}</h2>
         <button className="close-btn" onClick={onCancel}>×</button>
       </div>
       
       <form onSubmit={handleSubmit} className="todo-form">
         <div className="form-group">
-          <label>Title *</label>
+          <label>Titel *</label>
           <input
             type="text"
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             required
-            placeholder="What needs to be done?"
+            placeholder="Was muss erledigt werden?"
             autoFocus
           />
         </div>
 
         <div className="form-group">
-          <label>Description</label>
+          <label>Beschreibung</label>
           <textarea
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            placeholder="Add more details..."
+            placeholder="Weitere Details hinzufügen..."
             rows="3"
           />
         </div>
 
         <div className="form-group">
-          <label>Estimated Time (minutes)</label>
+          <label>Geschätzte Zeit (Minuten)</label>
           <input
             type="number"
             value={formData.estimated_minutes}
@@ -106,7 +106,7 @@ function TodoForm({ todo, onSave, onCancel, defaultOpenList = false }) {
               })}
             />
             <span className="checkbox-text">
-              📋 <strong>Open List</strong> - Anyone can claim and earn bonus points!
+              📋 <strong>Offene Liste</strong> - Jeder kann diese Aufgabe übernehmen und Bonuspunkte verdienen!
             </span>
           </label>
         </div>
@@ -114,35 +114,35 @@ function TodoForm({ todo, onSave, onCancel, defaultOpenList = false }) {
         {!formData.is_open_list && (
           <>
             <div className="form-group">
-              <label>Schedule</label>
+              <label>Zeitplan</label>
               <div className="schedule-options">
                 <button
                   type="button"
                   className={`schedule-btn ${!formData.recurrence_type && !formData.specific_date ? 'active' : ''}`}
                   onClick={() => handleRecurrenceChange('')}
                 >
-                  One Time
+                  Einmalig
                 </button>
                 <button
                   type="button"
                   className={`schedule-btn ${formData.recurrence_type === 'daily' ? 'active' : ''}`}
                   onClick={() => handleRecurrenceChange('daily')}
                 >
-                  Daily
+                  Täglich
                 </button>
                 <button
                   type="button"
                   className={`schedule-btn ${formData.recurrence_type === 'weekly' ? 'active' : ''}`}
                   onClick={() => handleRecurrenceChange('weekly')}
                 >
-                  Weekly
+                  Wöchentlich
                 </button>
               </div>
             </div>
 
             {!formData.recurrence_type && (
               <div className="form-group">
-                <label>Date</label>
+                <label>Datum</label>
                 <input
                   type="date"
                   value={formData.specific_date}
@@ -153,7 +153,7 @@ function TodoForm({ todo, onSave, onCancel, defaultOpenList = false }) {
 
             {formData.recurrence_type === 'weekly' && (
               <div className="form-group">
-                <label>Select Days</label>
+                <label>Tage auswählen</label>
                 <div className="days-selector">
                   {daysOfWeek.map(day => (
                     <button
@@ -173,10 +173,10 @@ function TodoForm({ todo, onSave, onCancel, defaultOpenList = false }) {
 
         <div className="form-actions">
           <button type="button" className="cancel-btn" onClick={onCancel}>
-            Cancel
+            Abbrechen
           </button>
           <button type="submit" className="save-btn">
-            Save
+            Speichern
           </button>
         </div>
       </form>

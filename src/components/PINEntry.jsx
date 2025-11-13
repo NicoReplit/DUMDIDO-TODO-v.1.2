@@ -8,7 +8,7 @@ function PINEntry({ userName, action = 'edit', onVerify, onCancel }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!/^\d{4}$/.test(pin)) {
-      setError('PIN must be exactly 4 digits');
+      setError('PIN muss genau 4 Ziffern haben');
       return;
     }
     onVerify(pin);
@@ -20,18 +20,18 @@ function PINEntry({ userName, action = 'edit', onVerify, onCancel }) {
     setError('');
   };
 
-  const actionText = action === 'delete' ? 'delete' : 'edit';
+  const actionText = action === 'delete' ? 'löschen' : 'bearbeiten';
 
   return (
     <div className="pin-entry-overlay" onClick={onCancel}>
       <div className="pin-entry-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="pin-entry-header">
-          <h3>Enter PIN</h3>
+          <h3>PIN eingeben</h3>
           <button className="close-btn" onClick={onCancel}>×</button>
         </div>
         
         <p className="pin-entry-message">
-          Enter <strong>{userName}'s</strong> PIN to {actionText} this to-do
+          Gib <strong>{userName}s</strong> PIN ein, um diese Aufgabe zu {actionText}
         </p>
 
         <form onSubmit={handleSubmit}>
@@ -53,10 +53,10 @@ function PINEntry({ userName, action = 'edit', onVerify, onCancel }) {
 
           <div className="pin-entry-actions">
             <button type="button" className="cancel-btn" onClick={onCancel}>
-              Cancel
+              Abbrechen
             </button>
             <button type="submit" className="verify-btn">
-              Verify
+              Bestätigen
             </button>
           </div>
         </form>

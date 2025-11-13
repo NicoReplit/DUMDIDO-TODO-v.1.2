@@ -39,22 +39,22 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
     e.preventDefault();
     const trimmedName = formData.name.trim();
     if (!trimmedName) {
-      alert('Please enter a valid name');
+      alert('Bitte einen gültigen Namen eingeben');
       return;
     }
 
     // PIN validation
     if (pinData.newPin || pinData.confirmPin) {
       if (!/^\d{4}$/.test(pinData.newPin)) {
-        alert('PIN must be exactly 4 digits');
+        alert('PIN muss genau 4 Ziffern haben');
         return;
       }
       if (pinData.newPin !== pinData.confirmPin) {
-        alert('PINs do not match');
+        alert('PINs stimmen nicht überein');
         return;
       }
       if (hasExistingPin && !pinData.currentPin) {
-        alert('Please enter your current PIN to change it');
+        alert('Bitte aktuelle PIN eingeben um sie zu ändern');
         return;
       }
     }
@@ -80,9 +80,9 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
       await onSave(dataToSave);
     } catch (error) {
       if (error.message.includes('Current PIN is incorrect')) {
-        alert('Current PIN is incorrect');
+        alert('Aktuelle PIN ist falsch');
       } else {
-        alert('Error saving user: ' + error.message);
+        alert('Fehler beim Speichern: ' + error.message);
       }
     }
   };
@@ -95,7 +95,7 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
   return (
     <div className="user-form-container">
       <div className="form-header">
-        <h2>{user ? 'Edit User' : 'New User'}</h2>
+        <h2>{user ? 'Benutzer bearbeiten' : 'Neuer Benutzer'}</h2>
         <button className="close-btn" onClick={onCancel}>×</button>
       </div>
       
@@ -107,13 +107,13 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
-            placeholder="Enter name"
+            placeholder="Name eingeben"
             autoFocus
           />
         </div>
 
         <div className="form-group">
-          <label>Color</label>
+          <label>Farbe</label>
           <div className="color-picker">
             {predefinedColors.map(color => (
               <button
@@ -129,14 +129,14 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
 
         {user && (
           <div className="pin-section">
-            <h3>PIN Protection</h3>
+            <h3>PIN-Schutz</h3>
             <p className="pin-description">
-              Set a 4-digit PIN to protect your to-dos from being edited by others.
+              Setze eine 4-stellige PIN, um deine Aufgaben vor Bearbeitung durch andere zu schützen.
             </p>
             
             {hasExistingPin && (
               <div className="form-group">
-                <label>Current PIN *</label>
+                <label>Aktuelle PIN *</label>
                 <input
                   type="password"
                   inputMode="numeric"
@@ -144,13 +144,13 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
                   maxLength="4"
                   value={pinData.currentPin}
                   onChange={(e) => setPinData({ ...pinData, currentPin: e.target.value.replace(/\D/g, '') })}
-                  placeholder="Enter current PIN"
+                  placeholder="Aktuelle PIN eingeben"
                 />
               </div>
             )}
             
             <div className="form-group">
-              <label>New PIN {!hasExistingPin && '(optional)'}</label>
+              <label>Neue PIN {!hasExistingPin && '(optional)'}</label>
               <input
                 type="password"
                 inputMode="numeric"
@@ -158,12 +158,12 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
                 maxLength="4"
                 value={pinData.newPin}
                 onChange={(e) => setPinData({ ...pinData, newPin: e.target.value.replace(/\D/g, '') })}
-                placeholder="Enter 4-digit PIN"
+                placeholder="4-stellige PIN eingeben"
               />
             </div>
             
             <div className="form-group">
-              <label>Confirm New PIN</label>
+              <label>Neue PIN bestätigen</label>
               <input
                 type="password"
                 inputMode="numeric"
@@ -171,7 +171,7 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
                 maxLength="4"
                 value={pinData.confirmPin}
                 onChange={(e) => setPinData({ ...pinData, confirmPin: e.target.value.replace(/\D/g, '') })}
-                placeholder="Confirm 4-digit PIN"
+                placeholder="4-stellige PIN bestätigen"
               />
             </div>
           </div>
@@ -184,15 +184,15 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
               className="delete-btn" 
               onClick={() => setShowDeleteConfirm(true)}
             >
-              Delete User
+              Benutzer löschen
             </button>
           )}
           <div className="action-buttons">
             <button type="button" className="cancel-btn" onClick={onCancel}>
-              Cancel
+              Abbrechen
             </button>
             <button type="submit" className="save-btn">
-              Save
+              Speichern
             </button>
           </div>
         </div>
@@ -201,15 +201,15 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
       {showDeleteConfirm && (
         <div className="confirm-overlay" onClick={() => setShowDeleteConfirm(false)}>
           <div className="confirm-dialog" onClick={(e) => e.stopPropagation()}>
-            <h3>Delete User?</h3>
-            <p>Are you sure you want to delete <strong>{user.name}</strong>?</p>
-            <p className="warning">All to-dos for this user will also be deleted.</p>
+            <h3>Benutzer löschen?</h3>
+            <p>Möchtest du <strong>{user.name}</strong> wirklich löschen?</p>
+            <p className="warning">Alle Aufgaben dieses Benutzers werden ebenfalls gelöscht.</p>
             <div className="confirm-actions">
               <button className="cancel-btn" onClick={() => setShowDeleteConfirm(false)}>
-                Cancel
+                Abbrechen
               </button>
               <button className="confirm-delete-btn" onClick={handleDelete}>
-                Delete
+                Löschen
               </button>
             </div>
           </div>
