@@ -677,10 +677,11 @@ app.delete('/api/todos/:id', async (req, res) => {
 
 app.get('/api/settings', async (req, res) => {
   try {
-    const result = await pool.query('SELECT global_pin_hash FROM settings WHERE id = 1');
+    const result = await pool.query('SELECT global_pin_hash, max_points FROM settings WHERE id = 1');
     const settings = result.rows[0];
     res.json({
-      global_pin: settings && settings.global_pin_hash ? true : null
+      global_pin: settings && settings.global_pin_hash ? true : null,
+      max_points: settings?.max_points || 1000
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -689,7 +690,7 @@ app.get('/api/settings', async (req, res) => {
 
 app.put('/api/settings', async (req, res) => {
   try {
-    const { global_pin, current_pin } = req.body;
+    const { global_pin, current_pin, max_points } = req.body;
     
     // Get current PIN hash
     const currentSettings = await pool.query('SELECT global_pin_hash FROM settings WHERE id = 1');
@@ -705,19 +706,43 @@ app.put('/api/settings', async (req, res) => {
       return res.status(400).json({ error: 'Current PIN required to change settings' });
     }
     
-    // Update or remove PIN
-    let newPinHash = null;
-    if (global_pin) {
-      newPinHash = await bcrypt.hash(global_pin, 10);
+    // Build update query dynamically based on what's provided
+    const updates = [];
+    const values = [];
+    let paramIndex = 1;
+    
+    // Handle PIN update if provided
+    if (global_pin !== undefined) {
+      let newPinHash = null;
+      if (global_pin) {
+        newPinHash = await bcrypt.hash(global_pin, 10);
+      }
+      updates.push(`global_pin_hash = $${paramIndex++}`);
+      values.push(newPinHash);
     }
     
-    await pool.query(
-      'UPDATE settings SET global_pin_hash = $1, updated_at = CURRENT_TIMESTAMP WHERE id = 1',
-      [newPinHash]
-    );
+    // Handle max_points update if provided
+    if (max_points !== undefined) {
+      updates.push(`max_points = $${paramIndex++}`);
+      values.push(max_points);
+    }
+    
+    // Execute update if there are changes
+    if (updates.length > 0) {
+      updates.push('updated_at = CURRENT_TIMESTAMP');
+      await pool.query(
+        `UPDATE settings SET ${updates.join(', ')} WHERE id = 1`,
+        values
+      );
+    }
+    
+    // Get updated settings to return
+    const result = await pool.query('SELECT global_pin_hash, max_points FROM settings WHERE id = 1');
+    const settings = result.rows[0];
     
     res.json({
-      global_pin: newPinHash ? true : null
+      global_pin: settings && settings.global_pin_hash ? true : null,
+      max_points: settings?.max_points || 1000
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

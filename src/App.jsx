@@ -37,6 +37,7 @@ function App() {
   const [pendingClaimTask, setPendingClaimTask] = useState(null);
   const [isOpenListSelected, setIsOpenListSelected] = useState(false);
   const [globalPin, setGlobalPin] = useState(null);
+  const [maxPoints, setMaxPoints] = useState(1000);
   const [doneCallback, setDoneCallback] = useState(null);
   const [pauseCallback, setPauseCallback] = useState(null);
   const [celebrationData, setCelebrationData] = useState(null);
@@ -66,6 +67,7 @@ function App() {
       if (response.ok) {
         const data = await response.json();
         setGlobalPin(data.global_pin);
+        setMaxPoints(data.max_points || 1000);
       }
     } catch (error) {
       console.error('Error fetching settings:', error);
@@ -649,6 +651,33 @@ function App() {
     }
   };
 
+  const handleSaveMaxPoints = async (newMaxPoints, currentPinInput) => {
+    try {
+      const payload = { max_points: newMaxPoints };
+      if (globalPin && currentPinInput) {
+        payload.current_pin = currentPinInput;
+      }
+      
+      const response = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update settings');
+      }
+      
+      const data = await response.json();
+      setMaxPoints(data.max_points || 1000);
+    } catch (error) {
+      console.error('Error saving max points:', error);
+      alert(error.message || 'Fehler beim Speichern der Einstellungen');
+      throw error;
+    }
+  };
+
   return (
     <div className="app dumbledido-app">
       <header className="app-header dumbledido-header">
@@ -697,7 +726,7 @@ function App() {
       />
 
       {currentUser && !isOpenListSelected && (
-        <ProgressBar points={currentUser.total_points || 0} maxPoints={1000} />
+        <ProgressBar points={currentUser.total_points || 0} maxPoints={maxPoints} />
       )}
 
       {isOpenListSelected ? (
@@ -762,6 +791,9 @@ function App() {
       <RedMenu 
         globalPin={globalPin}
         onSavePin={handleSaveGlobalPin}
+        onAddUser={() => setShowUserForm(true)}
+        maxPoints={maxPoints}
+        onSaveMaxPoints={handleSaveMaxPoints}
       />
       <BlueMenu 
         globalPin={globalPin}

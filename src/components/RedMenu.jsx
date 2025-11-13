@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
+import PINChangeModal from './PINChangeModal';
+import MaxPointsModal from './MaxPointsModal';
 import './RedMenu.css';
 
-function RedMenu({ globalPin, onSavePin }) {
+function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }) {
   const [isOpen, setIsOpen] = useState(false);
   const [closing, setClosing] = useState(false);
-  const [pin, setPin] = useState('');
-  const [confirmPin, setConfirmPin] = useState('');
-  const [currentPin, setCurrentPin] = useState('');
+  const [showPINModal, setShowPINModal] = useState(false);
+  const [showMaxPointsModal, setShowMaxPointsModal] = useState(false);
   const touchStartY = useRef(null);
   const swipeThreshold = 50;
 
@@ -41,36 +42,6 @@ function RedMenu({ globalPin, onSavePin }) {
     touchStartY.current = null;
   };
 
-  const handleSave = async () => {
-    if (globalPin && !currentPin) {
-      alert('Bitte aktuelle PIN eingeben');
-      return;
-    }
-
-    if (pin && pin !== confirmPin) {
-      alert('PINs stimmen nicht überein');
-      return;
-    }
-
-    if (pin && pin.length !== 4) {
-      alert('PIN muss 4 Ziffern haben');
-      return;
-    }
-
-    await onSavePin(pin, currentPin);
-    handleClose();
-  };
-
-  const handleRemovePin = async () => {
-    if (!currentPin || currentPin.length !== 4) {
-      alert('Bitte aktuelle PIN eingeben um sie zu entfernen');
-      return;
-    }
-    if (confirm('Möchtest du die globale PIN wirklich entfernen?')) {
-      await onSavePin(null, currentPin);
-      handleClose();
-    }
-  };
 
   const handleClose = () => {
     setClosing(true);
@@ -79,9 +50,6 @@ function RedMenu({ globalPin, onSavePin }) {
     }, 500);
     setTimeout(() => {
       setClosing(false);
-      setPin('');
-      setConfirmPin('');
-      setCurrentPin('');
     }, 1500);
   };
 
@@ -146,53 +114,54 @@ function RedMenu({ globalPin, onSavePin }) {
           onTouchEnd={handleOverlayTouchEnd}
         >
           <div className="red-settings-content">
-            {globalPin && (
-              <input
-                type="password"
-                value={currentPin}
-                onChange={(e) => setCurrentPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                placeholder="Aktuelle PIN"
-                maxLength="4"
-                pattern="[0-9]*"
-                inputMode="numeric"
-                className={`red-pin-input ${closing ? 'pin-input-1-close' : 'pin-input-1'}`}
-              />
-            )}
+            <button 
+              onClick={() => {
+                handleClose();
+                setTimeout(() => onAddUser(), 600);
+              }} 
+              className={`red-menu-button ${closing ? 'button-animate-1-close' : 'button-animate-1'}`}
+            >
+              Neuer Benutzer
+            </button>
 
-            <input
-              type="password"
-              value={pin}
-              onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-              placeholder={globalPin ? 'Neue PIN' : 'PIN (4 Ziffern)'}
-              maxLength="4"
-              pattern="[0-9]*"
-              inputMode="numeric"
-              className={`red-pin-input ${closing ? (globalPin ? 'pin-input-2-close' : 'pin-input-1-close') : (globalPin ? 'pin-input-2' : 'pin-input-1')}`}
-            />
+            <button 
+              onClick={() => {
+                handleClose();
+                setTimeout(() => setShowPINModal(true), 600);
+              }} 
+              className={`red-menu-button ${closing ? 'button-animate-2-close' : 'button-animate-2'}`}
+            >
+              PIN ändern
+            </button>
 
-            <input
-              type="password"
-              value={confirmPin}
-              onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-              placeholder="PIN wiederholen"
-              maxLength="4"
-              pattern="[0-9]*"
-              inputMode="numeric"
-              className={`red-pin-input ${closing ? (globalPin ? 'pin-input-3-close' : 'pin-input-2-close') : (globalPin ? 'pin-input-3' : 'pin-input-2')}`}
-            />
-
-            <div className="red-button-group">
-              {globalPin && (
-                <button onClick={handleRemovePin} className={`red-remove-button ${closing ? 'button-animate-4-close' : 'button-animate-4'}`}>
-                  PIN entfernen
-                </button>
-              )}
-              <button onClick={handleSave} className={`red-save-button ${closing ? (globalPin ? 'button-animate-5-close' : 'button-animate-3-close') : (globalPin ? 'button-animate-5' : 'button-animate-3')}`}>
-                Speichern
-              </button>
-            </div>
+            <button 
+              onClick={() => {
+                handleClose();
+                setTimeout(() => setShowMaxPointsModal(true), 600);
+              }} 
+              className={`red-menu-button ${closing ? 'button-animate-3-close' : 'button-animate-3'}`}
+            >
+              Max Punkte
+            </button>
           </div>
         </div>
+      )}
+
+      {showPINModal && (
+        <PINChangeModal
+          globalPin={globalPin}
+          onSave={onSavePin}
+          onClose={() => setShowPINModal(false)}
+        />
+      )}
+
+      {showMaxPointsModal && (
+        <MaxPointsModal
+          globalPin={globalPin}
+          currentMaxPoints={maxPoints}
+          onSave={onSaveMaxPoints}
+          onClose={() => setShowMaxPointsModal(false)}
+        />
       )}
     </>
   );
