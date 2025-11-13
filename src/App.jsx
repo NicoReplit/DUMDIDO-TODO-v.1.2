@@ -44,6 +44,8 @@ function App() {
   const [todoToDelete, setTodoToDelete] = useState(null);
   const [deleteScope, setDeleteScope] = useState(null); // 'single' or 'series'
   const [moonAnimating, setMoonAnimating] = useState(false);
+  const [moonRx, setMoonRx] = useState(80);
+  const [moonRy, setMoonRy] = useState(48);
 
   useEffect(() => {
     fetchUsers();
@@ -64,10 +66,50 @@ function App() {
   useEffect(() => {
     if (celebrationData) {
       setMoonAnimating(true);
-      const timer = setTimeout(() => {
-        setMoonAnimating(false);
-      }, 1500);
-      return () => clearTimeout(timer);
+      setMoonRx(80);
+      setMoonRy(48);
+      
+      const startTime = performance.now();
+      const phase1Duration = 2000; // 2s
+      const phase2Duration = 200;  // 0.2s
+      const phase3Duration = 1000; // 1s
+      const totalDuration = phase1Duration + phase2Duration + phase3Duration;
+      
+      // Easing function (ease-in-out)
+      const easeInOutCubic = (t) => {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      };
+      
+      const animate = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        
+        if (elapsed < phase1Duration) {
+          // Phase 1: shrink to overshoot (80 -> 26.6, 48 -> 38)
+          const progress = easeInOutCubic(elapsed / phase1Duration);
+          setMoonRx(80 - (80 - 26.6) * progress);
+          setMoonRy(48 - (48 - 38) * progress);
+          requestAnimationFrame(animate);
+        } else if (elapsed < phase1Duration + phase2Duration) {
+          // Phase 2: bounce back (26.6 -> 28.7, 38 -> 40.8)
+          const progress = easeInOutCubic((elapsed - phase1Duration) / phase2Duration);
+          setMoonRx(26.6 + (28.7 - 26.6) * progress);
+          setMoonRy(38 + (40.8 - 38) * progress);
+          requestAnimationFrame(animate);
+        } else if (elapsed < totalDuration) {
+          // Phase 3: settle (28.7 -> 28, 40.8 -> 40)
+          const progress = easeInOutCubic((elapsed - phase1Duration - phase2Duration) / phase3Duration);
+          setMoonRx(28.7 + (28 - 28.7) * progress);
+          setMoonRy(40.8 + (40 - 40.8) * progress);
+          requestAnimationFrame(animate);
+        } else {
+          // Animation complete
+          setMoonRx(28);
+          setMoonRy(40);
+          setMoonAnimating(false);
+        }
+      };
+      
+      requestAnimationFrame(animate);
     }
   }, [celebrationData]);
 
@@ -931,19 +973,7 @@ function App() {
         </defs>
         <circle cx="50" cy="50" r="40" fill="black"/>
         <circle cx="10" cy="50" r="30" fill="#EE4100" mask="url(#blackShapeMask)"/>
-        <ellipse className={`moon-reveal ${moonAnimating ? 'animating' : ''}`} cx="80" cy="50" rx="80" ry="48" fill="#E4F4E4">
-          {moonAnimating && (
-            <>
-              <animate attributeName="rx" from="80" to="26.6" dur="2s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
-              <animate attributeName="rx" from="26.6" to="28.7" begin="2s" dur="0.2s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
-              <animate attributeName="rx" from="28.7" to="28" begin="2.2s" dur="1s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
-              
-              <animate attributeName="ry" from="48" to="38" dur="2s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
-              <animate attributeName="ry" from="38" to="40.8" begin="2s" dur="0.2s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
-              <animate attributeName="ry" from="40.8" to="40" begin="2.2s" dur="1s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
-            </>
-          )}
-        </ellipse>
+        <ellipse className="moon-reveal" cx="80" cy="50" rx={moonRx} ry={moonRy} fill="#E4F4E4" />
       </svg>
     </div>
   );
