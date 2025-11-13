@@ -17,7 +17,7 @@ Added a decorative half moon shape overlay:
 - **Size**: 200x200 pixels (increased for better visibility)
 - **Color**: Black
 - **Shape**: Crescent moon with open side facing right, created using two overlapping circles
-- **Implementation**: Black circle (r=40) overlapped by background-color circle (r=40) positioned 40px to the right
+- **Implementation**: Black circle (r=40) overlapped by background-color circle (r=28, 30% smaller) positioned 40px to the right
 - **Layer**: Top layer (z-index: 15000)
 - **Interaction**: Non-interactive (pointer-events: none)
 
