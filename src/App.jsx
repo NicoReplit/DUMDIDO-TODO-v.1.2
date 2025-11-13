@@ -563,10 +563,10 @@ function App() {
       await fetchOpenTodos();
       await fetchUsers();
       
-      const claimedTask = { ...pendingClaimTask, claimed_by_user_id: user.id };
       setShowUserSelectionModal(false);
+      setIsOpenListSelected(false);
       setCurrentUser(user);
-      setSelectedTodo(claimedTask);
+      await fetchTodos(user);
       setPendingClaimTask(null);
     } catch (error) {
       console.error('Error claiming task:', error);
