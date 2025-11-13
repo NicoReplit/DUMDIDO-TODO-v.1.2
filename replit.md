@@ -27,8 +27,8 @@ Added a decorative half moon shape overlay with completion animation:
   - Background ellipse shrinks from right edge to reveal the crescent
   - Width animation: 80 → 26.6 (overshoot) → 28.7 (bounce back) → 28 (settle)
   - Height animation: 48 → 38 (overshoot) → 40.8 (bounce back) → 40 (settle)
-  - 1.2 second duration with 5% bounce overshoot
-  - Cubic-bezier easing (0.34, 1.56, 0.64, 1) for smooth playful bounce
+  - 1.2 second animation duration with 5% bounce overshoot
+  - Ease-in-out easing for smooth start and slow down with bounce effect
   - Transform origin fixed on right edge of ellipse for smooth reveal effect
 - **Layer**: Top layer (z-index: 15000)
 - **Interaction**: Non-interactive (pointer-events: none)
