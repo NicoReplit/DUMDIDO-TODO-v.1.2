@@ -934,13 +934,13 @@ function App() {
         <ellipse className={`moon-reveal ${moonAnimating ? 'animating' : ''}`} cx="80" cy="50" rx="80" ry="48" fill="#E4F4E4">
           {moonAnimating && (
             <>
-              <animate attributeName="rx" from="80" to="26.6" dur="0.9s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
-              <animate attributeName="rx" from="26.6" to="28.7" begin="0.9s" dur="0.18s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
-              <animate attributeName="rx" from="28.7" to="28" begin="1.08s" dur="0.12s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
+              <animate attributeName="rx" from="80" to="26.6" dur="0.8s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
+              <animate attributeName="rx" from="26.6" to="28.7" begin="0.8s" dur="0.18s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
+              <animate attributeName="rx" from="28.7" to="28" begin="0.98s" dur="0.12s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
               
-              <animate attributeName="ry" from="48" to="38" dur="0.9s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
-              <animate attributeName="ry" from="38" to="40.8" begin="0.9s" dur="0.18s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
-              <animate attributeName="ry" from="40.8" to="40" begin="1.08s" dur="0.12s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
+              <animate attributeName="ry" from="48" to="38" dur="0.8s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
+              <animate attributeName="ry" from="38" to="40.8" begin="0.8s" dur="0.18s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
+              <animate attributeName="ry" from="40.8" to="40" begin="0.98s" dur="0.12s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
             </>
           )}
         </ellipse>
