@@ -327,6 +327,12 @@
   pointer-events: none;
 }
 
+.moon-reveal {
+  rx: 80;
+  ry: 48;
+  transition: rx 1.2s ease-in-out, ry 1.2s ease-in-out;
+}
+
 .half-moon-shape.animating .moon-reveal {
   animation: moonRevealWidth 1.2s ease-in-out forwards,
              moonRevealHeight 1.2s ease-in-out forwards;
