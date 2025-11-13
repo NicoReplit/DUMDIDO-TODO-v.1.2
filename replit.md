@@ -15,9 +15,12 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 Added a decorative half moon shape overlay:
 - **Position**: Fixed in the center of the screen
 - **Size**: 200x200 pixels (increased for better visibility)
-- **Color**: Black
+- **Color**: Black crescent with red accent
 - **Shape**: Crescent moon with open side facing right, created using overlapping shapes
-- **Implementation**: Black circle (r=40) overlapped by background-color ellipse (rx=28, ry=40) positioned 40px to the right
+- **Implementation**: 
+  - Black circle (r=40) overlapped by background-color ellipse (rx=28, ry=40) positioned 40px to the right
+  - Red circle (#EE4100, r=20, 40px diameter) positioned on left edge of black shape, center at (10, 50)
+  - Red circle masked by black shape to only appear within black bounds
 - **Disproportionate Scaling**: Ellipse has same height as black circle (ry=40) but narrower width (rx=28) for unique crescent shape
 - **Layer**: Top layer (z-index: 15000)
 - **Interaction**: Non-interactive (pointer-events: none)
