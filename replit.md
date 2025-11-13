@@ -22,7 +22,7 @@ A playful red circular character ("RedMenu") at the bottom center provides acces
 The application is a full-stack solution with a React frontend and a Node.js/Express backend, using a PostgreSQL database. Key features include:
 - **User Management**: Creation, editing, and deletion of users with custom names and colors.
 - **Global PIN Security**: A family-wide 4-digit PIN, managed via the RedMenu, protects all todo edit/delete operations. PINs are stored with bcrypt hashing.
-- **Open List - Shared Family Tasks**: A dedicated section for unassigned tasks, allowing any family member to claim them for bonus points.
+- **Open List - Shared Family Tasks**: A dedicated section for unassigned tasks, allowing any family member to claim them for bonus points. Once claimed and completed, the todo appears on the user's personal list for future reference.
 - **To-Do Management**: Creation, updating, and deletion of tasks with title, description, estimated time, and recurrence options (daily, weekly, one-time). Swipe-to-delete is implemented for completed todos, with specific handling for recurring tasks (delete single instance or entire series), protected by PIN verification.
 - **Timer Functionality**: Start, pause, and complete tasks with a countdown timer that tracks overtime and persists across navigation, allowing multiple simultaneous timers. The timer interface was redesigned for simplicity.
 - **Gamification System**:
