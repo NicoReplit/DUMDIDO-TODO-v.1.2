@@ -15,9 +15,9 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 Redesigned the todo detail view with playful character elements:
 - **Header**: 
   - Removed gradient background
-  - Close button: solid red (#EE4100) border (8px stroke), 20% larger (53px diameter)
-  - White cross (8px thick) created with CSS pseudo-elements, rounded ends
-  - Transparent background with no white circle
+  - Close button: solid red (#EE4100) circle, 60x60 pixels
+  - White cross (8px thick stroke) created with CSS pseudo-elements, rounded ends
+  - Red filled background
 - **Timer Circle**: 
   - Pushed up 70px total from original position (margin: -20px)
   - Inner color changed to green (#38D247) from palette
