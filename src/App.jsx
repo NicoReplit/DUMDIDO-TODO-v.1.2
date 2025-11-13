@@ -919,7 +919,7 @@ function App() {
           </mask>
         </defs>
         <circle cx="50" cy="50" r="40" fill="black"/>
-        <circle cx="10" cy="50" r="20" fill="#EE4100" mask="url(#blackShapeMask)"/>
+        <circle cx="10" cy="50" r="30" fill="#EE4100" mask="url(#blackShapeMask)"/>
         <ellipse cx="80" cy="50" rx="28" ry="40" fill="#E4F4E4"/>
       </svg>
     </div>

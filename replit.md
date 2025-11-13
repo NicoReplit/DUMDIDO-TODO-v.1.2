@@ -19,7 +19,7 @@ Added a decorative half moon shape overlay:
 - **Shape**: Crescent moon with open side facing right, created using overlapping shapes
 - **Implementation**: 
   - Black circle (r=40) overlapped by background-color ellipse (rx=28, ry=40) positioned 40px to the right
-  - Red circle (#EE4100, r=20, 40px diameter) positioned on left edge of black shape, center at (10, 50)
+  - Red circle (#EE4100, r=30, 60px diameter) positioned on left edge of black shape, center at (10, 50)
   - Red circle masked by black shape to only appear within black bounds
 - **Disproportionate Scaling**: Ellipse has same height as black circle (ry=40) but narrower width (rx=28) for unique crescent shape
 - **Layer**: Top layer (z-index: 15000)
