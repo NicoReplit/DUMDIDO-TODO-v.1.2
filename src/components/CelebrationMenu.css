@@ -55,6 +55,7 @@
   display: flex;
   gap: 6px;
   pointer-events: none;
+  z-index: 2;
 }
 
 .celebration-circle-eye {
@@ -100,11 +101,11 @@
 /* Half-moon positioned under eyes with -45° rotation */
 .celebration-half-moon {
   position: absolute;
-  top: 60px;
+  top: 70px;
   left: 50%;
   transform-origin: center;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
 /* Settings overlay - no scaling, positioned absolutely */
