@@ -26,20 +26,37 @@
 .detail-header .close-btn {
   background: transparent;
   border: 8px solid #EE4100;
-  color: #EE4100;
-  font-size: 32px;
-  width: 44px;
-  height: 44px;
+  color: transparent;
+  font-size: 0;
+  width: 53px;
+  height: 53px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
-  line-height: 1;
   padding: 0;
   flex-shrink: 0;
-  font-weight: 300;
+  position: relative;
+}
+
+.detail-header .close-btn::before,
+.detail-header .close-btn::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 8px;
+  background: white;
+  border-radius: 4px;
+}
+
+.detail-header .close-btn::before {
+  transform: rotate(45deg);
+}
+
+.detail-header .close-btn::after {
+  transform: rotate(-45deg);
 }
 
 .detail-header .close-btn:active {
@@ -67,7 +84,7 @@
 .timer-container {
   display: flex;
   justify-content: center;
-  margin: 20px 0 50px 0;
+  margin: -20px 0 50px 0;
 }
 
 .timer-circle,
@@ -169,7 +186,7 @@
   font-weight: 700;
   color: white;
   position: absolute;
-  bottom: 70px;
+  bottom: 50px;
 }
 
 .timer-eyes {
@@ -361,7 +378,7 @@
 
   .estimated-time-circle {
     font-size: 20px;
-    bottom: 60px;
+    bottom: 45px;
   }
 
   .timer-eye {

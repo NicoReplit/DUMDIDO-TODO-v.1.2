@@ -13,12 +13,17 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 
 ### Todo Detail Timer Redesign (November 13, 2025)
 Redesigned the todo detail view with playful character elements:
-- **Header**: Removed gradient background, close button now has solid red (#EE4100) border (8px stroke, round endings), transparent background
+- **Header**: 
+  - Removed gradient background
+  - Close button: solid red (#EE4100) border (8px stroke), 20% larger (53px diameter)
+  - White cross (8px thick) created with CSS pseudo-elements, rounded ends
+  - Transparent background with no white circle
 - **Timer Circle**: 
-  - Pushed up 30px closer to top (margin reduced from 50px to 20px)
+  - Pushed up 70px total from original position (margin: -20px)
   - Inner color changed to green (#38D247) from palette
   - Play button triangle has rounded corners (3px border-radius)
   - Play button positioned at exact center using absolute positioning
+  - Increased distance between play button and time display (bottom: 50px)
   - Added two eyes at top edge with random rotation (-20° to +20°)
   - Black pupils positioned off-center for playful look
   - Text color changed to white for better contrast on green background
