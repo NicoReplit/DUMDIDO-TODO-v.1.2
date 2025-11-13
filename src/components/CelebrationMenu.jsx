@@ -32,14 +32,14 @@ function CelebrationMenu({ celebrationData, onClose }) {
     }
   }, [celebrationData]);
 
-  // Moon animation synchronized with blue circle scaling (with 1s delay)
+  // Moon animation synchronized with blue circle scaling (with 0.5s delay)
   useEffect(() => {
     if (isOpen && !closing) {
-      // Forward animation - reveal moon during scale-up (0.6s), delayed by 1s
+      // Forward animation - reveal moon during scale-up (0.6s), delayed by 0.5s
       setMoonRx(80);
       setMoonRy(48);
       
-      // Delay animation start by 1 second
+      // Delay animation start by 0.5 seconds
       setTimeout(() => {
         const startTime = performance.now();
         const scaleDuration = 600; // 0.6s to match blue circle scale animation
@@ -64,7 +64,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
         };
         
         requestAnimationFrame(animateForward);
-      }, 1000);
+      }, 500);
     } else if (!isOpen && closing) {
       // Reverse animation - hide moon during scale-down (0.6s)
       // This triggers when isOpen becomes false (same time as blue circle scale-down)
@@ -132,7 +132,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
               viewBox="0 0 100 100" 
               xmlns="http://www.w3.org/2000/svg"
               style={{
-                transform: 'translateX(-50%)',
+                transform: 'translateX(-50%) rotate(-90deg)',
               }}
             >
               <defs>
@@ -142,7 +142,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
               </defs>
               <circle cx="50" cy="50" r="40" fill="black"/>
               <circle cx="10" cy="50" r="30" fill="#EE4100" mask="url(#celebrationMoonMask)"/>
-              <ellipse className="moon-reveal" cx="80" cy="50" rx={moonRx} ry={moonRy} fill="#FECE00" />
+              <ellipse className="moon-reveal" cx="80" cy="50" rx={moonRx} ry={moonRy} fill="#0061ee" />
             </svg>
           </div>
         </div>
