@@ -554,11 +554,13 @@ function App() {
 
   const handleClaimTask = async (user) => {
     try {
-      await fetch(`/api/todos/${pendingClaimTask.id}/claim`, {
+      const response = await fetch(`/api/todos/${pendingClaimTask.id}/claim`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: user.id })
       });
+      
+      const claimedTodo = await response.json();
       
       await fetchOpenTodos();
       await fetchUsers();
@@ -567,6 +569,7 @@ function App() {
       setIsOpenListSelected(false);
       setCurrentUser(user);
       await fetchTodos(user);
+      setSelectedTodo(claimedTodo);
       setPendingClaimTask(null);
     } catch (error) {
       console.error('Error claiming task:', error);

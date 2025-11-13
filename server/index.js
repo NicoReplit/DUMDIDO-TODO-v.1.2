@@ -421,12 +421,14 @@ app.post('/api/todos/:id/claim', async (req, res) => {
     const { id } = req.params;
     const { user_id } = req.body;
     
+    const currentDate = new Date().toISOString().split('T')[0];
+    
     const result = await pool.query(
       `UPDATE todos 
-       SET claimed_by_user_id = $1, user_id = $1, is_open_list = false
+       SET claimed_by_user_id = $1, user_id = $1, is_open_list = false, specific_date = $3
        WHERE id = $2 AND is_open_list = true AND claimed_by_user_id IS NULL
        RETURNING *`,
-      [user_id, id]
+      [user_id, id, currentDate]
     );
     
     if (result.rowCount === 0) {
