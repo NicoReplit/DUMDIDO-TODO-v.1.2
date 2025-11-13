@@ -923,7 +923,7 @@ function App() {
         </div>
       </button>
 
-      <svg className={`half-moon-shape ${moonAnimating ? 'animating' : ''}`} width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <svg className="half-moon-shape" width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <mask id="blackShapeMask">
             <circle cx="50" cy="50" r="40" fill="white"/>
@@ -931,7 +931,19 @@ function App() {
         </defs>
         <circle cx="50" cy="50" r="40" fill="black"/>
         <circle cx="10" cy="50" r="30" fill="#EE4100" mask="url(#blackShapeMask)"/>
-        <ellipse className="moon-reveal" cx="80" cy="50" rx="80" ry="48" fill="#E4F4E4"/>
+        <ellipse className={`moon-reveal ${moonAnimating ? 'animating' : ''}`} cx="80" cy="50" rx="80" ry="48" fill="#E4F4E4">
+          {moonAnimating && (
+            <>
+              <animate attributeName="rx" from="80" to="26.6" dur="0.9s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
+              <animate attributeName="rx" from="26.6" to="28.7" begin="0.9s" dur="0.18s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
+              <animate attributeName="rx" from="28.7" to="28" begin="1.08s" dur="0.12s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
+              
+              <animate attributeName="ry" from="48" to="38" dur="0.9s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
+              <animate attributeName="ry" from="38" to="40.8" begin="0.9s" dur="0.18s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
+              <animate attributeName="ry" from="40.8" to="40" begin="1.08s" dur="0.12s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1"/>
+            </>
+          )}
+        </ellipse>
       </svg>
     </div>
   );

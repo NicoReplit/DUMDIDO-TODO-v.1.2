@@ -327,47 +327,6 @@
   pointer-events: none;
 }
 
-.moon-reveal {
-  rx: 80;
-  ry: 48;
-  transition: rx 1.2s ease-in-out, ry 1.2s ease-in-out;
-}
-
-.half-moon-shape.animating .moon-reveal {
-  animation: moonRevealWidth 1.2s ease-in-out forwards,
-             moonRevealHeight 1.2s ease-in-out forwards;
-  transform-origin: 108px 50px;
-}
-
-@keyframes moonRevealWidth {
-  0% {
-    rx: 80;
-  }
-  75% {
-    rx: 26.6;
-  }
-  90% {
-    rx: 28.7;
-  }
-  100% {
-    rx: 28;
-  }
-}
-
-@keyframes moonRevealHeight {
-  0% {
-    ry: 48;
-  }
-  75% {
-    ry: 38;
-  }
-  90% {
-    ry: 40.8;
-  }
-  100% {
-    ry: 40;
-  }
-}
 
 @media (max-width: 600px) {
   .app {

@@ -29,7 +29,7 @@ Added a decorative half moon shape overlay with completion animation:
   - Height animation: 48 → 38 (overshoot) → 40.8 (bounce back) → 40 (settle)
   - 1.2 second animation duration with 5% bounce overshoot
   - Ease-in-out easing for smooth start and slow down with bounce effect
-  - Transform origin fixed on right edge of ellipse for smooth reveal effect
+  - Implementation: SVG SMIL animations for smooth attribute transitions
 - **Layer**: Top layer (z-index: 15000)
 - **Interaction**: Non-interactive (pointer-events: none)
 
