@@ -785,7 +785,7 @@ function App() {
         />
       )}
       <QuarterCircle onClick={() => {
-        if (!currentUser) {
+        if (!currentUser && !isOpenListSelected) {
           alert('Please select a user first to create a new todo!');
           return;
         }
