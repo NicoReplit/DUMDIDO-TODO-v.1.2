@@ -40,11 +40,11 @@ function WeekCalendar({ userId, selectedDate }) {
       const containerRect = container.getBoundingClientRect();
       const eyeRect = targetEye.getBoundingClientRect();
       
-      // Calculate the center of the target eye relative to container start
-      const eyeCenterX = eyeRect.left + (eyeRect.width / 2) - containerRect.left;
+      // Calculate the right corner of the target eye + 2px relative to container start
+      const eyeRightEdge = eyeRect.right - containerRect.left + 2;
       
-      // Bar starts at 7px from left, so we need to reach eyeCenterX from that point
-      let barWidthPx = eyeCenterX - 7;
+      // Bar starts at 7px from left, so we need to reach eyeRightEdge from that point
+      let barWidthPx = eyeRightEdge - 7;
       
       // Max width: container width - 7px (left start) - 2px (right edge margin)
       const maxBarWidth = containerRect.width - 9;

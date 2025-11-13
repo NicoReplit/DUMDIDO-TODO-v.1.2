@@ -227,7 +227,7 @@ app.put('/api/users/:id/reset-points', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await pool.query(
-      'UPDATE users SET total_points = 0, super_points = 0, current_streak_days = 0 WHERE id = $1 RETURNING *',
+      'UPDATE users SET total_points = 0, super_points = 12, current_streak_days = 0 WHERE id = $1 RETURNING *',
       [id]
     );
     if (result.rowCount === 0) {
