@@ -996,7 +996,7 @@ function App() {
         </defs>
         <circle cx="50" cy="50" r="40" fill="black"/>
         <circle cx="10" cy="50" r="30" fill="#EE4100" mask="url(#blackShapeMask)"/>
-        <ellipse className="moon-reveal" cx="80" cy="50" rx={moonRx} ry={moonRy} fill="#E4F4E4" />
+        <ellipse className="moon-reveal" cx="80" cy="50" rx={moonRx} ry={moonRy} fill="#0061ee" />
       </svg>
     </div>
   );
