@@ -120,29 +120,28 @@ function CelebrationMenu({ celebrationData, onClose }) {
           >
             <div className="celebration-circle-eye"></div>
             <div className="celebration-circle-eye"></div>
+            
+            {/* Half-moon positioned under eyes with -45° rotation */}
+            <svg 
+              className="celebration-half-moon" 
+              width="200" 
+              height="200" 
+              viewBox="0 0 100 100" 
+              xmlns="http://www.w3.org/2000/svg"
+              style={{
+                transform: 'translateX(-50%) rotate(-45deg)',
+              }}
+            >
+              <defs>
+                <mask id="celebrationMoonMask">
+                  <circle cx="50" cy="50" r="40" fill="white"/>
+                </mask>
+              </defs>
+              <circle cx="50" cy="50" r="40" fill="black"/>
+              <circle cx="10" cy="50" r="30" fill="#EE4100" mask="url(#celebrationMoonMask)"/>
+              <ellipse className="moon-reveal" cx="80" cy="50" rx={moonRx} ry={moonRy} fill="#FECE00" />
+            </svg>
           </div>
-          
-          {/* Half-moon positioned under eyes with -45° rotation */}
-          <svg 
-            className="celebration-half-moon" 
-            width="200" 
-            height="200" 
-            viewBox="0 0 100 100" 
-            xmlns="http://www.w3.org/2000/svg"
-            style={{
-              transform: isOpen ? 'translateX(-50%) rotate(-45deg) scale(0.1732)' : 'translateX(-50%) rotate(-45deg) scale(1)',
-              transition: 'transform 0.6s ease-out'
-            }}
-          >
-            <defs>
-              <mask id="celebrationMoonMask">
-                <circle cx="50" cy="50" r="40" fill="white"/>
-              </mask>
-            </defs>
-            <circle cx="50" cy="50" r="40" fill="black"/>
-            <circle cx="10" cy="50" r="30" fill="#EE4100" mask="url(#celebrationMoonMask)"/>
-            <ellipse className="moon-reveal" cx="80" cy="50" rx={moonRx} ry={moonRy} fill="#FECE00" />
-          </svg>
         </div>
       </div>
 
