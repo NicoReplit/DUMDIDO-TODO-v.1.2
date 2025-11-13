@@ -913,7 +913,7 @@ function App() {
       </button>
 
       <svg className="half-moon-shape" width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 40 0 A 40 40 0 0 0 40 80 A 30 30 0 0 1 40 0 Z" fill="black"/>
+        <path d="M 40 5 A 35 35 0 1 0 40 75 A 25 25 0 1 1 40 5 Z" fill="black"/>
       </svg>
     </div>
   );
