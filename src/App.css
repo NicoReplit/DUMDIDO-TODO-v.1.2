@@ -328,16 +328,38 @@
 }
 
 .half-moon-shape.animating .moon-reveal {
-  animation: moonReveal 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: moonRevealWidth 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+             moonRevealHeight 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   transform-origin: 108px 50px;
 }
 
-@keyframes moonReveal {
-  from {
+@keyframes moonRevealWidth {
+  0% {
     rx: 80;
   }
-  to {
+  70% {
+    rx: 26.6;
+  }
+  85% {
+    rx: 28.7;
+  }
+  100% {
     rx: 28;
+  }
+}
+
+@keyframes moonRevealHeight {
+  0% {
+    ry: 48;
+  }
+  70% {
+    ry: 38;
+  }
+  85% {
+    ry: 40.8;
+  }
+  100% {
+    ry: 40;
   }
 }
 

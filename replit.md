@@ -23,8 +23,12 @@ Added a decorative half moon shape overlay with completion animation:
   - Red circle masked by black shape to only appear within black bounds
 - **Disproportionate Scaling**: Ellipse has same height as black circle (ry=40) but narrower width (rx=28) for unique crescent shape
 - **Animation**: Triggered when a todo is completed
-  - Background ellipse grows from right edge (rx: 80 → 28) to reveal the crescent
-  - 1.2 second duration with bounce easing (cubic-bezier(0.34, 1.56, 0.64, 1))
+  - Initial state: Background ellipse fully covers the moon (rx=80, ry=48, 20% taller)
+  - Background ellipse shrinks from right edge to reveal the crescent
+  - Width animation: 80 → 26.6 (overshoot) → 28.7 (bounce back) → 28 (settle)
+  - Height animation: 48 → 38 (overshoot) → 40.8 (bounce back) → 40 (settle)
+  - 1.2 second duration with 5% bounce overshoot
+  - Cubic-bezier easing (0.34, 1.56, 0.64, 1) for smooth playful bounce
   - Transform origin fixed on right edge of ellipse for smooth reveal effect
 - **Layer**: Top layer (z-index: 15000)
 - **Interaction**: Non-interactive (pointer-events: none)
