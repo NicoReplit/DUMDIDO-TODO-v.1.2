@@ -32,36 +32,39 @@ function CelebrationMenu({ celebrationData, onClose }) {
     }
   }, [celebrationData]);
 
-  // Moon animation synchronized with blue circle scaling
+  // Moon animation synchronized with blue circle scaling (with 1s delay)
   useEffect(() => {
     if (isOpen && !closing) {
-      // Forward animation - reveal moon during scale-up (0.6s)
+      // Forward animation - reveal moon during scale-up (0.6s), delayed by 1s
       setMoonRx(80);
       setMoonRy(48);
       
-      const startTime = performance.now();
-      const scaleDuration = 600; // 0.6s to match blue circle scale animation
-      
-      // Easing function (ease-out to match blue circle)
-      const easeOut = (t) => {
-        return 1 - Math.pow(1 - t, 3);
-      };
-      
-      const animateForward = (currentTime) => {
-        const elapsed = currentTime - startTime;
+      // Delay animation start by 1 second
+      setTimeout(() => {
+        const startTime = performance.now();
+        const scaleDuration = 600; // 0.6s to match blue circle scale animation
         
-        if (elapsed < scaleDuration) {
-          const progress = easeOut(elapsed / scaleDuration);
-          setMoonRx(80 - (80 - 28) * progress);
-          setMoonRy(48 - (48 - 40) * progress);
-          requestAnimationFrame(animateForward);
-        } else {
-          setMoonRx(28);
-          setMoonRy(40);
-        }
-      };
-      
-      requestAnimationFrame(animateForward);
+        // Easing function (ease-out to match blue circle)
+        const easeOut = (t) => {
+          return 1 - Math.pow(1 - t, 3);
+        };
+        
+        const animateForward = (currentTime) => {
+          const elapsed = currentTime - startTime;
+          
+          if (elapsed < scaleDuration) {
+            const progress = easeOut(elapsed / scaleDuration);
+            setMoonRx(80 - (80 - 28) * progress);
+            setMoonRy(48 - (48 - 40) * progress);
+            requestAnimationFrame(animateForward);
+          } else {
+            setMoonRx(28);
+            setMoonRy(40);
+          }
+        };
+        
+        requestAnimationFrame(animateForward);
+      }, 1000);
     } else if (!isOpen && closing) {
       // Reverse animation - hide moon during scale-down (0.6s)
       // This triggers when isOpen becomes false (same time as blue circle scale-down)
@@ -121,7 +124,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
             <div className="celebration-circle-eye"></div>
             <div className="celebration-circle-eye"></div>
             
-            {/* Half-moon positioned under eyes with -45° rotation */}
+            {/* Half-moon positioned under eyes */}
             <svg 
               className="celebration-half-moon" 
               width="200" 
@@ -129,7 +132,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
               viewBox="0 0 100 100" 
               xmlns="http://www.w3.org/2000/svg"
               style={{
-                transform: 'translateX(-50%) rotate(-45deg)',
+                transform: 'translateX(-50%)',
               }}
             >
               <defs>
