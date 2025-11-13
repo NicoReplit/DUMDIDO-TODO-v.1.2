@@ -318,6 +318,15 @@
   font-size: 20px;
 }
 
+.half-moon-shape {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 15000;
+  pointer-events: none;
+}
+
 @media (max-width: 600px) {
   .app {
     max-width: 100%;

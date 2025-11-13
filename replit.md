@@ -11,6 +11,15 @@ A touch-optimized to-do list application for families to share on a Raspberry Pi
 
 ## Recent Updates (November 2025)
 
+### Half Moon Shape Overlay (November 13, 2025)
+Added a decorative half moon shape overlay:
+- **Position**: Fixed in the center of the screen
+- **Size**: 80x80 pixels
+- **Color**: Black
+- **Shape**: Crescent moon with open side facing right
+- **Layer**: Top layer (z-index: 15000)
+- **Interaction**: Non-interactive (pointer-events: none)
+
 ### Todo Detail Timer Redesign (November 13, 2025)
 Redesigned the todo detail view with playful character elements:
 - **Header**: 
