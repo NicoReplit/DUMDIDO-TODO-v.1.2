@@ -43,6 +43,7 @@ function App() {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [todoToDelete, setTodoToDelete] = useState(null);
   const [deleteScope, setDeleteScope] = useState(null); // 'single' or 'series'
+  const [moonAnimating, setMoonAnimating] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -59,6 +60,16 @@ function App() {
   useEffect(() => {
     fetchOpenTodos();
   }, [currentDate]);
+
+  useEffect(() => {
+    if (celebrationData) {
+      setMoonAnimating(true);
+      const timer = setTimeout(() => {
+        setMoonAnimating(false);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [celebrationData]);
 
   const fetchGlobalSettings = async () => {
     try {
@@ -912,7 +923,7 @@ function App() {
         </div>
       </button>
 
-      <svg className="half-moon-shape" width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <svg className={`half-moon-shape ${moonAnimating ? 'animating' : ''}`} width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <mask id="blackShapeMask">
             <circle cx="50" cy="50" r="40" fill="white"/>
@@ -920,7 +931,7 @@ function App() {
         </defs>
         <circle cx="50" cy="50" r="40" fill="black"/>
         <circle cx="10" cy="50" r="30" fill="#EE4100" mask="url(#blackShapeMask)"/>
-        <ellipse cx="80" cy="50" rx="28" ry="40" fill="#E4F4E4"/>
+        <ellipse className="moon-reveal" cx="80" cy="50" rx="28" ry="40" fill="#E4F4E4"/>
       </svg>
     </div>
   );
