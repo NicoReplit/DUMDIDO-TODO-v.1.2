@@ -46,13 +46,14 @@
 .custom-rectangle {
   width: calc(100vw - 25px);
   max-width: calc(800px - 25px);
-  height: 100px;
   background: white;
-  position: relative;
+  position: absolute;
+  top: 195px;
+  bottom: 0;
   left: 10px;
-  margin-top: 5px;
   box-shadow: 5px 5px 0 var(--dumbledido-blue);
-  z-index: var(--z-floating);
+  z-index: var(--z-base);
+  pointer-events: none;
 }
 
 .header-content {
