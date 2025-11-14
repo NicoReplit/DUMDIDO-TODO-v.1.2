@@ -129,7 +129,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
               className="celebration-half-moon" 
               width="200" 
               height="200" 
-              viewBox="0 0 100 100" 
+              viewBox="0 0 130 100" 
               xmlns="http://www.w3.org/2000/svg"
               style={{
                 transform: isOpen ? 'translateX(-50%) rotate(-90deg) scale(1.3)' : 'translateX(-50%) rotate(-90deg) scale(0.7)',
