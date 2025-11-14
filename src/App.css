@@ -43,6 +43,18 @@
 .letter-d4 { color: var(--dumbledido-blue); }
 .letter-o2 { color: var(--dumbledido-yellow); }
 
+.custom-rectangle {
+  width: calc(100vw - 25px);
+  max-width: calc(800px - 25px);
+  height: 100px;
+  background: white;
+  position: relative;
+  left: 10px;
+  margin-top: 5px;
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
+  z-index: var(--z-floating);
+}
+
 .header-content {
   display: flex;
   align-items: center;

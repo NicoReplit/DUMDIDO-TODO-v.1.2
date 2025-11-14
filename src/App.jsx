@@ -722,6 +722,8 @@ function App() {
         onResetPoints={handleResetPoints}
       />
 
+      <div className="custom-rectangle"></div>
+
       {currentUser && !isOpenListSelected && (
         <ProgressBar points={currentUser.total_points || 0} maxPoints={maxPoints} />
       )}
