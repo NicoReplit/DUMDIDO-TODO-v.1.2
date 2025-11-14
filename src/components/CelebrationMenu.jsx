@@ -117,7 +117,7 @@ function CelebrationMenu({ celebrationData, onClose }) {
           <div 
             className="celebration-circle-eyes"
             style={{
-              transform: isOpen ? 'translate(-50%, 0px) scale(0.1732)' : 'translateX(-50%)',
+              transform: isOpen ? 'translate(-50%, -20px) scale(0.1732)' : 'translateX(-50%)',
               transition: 'transform 0.6s ease-out'
             }}
           >
