@@ -25,6 +25,7 @@
   border-radius: 50%;
   position: relative;
   pointer-events: auto;
+  overflow: hidden;
 }
 
 .blue-circle.wiggling {
