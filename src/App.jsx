@@ -685,18 +685,15 @@ function App() {
           <span className="letter-d1">D</span>
           <span className="letter-u">U</span>
           <span className="letter-m">M</span>
-          <span className="letter-b">B</span>
-          <span className="letter-l">L</span>
-          <span className="letter-e">E</span>
           <span className="letter-d2">D</span>
           <span className="letter-i">I</span>
           <span className="letter-d3">D</span>
           <span className="letter-o">O</span>
-          <span className="letter-space"> </span>
+          <span className="letter-space">-</span>
           <span className="letter-t">T</span>
           <span className="letter-h">H</span>
           <span className="letter-e2">E</span>
-          <span className="letter-space"> </span>
+          <span className="letter-space">-</span>
           <span className="letter-d4">D</span>
           <span className="letter-o2">O</span>
         </h1>
