@@ -2,9 +2,26 @@
   max-width: 800px;
   margin: 0 auto;
   min-height: 100vh;
-  background: var(--dumbledido-bg);
+  background: transparent;
   position: relative;
   padding-bottom: 200px;
+}
+
+.dumbledido-app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 4px;
+  right: 4px;
+  bottom: 80px;
+  background: white;
+  box-shadow: 4px 4px 0 var(--dumbledido-blue);
+  z-index: 0;
+}
+
+.dumbledido-app > * {
+  position: relative;
+  z-index: 1;
 }
 
 .dumbledido-header {

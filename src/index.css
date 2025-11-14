@@ -38,7 +38,7 @@ body {
   font-family: 'MuseoModerno', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: var(--dumbledido-bg);
+  background: var(--dumbledido-yellow);
   touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
@@ -48,4 +48,5 @@ body {
 
 #root {
   min-height: 100vh;
+  background: var(--dumbledido-yellow);
 }
