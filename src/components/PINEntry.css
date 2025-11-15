@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--dumbledido-yellow);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,11 +14,11 @@
 
 .pin-entry-dialog {
   background: white;
-  padding: 30px;
-  border-radius: 15px;
+  padding: 40px 30px;
+  border-radius: 30px;
   max-width: 400px;
   width: 100%;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
   position: relative;
   z-index: var(--z-modal-content);
 }
@@ -27,20 +27,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .pin-entry-header h3 {
   margin: 0;
-  color: #667eea;
+  color: var(--dumbledido-blue);
   font-size: 24px;
+  font-weight: 700;
 }
 
 .pin-entry-message {
-  margin: 0 0 25px 0;
-  color: #666;
+  margin: 0 0 30px 0;
+  color: var(--dumbledido-blue);
   line-height: 1.5;
   font-size: 16px;
+  font-weight: 600;
+  text-align: center;
 }
 
 .pin-input-container {
@@ -50,59 +53,97 @@
 }
 
 .pin-input {
+  font-family: 'MuseoModerno', sans-serif;
   width: 100%;
-  max-width: 200px;
-  padding: 20px;
-  font-size: 32px;
+  max-width: 220px;
+  height: 60px;
+  padding: 12px 24px;
+  font-size: 28px;
   text-align: center;
-  border: 3px solid #667eea;
-  border-radius: 10px;
+  border: none;
+  border-radius: 30px;
   letter-spacing: 10px;
-  font-weight: bold;
+  font-weight: 700;
+  background-color: var(--dumbledido-pink);
+  color: white;
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
+}
+
+.pin-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .pin-input:focus {
   outline: none;
-  border-color: #764ba2;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+  background-color: var(--dumbledido-magenta);
 }
 
 .pin-error {
-  color: #EF4444;
+  color: var(--dumbledido-red);
   font-size: 14px;
+  font-weight: 700;
   text-align: center;
   margin: 10px 0;
 }
 
 .pin-entry-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 25px;
+  gap: 15px;
+  margin-top: 30px;
 }
 
 .pin-entry-actions button {
+  font-family: 'MuseoModerno', sans-serif;
   flex: 1;
+  height: 48px;
   padding: 12px 24px;
   border: none;
-  border-radius: 8px;
+  border-radius: 24px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
-}
-
-.verify-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
 }
 
+.cancel-btn {
+  background-color: var(--dumbledido-gray);
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
+}
+
+.verify-btn {
+  background-color: var(--dumbledido-green);
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
+}
+
+.cancel-btn:active,
 .verify-btn:active {
-  transform: scale(0.98);
+  transform: scale(0.95);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: var(--dumbledido-blue);
+  cursor: pointer;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn:active {
+  transform: scale(0.9);
 }
 
 @media (max-width: 600px) {
   .pin-entry-dialog {
-    padding: 20px;
+    padding: 30px 20px;
   }
 
   .pin-entry-header h3 {
@@ -111,6 +152,12 @@
 
   .pin-input {
     font-size: 24px;
-    padding: 15px;
+    height: 50px;
+    max-width: 180px;
+  }
+  
+  .pin-entry-actions button {
+    font-size: 14px;
+    height: 44px;
   }
 }

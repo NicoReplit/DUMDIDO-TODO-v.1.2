@@ -1,10 +1,10 @@
 .delete-confirmation-modal {
   background: white;
   padding: 30px;
-  border-radius: 24px;
+  border-radius: 30px;
   max-width: 400px;
   width: 90%;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
 }
 
 .delete-confirmation-modal h2 {
@@ -56,25 +56,24 @@
 .delete-one-btn {
   background: var(--dumbledido-coral);
   color: white;
-  box-shadow: 4px 4px 0 0 var(--dumbledido-yellow);
+  box-shadow: 5px 5px 0 0 var(--dumbledido-blue);
 }
 
 .delete-all-btn {
   background: var(--dumbledido-red);
   color: white;
-  box-shadow: 4px 4px 0 0 var(--dumbledido-yellow);
+  box-shadow: 5px 5px 0 0 var(--dumbledido-blue);
 }
 
 .cancel-btn {
   background: var(--dumbledido-gray);
   color: white;
-  box-shadow: 4px 4px 0 0 #555555;
+  box-shadow: 5px 5px 0 0 var(--dumbledido-blue);
 }
 
 .confirm-btn:active,
 .cancel-btn:active {
-  transform: scale(0.98);
-  box-shadow: 2px 2px 0 0 var(--dumbledido-yellow);
+  transform: scale(0.95);
 }
 
 @media (max-width: 600px) {
