@@ -1,1 +1,52 @@
-/* Inherits from shared modal styles */
+/* Inherits from shared modal styles in UserEditModal.css */
+
+.max-points-modal input[type="password"],
+.max-points-modal input[type="number"] {
+  font-family: 'MuseoModerno', sans-serif;
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 24px;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  box-sizing: border-box;
+  background-color: var(--dumbledido-pink);
+  color: white;
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
+  height: 48px;
+}
+
+.max-points-modal input[type="password"] {
+  letter-spacing: 8px;
+}
+
+.max-points-modal input[type="password"]::placeholder,
+.max-points-modal input[type="number"]::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: normal;
+}
+
+.max-points-modal input[type="password"]:focus,
+.max-points-modal input[type="number"]:focus {
+  outline: none;
+  background-color: var(--dumbledido-magenta);
+}
+
+.max-points-modal .form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--dumbledido-blue);
+  font-family: 'MuseoModerno', sans-serif;
+  font-size: 14px;
+}
+
+.max-points-modal p {
+  font-family: 'MuseoModerno', sans-serif;
+  font-size: 16px;
+  color: var(--dumbledido-blue);
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+}

@@ -98,21 +98,38 @@
   left: 0;
   right: 0;
   bottom: 0;
+  background: var(--dumbledido-yellow);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: calc(var(--z-menu) + 1);
   pointer-events: auto;
+  padding: 20px;
 }
 
 .red-settings-content {
-  width: 90%;
+  width: 100%;
   max-width: 500px;
+  max-height: 90vh;
+  background: white;
+  border-radius: 30px;
+  padding: 30px;
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 15px;
   pointer-events: auto;
-  padding-top: 200px;
+}
+
+/* Title for settings */
+.red-settings-title {
+  font-family: 'MuseoModerno', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--dumbledido-blue);
+  margin: 0 0 20px 0;
+  text-align: center;
 }
 
 /* Menu buttons - DUMBLEDIDO style */
@@ -123,8 +140,8 @@
   padding: 12px 24px;
   border-radius: 28px;
   border: none;
-  background-color: #0061EE;
-  box-shadow: 6px 6px 0 0 #FECE00;
+  background-color: var(--dumbledido-blue);
+  box-shadow: 5px 5px 0 0 var(--dumbledido-blue);
   color: white;
   font-size: 20px;
   font-weight: 700;
@@ -146,8 +163,8 @@
   padding: 12px 24px;
   border-radius: 24px;
   border: none;
-  background-color: #0061EE;
-  box-shadow: 5px 5px 0 0 #FECE00;
+  background-color: var(--dumbledido-pink);
+  box-shadow: 5px 5px 0 0 var(--dumbledido-blue);
   color: white;
   font-size: 18px;
   font-weight: 700;
@@ -163,6 +180,7 @@
 
 .red-pin-input:focus {
   outline: none;
+  background-color: var(--dumbledido-magenta);
 }
 
 /* Animation classes for staggered entrance */
@@ -204,7 +222,7 @@
 .red-button-group {
   display: flex;
   gap: 15px;
-  margin-top: 70px;
+  margin-top: 20px;
 }
 
 .red-remove-button,
@@ -223,13 +241,13 @@
 }
 
 .red-remove-button {
-  background-color: #EE4100;
-  box-shadow: 5px 5px 0 0 #0061EE;
+  background-color: var(--dumbledido-red);
+  box-shadow: 5px 5px 0 0 var(--dumbledido-blue);
 }
 
 .red-save-button {
-  background-color: #38D247;
-  box-shadow: 5px 5px 0 0 #0061EE;
+  background-color: var(--dumbledido-green);
+  box-shadow: 5px 5px 0 0 var(--dumbledido-blue);
 }
 
 .red-remove-button:active,

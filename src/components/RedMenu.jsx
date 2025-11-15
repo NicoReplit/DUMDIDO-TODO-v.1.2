@@ -113,7 +113,8 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
           onTouchStart={handleOverlayTouchStart}
           onTouchEnd={handleOverlayTouchEnd}
         >
-          <div className="red-settings-content">
+          <div className="red-settings-content" onClick={(e) => e.stopPropagation()}>
+            <h2 className="red-settings-title">Settings</h2>
             <button 
               onClick={() => {
                 handleClose();

@@ -133,7 +133,8 @@ function BlueMenu({ globalPin, onSavePin }) {
           onTouchStart={handleOverlayTouchStart}
           onTouchEnd={handleOverlayTouchEnd}
         >
-          <div className="blue-settings-content">
+          <div className="blue-settings-content" onClick={(e) => e.stopPropagation()}>
+            <h2 className="blue-settings-title">PIN Settings</h2>
             {globalPin && (
               <input
                 type="password"

@@ -1,1 +1,65 @@
-/* Inherits from shared modal styles */
+/* Inherits from shared modal styles in UserEditModal.css */
+
+.pin-change-modal input[type="password"] {
+  font-family: 'MuseoModerno', sans-serif;
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 24px;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 8px;
+  box-sizing: border-box;
+  background-color: var(--dumbledido-pink);
+  color: white;
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
+  height: 48px;
+}
+
+.pin-change-modal input[type="password"]::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: normal;
+}
+
+.pin-change-modal input[type="password"]:focus {
+  outline: none;
+  background-color: var(--dumbledido-magenta);
+}
+
+.pin-change-modal .form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--dumbledido-blue);
+  font-family: 'MuseoModerno', sans-serif;
+  font-size: 14px;
+}
+
+.pin-change-modal .modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.pin-change-modal .btn-remove {
+  flex: 1 1 100%;
+  min-width: 0;
+  height: 48px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'MuseoModerno', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--dumbledido-orange);
+  color: white;
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
+}
+
+.pin-change-modal .btn-remove:active {
+  transform: scale(0.95);
+}
