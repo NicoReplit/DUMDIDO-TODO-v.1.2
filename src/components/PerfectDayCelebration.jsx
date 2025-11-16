@@ -55,7 +55,7 @@ function PerfectDayCelebration({ isActive, onClose }) {
             animationDuration: `${star.duration}s`,
           }}
         >
-          <svg width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg width="80" height="80" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"
               fill="#FECE00"
@@ -69,10 +69,11 @@ function PerfectDayCelebration({ isActive, onClose }) {
 
       {/* Center text */}
       <div className={`perfect-day-center ${isClosing ? 'closing' : ''}`}>
-        <div className="perfect-day-yeah">YEAH!</div>
+        <div className="perfect-day-monaterstark">Monaterstark!</div>
         <div className="perfect-day-number">10</div>
-        <div className="perfect-day-points">PUNKTE</div>
-        <div className="perfect-day-gewonnen">gewonnen</div>
+        <div className="perfect-day-bonus">Bonus</div>
+        <div className="perfect-day-punkte">Punkte</div>
+        <div className="perfect-day-verdient">Verdient.</div>
       </div>
     </div>
   );

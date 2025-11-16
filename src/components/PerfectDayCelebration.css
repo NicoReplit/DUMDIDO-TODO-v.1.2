@@ -77,7 +77,7 @@
   }
 }
 
-.perfect-day-yeah {
+.perfect-day-monaterstark {
   font-family: 'MuseoModerno', sans-serif;
   font-size: 60px;
   font-weight: 800;
@@ -107,7 +107,21 @@
   animation: textPulse 1s ease-in-out infinite 0.2s;
 }
 
-.perfect-day-points {
+.perfect-day-bonus {
+  font-family: 'MuseoModerno', sans-serif;
+  font-size: 50px;
+  font-weight: 800;
+  color: #FECE00;
+  text-shadow: 
+    3px 3px 0 #0061EE,
+    -1px -1px 0 #0061EE,
+    1px -1px 0 #0061EE,
+    -1px 1px 0 #0061EE,
+    1px 1px 0 #0061EE;
+  animation: textPulse 1s ease-in-out infinite 0.3s;
+}
+
+.perfect-day-punkte {
   font-family: 'MuseoModerno', sans-serif;
   font-size: 50px;
   font-weight: 800;
@@ -121,7 +135,7 @@
   animation: textPulse 1s ease-in-out infinite 0.4s;
 }
 
-.perfect-day-gewonnen {
+.perfect-day-verdient {
   font-family: 'MuseoModerno', sans-serif;
   font-size: 50px;
   font-weight: 800;
