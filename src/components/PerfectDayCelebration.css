@@ -79,22 +79,7 @@
 
 .perfect-day-monaterstark {
   font-family: 'MuseoModerno', sans-serif;
-  font-size: 60px;
-  font-weight: 800;
-  color: #FECE00;
-  text-shadow: 
-    3px 3px 0 #0061EE,
-    -1px -1px 0 #0061EE,
-    1px -1px 0 #0061EE,
-    -1px 1px 0 #0061EE,
-    1px 1px 0 #0061EE;
-  margin-bottom: 5px;
-  animation: textPulse 1s ease-in-out infinite;
-}
-
-.perfect-day-number {
-  font-family: 'MuseoModerno', sans-serif;
-  font-size: 130px;
+  font-size: 20px;
   font-weight: 800;
   color: #FECE00;
   text-shadow: 
@@ -104,7 +89,21 @@
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
   line-height: 1;
-  margin-bottom: 5px;
+  animation: textPulse 1s ease-in-out infinite;
+}
+
+.perfect-day-number {
+  font-family: 'MuseoModerno', sans-serif;
+  font-size: 150px;
+  font-weight: 800;
+  color: #FECE00;
+  text-shadow: 
+    3px 3px 0 #0061EE,
+    -1px -1px 0 #0061EE,
+    1px -1px 0 #0061EE,
+    -1px 1px 0 #0061EE,
+    1px 1px 0 #0061EE;
+  line-height: 1;
   animation: textPulse 1s ease-in-out infinite 0.1s;
 }
 
@@ -119,13 +118,13 @@
     1px -1px 0 #0061EE,
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
-  margin-bottom: 5px;
+  line-height: 1;
   animation: textPulse 1s ease-in-out infinite 0.2s;
 }
 
 .perfect-day-punkte {
   font-family: 'MuseoModerno', sans-serif;
-  font-size: 50px;
+  font-size: 42px;
   font-weight: 800;
   color: #FECE00;
   text-shadow: 
@@ -134,13 +133,13 @@
     1px -1px 0 #0061EE,
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
-  margin-bottom: 5px;
+  line-height: 1;
   animation: textPulse 1s ease-in-out infinite 0.3s;
 }
 
 .perfect-day-verdient {
   font-family: 'MuseoModerno', sans-serif;
-  font-size: 50px;
+  font-size: 42px;
   font-weight: 800;
   color: #FECE00;
   text-shadow: 
@@ -149,6 +148,7 @@
     1px -1px 0 #0061EE,
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
+  line-height: 1;
   animation: textPulse 1s ease-in-out infinite 0.4s;
 }
 
