@@ -91,14 +91,14 @@
   }
 }
 
-/* Settings overlay - no scaling, positioned absolutely */
+/* Settings overlay - transparent to show red circle and pills */
 .red-settings-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--dumbledido-yellow);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,10 +111,10 @@
   width: 100%;
   max-width: 500px;
   max-height: 90vh;
-  background: white;
-  border-radius: 30px;
+  background: transparent;
+  border-radius: 0;
   padding: 30px;
-  box-shadow: 5px 5px 0 var(--dumbledido-blue);
+  box-shadow: none;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -122,14 +122,9 @@
   pointer-events: auto;
 }
 
-/* Title for settings */
+/* Title for settings - hidden */
 .red-settings-title {
-  font-family: 'MuseoModerno', sans-serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--dumbledido-blue);
-  margin: 0 0 20px 0;
-  text-align: center;
+  display: none;
 }
 
 /* Menu buttons - DUMBLEDIDO style */
