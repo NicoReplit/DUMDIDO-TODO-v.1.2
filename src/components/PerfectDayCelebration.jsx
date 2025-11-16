@@ -4,6 +4,7 @@ import './PerfectDayCelebration.css';
 function PerfectDayCelebration({ isActive, onClose }) {
   const [stars, setStars] = useState([]);
   const [showStars, setShowStars] = useState(true);
+  const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
     if (isActive) {
@@ -11,36 +12,38 @@ function PerfectDayCelebration({ isActive, onClose }) {
       const newStars = Array.from({ length: 30 }, (_, i) => ({
         id: i,
         x: Math.random() * 100, // Random horizontal position (%)
-        delay: Math.random() * 1.5, // Random delay (0-1.5s)
-        duration: 3 + Math.random() * 2, // Random fall duration (3-5s)
+        delay: Math.random() * 0.5, // Random delay (0-0.5s)
+        duration: 1.5 + Math.random(), // Random fall duration (1.5-2.5s)
       }));
       setStars(newStars);
       setShowStars(true);
+      setIsClosing(false);
 
-      // Stop stars after 4 seconds (when blue circle animation ends)
-      const starTimer = setTimeout(() => {
-        setShowStars(false);
-      }, 4000);
+      // Start closing animation after 1.5 seconds
+      const closeAnimTimer = setTimeout(() => {
+        setIsClosing(true);
+      }, 1500);
 
-      // Auto-close after 5 seconds
+      // Auto-close after 2 seconds
       const closeTimer = setTimeout(() => {
         if (onClose) onClose();
-      }, 5000);
+      }, 2000);
 
       return () => {
-        clearTimeout(starTimer);
+        clearTimeout(closeAnimTimer);
         clearTimeout(closeTimer);
       };
     } else {
       setStars([]);
       setShowStars(true);
+      setIsClosing(false);
     }
   }, [isActive, onClose]);
 
   if (!isActive) return null;
 
   return (
-    <div className="perfect-day-overlay">
+    <div className={`perfect-day-overlay ${isClosing ? 'closing' : ''}`}>
       {/* Firework stars */}
       {showStars && stars.map((star) => (
         <div
@@ -65,7 +68,7 @@ function PerfectDayCelebration({ isActive, onClose }) {
       ))}
 
       {/* Center text */}
-      <div className="perfect-day-center">
+      <div className={`perfect-day-center ${isClosing ? 'closing' : ''}`}>
         <div className="perfect-day-yeah">YEAH!</div>
         <div className="perfect-day-number">10</div>
         <div className="perfect-day-points">PUNKTE</div>

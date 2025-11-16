@@ -4,9 +4,14 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 9999;
+  z-index: 10000;
   pointer-events: none;
   overflow: hidden;
+}
+
+.perfect-day-overlay.closing {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
 }
 
 .firework-star {
@@ -43,6 +48,10 @@
   animation: centerBounce 0.6s ease-out;
 }
 
+.perfect-day-center.closing {
+  animation: scaleDown 0.5s ease-out forwards;
+}
+
 @keyframes centerBounce {
   0% {
     transform: translate(-50%, -50%) scale(0);
@@ -54,6 +63,17 @@
   100% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
+  }
+}
+
+@keyframes scaleDown {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
   }
 }
 
