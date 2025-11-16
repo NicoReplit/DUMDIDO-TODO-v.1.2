@@ -467,7 +467,7 @@ async function checkDailyCompletion(userId, date) {
   });
   
   if (todosForDate.length === 0) {
-    return;
+    return { perfectDay: false };
   }
   
   const allCompletedOnTime = todosForDate.every(todo => {
@@ -484,6 +484,14 @@ async function checkDailyCompletion(userId, date) {
     return actualTimeSeconds <= estimatedSeconds;
   });
   
+  // Check if this is a NEW perfect day (not already recorded)
+  const existingResult = await pool.query(
+    'SELECT all_completed_on_time FROM daily_completions WHERE user_id = $1 AND completion_date = $2',
+    [userId, date]
+  );
+  const wasAlreadyPerfect = existingResult.rows.length > 0 && existingResult.rows[0].all_completed_on_time;
+  const isNewPerfectDay = allCompletedOnTime && !wasAlreadyPerfect;
+  
   await pool.query(
     `INSERT INTO daily_completions (user_id, completion_date, all_completed_on_time) 
      VALUES ($1, $2, $3)
@@ -494,7 +502,17 @@ async function checkDailyCompletion(userId, date) {
   
   if (allCompletedOnTime) {
     await checkAndAwardStreakBonuses(userId);
+    
+    // Award 10 bonus points for NEW perfect day
+    if (isNewPerfectDay) {
+      await pool.query(
+        'UPDATE users SET total_points = total_points + 10 WHERE id = $1',
+        [userId]
+      );
+    }
   }
+  
+  return { perfectDay: isNewPerfectDay };
 }
 
 async function checkAndAwardStreakBonuses(userId) {
@@ -579,7 +597,8 @@ app.put('/api/todos/:id', async (req, res) => {
         );
       }
       
-      await checkDailyCompletion(userId, dateToUse);
+      const dailyResult = await checkDailyCompletion(userId, dateToUse);
+      req.perfectDay = dailyResult?.perfectDay || false;
     }
     
     if (todo.recurrence_type) {
@@ -624,7 +643,8 @@ app.put('/api/todos/:id', async (req, res) => {
         points_earned: todoWithCompletion.recurring_points_earned ?? todoWithCompletion.points_earned,
         pause_used: todoWithCompletion.recurring_pause_used ?? todoWithCompletion.pause_used,
         super_point_used: todoWithCompletion.recurring_super_point_used ?? todoWithCompletion.super_point_used,
-        actual_time_seconds: todoWithCompletion.recurring_actual_time_seconds ?? todoWithCompletion.actual_time_seconds
+        actual_time_seconds: todoWithCompletion.recurring_actual_time_seconds ?? todoWithCompletion.actual_time_seconds,
+        perfectDay: req.perfectDay || false
       });
     } else {
       const result = await pool.query(
@@ -645,7 +665,10 @@ app.put('/api/todos/:id', async (req, res) => {
          WHERE id = $13 RETURNING *`,
         [title, description, estimated_minutes, remaining_seconds, completed, specific_date, recurrence_type, recurrence_days, pause_used, super_point_used, points_earned, actual_time_seconds, id]
       );
-      res.json(result.rows[0]);
+      res.json({
+        ...result.rows[0],
+        perfectDay: req.perfectDay || false
+      });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
