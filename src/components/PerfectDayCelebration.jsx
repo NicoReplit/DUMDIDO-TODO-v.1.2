@@ -3,7 +3,6 @@ import './PerfectDayCelebration.css';
 
 function PerfectDayCelebration({ isActive, onClose }) {
   const [stars, setStars] = useState([]);
-  const [showStars, setShowStars] = useState(true);
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
@@ -16,7 +15,6 @@ function PerfectDayCelebration({ isActive, onClose }) {
         duration: 1.5 + Math.random(), // Random fall duration (1.5-2.5s)
       }));
       setStars(newStars);
-      setShowStars(true);
       setIsClosing(false);
 
       // Start closing animation after 1.5 seconds
@@ -35,7 +33,6 @@ function PerfectDayCelebration({ isActive, onClose }) {
       };
     } else {
       setStars([]);
-      setShowStars(true);
       setIsClosing(false);
     }
   }, [isActive, onClose]);
@@ -45,7 +42,7 @@ function PerfectDayCelebration({ isActive, onClose }) {
   return (
     <div className={`perfect-day-overlay ${isClosing ? 'closing' : ''}`}>
       {/* Firework stars */}
-      {showStars && stars.map((star) => (
+      {stars.map((star) => (
         <div
           key={star.id}
           className="firework-star"

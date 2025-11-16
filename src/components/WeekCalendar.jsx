@@ -50,6 +50,10 @@ function WeekCalendar({ userId, selectedDate }) {
       const maxBarWidth = containerRect.width - 9;
       barWidthPx = Math.min(barWidthPx, maxBarWidth);
       
+      // Minimum width is 5% of max width
+      const minBarWidth = maxBarWidth * 0.05;
+      barWidthPx = Math.max(barWidthPx, minBarWidth);
+      
       setBarWidth(barWidthPx > 0 ? barWidthPx : 0);
     };
 
