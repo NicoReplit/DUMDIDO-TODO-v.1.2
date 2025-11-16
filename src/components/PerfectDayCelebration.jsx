@@ -3,6 +3,7 @@ import './PerfectDayCelebration.css';
 
 function PerfectDayCelebration({ isActive, onClose }) {
   const [stars, setStars] = useState([]);
+  const [showStars, setShowStars] = useState(true);
 
   useEffect(() => {
     if (isActive) {
@@ -14,15 +15,25 @@ function PerfectDayCelebration({ isActive, onClose }) {
         duration: 3 + Math.random() * 2, // Random fall duration (3-5s)
       }));
       setStars(newStars);
+      setShowStars(true);
+
+      // Stop stars after 4 seconds (when blue circle animation ends)
+      const starTimer = setTimeout(() => {
+        setShowStars(false);
+      }, 4000);
 
       // Auto-close after 5 seconds
-      const timer = setTimeout(() => {
+      const closeTimer = setTimeout(() => {
         if (onClose) onClose();
       }, 5000);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(starTimer);
+        clearTimeout(closeTimer);
+      };
     } else {
       setStars([]);
+      setShowStars(true);
     }
   }, [isActive, onClose]);
 
@@ -31,7 +42,7 @@ function PerfectDayCelebration({ isActive, onClose }) {
   return (
     <div className="perfect-day-overlay">
       {/* Firework stars */}
-      {stars.map((star) => (
+      {showStars && stars.map((star) => (
         <div
           key={star.id}
           className="firework-star"
@@ -56,7 +67,9 @@ function PerfectDayCelebration({ isActive, onClose }) {
       {/* Center text */}
       <div className="perfect-day-center">
         <div className="perfect-day-yeah">YEAH!</div>
-        <div className="perfect-day-points">10 PUNKTE</div>
+        <div className="perfect-day-number">10</div>
+        <div className="perfect-day-points">PUNKTE</div>
+        <div className="perfect-day-gewonnen">gewonnen</div>
       </div>
     </div>
   );
