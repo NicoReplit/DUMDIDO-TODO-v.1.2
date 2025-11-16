@@ -2,36 +2,46 @@ import { useState, useEffect } from 'react';
 import './PerfectDayCelebration.css';
 
 function PerfectDayCelebration({ isActive, onClose }) {
+  const [blueCircles, setBlueCircles] = useState([]);
   const [stars, setStars] = useState([]);
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
     if (isActive) {
+      // Generate 20 blue circles bursting outward
+      const newBlueCircles = Array.from({ length: 20 }, (_, i) => ({
+        id: i,
+        angle: (360 / 20) * i,
+        delay: Math.random() * 0.2,
+      }));
+      setBlueCircles(newBlueCircles);
+
       // Generate 30 rays bursting outward in all directions
       const newStars = Array.from({ length: 30 }, (_, i) => ({
         id: i,
         angle: (360 / 30) * i, // Evenly distributed around circle
-        delay: Math.random() * 0.3, // Random delay (0-0.3s)
+        delay: 1.0 + Math.random() * 0.3, // Delayed to start after blue circles (1.0-1.3s)
         distance: 40 + Math.random() * 20, // Random distance (40-60vh)
       }));
       setStars(newStars);
       setIsClosing(false);
 
-      // Start closing animation after 1.5 seconds
+      // Start closing animation after 2.5 seconds (1.0s blue circles + 1.5s stars/text)
       const closeAnimTimer = setTimeout(() => {
         setIsClosing(true);
-      }, 1500);
+      }, 2500);
 
-      // Auto-close after 2 seconds
+      // Auto-close after 3.0 seconds
       const closeTimer = setTimeout(() => {
         if (onClose) onClose();
-      }, 2000);
+      }, 3000);
 
       return () => {
         clearTimeout(closeAnimTimer);
         clearTimeout(closeTimer);
       };
     } else {
+      setBlueCircles([]);
       setStars([]);
       setIsClosing(false);
     }
@@ -41,6 +51,18 @@ function PerfectDayCelebration({ isActive, onClose }) {
 
   return (
     <div className={`perfect-day-overlay ${isClosing ? 'closing' : ''}`}>
+      {/* Blue circles burst first */}
+      {blueCircles.map((circle) => (
+        <div
+          key={`blue-${circle.id}`}
+          className="blue-circle"
+          style={{
+            '--angle': `${circle.angle}deg`,
+            animationDelay: `${circle.delay}s`,
+          }}
+        />
+      ))}
+
       {/* Firework rays bursting outward */}
       {stars.map((star) => (
         <div
@@ -64,8 +86,8 @@ function PerfectDayCelebration({ isActive, onClose }) {
         </div>
       ))}
 
-      {/* Center text */}
-      <div className={`perfect-day-center ${isClosing ? 'closing' : ''}`}>
+      {/* Center text - delayed to start after blue circles */}
+      <div className={`perfect-day-center ${isClosing ? 'closing' : ''}`} style={{ animationDelay: '1.0s' }}>
         <div className="perfect-day-monaterstark">Monaterstark!</div>
         <div className="perfect-day-number">10</div>
         <div className="perfect-day-bonus">Bonus</div>
