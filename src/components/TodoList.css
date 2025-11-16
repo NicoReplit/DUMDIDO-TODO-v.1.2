@@ -289,7 +289,7 @@
 }
 
 .dumbledido-todo-title {
-  font-size: clamp(12px, 5vw, 16px);
+  font-size: clamp(14px, 5vw, 24px);
   font-weight: 700;
   color: white;
   line-height: 1.3;
@@ -380,7 +380,7 @@
   }
 
   .dumbledido-todo-title {
-    font-size: clamp(11px, 4.5vw, 14px);
+    font-size: clamp(12px, 4.5vw, 20px);
   }
 
   .todo-time-badge {
