@@ -46,6 +46,7 @@
   transform: translate(-50%, -50%);
   text-align: center;
   animation: centerBounce 0.6s ease-out;
+  line-height: 1;
 }
 
 .perfect-day-center.closing {
@@ -88,8 +89,10 @@
     1px -1px 0 #0061EE,
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
-  margin-bottom: 10px;
-  animation: textPulse 1s ease-in-out infinite;
+  margin-bottom: 5px;
+  line-height: 1;
+  animation: wordBounce 0.5s ease-out;
+  display: inline-block;
 }
 
 .perfect-day-number {
@@ -104,7 +107,10 @@
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
   line-height: 1;
-  animation: textPulse 1s ease-in-out infinite 0.2s;
+  margin-bottom: 5px;
+  animation: wordBounce 0.5s ease-out 0.1s;
+  animation-fill-mode: backwards;
+  display: inline-block;
 }
 
 .perfect-day-bonus {
@@ -118,7 +124,11 @@
     1px -1px 0 #0061EE,
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
-  animation: textPulse 1s ease-in-out infinite 0.3s;
+  line-height: 1;
+  margin-bottom: 5px;
+  animation: wordBounce 0.5s ease-out 0.2s;
+  animation-fill-mode: backwards;
+  display: inline-block;
 }
 
 .perfect-day-punkte {
@@ -132,7 +142,11 @@
     1px -1px 0 #0061EE,
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
-  animation: textPulse 1s ease-in-out infinite 0.4s;
+  line-height: 1;
+  margin-bottom: 5px;
+  animation: wordBounce 0.5s ease-out 0.3s;
+  animation-fill-mode: backwards;
+  display: inline-block;
 }
 
 .perfect-day-verdient {
@@ -146,14 +160,22 @@
     1px -1px 0 #0061EE,
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
-  animation: textPulse 1s ease-in-out infinite 0.6s;
+  line-height: 1;
+  animation: wordBounce 0.5s ease-out 0.4s;
+  animation-fill-mode: backwards;
+  display: inline-block;
 }
 
-@keyframes textPulse {
-  0%, 100% {
-    transform: scale(1);
+@keyframes wordBounce {
+  0% {
+    transform: scale(0) translateY(20px);
+    opacity: 0;
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.2) translateY(-5px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
   }
 }
