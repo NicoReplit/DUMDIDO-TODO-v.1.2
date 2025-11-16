@@ -7,12 +7,12 @@ function PerfectDayCelebration({ isActive, onClose }) {
 
   useEffect(() => {
     if (isActive) {
-      // Generate 30 stars with random positions and delays
+      // Generate 30 rays bursting outward in all directions
       const newStars = Array.from({ length: 30 }, (_, i) => ({
         id: i,
-        x: Math.random() * 100, // Random horizontal position (%)
-        delay: Math.random() * 0.5, // Random delay (0-0.5s)
-        duration: 1.5 + Math.random(), // Random fall duration (1.5-2.5s)
+        angle: (360 / 30) * i, // Evenly distributed around circle
+        delay: Math.random() * 0.3, // Random delay (0-0.3s)
+        distance: 40 + Math.random() * 20, // Random distance (40-60vh)
       }));
       setStars(newStars);
       setIsClosing(false);
@@ -41,15 +41,15 @@ function PerfectDayCelebration({ isActive, onClose }) {
 
   return (
     <div className={`perfect-day-overlay ${isClosing ? 'closing' : ''}`}>
-      {/* Firework stars */}
+      {/* Firework rays bursting outward */}
       {stars.map((star) => (
         <div
           key={star.id}
-          className="firework-star"
+          className="firework-ray"
           style={{
-            left: `${star.x}%`,
+            '--angle': `${star.angle}deg`,
+            '--distance': `${star.distance}vh`,
             animationDelay: `${star.delay}s`,
-            animationDuration: `${star.duration}s`,
           }}
         >
           <svg width="80" height="80" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

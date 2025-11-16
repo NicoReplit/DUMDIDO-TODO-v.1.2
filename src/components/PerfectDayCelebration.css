@@ -14,27 +14,28 @@
   transition: opacity 0.5s ease-out;
 }
 
-.firework-star {
+.firework-ray {
   position: absolute;
-  top: -50px;
-  animation: starFall linear forwards;
+  top: 50%;
+  left: 50%;
+  animation: animosrays 1.5s ease-out forwards;
   pointer-events: none;
 }
 
-@keyframes starFall {
+@keyframes animosrays {
   0% {
-    transform: translateY(0) scale(0) rotate(0deg);
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0) scale(0) rotate(0deg);
     opacity: 0;
   }
-  10% {
-    transform: translateY(20vh) scale(1) rotate(180deg);
+  20% {
     opacity: 1;
   }
-  90% {
+  50% {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(calc(var(--distance) * -1)) scale(1) rotate(360deg);
     opacity: 1;
   }
   100% {
-    transform: translateY(100vh) scale(0.5) rotate(720deg);
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(calc(var(--distance) * -1.2)) scale(0.3) rotate(720deg);
     opacity: 0;
   }
 }
