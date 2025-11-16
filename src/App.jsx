@@ -12,6 +12,7 @@ import ProgressBar from './components/ProgressBar';
 import RedMenu from './components/RedMenu';
 import BlueMenu from './components/BlueMenu';
 import CelebrationMenu from './components/CelebrationMenu';
+import PerfectDayCelebration from './components/PerfectDayCelebration';
 import QuarterCircle from './components/QuarterCircle';
 import ZigZag from './components/ZigZag';
 import DeleteConfirmationModal from './components/DeleteConfirmationModal';
@@ -41,6 +42,7 @@ function App() {
   const [doneCallback, setDoneCallback] = useState(null);
   const [pauseCallback, setPauseCallback] = useState(null);
   const [celebrationData, setCelebrationData] = useState(null);
+  const [showPerfectDayCelebration, setShowPerfectDayCelebration] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [todoToDelete, setTodoToDelete] = useState(null);
   const [deleteScope, setDeleteScope] = useState(null); // 'single' or 'series'
@@ -352,6 +354,11 @@ function App() {
         // Show celebration if celebrationPoints are provided
         if (updates.celebrationPoints) {
           setCelebrationData(updates.celebrationPoints);
+        }
+        
+        // Show perfect day celebration if all todos completed on time
+        if (updatedTodo.perfectDay) {
+          setShowPerfectDayCelebration(true);
         }
       }
     } catch (error) {
@@ -801,6 +808,10 @@ function App() {
       <CelebrationMenu 
         celebrationData={celebrationData}
         onClose={() => setCelebrationData(null)}
+      />
+      <PerfectDayCelebration
+        isActive={showPerfectDayCelebration}
+        onClose={() => setShowPerfectDayCelebration(false)}
       />
       {showDeleteConfirmation && todoToDelete && (
         <DeleteConfirmationModal
