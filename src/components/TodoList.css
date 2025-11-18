@@ -35,7 +35,7 @@
 .pill-bottom {
   z-index: 1;
   width: 100%;
-  background: #EE4100 !important;
+  background: #0061EE !important;
   justify-content: flex-end;
   padding-right: 17px;
 }
@@ -50,18 +50,18 @@
 }
 
 .pill-bottom.green {
-  box-shadow: 7px 7px 0 0 #EE4100; /* Red shadow */
+  box-shadow: 7px 7px 0 0 #0061EE; /* Blue shadow */
 }
 
 .pill-bottom.blue {
-  box-shadow: 7px 7px 0 0 #38D247; /* Green shadow */
+  box-shadow: 7px 7px 0 0 #0061EE; /* Blue shadow */
 }
 
 /* Middle layer - GREEN (#38D247), 50px less wide, NO DROP SHADOW */
 .pill-middle {
   z-index: 2;
   width: calc(100% - 50px);
-  background: #38D247 !important;
+  background: #0061EE !important;
   box-shadow: none;
   justify-content: flex-end;
   padding-right: 17px;
@@ -153,7 +153,7 @@
 
 /* Color variations */
 .dumbledido-todo-card.yellow {
-  background: var(--dumbledido-yellow);
+  background: #0061EE;
 }
 
 .dumbledido-todo-card.yellow:active {
@@ -304,7 +304,7 @@
   right: 20px;
   bottom: 0;
   transform: translateY(50%);
-  background: #FE8700;
+  background: #0061EE;
   color: white;
   padding: 8px 16px;
   border-radius: 22px;
