@@ -88,11 +88,12 @@ function PerfectDayCelebration({ isActive, onClose }) {
 
       {/* Center text - delayed to start after blue circles */}
       <div className={`perfect-day-center ${isClosing ? 'closing' : ''}`} style={{ animationDelay: '1.0s' }}>
-        <div className="perfect-day-monaterstark">Monaterstark!</div>
+        <div className="perfect-day-monster">Monster</div>
+        <div className="perfect-day-starke">Starke</div>
         <div className="perfect-day-number">10</div>
         <div className="perfect-day-bonus">Bonus</div>
         <div className="perfect-day-punkte">Punkte</div>
-        <div className="perfect-day-verdient">Verdient.</div>
+        <div className="perfect-day-verdient">verdient!</div>
       </div>
     </div>
   );

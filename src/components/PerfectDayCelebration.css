@@ -109,9 +109,9 @@
   }
 }
 
-.perfect-day-monaterstark {
+.perfect-day-monster {
   font-family: 'MuseoModerno', sans-serif;
-  font-size: 20px;
+  font-size: 50px;
   font-weight: 800;
   color: #FECE00;
   text-shadow: 
@@ -120,8 +120,25 @@
     1px -1px 0 #0061EE,
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
-  line-height: 1;
+  line-height: 1.2;
+  margin-bottom: 5px;
   animation: textPulse 1s ease-in-out infinite;
+}
+
+.perfect-day-starke {
+  font-family: 'MuseoModerno', sans-serif;
+  font-size: 50px;
+  font-weight: 800;
+  color: #FECE00;
+  text-shadow: 
+    3px 3px 0 #0061EE,
+    -1px -1px 0 #0061EE,
+    1px -1px 0 #0061EE,
+    -1px 1px 0 #0061EE,
+    1px 1px 0 #0061EE;
+  line-height: 1.2;
+  margin-bottom: 5px;
+  animation: textPulse 1s ease-in-out infinite 0.1s;
 }
 
 .perfect-day-number {
@@ -135,8 +152,9 @@
     1px -1px 0 #0061EE,
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
-  line-height: 1;
-  animation: textPulse 1s ease-in-out infinite 0.1s;
+  line-height: 1.2;
+  margin-bottom: 5px;
+  animation: textPulse 1s ease-in-out infinite 0.2s;
 }
 
 .perfect-day-bonus {
@@ -150,13 +168,14 @@
     1px -1px 0 #0061EE,
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
-  line-height: 1;
-  animation: textPulse 1s ease-in-out infinite 0.2s;
+  line-height: 1.2;
+  margin-bottom: 5px;
+  animation: textPulse 1s ease-in-out infinite 0.3s;
 }
 
 .perfect-day-punkte {
   font-family: 'MuseoModerno', sans-serif;
-  font-size: 42px;
+  font-size: 50px;
   font-weight: 800;
   color: #FECE00;
   text-shadow: 
@@ -165,13 +184,14 @@
     1px -1px 0 #0061EE,
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
-  line-height: 1;
-  animation: textPulse 1s ease-in-out infinite 0.3s;
+  line-height: 1.2;
+  margin-bottom: 5px;
+  animation: textPulse 1s ease-in-out infinite 0.4s;
 }
 
 .perfect-day-verdient {
   font-family: 'MuseoModerno', sans-serif;
-  font-size: 42px;
+  font-size: 50px;
   font-weight: 800;
   color: #FECE00;
   text-shadow: 
@@ -180,8 +200,9 @@
     1px -1px 0 #0061EE,
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
-  line-height: 1;
-  animation: textPulse 1s ease-in-out infinite 0.4s;
+  line-height: 1.2;
+  margin-bottom: 5px;
+  animation: textPulse 1s ease-in-out infinite 0.5s;
 }
 
 @keyframes textPulse {
