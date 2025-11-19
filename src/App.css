@@ -258,14 +258,14 @@
   margin-top: 11px;
 }
 
-/* Right pink pill - duplicate of green pill */
-.right-pink-pill {
+/* Right green pill - duplicate of left green pill for pause button */
+.right-green-pill {
   position: fixed;
   left: 170px;
   bottom: -120px;
   width: 90px;
   height: 280px;
-  background-color: #FF77B9;
+  background-color: #38D247;
   border-radius: 45px;
   z-index: 9998;
   display: flex;
@@ -274,18 +274,17 @@
   border: none;
   cursor: pointer;
   transition: bottom 0.3s ease 0.2s, transform 0.2s ease;
-  opacity: 0.5;
 }
 
-.right-pink-pill.slide-up {
+.right-green-pill.slide-up {
   bottom: -40px;
 }
 
-.right-pink-pill:hover {
+.right-green-pill:hover {
   transform: scale(1.05);
 }
 
-.right-pink-pill:active {
+.right-green-pill:active {
   transform: scale(0.95);
 }
 
