@@ -306,8 +306,14 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
               <div className="super-point-section">
                 <div className="super-point-pill">
                   <button className="super-point-btn" onClick={handleUseSuperPoint}>
-                    Use Pass
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <line x1="14" y1="10" x2="14" y2="30" stroke="white" strokeWidth="8" strokeLinecap="round"/>
+                      <circle cx="14" cy="10" r="4" fill="black"/>
+                      <line x1="26" y1="10" x2="26" y2="30" stroke="white" strokeWidth="8" strokeLinecap="round"/>
+                      <circle cx="26" cy="10" r="4" fill="black"/>
+                    </svg>
                   </button>
+                  <span className="pass-label">Pass</span>
                 </div>
               </div>
             )}

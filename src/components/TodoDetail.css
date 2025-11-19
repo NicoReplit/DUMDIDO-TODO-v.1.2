@@ -282,30 +282,41 @@
 .super-point-pill {
   background-color: var(--dumbledido-pink);
   border-radius: 50px;
-  padding: 8px 16px;
+  padding: 8px 20px;
   box-shadow: 5px 5px 0 var(--dumbledido-blue);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
 }
 
 .super-point-btn {
   background: var(--dumbledido-blue);
   color: white;
   border: none;
-  padding: 12px 32px;
-  border-radius: 50px;
-  font-size: 18px;
-  font-weight: 700;
-  font-family: 'MuseoModerno', sans-serif;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: transform 0.2s;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  padding: 0;
+  flex-shrink: 0;
 }
 
 .super-point-btn:active {
   transform: scale(0.95);
+}
+
+.pass-label {
+  font-family: 'MuseoModerno', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .super-point-active {
