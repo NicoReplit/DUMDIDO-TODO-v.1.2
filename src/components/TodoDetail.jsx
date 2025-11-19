@@ -178,30 +178,6 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
     onClose();
   };
 
-  const handleUseSuperPoint = async () => {
-    if (!currentUser || currentUser.super_points <= 0 || superPointUsed) return;
-    
-    try {
-      const response = await fetch(`http://localhost:3001/api/users/${currentUser.id}/super-points`, {
-        method: 'POST'
-      });
-      
-      if (response.ok) {
-        setSuperPointUsed(true);
-        if (isRunning) {
-          stopTimer(todo.id);
-          setIsRunning(false);
-        }
-        onUpdate({ 
-          super_point_used: true,
-          remaining_seconds: timeRemaining,
-          actual_time_seconds: elapsedTime
-        });
-      }
-    } catch (error) {
-      console.error('Error using super point:', error);
-    }
-  };
 
   // Random rotation for eyes
   const eye1Rotation = useRef(Math.random() * 40 - 20).current; // -20 to +20 degrees
@@ -301,22 +277,6 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
                 </div>
               )}
             </div>
-
-            {!superPointUsed && currentUser && currentUser.super_points > 0 && (
-              <div className="super-point-section">
-                <div className="super-point-pill">
-                  <button className="super-point-btn" onClick={handleUseSuperPoint}>
-                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <line x1="14" y1="10" x2="14" y2="30" stroke="white" strokeWidth="8" strokeLinecap="round"/>
-                      <circle cx="14" cy="10" r="4" fill="black"/>
-                      <line x1="26" y1="10" x2="26" y2="30" stroke="white" strokeWidth="8" strokeLinecap="round"/>
-                      <circle cx="26" cy="10" r="4" fill="black"/>
-                    </svg>
-                  </button>
-                  <span className="pass-label">Pass</span>
-                </div>
-              </div>
-            )}
 
             {superPointUsed && (
               <p className="super-point-active">⭐ Super Point Active - This task counts as on-time!</p>

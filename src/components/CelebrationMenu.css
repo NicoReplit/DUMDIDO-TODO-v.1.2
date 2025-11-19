@@ -102,7 +102,7 @@
 /* Half-moon positioned under eyes */
 .celebration-half-moon {
   position: absolute;
-  top: -35px;
+  top: 10px;
   left: 50%;
   transform-origin: center;
   pointer-events: none;

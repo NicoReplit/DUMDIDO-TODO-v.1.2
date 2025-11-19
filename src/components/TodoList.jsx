@@ -110,6 +110,7 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
               </div>
               {todo.completed && (
                 <div className="status-icon done-icon">
+                  <div className="icon-circle yellow-circle"></div>
                   <svg className="icon-stroke" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
