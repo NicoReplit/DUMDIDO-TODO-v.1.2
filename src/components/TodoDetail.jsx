@@ -178,6 +178,30 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
     onClose();
   };
 
+  const handleUseSuperPoint = async () => {
+    if (!currentUser || currentUser.super_points <= 0 || superPointUsed) return;
+    
+    try {
+      const response = await fetch(`http://localhost:3001/api/users/${currentUser.id}/super-points`, {
+        method: 'POST'
+      });
+      
+      if (response.ok) {
+        setSuperPointUsed(true);
+        if (isRunning) {
+          stopTimer(todo.id);
+          setIsRunning(false);
+        }
+        onUpdate({ 
+          super_point_used: true,
+          remaining_seconds: timeRemaining,
+          actual_time_seconds: elapsedTime
+        });
+      }
+    } catch (error) {
+      console.error('Error using super point:', error);
+    }
+  };
 
   // Random rotation for eyes
   const eye1Rotation = useRef(Math.random() * 40 - 20).current; // -20 to +20 degrees
@@ -277,6 +301,16 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
                 </div>
               )}
             </div>
+
+            {!superPointUsed && currentUser && currentUser.super_points > 0 && (
+              <div className="super-point-section">
+                <div className="super-point-pill">
+                  <button className="super-point-btn" onClick={handleUseSuperPoint}>
+                    Use Pass
+                  </button>
+                </div>
+              </div>
+            )}
 
             {superPointUsed && (
               <p className="super-point-active">⭐ Super Point Active - This task counts as on-time!</p>
