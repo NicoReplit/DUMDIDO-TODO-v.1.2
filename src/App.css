@@ -284,14 +284,14 @@
   justify-content: center;
 }
 
-/* Right green pill - duplicate of left green pill for pause button */
+/* Right pink pill - duplicate of left green pill for pause button */
 .right-green-pill {
   position: fixed;
   left: 170px;
   bottom: -120px;
   width: 90px;
   height: 280px;
-  background-color: #38D247;
+  background-color: #FF77B9;
   border-radius: 45px;
   z-index: 9998;
   display: flex;
