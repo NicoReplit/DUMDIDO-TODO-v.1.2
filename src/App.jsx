@@ -356,11 +356,11 @@ function App() {
           setCelebrationData(updates.celebrationPoints);
         }
         
-        // Show perfect day celebration if all todos completed on time (3s delay)
+        // Show perfect day celebration if all todos completed on time (2.6s delay)
         if (updatedTodo.perfectDay) {
           setTimeout(() => {
             setShowPerfectDayCelebration(true);
-          }, 3000);
+          }, 2600);
         }
       }
     } catch (error) {

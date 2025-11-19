@@ -121,7 +121,7 @@
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
   line-height: 1.2;
-  margin-bottom: 5px;
+  margin-bottom: -5px;
   animation: textPulse 1s ease-in-out infinite;
 }
 
@@ -137,7 +137,7 @@
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
   line-height: 1.2;
-  margin-bottom: 5px;
+  margin-bottom: -5px;
   animation: textPulse 1s ease-in-out infinite 0.1s;
 }
 
@@ -153,7 +153,7 @@
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
   line-height: 1.2;
-  margin-bottom: 5px;
+  margin-bottom: -5px;
   animation: textPulse 1s ease-in-out infinite 0.2s;
 }
 
@@ -169,7 +169,7 @@
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
   line-height: 1.2;
-  margin-bottom: 5px;
+  margin-bottom: -5px;
   animation: textPulse 1s ease-in-out infinite 0.3s;
 }
 
@@ -185,7 +185,7 @@
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
   line-height: 1.2;
-  margin-bottom: 5px;
+  margin-bottom: -5px;
   animation: textPulse 1s ease-in-out infinite 0.4s;
 }
 
@@ -201,7 +201,7 @@
     -1px 1px 0 #0061EE,
     1px 1px 0 #0061EE;
   line-height: 1.2;
-  margin-bottom: 5px;
+  margin-bottom: -5px;
   animation: textPulse 1s ease-in-out infinite 0.5s;
 }
 
