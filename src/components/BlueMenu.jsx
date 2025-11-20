@@ -18,7 +18,7 @@ function BlueMenu({ globalPin, onSavePin }) {
       const circleRadius = (24 * vmin) / 100; // 48vmin diameter / 2
       const circleBottomY = window.innerHeight + 90; // bottom: -90px
       const circleCenterY = circleBottomY - circleRadius; // Subtract radius to get center (Y increases downward)
-      const targetTopEdge = 155; // 40px above name pills bottom border
+      const targetTopEdge = 250; // Target position from top
       
       // Scale needed so top edge reaches target: centerY - (radius * scale) = targetTop
       const scale = (circleCenterY - targetTopEdge) / circleRadius;

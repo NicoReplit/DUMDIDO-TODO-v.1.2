@@ -20,7 +20,7 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
       const circleBottomOffset = (-33.6 * vmin) / 100 + 30; // bottom: calc(-33.6vmin + 30px)
       const circleBottomY = window.innerHeight - circleBottomOffset;
       const circleCenterY = circleBottomY - circleRadius; // Subtract radius to get center (Y increases downward)
-      const targetTopEdge = 155; // 40px above name pills bottom border
+      const targetTopEdge = 250; // Target position from top
       
       // Scale needed so top edge reaches target: centerY - (radius * scale) = targetTop
       const scale = (circleCenterY - targetTopEdge) / circleRadius;
