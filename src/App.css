@@ -221,10 +221,10 @@
   transform: scale(0.95);
 }
 
-/* Left green pill - duplicate of red pill */
+/* Left green pill - left border aligned to right border of index 12 */
 .left-green-pill {
   position: fixed;
-  left: calc(var(--content-left-boundary) + 100px);
+  left: calc(var(--content-area-margin) + 90px);
   bottom: -120px;
   width: 90px;
   height: 280px;
