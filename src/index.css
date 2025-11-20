@@ -27,10 +27,13 @@
   --z-celebration-overlay: 12000;
   --z-confetti: 13000;
   
-  /* Content boundaries based on main centered content area (.dumbledido-app max-width: 800px) */
-  /* When viewport > 800px: content is centered with margins on both sides */
-  /* When viewport <= 800px: content takes full width */
-  --content-area-margin: max(0px, calc((100vw - 800px) / 2));  /* Margin on each side when centered */
+  /* Maximum content width constraint */
+  --max-content-width: 1024px;
+  
+  /* Content boundaries based on max content width */
+  /* When viewport > 1024px: content is centered with margins on both sides */
+  /* When viewport <= 1024px: content takes full width */
+  --content-area-margin: max(0px, calc((100vw - var(--max-content-width)) / 2));  /* Margin on each side when centered */
   --content-left-boundary: calc(var(--content-area-margin) - 20px);  /* 20px beyond left edge */
   --content-right-boundary: calc(var(--content-area-margin) - 20px);  /* 20px beyond right edge (from screen edge) */
 }

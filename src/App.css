@@ -1,5 +1,5 @@
 .dumbledido-app {
-  max-width: 800px;
+  max-width: var(--max-content-width);
   margin: 0 auto;
   min-height: 100vh;
   background: var(--dumbledido-bg);
@@ -45,7 +45,7 @@
 
 .custom-rectangle {
   width: calc(100vw - 25px);
-  max-width: calc(800px - 25px);
+  max-width: calc(var(--max-content-width) - 25px);
   background: white;
   position: absolute;
   top: 195px;
