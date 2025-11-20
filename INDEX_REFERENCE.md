@@ -24,16 +24,21 @@ This document maps index numbers to actual UI objects for easy identification an
 
 ## Content Boundaries
 
-Based on the white box (index 4), the following CSS variables define content boundaries:
-- `--content-left-boundary: -10px` (20px left of white box left edge)
-- `--content-right-boundary: calc(100vw + 5px)` (20px right of white box right edge)
-- `--content-max-right-boundary: 805px` (at max screen width)
+Based on the main centered content area (`.dumbledido-app` with `max-width: 800px`), the following CSS variables define content boundaries:
+
+- `--content-area-margin: max(0px, calc((100vw - 800px) / 2))` - Margin on each side when content is centered
+- `--content-left-boundary: calc(var(--content-area-margin) - 20px)` - 20px beyond left edge of content area
+- `--content-right-boundary: calc(var(--content-area-margin) - 20px)` - 20px beyond right edge of content area
+
+**How it works:**
+- On screens **≤ 800px**: Content fills full width, boundaries are -20px from edges
+- On screens **> 800px**: Content is centered (800px wide), boundaries are 20px beyond the content edges
 
 **Elements aligned to LEFT boundary (index 10, 12):**
 - Use `left: var(--content-left-boundary)` or relative calculations
 
 **Elements aligned to RIGHT boundary (index 11, 15):**
-- Use `right: calc(100vw - var(--content-right-boundary))` or relative calculations
+- Use `right: var(--content-right-boundary)` for alignment
 
 ## Usage
 

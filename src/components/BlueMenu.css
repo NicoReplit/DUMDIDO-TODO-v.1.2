@@ -1,7 +1,7 @@
 /* Background circle wrapper - scales */
 .blue-circle-background {
   position: fixed;
-  left: calc(var(--content-left-boundary) - 25px);
+  left: calc(var(--content-left-boundary) - 15px);
   bottom: -90px;
   transform: scale(1);
   transform-origin: center center;

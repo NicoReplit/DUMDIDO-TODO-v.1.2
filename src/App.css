@@ -190,7 +190,7 @@
 .zigzag-wrapper {
   position: fixed;
   bottom: -100px;
-  right: calc(100vw - var(--content-right-boundary) - 40px);
+  right: var(--content-right-boundary);
   transform: rotate(20deg) scale(1.1);
   z-index: 5000;
 }
