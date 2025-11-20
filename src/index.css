@@ -55,6 +55,29 @@ body {
   -webkit-tap-highlight-color: transparent;
   font-weight: 500;
   overflow-x: hidden; /* Clip everything horizontally to viewport width */
+  position: relative;
+}
+
+/* Viewport-level clipping mask for fixed elements (circles, etc.) */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 999999;
+  /* Clip-path to mask content to max-content-width boundaries */
+  clip-path: polygon(
+    var(--content-area-margin) 0,
+    calc(100vw - var(--content-area-margin)) 0,
+    calc(100vw - var(--content-area-margin)) 100vh,
+    var(--content-area-margin) 100vh
+  );
+  box-shadow: 
+    calc(var(--content-area-margin) * -1 - 100vw) 0 0 100vw var(--dumbledido-bg),
+    calc(100vw - var(--content-area-margin)) 0 0 100vw var(--dumbledido-bg);
 }
 
 #root {
@@ -62,4 +85,5 @@ body {
   max-width: var(--max-content-width);
   margin: 0 auto;
   overflow: hidden; /* Clip content to max-content-width boundaries */
+  position: relative;
 }
