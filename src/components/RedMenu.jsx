@@ -8,8 +8,28 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
   const [closing, setClosing] = useState(false);
   const [showPINModal, setShowPINModal] = useState(false);
   const [showMaxPointsModal, setShowMaxPointsModal] = useState(false);
+  const [dynamicScale, setDynamicScale] = useState(3.85);
   const touchStartY = useRef(null);
   const swipeThreshold = 50;
+
+  // Calculate dynamic scale to reach name pills bottom border (195px)
+  useEffect(() => {
+    const calculateScale = () => {
+      const vmin = Math.min(window.innerWidth, window.innerHeight);
+      const circleRadius = (24 * vmin) / 100; // 48vmin diameter / 2
+      const circleBottomOffset = (26 * vmin) / 100; // bottom: calc(2vmin + 24vmin)
+      const circleCenterY = window.innerHeight - circleBottomOffset;
+      const targetTopEdge = 195; // Bottom border of name pills
+      
+      // Scale needed so top edge reaches target
+      const scale = (circleCenterY - targetTopEdge) / circleRadius;
+      setDynamicScale(Math.max(1, scale)); // Minimum scale of 1
+    };
+
+    calculateScale();
+    window.addEventListener('resize', calculateScale);
+    return () => window.removeEventListener('resize', calculateScale);
+  }, []);
 
   // Block scrolling when menu is open or closing
   useEffect(() => {
@@ -80,11 +100,11 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
 
   return (
     <>
-      {/* Background circle - scales independently */}
+      {/* Background circle - scales dynamically to reach name pills bottom border */}
       <div 
         className="red-circle-background"
         style={{
-          transform: isOpen ? 'translateX(calc(-50% - 10px)) scale(3.85)' : 'translateX(calc(-50% - 10px)) scale(1)',
+          transform: isOpen ? `translateX(calc(-50% - 10px)) scale(${dynamicScale})` : 'translateX(calc(-50% - 10px)) scale(1)',
         }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -94,7 +114,7 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
           <div 
             className="red-circle-eyes" 
             style={{ 
-              transform: isOpen ? 'translateX(-50%) scale(0.2597)' : 'translateX(-50%)',
+              transform: isOpen ? `translateX(-50%) scale(${1 / dynamicScale})` : 'translateX(-50%)',
               transition: 'transform 1.2s ease-out',
               animationPlayState: !isOpen ? 'running' : 'paused'
             }}
