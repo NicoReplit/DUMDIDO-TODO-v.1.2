@@ -17,7 +17,7 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
     const calculateScale = () => {
       const vmin = Math.min(window.innerWidth, window.innerHeight);
       const circleRadius = (24 * vmin) / 100; // 48vmin diameter / 2
-      const circleBottomOffset = (26 * vmin) / 100; // bottom: calc(2vmin + 24vmin)
+      const circleBottomOffset = (-33.6 * vmin) / 100 + 30; // bottom: calc(-33.6vmin + 30px)
       const circleBottomY = window.innerHeight - circleBottomOffset;
       const circleCenterY = circleBottomY - circleRadius; // Subtract radius to get center (Y increases downward)
       const targetTopEdge = 195; // Bottom border of name pills
