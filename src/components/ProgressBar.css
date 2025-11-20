@@ -9,6 +9,9 @@
   border-radius: 23px;
   overflow: visible;
   border: 4px solid var(--dumbledido-border-blue);
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .progress-bar-yellow {

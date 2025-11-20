@@ -5,6 +5,9 @@
 
 .week-calendar-wrapper {
   position: relative;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .week-day-labels {
