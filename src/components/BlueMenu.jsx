@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './BlueMenu.css';
 
 function BlueMenu({ globalPin, onSavePin }) {
@@ -7,8 +7,27 @@ function BlueMenu({ globalPin, onSavePin }) {
   const [pin, setPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
   const [currentPin, setCurrentPin] = useState('');
+  const [dynamicScale, setDynamicScale] = useState(3.85);
   const touchStartX = useRef(null);
   const swipeThreshold = 50;
+
+  // Calculate dynamic scale to reach name pills bottom border (195px)
+  useEffect(() => {
+    const calculateScale = () => {
+      const vmin = Math.min(window.innerWidth, window.innerHeight);
+      const circleRadius = (24 * vmin) / 100; // 48vmin diameter / 2
+      const circleCenterY = window.innerHeight + 90; // bottom: -90px
+      const targetTopEdge = 195; // Bottom border of name pills
+      
+      // Scale needed so top edge reaches target
+      const scale = (circleCenterY - targetTopEdge) / circleRadius;
+      setDynamicScale(Math.max(1, scale)); // Minimum scale of 1
+    };
+
+    calculateScale();
+    window.addEventListener('resize', calculateScale);
+    return () => window.removeEventListener('resize', calculateScale);
+  }, []);
 
   const handleTouchStart = (e) => {
     if (isOpen) return;
@@ -100,11 +119,11 @@ function BlueMenu({ globalPin, onSavePin }) {
 
   return (
     <>
-      {/* Background circle - scales independently */}
+      {/* Background circle - scales dynamically to reach name pills bottom border */}
       <div 
         className={`blue-circle-background ${isOpen ? 'active' : ''}`}
         style={{
-          transform: isOpen ? 'scale(3.85)' : 'scale(1)',
+          transform: isOpen ? `scale(${dynamicScale})` : 'scale(1)',
         }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -114,7 +133,7 @@ function BlueMenu({ globalPin, onSavePin }) {
           <div 
             className="blue-circle-eyes" 
             style={{ 
-              transform: isOpen ? 'translateX(calc(-50% + 30px)) scale(0.2597)' : 'translateX(calc(-50% + 30px))',
+              transform: isOpen ? `translateX(calc(-50% + 30px)) scale(${1 / dynamicScale})` : 'translateX(calc(-50% + 30px))',
               transition: 'transform 1.2s ease-out',
               animationPlayState: !isOpen ? 'running' : 'paused'
             }}
