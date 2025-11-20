@@ -1,7 +1,7 @@
-/* Background circle wrapper - scales, positioned 100px right from index 4 left border (10px + 120px - 20px original offset) */
+/* Background circle wrapper - scales, left border aligned to left border of index 12 (red pill) */
 .blue-circle-background {
   position: fixed;
-  left: calc(var(--content-area-margin) + 10px + 100px);
+  left: calc(var(--content-area-margin) + 10px);
   bottom: -90px;
   transform: scale(1);
   transform-origin: center center;
@@ -13,10 +13,10 @@
   pointer-events: none;
   /* Mask to clip within content area (white background at top:195px) + 20px padding, width reduced by 60px */
   clip-path: polygon(
-    calc(var(--content-area-margin) + 10px + 100px - 20px + 60px) calc(195px - 90px - 20px),
+    calc(var(--content-area-margin) + 10px - 20px + 60px) calc(195px - 90px - 20px),
     calc(100vw - var(--content-area-margin) + 20px) calc(195px - 90px - 20px),
     calc(100vw - var(--content-area-margin) + 20px) 100vh,
-    calc(var(--content-area-margin) + 10px + 100px - 20px + 60px) 100vh
+    calc(var(--content-area-margin) + 10px - 20px + 60px) 100vh
   );
 }
 
