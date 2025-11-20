@@ -54,8 +54,12 @@ body {
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
   font-weight: 500;
+  overflow-x: hidden; /* Clip everything horizontally to viewport width */
 }
 
 #root {
   min-height: 100vh;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  overflow: hidden; /* Clip content to max-content-width boundaries */
 }
