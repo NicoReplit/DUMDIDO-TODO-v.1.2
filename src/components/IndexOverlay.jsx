@@ -18,7 +18,7 @@ export default function IndexOverlay() {
     // Bottom UI elements - left to right
     { id: 10, label: 'Blue Circle (celebration-circle-wiggle)', bottom: 'calc(-90px + 24vmin)', left: 'calc(-35px + 24vmin)', transform: 'translate(-50%, 50%)' },
     { id: 11, label: 'Blue Plus Button (Quarter Circle)', bottom: '30px', right: '30px', transform: 'translate(50%, 50%)' },
-    { id: 12, label: 'Left Red Pill (Super Points)', bottom: 'calc(15vmin + 45px)', right: 'calc(-50px + 260px * 1.1)', transform: 'translate(50%, 50%)' },
+    { id: 12, label: 'Left Red Pill (Super Points)', bottom: 'calc(15vmin + 45px)', right: 'calc(-50px + 260px * 1.1 * 0.5 - 15px)', transform: 'translate(50%, 50%)' },
     { id: 13, label: 'Red Circle Menu (Bottom Center)', bottom: 'calc(2vmin + 24vmin)', left: '50%', transform: 'translate(-50%, 50%)' },
     { id: 14, label: 'Right Pink Pill (Pause/Done)', bottom: 'calc(15vmin + 45px)', right: 'calc(50px + 260px * 1.1 * 0.766 - 45px)', transform: 'translate(50%, 50%)' },
     { id: 15, label: 'Pink ZigZag Character', bottom: 'calc(2vmin + 130px)', right: 'calc(-50px + 260px * 1.1 * 0.5)', transform: 'translate(50%, 50%)' },
