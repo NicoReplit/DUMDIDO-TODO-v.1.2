@@ -11,6 +11,13 @@
   user-select: none;
   -webkit-user-select: none;
   pointer-events: none;
+  /* Mask to clip within content area (white background at top:195px) + 20px padding */
+  clip-path: polygon(
+    calc(var(--content-left-boundary) - 15px - 20px) calc(195px - 90px - 20px),
+    calc(100vw - var(--content-area-margin) + 20px) calc(195px - 90px - 20px),
+    calc(100vw - var(--content-area-margin) + 20px) 100vh,
+    calc(var(--content-left-boundary) - 15px - 20px) 100vh
+  );
 }
 
 .blue-circle-background.active {
