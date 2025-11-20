@@ -7,6 +7,26 @@ function CelebrationMenu({ celebrationData, onClose }) {
   const [closing, setClosing] = useState(false);
   const [moonRx, setMoonRx] = useState(80);
   const [moonRy, setMoonRy] = useState(48);
+  const [dynamicScale, setDynamicScale] = useState(4.62);
+
+  // Calculate dynamic scale to reach name pills bottom border (195px)
+  useEffect(() => {
+    const calculateScale = () => {
+      const vmin = Math.min(window.innerWidth, window.innerHeight);
+      const circleRadius = (24 * vmin) / 100; // 48vmin diameter / 2
+      const circleBottomOffset = (-33.6 * vmin) / 100 + 50; // bottom: calc(-33.6vmin + 50px)
+      const circleCenterY = window.innerHeight - circleBottomOffset;
+      const targetTopEdge = 195; // Bottom border of name pills
+      
+      // Scale needed so top edge reaches target
+      const scale = (circleCenterY - targetTopEdge) / circleRadius;
+      setDynamicScale(Math.max(0.8, scale)); // Minimum scale of 0.8 (default starting scale)
+    };
+
+    calculateScale();
+    window.addEventListener('resize', calculateScale);
+    return () => window.removeEventListener('resize', calculateScale);
+  }, []);
 
   const handleClose = () => {
     setClosing(true);
@@ -106,18 +126,18 @@ function CelebrationMenu({ celebrationData, onClose }) {
       {/* Confetti animation */}
       <Confetti isActive={isOpen} />
       
-      {/* Background circle - scales independently */}
+      {/* Background circle - scales dynamically to reach name pills bottom border */}
       <div 
         className={`celebration-circle-background ${isOpen ? 'active' : ''}`}
         style={{
-          transform: isOpen ? 'translateX(-50%) scale(4.62) rotate(22deg)' : 'translateX(-50%) scale(0.8) rotate(22deg)',
+          transform: isOpen ? `translateX(-50%) scale(${dynamicScale}) rotate(22deg)` : 'translateX(-50%) scale(0.8) rotate(22deg)',
         }}
       >
         <div className={`celebration-circle ${!isOpen ? 'wiggling' : ''}`}>
           <div 
             className="celebration-circle-eyes"
             style={{
-              transform: isOpen ? 'translate(-50%, -20px) scale(0.1732)' : 'translateX(-50%)',
+              transform: isOpen ? `translate(-50%, -20px) scale(${1 / dynamicScale})` : 'translateX(-50%)',
               transition: 'transform 0.6s ease-out'
             }}
           >
