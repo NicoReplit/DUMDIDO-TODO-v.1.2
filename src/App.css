@@ -293,10 +293,10 @@
   justify-content: center;
 }
 
-/* Right pink pill - 20px inward from left border of index 15 (ZigZag) */
+/* Right pink pill - 30px inward from left border of index 15 (ZigZag) */
 .right-green-pill {
   position: fixed;
-  right: calc(var(--content-right-boundary) + 176px);
+  right: calc(var(--content-right-boundary) + 166px);
   bottom: -120px;
   width: 90px;
   height: 280px;
