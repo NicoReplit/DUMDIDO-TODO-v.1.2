@@ -284,10 +284,10 @@
   justify-content: center;
 }
 
-/* Right pink pill - pause button positioned with left edge at left edge of pink ZigZag SVG */
+/* Right pink pill - pause button positioned with 40px offset to the right from ZigZag left edge */
 .right-green-pill {
   position: fixed;
-  right: 146px;
+  right: 106px;
   bottom: -120px;
   width: 90px;
   height: 280px;
