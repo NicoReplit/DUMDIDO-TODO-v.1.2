@@ -186,10 +186,19 @@
   margin: 0 0 20px 0;
 }
 
+/* ZigZag wrapper positioned to right boundary */
+.zigzag-wrapper {
+  position: fixed;
+  bottom: -100px;
+  right: calc(100vw - var(--content-right-boundary) - 40px);
+  transform: rotate(20deg) scale(1.1);
+  z-index: 5000;
+}
+
 /* Left red pill */
 .left-red-pill {
   position: fixed;
-  left: 0;
+  left: var(--content-left-boundary);
   bottom: 0;
   width: 80px;
   height: 200px;
