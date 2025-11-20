@@ -16,6 +16,7 @@ import PerfectDayCelebration from './components/PerfectDayCelebration';
 import QuarterCircle from './components/QuarterCircle';
 import ZigZag from './components/ZigZag';
 import DeleteConfirmationModal from './components/DeleteConfirmationModal';
+import IndexOverlay from './components/IndexOverlay';
 import './App.css';
 
 function App() {
@@ -955,6 +956,8 @@ function App() {
           </div>
         </div>
       </button>
+
+      <IndexOverlay />
     </div>
   );
 }
