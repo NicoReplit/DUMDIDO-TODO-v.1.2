@@ -26,6 +26,12 @@
   --z-modal-content: 11001;
   --z-celebration-overlay: 12000;
   --z-confetti: 13000;
+  
+  /* Content boundaries based on white header box (index 4) */
+  /* White box is at left: 10px, width: calc(100vw - 25px), max-width: 775px */
+  --content-left-boundary: -10px;  /* 20px left of white box left edge (10px - 20px) */
+  --content-right-boundary: calc(100vw + 5px);  /* 20px right of white box right edge */
+  --content-max-right-boundary: 805px;  /* At max width: 10px + 775px + 20px */
 }
 
 * {
