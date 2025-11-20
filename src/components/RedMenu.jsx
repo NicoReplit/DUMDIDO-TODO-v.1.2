@@ -27,7 +27,8 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
       
       // Scale needed so top edge reaches target: centerY - (radius * scale) = targetTop
       const scale = (circleCenterY - targetTopEdge) / circleRadius;
-      setDynamicScale(Math.max(1, scale)); // Minimum scale of 1
+      const reducedScale = scale * 0.8; // Reduce by 20%
+      setDynamicScale(Math.max(1, reducedScale)); // Minimum scale of 1
     };
 
     calculateScale();

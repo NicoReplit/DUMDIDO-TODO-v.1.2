@@ -24,7 +24,8 @@ function CelebrationMenu({ celebrationData, onClose }) {
       
       // Scale needed so top edge reaches target: centerY - (radius * scale) = targetTop
       const scale = (circleCenterY - targetTopEdge) / circleRadius;
-      setDynamicScale(Math.max(0.8, scale)); // Minimum scale of 0.8 (default starting scale)
+      const reducedScale = scale * 0.8; // Reduce by 20%
+      setDynamicScale(Math.max(0.8, reducedScale)); // Minimum scale of 0.8 (default starting scale)
     };
 
     calculateScale();
