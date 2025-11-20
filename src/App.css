@@ -48,7 +48,7 @@
   max-width: calc(var(--max-content-width) - 25px);
   background: white;
   position: absolute;
-  top: 195px;
+  top: 205px;
   bottom: 0;
   left: 10px;
   box-shadow: 5px 5px 0 var(--dumbledido-blue);
