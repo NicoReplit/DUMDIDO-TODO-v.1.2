@@ -195,10 +195,10 @@
   z-index: 5000;
 }
 
-/* Left red pill */
+/* Left red pill - aligned to left edge of white box (index 4) */
 .left-red-pill {
   position: fixed;
-  left: var(--content-left-boundary);
+  left: calc(var(--content-area-margin) + 10px);
   bottom: 0;
   width: 80px;
   height: 200px;
