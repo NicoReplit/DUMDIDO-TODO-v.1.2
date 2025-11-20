@@ -224,7 +224,7 @@
 /* Left green pill - duplicate of red pill */
 .left-green-pill {
   position: fixed;
-  left: 80px;
+  left: calc(var(--content-left-boundary) + 100px);
   bottom: -120px;
   width: 90px;
   height: 280px;
@@ -293,10 +293,10 @@
   justify-content: center;
 }
 
-/* Right pink pill - pause button positioned with 40px offset to the right from ZigZag left edge */
+/* Right pink pill - pause button positioned with offset from right boundary */
 .right-green-pill {
   position: fixed;
-  right: 106px;
+  right: calc(var(--content-right-boundary) + 126px);
   bottom: -120px;
   width: 90px;
   height: 280px;
