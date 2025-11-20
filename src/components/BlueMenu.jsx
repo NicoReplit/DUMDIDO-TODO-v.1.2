@@ -16,10 +16,11 @@ function BlueMenu({ globalPin, onSavePin }) {
     const calculateScale = () => {
       const vmin = Math.min(window.innerWidth, window.innerHeight);
       const circleRadius = (24 * vmin) / 100; // 48vmin diameter / 2
-      const circleCenterY = window.innerHeight + 90; // bottom: -90px
+      const circleBottomY = window.innerHeight + 90; // bottom: -90px
+      const circleCenterY = circleBottomY - circleRadius; // Subtract radius to get center (Y increases downward)
       const targetTopEdge = 195; // Bottom border of name pills
       
-      // Scale needed so top edge reaches target
+      // Scale needed so top edge reaches target: centerY - (radius * scale) = targetTop
       const scale = (circleCenterY - targetTopEdge) / circleRadius;
       setDynamicScale(Math.max(1, scale)); // Minimum scale of 1
     };

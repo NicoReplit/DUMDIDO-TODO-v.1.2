@@ -15,10 +15,11 @@ function CelebrationMenu({ celebrationData, onClose }) {
       const vmin = Math.min(window.innerWidth, window.innerHeight);
       const circleRadius = (24 * vmin) / 100; // 48vmin diameter / 2
       const circleBottomOffset = (-33.6 * vmin) / 100 + 50; // bottom: calc(-33.6vmin + 50px)
-      const circleCenterY = window.innerHeight - circleBottomOffset;
+      const circleBottomY = window.innerHeight - circleBottomOffset;
+      const circleCenterY = circleBottomY - circleRadius; // Subtract radius to get center (Y increases downward)
       const targetTopEdge = 195; // Bottom border of name pills
       
-      // Scale needed so top edge reaches target
+      // Scale needed so top edge reaches target: centerY - (radius * scale) = targetTop
       const scale = (circleCenterY - targetTopEdge) / circleRadius;
       setDynamicScale(Math.max(0.8, scale)); // Minimum scale of 0.8 (default starting scale)
     };
