@@ -16,7 +16,7 @@ This document maps index numbers to actual UI objects for easy identification an
 | 8 | Week Calendar | `WeekCalendar` component | `src/components/WeekCalendar.jsx` | Orange/yellow calendar with eyes |
 | 9 | Todo List | `TodoList` component | `src/components/TodoList.jsx` | Todo cards area |
 | 10 | Blue Circle | `.blue-circle-background` | `src/components/BlueMenu.css` | Blue circle with eyes (settings menu) - aligned to LEFT boundary |
-| 11 | Add Button | `.quarter-circle-wrapper` | `src/components/QuarterCircle.css` | Blue quarter circle with plus - aligned to RIGHT boundary |
+| 11 | Add Button | `.quarter-circle-wrapper` | `src/components/QuarterCircle.css` | Blue quarter circle with plus - aligned to RIGHT EDGE of main content |
 | 12 | Super Points Pill | `.left-red-pill` | `src/App.css` | Red pill with star (left side) - aligned to LEFT boundary |
 | 13 | Red Circle Menu | `RedMenu` component | `src/components/RedMenu.jsx` | Red circle with eyes (bottom center) |
 | 14 | Pause/Done Pill | `.right-green-pill` | `src/App.css` | Pink pill (pause/done button) |
@@ -37,8 +37,11 @@ Based on the main centered content area (`.dumbledido-app` with `max-width: 800p
 **Elements aligned to LEFT boundary (index 10, 12):**
 - Use `left: var(--content-left-boundary)` or relative calculations
 
-**Elements aligned to RIGHT boundary (index 11, 15):**
-- Use `right: var(--content-right-boundary)` for alignment
+**Elements aligned to RIGHT edge of main content (index 11):**
+- Use `right: var(--content-area-margin)` to stick to the right edge
+
+**Elements aligned to RIGHT boundary (index 15):**
+- Use `right: var(--content-right-boundary)` for alignment (20px beyond content edge)
 
 ## Usage
 
