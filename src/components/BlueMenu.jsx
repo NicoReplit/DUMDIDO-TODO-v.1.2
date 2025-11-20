@@ -11,14 +11,17 @@ function BlueMenu({ globalPin, onSavePin }) {
   const touchStartX = useRef(null);
   const swipeThreshold = 50;
 
-  // Calculate dynamic scale to reach name pills bottom border (195px)
+  // Calculate dynamic scale to reach the blue line (header bottom border)
   useEffect(() => {
     const calculateScale = () => {
       const vmin = Math.min(window.innerWidth, window.innerHeight);
       const circleRadius = (24 * vmin) / 100; // 48vmin diameter / 2
       const circleBottomY = window.innerHeight + 90; // bottom: -90px
       const circleCenterY = circleBottomY - circleRadius; // Subtract radius to get center (Y increases downward)
-      const targetTopEdge = 250; // Target position from top
+      
+      // Get the blue line position (bottom of header with blue border)
+      const header = document.querySelector('.dumbledido-header');
+      const targetTopEdge = header ? header.getBoundingClientRect().bottom : 195;
       
       // Scale needed so top edge reaches target: centerY - (radius * scale) = targetTop
       const scale = (circleCenterY - targetTopEdge) / circleRadius;

@@ -12,7 +12,7 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
   const touchStartY = useRef(null);
   const swipeThreshold = 50;
 
-  // Calculate dynamic scale to reach name pills bottom border (195px)
+  // Calculate dynamic scale to reach the blue line (header bottom border)
   useEffect(() => {
     const calculateScale = () => {
       const vmin = Math.min(window.innerWidth, window.innerHeight);
@@ -20,7 +20,10 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
       const circleBottomOffset = (-33.6 * vmin) / 100 + 30; // bottom: calc(-33.6vmin + 30px)
       const circleBottomY = window.innerHeight - circleBottomOffset;
       const circleCenterY = circleBottomY - circleRadius; // Subtract radius to get center (Y increases downward)
-      const targetTopEdge = 250; // Target position from top
+      
+      // Get the blue line position (bottom of header with blue border)
+      const header = document.querySelector('.dumbledido-header');
+      const targetTopEdge = header ? header.getBoundingClientRect().bottom : 195;
       
       // Scale needed so top edge reaches target: centerY - (radius * scale) = targetTop
       const scale = (circleCenterY - targetTopEdge) / circleRadius;
