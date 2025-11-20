@@ -36,17 +36,6 @@
   --content-area-margin: max(0px, calc((100vw - var(--max-content-width)) / 2));  /* Margin on each side when centered */
   --content-left-boundary: calc(var(--content-area-margin) - 20px);  /* 20px beyond left edge */
   --content-right-boundary: calc(var(--content-area-margin) - 20px);  /* 20px beyond right edge (from screen edge) */
-  
-  /* Circle animation scale calculations to reach index 5 (15vh from top = 85vh from bottom) */
-  /* Red circle (index 13): bottom at -33.6vmin + 30px, size 48vmin, center at -9.6vmin + 30px */
-  /* Target distance from center: 85vh + 9.6vmin - 30px, divided by radius (24vmin) */
-  --red-circle-max-scale: calc((85vh + 9.6vmin - 30px) / 24vmin);
-  --red-circle-eye-scale: calc(24vmin / (85vh + 9.6vmin - 30px));
-  
-  /* Celebration circle (index 10): bottom at -33.6vmin + 50px, size 48vmin, center at -9.6vmin + 50px */
-  /* Target distance from center: 85vh + 9.6vmin - 50px, divided by radius (24vmin) */
-  --celebration-circle-max-scale: calc((85vh + 9.6vmin - 50px) / 24vmin);
-  --celebration-circle-eye-scale: calc(24vmin / (85vh + 9.6vmin - 50px));
 }
 
 * {
