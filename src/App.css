@@ -284,10 +284,10 @@
   justify-content: center;
 }
 
-/* Right pink pill - duplicate of left green pill for pause button */
+/* Right pink pill - pause button positioned at right edge */
 .right-green-pill {
   position: fixed;
-  left: 170px;
+  right: 0;
   bottom: -120px;
   width: 90px;
   height: 280px;
