@@ -84,7 +84,7 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
       <div 
         className="red-circle-background"
         style={{
-          transform: isOpen ? 'translateX(calc(-50% - 10px)) scale(3.85)' : 'translateX(calc(-50% - 10px)) scale(1)',
+          transform: isOpen ? 'translateX(calc(-50% - 10px)) scale(var(--red-circle-max-scale))' : 'translateX(calc(-50% - 10px)) scale(1)',
         }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -94,7 +94,7 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
           <div 
             className="red-circle-eyes" 
             style={{ 
-              transform: isOpen ? 'translateX(-50%) scale(0.2597)' : 'translateX(-50%)',
+              transform: isOpen ? 'translateX(-50%) scale(var(--red-circle-eye-scale))' : 'translateX(-50%)',
               transition: 'transform 1.2s ease-out',
               animationPlayState: !isOpen ? 'running' : 'paused'
             }}

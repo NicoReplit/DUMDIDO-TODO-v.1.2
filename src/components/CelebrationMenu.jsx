@@ -110,14 +110,14 @@ function CelebrationMenu({ celebrationData, onClose }) {
       <div 
         className={`celebration-circle-background ${isOpen ? 'active' : ''}`}
         style={{
-          transform: isOpen ? 'translateX(-50%) scale(4.62) rotate(22deg)' : 'translateX(-50%) scale(0.8) rotate(22deg)',
+          transform: isOpen ? 'translateX(-50%) scale(var(--celebration-circle-max-scale)) rotate(22deg)' : 'translateX(-50%) scale(0.8) rotate(22deg)',
         }}
       >
         <div className={`celebration-circle ${!isOpen ? 'wiggling' : ''}`}>
           <div 
             className="celebration-circle-eyes"
             style={{
-              transform: isOpen ? 'translate(-50%, -20px) scale(0.1732)' : 'translateX(-50%)',
+              transform: isOpen ? 'translate(-50%, -20px) scale(var(--celebration-circle-eye-scale))' : 'translateX(-50%)',
               transition: 'transform 0.6s ease-out'
             }}
           >
