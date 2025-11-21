@@ -24,6 +24,7 @@
   height: 48px;
   flex-shrink: 0;
   margin: 10px 5px;
+  overflow: visible;
 }
 
 /* Background pill - only visible when selected */
@@ -35,13 +36,9 @@
   height: calc(48px + 8px);
   border-radius: 30px;
   background: #f0f1f2;
-  z-index: 0;
+  z-index: 1;
   opacity: 0;
   transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.user-pill-wrapper.selected .user-pill-background {
-  opacity: 1;
 }
 
 /* Move background with the pill when active */
