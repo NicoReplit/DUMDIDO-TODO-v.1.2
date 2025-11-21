@@ -27,21 +27,13 @@
   display: inline-block;
 }
 
-.letter-d1 { color: var(--dumbledido-blue); }
-.letter-u { color: var(--dumbledido-yellow); }
-.letter-m { color: var(--dumbledido-red); }
-.letter-b { color: var(--dumbledido-red); }
-.letter-l { color: var(--dumbledido-blue); }
-.letter-e { color: var(--dumbledido-yellow); }
-.letter-d2 { color: var(--dumbledido-blue); }
-.letter-i { color: var(--dumbledido-red); }
-.letter-d3 { color: var(--dumbledido-blue); }
-.letter-o { color: var(--dumbledido-yellow); }
-.letter-t { color: var(--dumbledido-yellow); }
-.letter-h { color: #333; }
-.letter-e2 { color: #333; }
-.letter-d4 { color: var(--dumbledido-blue); }
-.letter-o2 { color: var(--dumbledido-yellow); }
+.letter-d { color: var(--dumbledido-blue); font-weight: 700; }
+.letter-u { color: var(--dumbledido-pink); font-weight: 700; }
+.letter-m { color: var(--dumbledido-red); font-weight: 700; }
+.letter-b { color: var(--dumbledido-green); font-weight: 700; }
+.letter-di { color: var(--dumbledido-blue); font-weight: 700; }
+.letter-do { color: white; font-weight: 700; }
+.letter-thedo { color: white; font-weight: 400; }
 
 .custom-rectangle {
   width: calc(100vw - 30px);

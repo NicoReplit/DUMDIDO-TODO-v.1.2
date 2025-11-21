@@ -692,20 +692,14 @@ function App() {
     <div className="app dumbledido-app">
       <header className="app-header dumbledido-header">
         <h1 className="dumbledido-logo">
-          <span className="letter-d1">D</span>
+          <span className="letter-d">D</span>
           <span className="letter-u">U</span>
           <span className="letter-m">M</span>
-          <span className="letter-d2">D</span>
-          <span className="letter-i">I</span>
-          <span className="letter-d3">D</span>
-          <span className="letter-o">O</span>
-          <span className="letter-space">-</span>
-          <span className="letter-t">T</span>
-          <span className="letter-h">H</span>
-          <span className="letter-e2">E</span>
-          <span className="letter-space">-</span>
-          <span className="letter-d4">D</span>
-          <span className="letter-o2">O</span>
+          <span className="letter-b">B</span>
+          <span className="letter-di">DI</span>
+          <span className="letter-do">DO</span>
+          <span className="letter-space"> </span>
+          <span className="letter-thedo">THE DO</span>
         </h1>
         <div className="header-content">
           <div className="header-subtitle">FAMILIEN-AUFGABENLISTE</div>
