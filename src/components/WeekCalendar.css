@@ -81,11 +81,11 @@
 .week-days-container {
   position: absolute;
   top: 0;
-  left: 74px;
-  right: 12px;
+  left: 70px;
+  right: 8px;
   height: 100%;
   display: flex;
-  gap: 12px;
+  gap: 8px;
   z-index: 2;
 }
 
@@ -166,9 +166,9 @@
   }
 
   .week-days-container {
-    left: 61px;
-    right: 8px;
-    gap: 8px;
+    left: 58px;
+    right: 6px;
+    gap: 6px;
   }
 
   .week-day-eye {
