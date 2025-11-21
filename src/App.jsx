@@ -47,11 +47,24 @@ function App() {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [todoToDelete, setTodoToDelete] = useState(null);
   const [deleteScope, setDeleteScope] = useState(null); // 'single' or 'series'
+  const [showIndexOverlay, setShowIndexOverlay] = useState(false);
 
   useEffect(() => {
     fetchUsers();
     fetchOpenTodos();
     fetchGlobalSettings();
+  }, []);
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'i') {
+        e.preventDefault();
+        setShowIndexOverlay(prev => !prev);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
   }, []);
 
   useEffect(() => {
@@ -946,7 +959,7 @@ function App() {
         </div>
       </button>
 
-      <IndexOverlay />
+      {showIndexOverlay && <IndexOverlay />}
     </div>
   );
 }
