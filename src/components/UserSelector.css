@@ -37,10 +37,16 @@
   background: #f0f1f2;
   z-index: 0;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .user-pill-wrapper.selected .user-pill-background {
+  opacity: 1;
+}
+
+/* Move background with the pill when active */
+.user-pill-wrapper:has(.active) .user-pill-background {
+  transform: translate(-5px, -5px);
   opacity: 1;
 }
 
