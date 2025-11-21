@@ -8,9 +8,10 @@
 }
 
 .dumbledido-header {
-  background: white;
+  background: transparent;
   padding: 15px 20px;
   position: relative;
+  z-index: 100;
 }
 
 .dumbledido-logo {
@@ -67,6 +68,8 @@
   font-weight: 600;
   color: var(--dumbledido-blue);
   letter-spacing: 0.5px;
+  position: relative;
+  z-index: 101;
 }
 
 .header-buttons {
@@ -112,6 +115,8 @@
   cursor: pointer;
   font-family: 'MuseoModerno', sans-serif;
   text-align: center;
+  position: relative;
+  z-index: 101;
 }
 
 .date-pill::-webkit-calendar-picker-indicator {
