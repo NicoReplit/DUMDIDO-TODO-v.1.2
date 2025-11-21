@@ -143,8 +143,11 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
         <div
           key={user.id}
           data-user-id={user.id}
-          className={`user-pill-wrapper ${swipedId === user.id ? 'swiped' : ''}`}
+          className={`user-pill-wrapper ${swipedId === user.id ? 'swiped' : ''} ${currentUser?.id === user.id ? 'selected' : ''}`}
         >
+          {/* Background pill - only visible when selected */}
+          <div className="user-pill-background"></div>
+          
           {/* Bottom layer - GREEN (#38D247), edit button only */}
           <div className="user-pill-layer user-pill-bottom">
             <button
