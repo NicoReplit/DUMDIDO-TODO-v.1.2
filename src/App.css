@@ -10,7 +10,6 @@
 .dumbledido-header {
   background: white;
   padding: 15px 20px;
-  border-bottom: 4px solid var(--dumbledido-border-blue);
   position: relative;
 }
 
@@ -44,14 +43,14 @@
 .letter-o2 { color: var(--dumbledido-yellow); }
 
 .custom-rectangle {
-  width: calc(100vw - 25px);
-  max-width: calc(var(--max-content-width) - 25px);
+  width: calc(100vw - 30px);
+  max-width: calc(var(--max-content-width) - 30px);
   background: white;
   position: absolute;
-  top: 205px;
+  top: 51px;
   bottom: 0;
-  left: 10px;
-  box-shadow: 5px 5px 0 var(--dumbledido-blue);
+  left: 7px;
+  box-shadow: 8px 8px 0 var(--dumbledido-blue);
   z-index: var(--z-base);
   pointer-events: none;
 }
@@ -102,7 +101,7 @@
 }
 
 .date-pill {
-  background: var(--dumbledido-yellow);
+  background: transparent;
   color: var(--dumbledido-blue);
   padding: 8px 20px;
   border-radius: 30px;
