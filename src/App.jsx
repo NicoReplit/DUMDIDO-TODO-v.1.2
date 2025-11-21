@@ -733,6 +733,7 @@ function App() {
       />
 
       <div className="custom-rectangle"></div>
+      <div className="grey-rectangle"></div>
 
       {currentUser && !isOpenListSelected && (
         <ProgressBar points={currentUser.total_points || 0} maxPoints={maxPoints} />
