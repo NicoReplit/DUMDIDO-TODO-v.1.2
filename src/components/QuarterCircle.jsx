@@ -47,7 +47,7 @@ function QuarterCircle({ onClick, isMenuOpen }) {
         style={{ display: 'block' }}
       >
         <path
-          d="M 60 60 L 60 0 A 60 60 0 0 0 0 60 Z"
+          d="M 0 60 L 60 60 L 60 0 A 60 60 0 0 1 0 60 Z"
           fill="#0061EE"
         />
       </svg>
