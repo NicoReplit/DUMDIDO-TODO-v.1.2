@@ -1,0 +1,155 @@
+/* Background circle wrapper - scales from quarter circle button center */
+.todo-menu-background {
+  position: fixed;
+  right: calc(var(--content-area-margin) + 15px);
+  bottom: 0;
+  transform: scale(1);
+  transform-origin: calc(100% - 30px) calc(100% - 30px);
+  transition: transform 1.2s ease-out;
+  z-index: var(--z-menu);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  display: none;
+}
+
+.todo-menu-background.menu-open {
+  display: block;
+}
+
+.todo-menu-circle {
+  width: 48vmin;
+  height: 48vmin;
+  background-color: var(--dumbledido-blue);
+  border-radius: 50%;
+  position: relative;
+  pointer-events: auto;
+}
+
+.todo-menu-eyes {
+  position: absolute;
+  top: -19px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.todo-menu-eye {
+  width: 38px;
+  height: 38px;
+  background: white;
+  border-radius: 50%;
+  position: relative;
+}
+
+.todo-menu-eye:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.todo-menu-eye::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: #000000;
+  border-radius: 50%;
+  top: 30%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+}
+
+/* Menu overlay - transparent to show blue circle */
+.todo-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: calc(var(--z-menu) + 1);
+  pointer-events: auto;
+  padding: 20px;
+}
+
+.todo-menu-content {
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  background: transparent;
+  border-radius: 0;
+  padding: 30px;
+  box-shadow: none;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  pointer-events: auto;
+}
+
+/* Menu buttons - DUMBLEDIDO style */
+.todo-menu-button {
+  font-family: 'MuseoModerno', sans-serif;
+  width: 100%;
+  height: 56px;
+  padding: 12px 24px;
+  border-radius: 28px;
+  border: none;
+  background-color: var(--dumbledido-yellow);
+  box-shadow: 5px 5px 0 0 var(--dumbledido-pink);
+  color: black;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.1s;
+  box-sizing: border-box;
+}
+
+.todo-menu-button:active {
+  transform: scale(0.95);
+}
+
+/* Animation classes for staggered entrance */
+.todo-button-animate-1 {
+  animation: slideInPillTodo 0.6s ease-out 0.3s both;
+}
+
+.todo-button-animate-2 {
+  animation: slideInPillTodo 0.6s ease-out 0.4s both;
+}
+
+@keyframes slideInPillTodo {
+  0% {
+    opacity: 0;
+    transform: translateY(50vh);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Closing animations */
+.todo-button-animate-1-close {
+  animation: slideOutPillTodo 0.6s ease-in 0.2s both;
+}
+
+.todo-button-animate-2-close {
+  animation: slideOutPillTodo 0.6s ease-in 0.1s both;
+}
+
+@keyframes slideOutPillTodo {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(50vh);
+  }
+}

@@ -13,8 +13,8 @@
 .week-day-labels {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 0 12px 0 12px;
+  gap: 8px;
+  padding: 0 8px 0 8px;
   margin-bottom: -1px;
   position: relative;
   z-index: 2;
@@ -81,7 +81,7 @@
 .week-days-container {
   position: absolute;
   top: 0;
-  left: 70px;
+  left: 66px;
   right: 8px;
   height: 100%;
   display: flex;
@@ -139,8 +139,8 @@
 
 @media (max-width: 600px) {
   .week-day-labels {
-    gap: 8px;
-    padding: 0 8px 0 8px;
+    gap: 6px;
+    padding: 0 6px 0 6px;
     margin-bottom: -1px;
   }
 
@@ -166,7 +166,7 @@
   }
 
   .week-days-container {
-    left: 58px;
+    left: 57px;
     right: 6px;
     gap: 6px;
   }

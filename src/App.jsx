@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import UserSelector from './components/UserSelector';
 import TodoList from './components/TodoList';
 import TodoForm from './components/TodoForm';
@@ -17,6 +17,7 @@ import QuarterCircle from './components/QuarterCircle';
 import ZigZag from './components/ZigZag';
 import DeleteConfirmationModal from './components/DeleteConfirmationModal';
 import IndexOverlay from './components/IndexOverlay';
+import TodoMenu from './components/TodoMenu';
 import './App.css';
 
 function App() {
@@ -48,6 +49,10 @@ function App() {
   const [todoToDelete, setTodoToDelete] = useState(null);
   const [deleteScope, setDeleteScope] = useState(null); // 'single' or 'series'
   const [showIndexOverlay, setShowIndexOverlay] = useState(false);
+  const [showTodoMenu, setShowTodoMenu] = useState(false);
+  const prevUserIdRef = useRef(null);
+  const prevOpenListRef = useRef(false);
+  const isInitializedRef = useRef(false);
 
   useEffect(() => {
     fetchUsers();
@@ -72,6 +77,32 @@ function App() {
       fetchTodos();
     }
   }, [currentUser, currentDate]);
+
+  // Auto-close TodoMenu when form opens or when user/list selection changes
+  useEffect(() => {
+    if (showForm) {
+      setShowTodoMenu(false);
+    }
+  }, [showForm]);
+
+  useEffect(() => {
+    const currentUserId = currentUser?.id || null;
+    
+    // Only check for changes after initialization
+    if (isInitializedRef.current) {
+      const userChanged = prevUserIdRef.current !== currentUserId;
+      const openListChanged = prevOpenListRef.current !== isOpenListSelected;
+      
+      if (userChanged || openListChanged) {
+        setShowTodoMenu(false);
+      }
+    } else {
+      isInitializedRef.current = true;
+    }
+    
+    prevUserIdRef.current = currentUserId;
+    prevOpenListRef.current = isOpenListSelected;
+  }, [currentUser?.id, isOpenListSelected]);
   
   useEffect(() => {
     fetchOpenTodos();
@@ -836,12 +867,26 @@ function App() {
         />
       )}
       <QuarterCircle onClick={() => {
-        if (!currentUser && !isOpenListSelected) {
-          alert('Bitte zuerst einen Benutzer auswählen!');
-          return;
-        }
-        setShowForm(true);
+        setShowTodoMenu(true);
       }} />
+
+      <TodoMenu 
+        isOpen={showTodoMenu}
+        onClose={() => setShowTodoMenu(false)}
+        onAddTodo={() => {
+          if (!currentUser && !isOpenListSelected) {
+            alert('Bitte zuerst einen Benutzer auswählen!');
+            return;
+          }
+          setShowTodoMenu(false);
+          setShowForm(true);
+        }}
+        onOpenList={() => {
+          setShowTodoMenu(false);
+          setCurrentUser(null);
+          setIsOpenListSelected(true);
+        }}
+      />
       
       <div className="zigzag-wrapper">
         <ZigZag />
