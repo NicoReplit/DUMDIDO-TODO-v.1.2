@@ -48,7 +48,7 @@ function QuarterCircle({ onClick, isMenuOpen }) {
       >
         <circle
           cx="0"
-          cy="0"
+          cy="60"
           r="60"
           fill="#0061EE"
         />
