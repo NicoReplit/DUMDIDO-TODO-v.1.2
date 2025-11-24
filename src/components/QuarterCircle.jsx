@@ -47,7 +47,7 @@ function QuarterCircle({ onClick, isMenuOpen }) {
         xmlns="http://www.w3.org/2000/svg"
       >
         <circle
-          cx="60"
+          cx="0"
           cy="0"
           r="60"
           fill="#0061EE"
