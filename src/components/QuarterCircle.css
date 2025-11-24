@@ -22,7 +22,7 @@
 
 .quarter-circle-cross {
   position: absolute;
-  top: 65%;
-  left: 65%;
-  transform: translate(-50%, -50%) rotate(45deg);
+  top: 35%;
+  left: 35%;
+  transform: translate(-50%, -50%) rotate(135deg);
 }
