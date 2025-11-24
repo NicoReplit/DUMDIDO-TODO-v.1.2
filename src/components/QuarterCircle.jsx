@@ -45,12 +45,14 @@ function QuarterCircle({ onClick, isMenuOpen }) {
         height="60" 
         viewBox="0 0 60 60"
         xmlns="http://www.w3.org/2000/svg"
+        shapeRendering="geometricPrecision"
       >
         <circle
           cx="60"
           cy="60"
           r="60"
           fill="#0061EE"
+          vectorEffect="non-scaling-stroke"
         />
       </svg>
       <svg 
