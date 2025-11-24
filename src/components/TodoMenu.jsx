@@ -3,31 +3,9 @@ import './TodoMenu.css';
 
 function TodoMenu({ isOpen, onClose, onAddTodo, onOpenList }) {
   const [closing, setClosing] = useState(false);
-  const [dynamicScale, setDynamicScale] = useState(1);
   const touchStartX = useRef(null);
   const touchStartY = useRef(null);
   const swipeThreshold = 50;
-
-  // Calculate dynamic scale to fill screen from bottom-right
-  useEffect(() => {
-    const calculateScale = () => {
-      const header = document.querySelector('.dumbledido-header');
-      const targetTop = header ? header.getBoundingClientRect().bottom : 195;
-      
-      // Calculate scale needed to reach from bottom-right to top
-      const viewportHeight = window.innerHeight;
-      const originY = viewportHeight - 30; // 30px from bottom
-      const scale = ((originY - targetTop) / 30) * 0.8; // 80% of full scale
-      
-      setDynamicScale(Math.max(1, scale));
-    };
-
-    if (isOpen) {
-      calculateScale();
-      window.addEventListener('resize', calculateScale);
-      return () => window.removeEventListener('resize', calculateScale);
-    }
-  }, [isOpen]);
 
   // Block scrolling when menu is open or closing
   useEffect(() => {
@@ -98,15 +76,7 @@ function TodoMenu({ isOpen, onClose, onAddTodo, onOpenList }) {
 
   return (
     <>
-      {/* Blue circle background - scales from bottom-right (always rendered, like QuarterCircle) */}
-      <div 
-        className="todo-menu-circle-bg"
-        style={{
-          transform: (isOpen && !closing) ? `scale(${dynamicScale})` : 'scale(1)',
-        }}
-      />
-
-      {/* Content overlay - separate from circle (like RedMenu) */}
+      {/* Menu content with pills */}
       {(isOpen || closing) && (
         <div 
           className="todo-menu-overlay" 
