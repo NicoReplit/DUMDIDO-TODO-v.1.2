@@ -17,7 +17,7 @@ function QuarterCircle({ onClick, isMenuOpen }) {
       const targetTop = header ? header.getBoundingClientRect().bottom : 195;
       
       const scale = (originY - targetTop) / originToTop;
-      setDynamicScale(Math.max(1, scale));
+      setDynamicScale(Math.max(1, scale * 2));
     };
 
     if (isMenuOpen) {
@@ -39,37 +39,47 @@ function QuarterCircle({ onClick, isMenuOpen }) {
         transform: isMenuOpen ? `scale(${dynamicScale})` : 'scale(1)',
       }}
     >
-      <div className="quarter-circle-inner">
-        <svg 
-          className="quarter-circle-cross" 
-          width="24" 
-          height="24" 
-          viewBox="0 0 24 24"
-          style={{
-            transform: isMenuOpen ? `scale(${1 / dynamicScale})` : 'scale(1)',
-            transition: 'transform 1.2s ease-out'
-          }}
-        >
-          <line 
-            x1="4" 
-            y1="4" 
-            x2="20" 
-            y2="20" 
-            stroke="#FFFFFF" 
-            strokeWidth="8" 
-            strokeLinecap="round"
-          />
-          <line 
-            x1="20" 
-            y1="4" 
-            x2="4" 
-            y2="20" 
-            stroke="#FFFFFF" 
-            strokeWidth="8" 
-            strokeLinecap="round"
-          />
-        </svg>
-      </div>
+      <svg 
+        className="quarter-circle-svg" 
+        width="60" 
+        height="60" 
+        viewBox="0 0 60 60"
+        style={{ display: 'block' }}
+      >
+        <path
+          d="M 60 60 L 60 0 A 60 60 0 0 0 0 60 Z"
+          fill="#0061EE"
+        />
+      </svg>
+      <svg 
+        className="quarter-circle-cross" 
+        width="24" 
+        height="24" 
+        viewBox="0 0 24 24"
+        style={{
+          transform: isMenuOpen ? `scale(${1 / dynamicScale})` : 'scale(1)',
+          transition: 'transform 0.6s ease-out'
+        }}
+      >
+        <line 
+          x1="4" 
+          y1="4" 
+          x2="20" 
+          y2="20" 
+          stroke="#FFFFFF" 
+          strokeWidth="8" 
+          strokeLinecap="round"
+        />
+        <line 
+          x1="20" 
+          y1="4" 
+          x2="4" 
+          y2="20" 
+          stroke="#FFFFFF" 
+          strokeWidth="8" 
+          strokeLinecap="round"
+        />
+      </svg>
     </div>
   );
 }
