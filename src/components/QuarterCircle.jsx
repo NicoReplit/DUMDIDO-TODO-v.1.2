@@ -32,19 +32,18 @@ function QuarterCircle({ onClick, isMenuOpen }) {
     }
   }, [isMenuOpen]);
 
+  const svgSize = isMenuOpen ? 60 * dynamicScale : 60;
+
   return (
     <div 
       ref={wrapperRef}
       className={`quarter-circle-wrapper ${isMenuOpen ? 'menu-open' : ''}`}
       onClick={onClick}
-      style={{
-        transform: isMenuOpen ? `scale(${dynamicScale})` : 'scale(1)',
-      }}
     >
       <svg 
         className="quarter-circle-svg" 
-        width="60" 
-        height="60" 
+        width={svgSize} 
+        height={svgSize} 
         viewBox="0 0 600 600"
         xmlns="http://www.w3.org/2000/svg"
         shapeRendering="geometricPrecision"
