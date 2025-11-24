@@ -3,40 +3,9 @@ import './TodoMenu.css';
 
 function TodoMenu({ isOpen, onClose, onAddTodo, onOpenList }) {
   const [closing, setClosing] = useState(false);
-  const [dynamicScale, setDynamicScale] = useState(3.85);
-  const wrapperRef = useRef(null);
   const touchStartX = useRef(null);
   const touchStartY = useRef(null);
   const swipeThreshold = 50;
-
-  // Calculate dynamic scale to reach the blue line (header bottom border)
-  useEffect(() => {
-    const calculateScale = () => {
-      if (!wrapperRef.current) return;
-      
-      const rect = wrapperRef.current.getBoundingClientRect();
-      const originY = rect.bottom - 30; // Transform origin Y position
-      const originToTop = rect.height - 30; // Distance from origin to top edge of circle
-      
-      // Get the blue line position (bottom of header with blue border)
-      const header = document.querySelector('.dumbledido-header');
-      const targetTop = header ? header.getBoundingClientRect().bottom : 195;
-      
-      // Scale needed so top edge reaches target
-      const scale = (originY - targetTop) / originToTop;
-      setDynamicScale(Math.max(1, scale)); // Minimum scale of 1
-    };
-
-    // Calculate on mount and when menu opens
-    if (isOpen || closing) {
-      const timer = setTimeout(calculateScale, 50);
-      window.addEventListener('resize', calculateScale);
-      return () => {
-        clearTimeout(timer);
-        window.removeEventListener('resize', calculateScale);
-      };
-    }
-  }, [isOpen, closing]);
 
   // Block scrolling when menu is open or closing
   useEffect(() => {
@@ -107,29 +76,7 @@ function TodoMenu({ isOpen, onClose, onAddTodo, onOpenList }) {
 
   return (
     <>
-      {/* Background circle - scales from quarter circle center */}
-      <div 
-        ref={wrapperRef}
-        className={`todo-menu-background ${isOpen || closing ? 'menu-open' : ''}`}
-        style={{
-          transform: isOpen ? `scale(${dynamicScale})` : 'scale(1)',
-        }}
-      >
-        <div className="todo-menu-circle">
-          <div 
-            className="todo-menu-eyes" 
-            style={{ 
-              transform: isOpen ? `translateX(-50%) scale(${1 / dynamicScale})` : 'translateX(-50%)',
-              transition: 'transform 1.2s ease-out',
-            }}
-          >
-            <div className="todo-menu-eye"></div>
-            <div className="todo-menu-eye"></div>
-          </div>
-        </div>
-      </div>
-
-      {/* Menu content - positioned absolutely, no scaling */}
+      {/* Menu content with pills */}
       {(isOpen || closing) && (
         <div 
           className="todo-menu-overlay" 

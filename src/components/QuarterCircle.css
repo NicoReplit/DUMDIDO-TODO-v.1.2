@@ -4,8 +4,15 @@
   right: calc(var(--content-area-margin) + 15px);
   width: 60px;
   height: 60px;
-  z-index: 6000;
+  z-index: var(--z-menu);
   cursor: pointer;
+  transform: scale(1);
+  transform-origin: 30px 30px;
+  transition: transform 1.2s ease-out;
+}
+
+.quarter-circle-wrapper.menu-open {
+  z-index: var(--z-menu);
 }
 
 .quarter-circle-inner {

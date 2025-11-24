@@ -1,15 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './QuarterCircle.css';
 
-function QuarterCircle({ onClick }) {
+function QuarterCircle({ onClick, isMenuOpen }) {
+  const [dynamicScale, setDynamicScale] = useState(1);
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    const calculateScale = () => {
+      if (!wrapperRef.current) return;
+      
+      const rect = wrapperRef.current.getBoundingClientRect();
+      const originY = rect.top + 30;
+      const originToTop = 30;
+      
+      const header = document.querySelector('.dumbledido-header');
+      const targetTop = header ? header.getBoundingClientRect().bottom : 195;
+      
+      const scale = (originY - targetTop) / originToTop;
+      setDynamicScale(Math.max(1, scale));
+    };
+
+    if (isMenuOpen) {
+      const timer = setTimeout(calculateScale, 50);
+      window.addEventListener('resize', calculateScale);
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener('resize', calculateScale);
+      };
+    }
+  }, [isMenuOpen]);
+
   return (
-    <div className="quarter-circle-wrapper" onClick={onClick}>
+    <div 
+      ref={wrapperRef}
+      className={`quarter-circle-wrapper ${isMenuOpen ? 'menu-open' : ''}`}
+      onClick={onClick}
+      style={{
+        transform: isMenuOpen ? `scale(${dynamicScale})` : 'scale(1)',
+      }}
+    >
       <div className="quarter-circle-inner">
         <svg 
           className="quarter-circle-cross" 
           width="24" 
           height="24" 
           viewBox="0 0 24 24"
+          style={{
+            transform: isMenuOpen ? `scale(${1 / dynamicScale})` : 'scale(1)',
+            transition: 'transform 1.2s ease-out'
+          }}
         >
           <line 
             x1="4" 

@@ -866,9 +866,12 @@ function App() {
           onDeleteAll={() => handleDeleteConfirmed('series')}
         />
       )}
-      <QuarterCircle onClick={() => {
-        setShowTodoMenu(true);
-      }} />
+      <QuarterCircle 
+        isMenuOpen={showTodoMenu}
+        onClick={() => {
+          setShowTodoMenu(true);
+        }} 
+      />
 
       <TodoMenu 
         isOpen={showTodoMenu}
