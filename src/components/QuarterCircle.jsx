@@ -17,7 +17,9 @@ function QuarterCircle({ onClick, isMenuOpen }) {
       const targetTop = header ? header.getBoundingClientRect().bottom : 195;
       
       const scale = (originY - targetTop) / originToTop;
-      setDynamicScale(Math.max(1, scale * 2));
+      const finalScale = Math.max(1, scale * 2);
+      console.log('Quarter Circle Scale:', finalScale);
+      setDynamicScale(finalScale);
     };
 
     if (isMenuOpen) {
@@ -43,16 +45,15 @@ function QuarterCircle({ onClick, isMenuOpen }) {
         className="quarter-circle-svg" 
         width="60" 
         height="60" 
-        viewBox="0 0 60 60"
+        viewBox="0 0 600 600"
         xmlns="http://www.w3.org/2000/svg"
         shapeRendering="geometricPrecision"
       >
         <circle
-          cx="60"
-          cy="60"
-          r="60"
+          cx="600"
+          cy="600"
+          r="600"
           fill="#0061EE"
-          vectorEffect="non-scaling-stroke"
         />
       </svg>
       <svg 
