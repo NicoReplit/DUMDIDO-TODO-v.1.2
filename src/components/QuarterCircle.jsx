@@ -10,15 +10,21 @@ function QuarterCircle({ onClick, isMenuOpen }) {
       if (!wrapperRef.current) return;
       
       const rect = wrapperRef.current.getBoundingClientRect();
-      const originY = rect.top + 30;
-      const originToTop = 30;
+      const originY = rect.bottom;
+      const originX = rect.right;
       
-      const header = document.querySelector('.dumbledido-header');
-      const targetTop = header ? header.getBoundingClientRect().bottom : 195;
+      // Target the bottom of the week calendar
+      const weekCalendar = document.querySelector('.week-calendar');
+      const targetY = weekCalendar ? weekCalendar.getBoundingClientRect().bottom : 350;
       
-      const scale = (originY - targetTop) / originToTop;
-      const finalScale = Math.max(1, scale * 2);
-      console.log('Quarter Circle Scale:', finalScale);
+      // Calculate the distance needed to reach the target
+      const distanceY = originY - targetY;
+      const baseSize = 60;
+      
+      // Scale needs to be large enough so the circle reaches the week calendar bottom
+      const scale = (distanceY / baseSize) * 2;
+      const finalScale = Math.max(1, scale);
+      console.log('Quarter Circle Scale:', finalScale, 'Distance:', distanceY);
       setDynamicScale(finalScale);
     };
 
