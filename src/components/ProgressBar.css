@@ -1,5 +1,5 @@
 .progress-bar-container {
-  padding: 0 20px 10px 20px;
+  padding: 0 5% 10px 5%;
 }
 
 .progress-bar-outer {
@@ -9,9 +9,7 @@
   border-radius: 23px;
   overflow: visible;
   border: 4px solid var(--dumbledido-border-blue);
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
 }
 
 .progress-bar-yellow {

@@ -1,13 +1,11 @@
 .dumbledido-week-calendar {
-  margin: 0 20px 15px 20px;
+  margin: 0 5% 15px 5%;
   position: relative;
 }
 
 .week-calendar-wrapper {
   position: relative;
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
 }
 
 .week-day-labels {
