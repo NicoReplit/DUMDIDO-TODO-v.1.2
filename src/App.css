@@ -48,6 +48,18 @@
   pointer-events: none;
 }
 
+.content-mask {
+  position: relative;
+  overflow: hidden;
+  z-index: var(--z-content);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 30px);
+  max-width: calc(var(--max-content-width) - 30px);
+  margin-left: 7px;
+}
+
 .grey-rectangle {
   width: calc(100vw - 30px);
   max-width: calc(var(--max-content-width) - 30px);
@@ -200,9 +212,9 @@
 
 /* ZigZag wrapper positioned to right boundary */
 .zigzag-wrapper {
-  position: fixed;
+  position: absolute;
   bottom: -100px;
-  right: var(--content-right-boundary);
+  right: 0;
   transform: rotate(20deg) scale(1.1);
   z-index: 5000;
 }

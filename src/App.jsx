@@ -773,36 +773,42 @@ function App() {
       <div className="custom-rectangle"></div>
       <div className="grey-rectangle"></div>
 
-      {currentUser && !isOpenListSelected && (
-        <ProgressBar points={currentUser.total_points || 0} maxPoints={maxPoints} />
-      )}
+      <div className="content-mask">
+        {currentUser && !isOpenListSelected && (
+          <ProgressBar points={currentUser.total_points || 0} maxPoints={maxPoints} />
+        )}
 
-      {isOpenListSelected ? (
-        <div className="open-list-view">
-          <h2 className="section-title">Geteilte Familienaufgaben</h2>
-          <p className="section-description">Übernimm eine Aufgabe und verdiene +10 Bonuspunkte! 🎁</p>
-          <TodoList
-            todos={openTodos}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onSelect={handleSelectOpenTask}
-            runningTimers={runningTimers}
-            isOpenList={true}
-          />
+        {isOpenListSelected ? (
+          <div className="open-list-view">
+            <h2 className="section-title">Geteilte Familienaufgaben</h2>
+            <p className="section-description">Übernimm eine Aufgabe und verdiene +10 Bonuspunkte! 🎁</p>
+            <TodoList
+              todos={openTodos}
+              onEdit={() => {}}
+              onDelete={() => {}}
+              onSelect={handleSelectOpenTask}
+              runningTimers={runningTimers}
+              isOpenList={true}
+            />
+          </div>
+        ) : currentUser && (
+          <>
+            <WeekCalendar userId={currentUser.id} selectedDate={currentDate} />
+            
+            <TodoList
+              todos={todos}
+              onEdit={handleEditTodo}
+              onDelete={handleDeleteTodo}
+              onSelect={setSelectedTodo}
+              runningTimers={runningTimers}
+            />
+          </>
+        )}
+        
+        <div className="zigzag-wrapper">
+          <ZigZag />
         </div>
-      ) : currentUser && (
-        <>
-          <WeekCalendar userId={currentUser.id} selectedDate={currentDate} />
-          
-          <TodoList
-            todos={todos}
-            onEdit={handleEditTodo}
-            onDelete={handleDeleteTodo}
-            onSelect={setSelectedTodo}
-            runningTimers={runningTimers}
-          />
-        </>
-      )}
+      </div>
 
       {showPinEntry && currentUser && (
         <PINEntry
@@ -891,9 +897,6 @@ function App() {
         }}
       />
       
-      <div className="zigzag-wrapper">
-        <ZigZag />
-      </div>
       
       <button 
         className="left-red-pill" 
