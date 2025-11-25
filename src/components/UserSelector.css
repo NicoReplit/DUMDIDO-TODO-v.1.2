@@ -1,6 +1,6 @@
 .user-selector {
   display: flex;
-  gap: 10px;
+  gap: 7px;
   padding: 15px 20px;
   overflow-x: auto;
   overflow-y: visible;
