@@ -67,20 +67,20 @@ function QuarterCircle({ onClick, isMenuOpen }) {
       >
         <line 
           x1="4" 
-          y1="4" 
+          y1="12" 
           x2="20" 
-          y2="20" 
+          y2="12" 
           stroke="#FFFFFF" 
-          strokeWidth="8" 
+          strokeWidth="5" 
           strokeLinecap="round"
         />
         <line 
-          x1="20" 
+          x1="12" 
           y1="4" 
-          x2="4" 
+          x2="12" 
           y2="20" 
           stroke="#FFFFFF" 
-          strokeWidth="8" 
+          strokeWidth="5" 
           strokeLinecap="round"
         />
       </svg>
