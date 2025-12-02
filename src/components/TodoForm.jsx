@@ -92,25 +92,6 @@ function TodoForm({ todo, onSave, onCancel, defaultOpenList = false }) {
           />
         </div>
 
-        <div className="form-group">
-          <label className="checkbox-label">
-            <input
-              type="checkbox"
-              checked={formData.is_open_list}
-              onChange={(e) => setFormData({ 
-                ...formData, 
-                is_open_list: e.target.checked,
-                specific_date: '',
-                recurrence_type: '',
-                recurrence_days: []
-              })}
-            />
-            <span className="checkbox-text">
-              📋 <strong>Offene Liste</strong> - Jeder kann diese Aufgabe übernehmen und Bonuspunkte verdienen!
-            </span>
-          </label>
-        </div>
-
         {!formData.is_open_list && (
           <>
             <div className="form-group">
