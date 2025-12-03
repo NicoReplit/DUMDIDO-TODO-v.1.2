@@ -886,13 +886,6 @@ function App() {
           onDeleteAll={() => handleDeleteConfirmed('series')}
         />
       )}
-      <QuarterCircle 
-        isMenuOpen={showTodoMenu}
-        onClick={() => {
-          setShowTodoMenu(true);
-        }} 
-      />
-
       <TodoMenu 
         isOpen={showTodoMenu}
         onClose={() => setShowTodoMenu(false)}
@@ -910,10 +903,18 @@ function App() {
           setIsOpenListSelected(true);
         }}
       />
-      
-      <div className="zigzag-wrapper">
-        <ZigZag />
-      </div>
+
+      <div className="sticky-footer">
+        <QuarterCircle 
+          isMenuOpen={showTodoMenu}
+          onClick={() => {
+            setShowTodoMenu(true);
+          }} 
+        />
+        
+        <div className="zigzag-wrapper">
+          <ZigZag />
+        </div>
       
       <button 
         className="left-red-pill" 
@@ -1026,6 +1027,7 @@ function App() {
           </div>
         </div>
       </button>
+      </div>
 
       {showIndexOverlay && <IndexOverlay />}
     </div>

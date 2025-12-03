@@ -2,7 +2,7 @@
 .red-circle-background {
   position: absolute;
   left: 50%;
-  bottom: calc(-33.6vmin + 130px);
+  bottom: calc(-33.6vmin + 30px);
   transform: translateX(calc(-50% - 10px)) scale(1);
   transform-origin: center 70%;
   transition: transform 1.2s ease-out;

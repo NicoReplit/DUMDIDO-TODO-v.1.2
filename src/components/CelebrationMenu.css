@@ -2,7 +2,7 @@
 .celebration-circle-background {
   position: absolute;
   left: calc(10px + 24vmin - 80px);
-  bottom: calc(-33.6vmin + 150px);
+  bottom: calc(-33.6vmin + 50px);
   transform: translateX(-50%) scale(0.8) rotate(22deg);
   transform-origin: center 70%;
   transition: transform 0.6s ease-out;

@@ -4,7 +4,22 @@
   min-height: 100vh;
   background: var(--dumbledido-bg);
   position: relative;
-  padding-bottom: 280px;
+  padding-bottom: 0;
+}
+
+/* Sticky footer container for bottom decorative elements */
+.sticky-footer {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  pointer-events: none;
+  z-index: 9997;
+}
+
+.sticky-footer > * {
+  pointer-events: auto;
 }
 
 .dumbledido-header {
@@ -41,7 +56,7 @@
   background: white;
   position: absolute;
   top: 51px;
-  bottom: 280px;
+  bottom: 0;
   left: 7px;
   box-shadow: 10px 10px 0 var(--dumbledido-blue);
   z-index: var(--z-base);
@@ -54,7 +69,7 @@
   background: #f0f1f2;
   position: absolute;
   top: 193px;
-  bottom: 280px;
+  bottom: 0;
   left: 7px;
   z-index: 0;
   pointer-events: none;
@@ -202,7 +217,7 @@
 /* ZigZag wrapper positioned to right boundary */
 .zigzag-wrapper {
   position: absolute;
-  bottom: 100px;
+  bottom: 0;
   right: -20px;
   transform: rotate(20deg) scale(1.1);
   z-index: 5000;
@@ -212,7 +227,7 @@
 .left-red-pill {
   position: absolute;
   left: 10px;
-  bottom: 80px;
+  bottom: -20px;
   width: 96px;
   height: 312px;
   background-color: #EE4100;
@@ -238,7 +253,7 @@
 .left-green-pill {
   position: absolute;
   left: 106px;
-  bottom: 85px;
+  bottom: -15px;
   width: 90px;
   height: 280px;
   background-color: #38D247;
@@ -253,7 +268,7 @@
 }
 
 .left-green-pill.slide-up {
-  bottom: 165px;
+  bottom: 65px;
 }
 
 .left-green-pill:hover {
@@ -310,7 +325,7 @@
 .right-green-pill {
   position: absolute;
   right: 146px;
-  bottom: 85px;
+  bottom: -15px;
   width: 90px;
   height: 280px;
   background-color: #FF77B9;
@@ -325,7 +340,7 @@
 }
 
 .right-green-pill.slide-up {
-  bottom: 165px;
+  bottom: 65px;
 }
 
 .right-green-pill:hover {
