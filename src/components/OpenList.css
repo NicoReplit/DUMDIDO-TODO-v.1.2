@@ -1,5 +1,23 @@
 .open-list {
-  padding: 0 1rem 1rem;
+  padding: 0 5% 1rem 5%;
+}
+
+.open-list-banner {
+  background: var(--dumbledido-yellow);
+  border-radius: 30px;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+  text-align: center;
+  box-shadow: 5px 5px 0 var(--dumbledido-blue);
+}
+
+.banner-line {
+  font-family: 'MuseoModerno', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dumbledido-blue);
+  margin: 0;
+  line-height: 1.4;
 }
 
 .open-list-title {

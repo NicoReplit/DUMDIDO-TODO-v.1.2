@@ -27,7 +27,10 @@ function OpenList({ tasks, onSelect }) {
 
   return (
     <div className="open-list">
-      <h2 className="open-list-title">📋 Open List - Earn Bonus Points!</h2>
+      <div className="open-list-banner">
+        <p className="banner-line">Gewinne 10 Bonus Punkte, wenn du heute eine</p>
+        <p className="banner-line">Aufgabe aus der offenen Liste erledigst. Leg los!</p>
+      </div>
       {tasks.length === 0 ? (
         <div className="empty-state">
           <p>No open tasks available</p>
