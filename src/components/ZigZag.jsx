@@ -1,8 +1,8 @@
 export default function ZigZag() {
   return (
     <svg 
-      width="240" 
-      height="240" 
+      width="260" 
+      height="260" 
       viewBox="0 0 260 260" 
       fill="none" 
       xmlns="http://www.w3.org/2000/svg"
