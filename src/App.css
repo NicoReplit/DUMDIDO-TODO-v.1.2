@@ -201,17 +201,17 @@
 
 /* ZigZag wrapper positioned to right boundary */
 .zigzag-wrapper {
-  position: fixed;
+  position: absolute;
   bottom: -100px;
-  right: var(--content-right-boundary);
+  right: -20px;
   transform: rotate(20deg) scale(1.1);
   z-index: 5000;
 }
 
 /* Left red pill - aligned to left edge of white box (index 4) */
 .left-red-pill {
-  position: fixed;
-  left: calc(var(--content-area-margin) + 10px);
+  position: absolute;
+  left: 10px;
   bottom: -125px;
   width: 96px;
   height: 312px;
@@ -236,8 +236,8 @@
 
 /* Left green pill - left border aligned to right border of red pill */
 .left-green-pill {
-  position: fixed;
-  left: calc(var(--content-area-margin) + 106px);
+  position: absolute;
+  left: 106px;
   bottom: -120px;
   width: 90px;
   height: 280px;
@@ -308,8 +308,8 @@
 
 /* Right pink pill - 30px inward from left border of index 15 (ZigZag) */
 .right-green-pill {
-  position: fixed;
-  right: calc(var(--content-right-boundary) + 166px);
+  position: absolute;
+  right: 146px;
   bottom: -120px;
   width: 90px;
   height: 280px;
