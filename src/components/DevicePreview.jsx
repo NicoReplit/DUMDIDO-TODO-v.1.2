@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './DevicePreview.css';
 
 const DEVICES = [
+  { id: 'custom', name: 'Custom Display', width: 800, height: 1280 },
   { id: 'rpi-10', name: 'Raspberry Pi 10.1"', width: 1280, height: 800 },
   { id: 'ipad', name: 'iPad', width: 1024, height: 768 },
   { id: 'ipad-pro', name: 'iPad Pro 11"', width: 1194, height: 834 },
