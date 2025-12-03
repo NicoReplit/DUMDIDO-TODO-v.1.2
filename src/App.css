@@ -213,10 +213,10 @@
   position: fixed;
   left: calc(var(--content-area-margin) + 10px);
   bottom: 0;
-  width: 80px;
-  height: 200px;
+  width: 96px;
+  height: 240px;
   background-color: #EE4100;
-  border-radius: 40px;
+  border-radius: 48px;
   z-index: 9998;
   display: flex;
   align-items: flex-start;
@@ -234,10 +234,10 @@
   transform: scale(0.95);
 }
 
-/* Left green pill - left border aligned to right border of index 12 */
+/* Left green pill - left border aligned to right border of red pill */
 .left-green-pill {
   position: fixed;
-  left: calc(var(--content-area-margin) + 90px);
+  left: calc(var(--content-area-margin) + 106px);
   bottom: -120px;
   width: 90px;
   height: 280px;
