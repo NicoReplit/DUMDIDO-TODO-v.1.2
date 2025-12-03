@@ -203,7 +203,7 @@
 .zigzag-wrapper {
   position: fixed;
   bottom: -100px;
-  right: var(--content-right-boundary);
+  right: calc(var(--content-right-boundary) - 20px);
   transform: rotate(20deg) scale(1.1);
   z-index: 5000;
 }
