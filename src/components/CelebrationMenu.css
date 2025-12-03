@@ -1,7 +1,7 @@
 /* Background circle wrapper - scales, 20% smaller than RedMenu, 80px offset to left */
 .celebration-circle-background {
-  position: fixed;
-  left: calc(var(--content-area-margin) + 10px + 24vmin - 80px);
+  position: absolute;
+  left: calc(10px + 24vmin - 80px);
   bottom: calc(-33.6vmin + 50px);
   transform: translateX(-50%) scale(0.8) rotate(22deg);
   transform-origin: center 70%;
