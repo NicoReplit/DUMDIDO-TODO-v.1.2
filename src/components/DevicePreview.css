@@ -105,7 +105,7 @@
 .device-screen {
   background: white;
   border-radius: 12px;
-  overflow: auto;
+  overflow: hidden;
   position: relative;
 }
 

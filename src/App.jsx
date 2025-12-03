@@ -754,75 +754,84 @@ function App() {
       onToggle={() => setShowDevicePreview(false)}
     >
     <div className="app dumbledido-app">
-      <header className="app-header dumbledido-header">
-        <h1 className="dumbledido-logo">
-          <span className="letter-d">D</span>
-          <span className="letter-u">U</span>
-          <span className="letter-m">M</span>
-          <span className="letter-b">B</span>
-          <span className="letter-di">DI</span>
-          <span className="letter-do">DO</span>
-          <span className="letter-space"> </span>
-          <span className="letter-thedo">THE DO</span>
-        </h1>
-        <div className="header-content">
-          <div className="header-subtitle">FAMILIEN-AUFGABENLISTE</div>
-          <div className="header-buttons">
-            <input
-              type="date"
-              className="date-pill"
-              value={currentDate}
-              onChange={(e) => setCurrentDate(e.target.value)}
-            />
-          </div>
-        </div>
-      </header>
-      
-      <UserSelector
-        users={users}
-        currentUser={currentUser}
-        onSelectUser={handleSelectUser}
-        onAddUser={() => setShowUserForm(true)}
-        onSelectOpenList={handleSelectOpenList}
-        isOpenListSelected={isOpenListSelected}
-        onUpdateUser={handleUpdateUser}
-        onResetTodos={handleResetTodos}
-        onResetPoints={handleResetPoints}
-      />
-
       <div className="custom-rectangle"></div>
       <div className="grey-rectangle"></div>
+      
+      <div className="fixed-top-stack">
+        <header className="app-header dumbledido-header">
+          <h1 className="dumbledido-logo">
+            <span className="letter-d">D</span>
+            <span className="letter-u">U</span>
+            <span className="letter-m">M</span>
+            <span className="letter-b">B</span>
+            <span className="letter-di">DI</span>
+            <span className="letter-do">DO</span>
+            <span className="letter-space"> </span>
+            <span className="letter-thedo">THE DO</span>
+          </h1>
+          <div className="header-content">
+            <div className="header-subtitle">FAMILIEN-AUFGABENLISTE</div>
+            <div className="header-buttons">
+              <input
+                type="date"
+                className="date-pill"
+                value={currentDate}
+                onChange={(e) => setCurrentDate(e.target.value)}
+              />
+            </div>
+          </div>
+        </header>
+        
+        <UserSelector
+          users={users}
+          currentUser={currentUser}
+          onSelectUser={handleSelectUser}
+          onAddUser={() => setShowUserForm(true)}
+          onSelectOpenList={handleSelectOpenList}
+          isOpenListSelected={isOpenListSelected}
+          onUpdateUser={handleUpdateUser}
+          onResetTodos={handleResetTodos}
+          onResetPoints={handleResetPoints}
+        />
 
-      {currentUser && !isOpenListSelected && (
-        <ProgressBar points={currentUser.total_points || 0} maxPoints={maxPoints} />
-      )}
+        {currentUser && !isOpenListSelected && (
+          <ProgressBar points={currentUser.total_points || 0} maxPoints={maxPoints} />
+        )}
 
-      {isOpenListSelected ? (
-        <div className="open-list-view">
-          <h2 className="section-title">Geteilte Familienaufgaben</h2>
-          <p className="section-description">Übernimm eine Aufgabe und verdiene +10 Bonuspunkte! 🎁</p>
-          <TodoList
-            todos={openTodos}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onSelect={handleSelectOpenTask}
-            runningTimers={runningTimers}
-            isOpenList={true}
-          />
-        </div>
-      ) : currentUser && (
-        <>
+        {isOpenListSelected && (
+          <div className="open-list-header">
+            <h2 className="section-title">Geteilte Familienaufgaben</h2>
+            <p className="section-description">Übernimm eine Aufgabe und verdiene +10 Bonuspunkte! 🎁</p>
+          </div>
+        )}
+
+        {currentUser && !isOpenListSelected && (
           <WeekCalendar userId={currentUser.id} selectedDate={currentDate} />
-          
-          <TodoList
-            todos={todos}
-            onEdit={handleEditTodo}
-            onDelete={handleDeleteTodo}
-            onSelect={setSelectedTodo}
-            runningTimers={runningTimers}
-          />
-        </>
-      )}
+        )}
+      </div>
+
+      <div className="todo-stage">
+        <div className="todo-scroll-container">
+          {isOpenListSelected ? (
+            <TodoList
+              todos={openTodos}
+              onEdit={() => {}}
+              onDelete={() => {}}
+              onSelect={handleSelectOpenTask}
+              runningTimers={runningTimers}
+              isOpenList={true}
+            />
+          ) : currentUser && (
+            <TodoList
+              todos={todos}
+              onEdit={handleEditTodo}
+              onDelete={handleDeleteTodo}
+              onSelect={setSelectedTodo}
+              runningTimers={runningTimers}
+            />
+          )}
+        </div>
+      </div>
 
       {showPinEntry && currentUser && (
         <PINEntry
@@ -904,7 +913,7 @@ function App() {
         }}
       />
 
-      <div className="sticky-footer">
+      <div className="footer-decor-layer">
         <QuarterCircle 
           isMenuOpen={showTodoMenu}
           onClick={() => {

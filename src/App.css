@@ -1,24 +1,62 @@
+/* CSS Custom Properties for layout */
+:root {
+  --header-height: 51px;
+  --fixed-top-height: 360px;
+  --footer-height: 260px;
+  --footer-overhang: 20px;
+}
+
 .dumbledido-app {
   max-width: var(--max-content-width);
   margin: 0 auto;
-  min-height: 100vh;
+  height: 100%;
   background: var(--dumbledido-bg);
   position: relative;
-  padding-bottom: 0;
+  overflow: hidden;
 }
 
-/* Sticky footer container for bottom decorative elements */
-.sticky-footer {
-  position: sticky;
+/* Fixed top section - header, user selector, progress bar, calendar */
+.fixed-top-stack {
+  position: relative;
+  z-index: 50;
+}
+
+/* Todo scroll stage - positioned between fixed header and footer */
+.todo-stage {
+  position: absolute;
+  top: 360px;
+  left: 0;
+  right: 0;
+  bottom: 100px;
+  overflow: hidden;
+}
+
+/* Scrollable todo container within the stage */
+.todo-scroll-container {
+  position: absolute;
+  top: 0;
+  left: 7px;
+  right: 23px;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 10;
+  padding-bottom: 20px;
+}
+
+/* Fixed footer container for bottom decorative elements */
+.footer-decor-layer {
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 280px;
+  height: 100px;
   pointer-events: none;
   z-index: 9997;
+  overflow: visible;
 }
 
-.sticky-footer > * {
+.footer-decor-layer > * {
   pointer-events: auto;
 }
 
@@ -50,29 +88,49 @@
 .letter-do { color: white; font-weight: 700; }
 .letter-thedo { color: white; font-weight: 400; }
 
+/* White rectangle background - spans from header to footer area */
 .custom-rectangle {
   width: calc(100vw - 30px);
   max-width: calc(var(--max-content-width) - 30px);
   background: white;
   position: absolute;
   top: 51px;
-  bottom: 0;
+  bottom: 100px;
   left: 7px;
   box-shadow: 10px 10px 0 var(--dumbledido-blue);
   z-index: var(--z-base);
   pointer-events: none;
 }
 
+/* Grey rectangle background - extends into todo area */
 .grey-rectangle {
   width: calc(100vw - 30px);
   max-width: calc(var(--max-content-width) - 30px);
   background: #f0f1f2;
   position: absolute;
   top: 193px;
-  bottom: 0;
+  bottom: 100px;
   left: 7px;
   z-index: 0;
   pointer-events: none;
+}
+
+/* Scrollbar styling for todo container */
+.todo-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.todo-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.todo-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.todo-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .header-content {
@@ -199,6 +257,15 @@
   z-index: 10;
 }
 
+.open-list-header {
+  position: absolute;
+  top: 200px;
+  left: 7px;
+  right: 23px;
+  z-index: 10;
+  padding: 15px 20px;
+}
+
 .section-title {
   font-size: 24px;
   font-weight: 700;
@@ -217,7 +284,7 @@
 /* ZigZag wrapper positioned to right boundary */
 .zigzag-wrapper {
   position: absolute;
-  bottom: 0;
+  bottom: -100px;
   right: -20px;
   transform: rotate(20deg) scale(1.1);
   z-index: 5000;
@@ -227,7 +294,7 @@
 .left-red-pill {
   position: absolute;
   left: 10px;
-  bottom: -20px;
+  bottom: -220px;
   width: 96px;
   height: 312px;
   background-color: #EE4100;
@@ -253,7 +320,7 @@
 .left-green-pill {
   position: absolute;
   left: 106px;
-  bottom: -15px;
+  bottom: -195px;
   width: 90px;
   height: 280px;
   background-color: #38D247;
@@ -268,7 +335,7 @@
 }
 
 .left-green-pill.slide-up {
-  bottom: 65px;
+  bottom: -115px;
 }
 
 .left-green-pill:hover {
@@ -325,7 +392,7 @@
 .right-green-pill {
   position: absolute;
   right: 146px;
-  bottom: -15px;
+  bottom: -195px;
   width: 90px;
   height: 280px;
   background-color: #FF77B9;
@@ -340,7 +407,7 @@
 }
 
 .right-green-pill.slide-up {
-  bottom: 65px;
+  bottom: -115px;
 }
 
 .right-green-pill:hover {
