@@ -206,9 +206,6 @@
   right: var(--content-right-boundary);
   transform: rotate(20deg) scale(1.1);
   z-index: 5000;
-  width: 200px;
-  height: 200px;
-  overflow: hidden;
 }
 
 /* Left red pill - aligned to left edge of white box (index 4) */
