@@ -214,7 +214,7 @@
   left: calc(var(--content-area-margin) + 10px);
   bottom: 0;
   width: 96px;
-  height: 240px;
+  height: 312px;
   background-color: #EE4100;
   border-radius: 48px;
   z-index: 9998;
