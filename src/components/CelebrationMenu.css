@@ -1,8 +1,8 @@
-/* Background circle wrapper - scales, 20% smaller than RedMenu, 80px offset to left */
+/* Background circle wrapper - scales, 20% smaller than RedMenu, offset to left */
 .celebration-circle-background {
   position: absolute;
-  left: calc(10px + 24vmin - 80px);
-  bottom: calc(-33.6vmin + 50px);
+  left: calc(10px + 0.24 * var(--device-vmin, 800px) - 80px);
+  bottom: calc(-0.42 * var(--device-vmin, 800px) + 50px);
   transform: translateX(-50%) scale(0.8) rotate(22deg);
   transform-origin: center 70%;
   transition: transform 0.6s ease-out;
@@ -18,8 +18,8 @@
 }
 
 .celebration-circle {
-  width: 48vmin;
-  height: 48vmin;
+  width: calc(0.48 * var(--device-vmin, 800px));
+  height: calc(0.48 * var(--device-vmin, 800px));
   background-color: #0061EE;
   cursor: pointer;
   border-radius: 50%;

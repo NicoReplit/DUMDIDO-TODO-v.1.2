@@ -1,8 +1,8 @@
-/* Background circle wrapper - scales, left border aligned to left border of index 12 (red pill) */
+/* Background circle wrapper - scales, positioned at bottom-left */
 .blue-circle-background {
-  position: fixed;
-  left: calc(var(--content-area-margin) + 10px);
-  bottom: -90px;
+  position: absolute;
+  left: calc(var(--content-area-margin, 7px) + 10px);
+  bottom: calc(-0.20 * var(--device-vmin, 800px));
   transform: scale(1);
   transform-origin: center center;
   transition: transform 1.2s ease-out;
@@ -18,8 +18,8 @@
 }
 
 .blue-circle {
-  width: 48vmin;
-  height: 48vmin;
+  width: calc(0.48 * var(--device-vmin, 800px));
+  height: calc(0.48 * var(--device-vmin, 800px));
   background-color: #0061EE;
   cursor: pointer;
   border-radius: 50%;

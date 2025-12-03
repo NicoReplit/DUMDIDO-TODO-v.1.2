@@ -14,11 +14,23 @@ export default function DevicePreview({ children, isEnabled, onToggle }) {
   const [selectedDevice, setSelectedDevice] = useState(DEVICES[0]);
   const [scale, setScale] = useState(1);
 
-  if (!isEnabled) {
-    return children;
-  }
-
   const device = selectedDevice;
+  const deviceVmin = Math.min(device.width, device.height);
+
+  if (!isEnabled) {
+    return (
+      <div 
+        className="device-screen-fullscreen"
+        style={{
+          '--device-width': `${window.innerWidth}px`,
+          '--device-height': `${window.innerHeight}px`,
+          '--device-vmin': `${Math.min(window.innerWidth, window.innerHeight)}px`,
+        }}
+      >
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div className="device-preview-container">
@@ -63,6 +75,9 @@ export default function DevicePreview({ children, isEnabled, onToggle }) {
           <div 
             className="device-screen"
             style={{
+              '--device-width': `${device.width}px`,
+              '--device-height': `${device.height}px`,
+              '--device-vmin': `${deviceVmin}px`,
               width: device.width,
               height: device.height,
               transform: `scale(${scale})`,

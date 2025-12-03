@@ -15,23 +15,30 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
   // Calculate dynamic scale to reach the blue line (header bottom border)
   useEffect(() => {
     const calculateScale = () => {
-      const vmin = Math.min(window.innerWidth, window.innerHeight);
-      const circleRadius = (24 * vmin) / 100; // 48vmin diameter / 2
-      const circleBottomOffset = (-33.6 * vmin) / 100 + 30; // bottom: calc(-33.6vmin + 30px)
-      const circleBottomY = window.innerHeight - circleBottomOffset;
-      const circleCenterY = circleBottomY - circleRadius; // Subtract radius to get center (Y increases downward)
+      const appContainer = document.querySelector('.dumbledido-app');
+      const deviceScreen = document.querySelector('.device-screen') || document.querySelector('.device-screen-fullscreen');
       
-      // Get the blue line position (bottom of header with blue border)
+      const containerHeight = appContainer?.offsetHeight || 1280;
+      const deviceVmin = deviceScreen ? 
+        Math.min(deviceScreen.offsetWidth, deviceScreen.offsetHeight) : 
+        Math.min(window.innerWidth, window.innerHeight);
+      
+      const circleRadius = 0.24 * deviceVmin;
+      const circleBottomOffset = -0.42 * deviceVmin + 30;
+      const circleBottomY = containerHeight - circleBottomOffset;
+      const circleCenterY = circleBottomY - circleRadius;
+      
       const header = document.querySelector('.dumbledido-header');
-      const targetTopEdge = header ? header.getBoundingClientRect().bottom : 195;
+      const appRect = appContainer?.getBoundingClientRect() || { top: 0 };
+      const headerRect = header?.getBoundingClientRect() || { bottom: 195 };
+      const targetTopEdge = headerRect.bottom - appRect.top;
       
-      // Scale needed so top edge reaches target: centerY - (radius * scale) = targetTop
       const scale = (circleCenterY - targetTopEdge) / circleRadius;
-      const reducedScale = scale * 0.8; // Reduce by 20%
-      setDynamicScale(Math.max(1, reducedScale)); // Minimum scale of 1
+      const reducedScale = scale * 0.8;
+      setDynamicScale(Math.max(1, reducedScale));
     };
 
-    calculateScale();
+    setTimeout(calculateScale, 100);
     window.addEventListener('resize', calculateScale);
     return () => window.removeEventListener('resize', calculateScale);
   }, []);
