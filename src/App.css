@@ -212,9 +212,9 @@
 .left-red-pill {
   position: fixed;
   left: calc(var(--content-area-margin) + 10px);
-  bottom: 0;
+  bottom: -125px;
   width: 96px;
-  height: 187px;
+  height: 312px;
   background-color: #EE4100;
   border-radius: 48px;
   z-index: 9998;
