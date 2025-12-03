@@ -91,13 +91,6 @@ function TodoMenu({ isOpen, onClose, onAddTodo, onOpenList }) {
             >
               Neue Aufgabe
             </button>
-
-            <button 
-              onClick={handleOpenList} 
-              className={`todo-menu-button ${closing ? 'todo-button-animate-2-close' : 'todo-button-animate-2'}`}
-            >
-              Offene Liste
-            </button>
           </div>
         </div>
       )}
