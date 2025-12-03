@@ -2,10 +2,10 @@ import { useState } from 'react';
 import './DevicePreview.css';
 
 const DEVICES = [
-  { id: 'rpi-10', name: 'Raspberry Pi 10.1"', width: 1280, height: 800 },
-  { id: 'ipad', name: 'iPad', width: 1024, height: 768 },
-  { id: 'ipad-pro', name: 'iPad Pro 11"', width: 1194, height: 834 },
-  { id: 'tablet-7', name: 'Tablet 7"', width: 1024, height: 600 },
+  { id: 'rpi-10', name: 'Raspberry Pi 10.1"', width: 800, height: 1280 },
+  { id: 'ipad', name: 'iPad', width: 768, height: 1024 },
+  { id: 'ipad-pro', name: 'iPad Pro 11"', width: 834, height: 1194 },
+  { id: 'tablet-7', name: 'Tablet 7"', width: 600, height: 1024 },
   { id: 'phone', name: 'Phone', width: 390, height: 844 },
 ];
 

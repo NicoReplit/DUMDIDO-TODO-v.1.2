@@ -32,7 +32,7 @@ The application is a full-stack solution with a React frontend and a Node.js/Exp
     - **Week Calendar**: Visual representation of daily completion status.
     - **Perfect Day Celebration**: Awards 10 bonus points when all todos are completed on time for a day. Features a 2-second full-screen celebration with cascading yellow star animations (80x80px) and individual word animations displaying "Monaterstark! 10 Bonus Punkte Verdient." with 5px spacing between lines. Animation scales down smoothly before closing. Only awarded once per day per user.
 - **User Settings Reset**: Functionality to reset all todos or all points/streaks for a user, with double confirmation and PIN verification, ensuring smart state management during these operations.
-- **Device Preview Mode**: A development feature that constrains the app view to specific device resolutions for testing. Primary device is the Raspberry Pi 10.1" display (1280x800). Toggle with Ctrl+D (Cmd+D on Mac). Includes device selector and scale options (50%, 75%, 100%).
+- **Device Preview Mode**: A development feature that constrains the app view to specific device resolutions for testing. Primary device is the Raspberry Pi 10.1" display (800x1280). Toggle with Ctrl+D (Cmd+D on Mac). Includes device selector and scale options (50%, 75%, 100%).
 
 ### System Design Choices
 - **Technology Stack**: React 18 (Vite), Node.js (Express), PostgreSQL.
