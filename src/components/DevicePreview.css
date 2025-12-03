@@ -1,0 +1,118 @@
+.device-preview-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #1a1a2e;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.device-preview-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+  background: #16213e;
+  border-bottom: 2px solid #0f3460;
+  flex-shrink: 0;
+}
+
+.device-selector,
+.scale-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.device-selector label,
+.scale-selector label {
+  color: #e94560;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.device-selector select,
+.scale-selector select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 2px solid #0f3460;
+  background: #1a1a2e;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.device-selector select:focus,
+.scale-selector select:focus {
+  outline: none;
+  border-color: #e94560;
+}
+
+.device-info {
+  color: #53d8fb;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  background: rgba(83, 216, 251, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(83, 216, 251, 0.3);
+}
+
+.preview-close-btn {
+  margin-left: auto;
+  padding: 10px 20px;
+  background: #e94560;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preview-close-btn:hover {
+  background: #ff6b6b;
+  transform: scale(1.02);
+}
+
+.device-preview-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: auto;
+}
+
+.device-frame {
+  background: #000;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 
+    0 0 0 4px #333,
+    0 0 0 8px #1a1a1a,
+    0 20px 60px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.device-screen {
+  background: white;
+  border-radius: 12px;
+  overflow: auto;
+  position: relative;
+}
+
+.device-label {
+  margin-top: 16px;
+  color: #888;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}

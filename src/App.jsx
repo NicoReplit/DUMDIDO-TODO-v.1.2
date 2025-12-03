@@ -18,6 +18,7 @@ import ZigZag from './components/ZigZag';
 import DeleteConfirmationModal from './components/DeleteConfirmationModal';
 import IndexOverlay from './components/IndexOverlay';
 import TodoMenu from './components/TodoMenu';
+import DevicePreview from './components/DevicePreview';
 import './App.css';
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
   const [deleteScope, setDeleteScope] = useState(null); // 'single' or 'series'
   const [showIndexOverlay, setShowIndexOverlay] = useState(false);
   const [showTodoMenu, setShowTodoMenu] = useState(false);
+  const [showDevicePreview, setShowDevicePreview] = useState(false);
   const prevUserIdRef = useRef(null);
   const prevOpenListRef = useRef(false);
   const isInitializedRef = useRef(false);
@@ -65,6 +67,10 @@ function App() {
       if ((e.ctrlKey || e.metaKey) && e.key === 'i') {
         e.preventDefault();
         setShowIndexOverlay(prev => !prev);
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+        e.preventDefault();
+        setShowDevicePreview(prev => !prev);
       }
     };
     
@@ -651,29 +657,39 @@ function App() {
 
   if (showUserForm) {
     return (
-      <UserForm
-        user={editingUser}
-        onSave={handleSaveUser}
-        onCancel={() => {
-          setShowUserForm(false);
-          setEditingUser(null);
-        }}
-        onDelete={handleDeleteUser}
-      />
+      <DevicePreview 
+        isEnabled={showDevicePreview} 
+        onToggle={() => setShowDevicePreview(false)}
+      >
+        <UserForm
+          user={editingUser}
+          onSave={handleSaveUser}
+          onCancel={() => {
+            setShowUserForm(false);
+            setEditingUser(null);
+          }}
+          onDelete={handleDeleteUser}
+        />
+      </DevicePreview>
     );
   }
 
   if (showForm) {
     return (
-      <TodoForm
-        todo={editingTodo}
-        onSave={handleSaveTodo}
-        onCancel={() => {
-          setShowForm(false);
-          setEditingTodo(null);
-        }}
-        defaultOpenList={isOpenListSelected}
-      />
+      <DevicePreview 
+        isEnabled={showDevicePreview} 
+        onToggle={() => setShowDevicePreview(false)}
+      >
+        <TodoForm
+          todo={editingTodo}
+          onSave={handleSaveTodo}
+          onCancel={() => {
+            setShowForm(false);
+            setEditingTodo(null);
+          }}
+          defaultOpenList={isOpenListSelected}
+        />
+      </DevicePreview>
     );
   }
 
@@ -733,6 +749,10 @@ function App() {
   };
 
   return (
+    <DevicePreview 
+      isEnabled={showDevicePreview} 
+      onToggle={() => setShowDevicePreview(false)}
+    >
     <div className="app dumbledido-app">
       <header className="app-header dumbledido-header">
         <h1 className="dumbledido-logo">
@@ -1009,6 +1029,7 @@ function App() {
 
       {showIndexOverlay && <IndexOverlay />}
     </div>
+    </DevicePreview>
   );
 }
 
