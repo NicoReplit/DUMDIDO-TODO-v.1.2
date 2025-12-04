@@ -199,10 +199,18 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
             <div className="timer-container">
               {!isOvertime && (
                 <div className="timer-circle-wrapper">
-                  <img src="/PlayBase.svg" alt="" className="timer-base-svg" />
-                  <div className="timer-ring" style={{
-                    background: `conic-gradient(#65b032 ${countdownProgress}%, transparent ${countdownProgress}%)`
-                  }}></div>
+                  {/* Show ring only when running */}
+                  {isRunning && (
+                    <div className="timer-ring" style={{
+                      background: `conic-gradient(#65b032 ${countdownProgress}%, transparent ${countdownProgress}%)`
+                    }}></div>
+                  )}
+                  {/* PlayBase.svg when idle, Timer_1.svg when running */}
+                  <img 
+                    src={isRunning ? "/Timer_1.svg" : "/PlayBase.svg"} 
+                    alt="" 
+                    className={isRunning ? "timer-active-svg" : "timer-base-svg"} 
+                  />
                   <div className="timer-inner">
                     {!isRunning && timeRemaining > 0 ? (
                       <>
@@ -231,45 +239,18 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
               )}
               
               {isOvertime && (
-                <div className="timer-circle-svg-container">
-                  <svg className="timer-svg" viewBox="0 0 200 200">
-                    {/* Background circle */}
-                    <circle
-                      cx="100"
-                      cy="100"
-                      r="85"
-                      fill="none"
-                      stroke="#e5e7eb"
-                      strokeWidth="12"
-                    />
-                    
-                    {/* Overlapping colored rings */}
-                    {getOvertimeRings().map((ring, index) => {
-                      const circumference = 2 * Math.PI * 85;
-                      const strokeDashoffset = circumference - (ring.progress / 100) * circumference;
-                      
-                      return (
-                        <circle
-                          key={index}
-                          cx="100"
-                          cy="100"
-                          r="85"
-                          fill="none"
-                          stroke={ring.color}
-                          strokeWidth="12"
-                          strokeDasharray={circumference}
-                          strokeDashoffset={strokeDashoffset}
-                          strokeLinecap="round"
-                          transform="rotate(-90 100 100)"
-                        />
-                      );
-                    })}
-                  </svg>
+                <div className="timer-circle-wrapper">
+                  {/* Overtime ring animation */}
+                  <div className="timer-ring overtime-ring" style={{
+                    background: `conic-gradient(${overtimeColors[Math.min(overtimeMinute, overtimeColors.length - 1)]} ${progressInMinute}%, transparent ${progressInMinute}%)`
+                  }}></div>
+                  {/* Cycle through Timer_2 to Timer_5 every minute */}
+                  <img 
+                    src={`/Timer_${((overtimeMinute % 4) + 2)}.svg`}
+                    alt="" 
+                    className="timer-active-svg" 
+                  />
                   <div className="timer-inner">
-                    <div className="timer-eyes">
-                      <div className="timer-eye" style={{ transform: `rotate(${eye1Rotation}deg)` }}></div>
-                      <div className="timer-eye" style={{ transform: `rotate(${eye2Rotation}deg)` }}></div>
-                    </div>
                     <div className="timer-display" style={{ color: 'white' }}>
                       +{formatTime(overtimeSeconds)}
                     </div>

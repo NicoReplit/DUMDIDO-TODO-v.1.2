@@ -1,16 +1,17 @@
 .todo-detail {
   position: fixed;
   top: 200px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: calc(100% - 200px);
-  max-height: calc(100dvh - 200px);
-  background: white;
+  left: 5%;
+  right: auto;
+  bottom: 210px;
+  width: 90%;
+  height: auto;
+  max-height: none;
+  background: #CDCDCD;
   z-index: 100;
   overflow-y: auto;
   overflow-x: hidden;
+  box-shadow: 10px 10px 0 var(--dumbledido-blue);
 }
 
 .detail-header {
@@ -109,9 +110,20 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, calc(-50% + 8px));
   width: 110%;
   height: 110%;
+  object-fit: contain;
+  z-index: 1;
+}
+
+.timer-active-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   z-index: 1;
 }
@@ -121,12 +133,17 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 130%;
-  height: 130%;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   z-index: 0;
-  mask: radial-gradient(transparent 65%, black 65%);
-  -webkit-mask: radial-gradient(transparent 65%, black 65%);
+  mask: radial-gradient(transparent 42%, black 42%);
+  -webkit-mask: radial-gradient(transparent 42%, black 42%);
+}
+
+.timer-ring.overtime-ring {
+  mask: radial-gradient(transparent 42%, black 42%);
+  -webkit-mask: radial-gradient(transparent 42%, black 42%);
 }
 
 .timer-circle,
