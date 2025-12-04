@@ -58,6 +58,7 @@ function App() {
   const [pendingSuperPointTodo, setPendingSuperPointTodo] = useState(null);
   const [showVirtualKeyboard, setShowVirtualKeyboard] = useState(false);
   const [activeInputElement, setActiveInputElement] = useState(null);
+  const [activeInputType, setActiveInputType] = useState('text');
   const prevUserIdRef = useRef(null);
   const prevOpenListRef = useRef(false);
   const isInitializedRef = useRef(false);
@@ -127,6 +128,7 @@ function App() {
       if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
         if (target.type !== 'date' && target.type !== 'checkbox' && target.type !== 'radio') {
           setActiveInputElement(target);
+          setActiveInputType(target.type === 'number' || target.inputMode === 'numeric' ? 'number' : 'text');
           setShowVirtualKeyboard(true);
         }
       }
@@ -183,30 +185,40 @@ function App() {
     if (!activeInputElement) return;
     
     const input = activeInputElement;
-    const start = input.selectionStart || 0;
-    const end = input.selectionEnd || 0;
     const currentValue = input.value || '';
+    const isNumberInput = input.type === 'number';
     
     let newValue;
     let newCursorPos;
     
-    if (key === 'backspace') {
-      if (start === end && start > 0) {
-        newValue = currentValue.slice(0, start - 1) + currentValue.slice(end);
-        newCursorPos = start - 1;
-      } else if (start !== end) {
-        newValue = currentValue.slice(0, start) + currentValue.slice(end);
-        newCursorPos = start;
+    if (isNumberInput) {
+      if (key === 'backspace') {
+        newValue = currentValue.slice(0, -1);
+        newCursorPos = newValue.length;
       } else {
-        // Nothing to delete
-        return;
+        newValue = currentValue + key;
+        newCursorPos = newValue.length;
       }
     } else {
-      newValue = currentValue.slice(0, start) + key + currentValue.slice(end);
-      newCursorPos = start + key.length;
+      const start = input.selectionStart || 0;
+      const end = input.selectionEnd || 0;
+      
+      if (key === 'backspace') {
+        if (start === end && start > 0) {
+          newValue = currentValue.slice(0, start - 1) + currentValue.slice(end);
+          newCursorPos = start - 1;
+        } else if (start !== end) {
+          newValue = currentValue.slice(0, start) + currentValue.slice(end);
+          newCursorPos = start;
+        } else {
+          return;
+        }
+      } else {
+        newValue = currentValue.slice(0, start) + key + currentValue.slice(end);
+        newCursorPos = start + key.length;
+      }
     }
     
-    // Use native setter based on element type to properly trigger React's synthetic event system
     const isTextArea = input.tagName === 'TEXTAREA';
     const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
       isTextArea ? window.HTMLTextAreaElement.prototype : window.HTMLInputElement.prototype, 
@@ -219,17 +231,17 @@ function App() {
       input.value = newValue;
     }
     
-    // Dispatch input event to trigger React onChange
     const inputEvent = new Event('input', { bubbles: true, cancelable: true });
     input.dispatchEvent(inputEvent);
     
-    // Restore cursor position after React re-renders
-    requestAnimationFrame(() => {
-      if (input === activeInputElement) {
-        input.focus();
-        input.selectionStart = input.selectionEnd = newCursorPos;
-      }
-    });
+    if (!isNumberInput) {
+      requestAnimationFrame(() => {
+        if (input === activeInputElement) {
+          input.focus();
+          input.selectionStart = input.selectionEnd = newCursorPos;
+        }
+      });
+    }
   };
 
   const handleCloseKeyboard = () => {
@@ -803,6 +815,7 @@ function App() {
           <VirtualKeyboard
             onKeyboardInput={handleKeyboardInput}
             onClose={handleCloseKeyboard}
+            inputType={activeInputType}
           />
         )}
       </DevicePreview>
@@ -828,6 +841,7 @@ function App() {
           <VirtualKeyboard
             onKeyboardInput={handleKeyboardInput}
             onClose={handleCloseKeyboard}
+            inputType={activeInputType}
           />
         )}
       </DevicePreview>
@@ -1220,6 +1234,7 @@ function App() {
         <VirtualKeyboard
           onKeyboardInput={handleKeyboardInput}
           onClose={handleCloseKeyboard}
+          inputType={activeInputType}
         />
       )}
     </div>

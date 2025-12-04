@@ -126,6 +126,45 @@
   background: #2fb83c;
 }
 
+.dumbledido-keyboard .hg-button-numbers,
+.dumbledido-keyboard .hg-button-abc {
+  background: #666;
+  max-width: 80px;
+  font-size: 18px;
+}
+
+.dumbledido-keyboard .hg-button-numbers:active,
+.dumbledido-keyboard .hg-button-abc:active {
+  background: #777;
+}
+
+.dumbledido-keyboard .shift-active {
+  background: #38D247 !important;
+}
+
+.number-keyboard .hg-row {
+  justify-content: center;
+  gap: 15px;
+}
+
+.number-keyboard .hg-button {
+  height: 65px;
+  min-width: 80px;
+  max-width: 80px;
+  font-size: 32px;
+  border-radius: 12px;
+}
+
+.number-keyboard .hg-button-abc {
+  font-size: 20px;
+  max-width: 80px;
+}
+
+.number-keyboard .hg-button-bksp {
+  background: #EE4100;
+  max-width: 80px;
+}
+
 @media (max-width: 600px) {
   .dumbledido-keyboard .hg-button {
     font-size: 18px;
@@ -150,5 +189,12 @@
   .dumbledido-keyboard .hg-button-space {
     max-width: 200px;
     min-width: 150px;
+  }
+  
+  .number-keyboard .hg-button {
+    height: 55px;
+    min-width: 60px;
+    max-width: 60px;
+    font-size: 26px;
   }
 }
