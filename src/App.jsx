@@ -185,7 +185,7 @@ function App() {
     const input = activeInputElement;
     const start = input.selectionStart || 0;
     const end = input.selectionEnd || 0;
-    const currentValue = input.value;
+    const currentValue = input.value || '';
     
     let newValue;
     let newCursorPos;
@@ -198,6 +198,7 @@ function App() {
         newValue = currentValue.slice(0, start) + currentValue.slice(end);
         newCursorPos = start;
       } else {
+        // Nothing to delete
         return;
       }
     } else {
@@ -205,11 +206,11 @@ function App() {
       newCursorPos = start + key.length;
     }
     
-    // Use native setter to properly trigger React's synthetic event system
+    // Use native setter based on element type to properly trigger React's synthetic event system
+    const isTextArea = input.tagName === 'TEXTAREA';
     const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-      window.HTMLInputElement.prototype, 'value'
-    )?.set || Object.getOwnPropertyDescriptor(
-      window.HTMLTextAreaElement.prototype, 'value'
+      isTextArea ? window.HTMLTextAreaElement.prototype : window.HTMLInputElement.prototype, 
+      'value'
     )?.set;
     
     if (nativeInputValueSetter) {
@@ -225,6 +226,7 @@ function App() {
     // Restore cursor position after React re-renders
     requestAnimationFrame(() => {
       if (input === activeInputElement) {
+        input.focus();
         input.selectionStart = input.selectionEnd = newCursorPos;
       }
     });

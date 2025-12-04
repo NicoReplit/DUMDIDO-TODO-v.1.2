@@ -15,7 +15,8 @@ function VirtualKeyboard({ onKeyboardInput, onClose }) {
     }
     
     if (button === '{enter}') {
-      if (onClose) onClose();
+      // Enter key does nothing - keyboard stays open
+      // User can close with the X button
       return;
     }
     
