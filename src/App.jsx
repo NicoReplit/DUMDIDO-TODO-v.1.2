@@ -19,6 +19,7 @@ import DeleteConfirmationModal from './components/DeleteConfirmationModal';
 import IndexOverlay from './components/IndexOverlay';
 import TodoMenu from './components/TodoMenu';
 import DevicePreview from './components/DevicePreview';
+import CustomNotification from './components/CustomNotification';
 import './App.css';
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
   const [showIndexOverlay, setShowIndexOverlay] = useState(false);
   const [showTodoMenu, setShowTodoMenu] = useState(false);
   const [showDevicePreview, setShowDevicePreview] = useState(false);
+  const [notification, setNotification] = useState(null);
   const prevUserIdRef = useRef(null);
   const prevOpenListRef = useRef(false);
   const isInitializedRef = useRef(false);
@@ -985,7 +987,10 @@ function App() {
               await fetchOpenTodos();
               await fetchUsers();
               
-              alert('Super-Punkt verwendet! ⭐ Aufgabe pünktlich erledigt!');
+              setNotification({
+                message: 'Super-Punkt verwendet!\nAufgabe pünktlich erledigt!',
+                type: 'success'
+              });
             } catch (error) {
               console.error('Error using super point:', error);
               alert('Fehler beim Verwenden des Super-Punkts. Bitte erneut versuchen.');
@@ -1039,6 +1044,15 @@ function App() {
       </div>
 
       {showIndexOverlay && <IndexOverlay />}
+
+      {notification && (
+        <CustomNotification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+          duration={3000}
+        />
+      )}
     </div>
     </DevicePreview>
   );

@@ -286,7 +286,7 @@
 .zigzag-wrapper {
   position: absolute;
   bottom: -90px;
-  right: 35px;
+  right: 45px;
   transform: rotate(20deg) scale(1.43);
   z-index: 5000;
 }
@@ -392,7 +392,7 @@
 /* Right pink pill - sticks to left border of ZigZag */
 .right-green-pill {
   position: absolute;
-  right: 176px;
+  right: 230px;
   bottom: -165px;
   width: 135px;
   height: 420px;
