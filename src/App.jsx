@@ -20,6 +20,7 @@ import IndexOverlay from './components/IndexOverlay';
 import TodoMenu from './components/TodoMenu';
 import DevicePreview from './components/DevicePreview';
 import CustomNotification from './components/CustomNotification';
+import VirtualKeyboard from './components/VirtualKeyboard';
 import './App.css';
 
 function App() {
@@ -55,6 +56,8 @@ function App() {
   const [showDevicePreview, setShowDevicePreview] = useState(false);
   const [notification, setNotification] = useState(null);
   const [pendingSuperPointTodo, setPendingSuperPointTodo] = useState(null);
+  const [showVirtualKeyboard, setShowVirtualKeyboard] = useState(false);
+  const [activeInputElement, setActiveInputElement] = useState(null);
   const prevUserIdRef = useRef(null);
   const prevOpenListRef = useRef(false);
   const isInitializedRef = useRef(false);
@@ -116,6 +119,85 @@ function App() {
   useEffect(() => {
     fetchOpenTodos();
   }, [currentDate]);
+
+  // Virtual keyboard - detect input focus for touch devices
+  useEffect(() => {
+    const handleFocusIn = (e) => {
+      const target = e.target;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+        if (target.type !== 'date' && target.type !== 'checkbox' && target.type !== 'radio') {
+          setActiveInputElement(target);
+          setShowVirtualKeyboard(true);
+        }
+      }
+    };
+
+    const handleFocusOut = (e) => {
+      // Small delay to check if we're focusing another input or keyboard
+      setTimeout(() => {
+        const activeEl = document.activeElement;
+        const keyboardContainer = document.querySelector('.virtual-keyboard-container');
+        
+        // Don't close if clicking on keyboard buttons
+        if (keyboardContainer && keyboardContainer.contains(activeEl)) {
+          return;
+        }
+        
+        // Don't close if focusing another text input
+        if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) {
+          if (activeEl.type !== 'date' && activeEl.type !== 'checkbox' && activeEl.type !== 'radio') {
+            return;
+          }
+        }
+        
+        // Close keyboard if focus left text inputs
+        setShowVirtualKeyboard(false);
+        setActiveInputElement(null);
+      }, 150);
+    };
+
+    document.addEventListener('focusin', handleFocusIn);
+    document.addEventListener('focusout', handleFocusOut);
+
+    return () => {
+      document.removeEventListener('focusin', handleFocusIn);
+      document.removeEventListener('focusout', handleFocusOut);
+    };
+  }, []);
+
+  const handleKeyboardInput = (key) => {
+    if (!activeInputElement) return;
+    
+    const input = activeInputElement;
+    const start = input.selectionStart || 0;
+    const end = input.selectionEnd || 0;
+    const currentValue = input.value;
+    
+    if (key === 'backspace') {
+      if (start === end && start > 0) {
+        input.value = currentValue.slice(0, start - 1) + currentValue.slice(end);
+        input.selectionStart = input.selectionEnd = start - 1;
+      } else if (start !== end) {
+        input.value = currentValue.slice(0, start) + currentValue.slice(end);
+        input.selectionStart = input.selectionEnd = start;
+      }
+    } else {
+      input.value = currentValue.slice(0, start) + key + currentValue.slice(end);
+      input.selectionStart = input.selectionEnd = start + key.length;
+    }
+    
+    // Trigger React's onChange
+    const event = new Event('input', { bubbles: true });
+    input.dispatchEvent(event);
+  };
+
+  const handleCloseKeyboard = () => {
+    setShowVirtualKeyboard(false);
+    setActiveInputElement(null);
+    if (activeInputElement) {
+      activeInputElement.blur();
+    }
+  };
 
   const fetchGlobalSettings = async () => {
     try {
@@ -1075,6 +1157,13 @@ function App() {
           }}
           onConfirm={notification.onConfirm}
           duration={3000}
+        />
+      )}
+
+      {showVirtualKeyboard && (
+        <VirtualKeyboard
+          onKeyboardInput={handleKeyboardInput}
+          onClose={handleCloseKeyboard}
         />
       )}
     </div>
