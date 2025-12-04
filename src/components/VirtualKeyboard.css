@@ -118,7 +118,8 @@
 
 .dumbledido-keyboard .hg-button-enter {
   background: #38D247;
-  max-width: 80px;
+  min-width: 50px;
+  max-width: 60px;
 }
 
 .dumbledido-keyboard .hg-button-enter:active {

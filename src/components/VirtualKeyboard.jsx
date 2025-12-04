@@ -68,14 +68,14 @@ function VirtualKeyboard({ onKeyboardInput, onClose }) {
           default: [
             '1 2 3 4 5 6 7 8 9 0 {bksp}',
             'q w e r t z u i o p ü',
-            'a s d f g h j k l ö ä',
+            'a s d f g h j k l ö ä {enter}',
             '{shift} y x c v b n m , . {shift}',
             '{space}'
           ],
           shift: [
             '! " § $ % & / ( ) = {bksp}',
             'Q W E R T Z U I O P Ü',
-            'A S D F G H J K L Ö Ä',
+            'A S D F G H J K L Ö Ä {enter}',
             '{shift} Y X C V B N M ; : {shift}',
             '{space}'
           ]

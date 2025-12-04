@@ -769,6 +769,12 @@ function App() {
           }}
           onDelete={handleDeleteUser}
         />
+        {showVirtualKeyboard && (
+          <VirtualKeyboard
+            onKeyboardInput={handleKeyboardInput}
+            onClose={handleCloseKeyboard}
+          />
+        )}
       </DevicePreview>
     );
   }
@@ -788,6 +794,12 @@ function App() {
           }}
           defaultOpenList={isOpenListSelected}
         />
+        {showVirtualKeyboard && (
+          <VirtualKeyboard
+            onKeyboardInput={handleKeyboardInput}
+            onClose={handleCloseKeyboard}
+          />
+        )}
       </DevicePreview>
     );
   }
