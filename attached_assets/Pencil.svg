@@ -1,0 +1,16 @@
+<svg id="Pencil" xmlns="http://www.w3.org/2000/svg" width="37.401" height="52.458" viewBox="0 0 37.401 52.458">
+  <g id="Gruppe_19" data-name="Gruppe 19" transform="translate(21.029 1.934) rotate(25)">
+    <path id="Polygon_3" data-name="Polygon 3" d="M6.42,0l6.42,11.331H0Z" transform="translate(12.84 49.76) rotate(180)" fill="#fece00"/>
+    <path id="Pfad_13" data-name="Pfad 13" d="M3.075,0,6.131,5.419H0Z" transform="translate(9.495 49.76) rotate(180)" fill="#0061ee"/>
+    <rect id="Rechteck_30" data-name="Rechteck 30" width="12.84" height="36.95" fill="#fece00"/>
+    <rect id="Rechteck_31" data-name="Rechteck 31" width="4.938" height="36.95" transform="translate(3.951)" fill="#0061ee"/>
+  </g>
+  <g id="Komponente_1_7" data-name="Komponente 1 – 7" transform="matrix(0.875, 0.485, -0.485, 0.875, 21.658, 0)">
+    <circle id="Ellipse_5" data-name="Ellipse 5" cx="9" cy="9" r="9" fill="#fff"/>
+    <circle id="Ellipse_6" data-name="Ellipse 6" cx="3" cy="3" r="3" transform="translate(6 6)"/>
+  </g>
+  <g id="Komponente_1_8" data-name="Komponente 1 – 8" transform="translate(9.962 9.213)">
+    <ellipse id="Ellipse_5-2" data-name="Ellipse 5" cx="5.679" cy="5.666" rx="5.679" ry="5.666" fill="#fff"/>
+    <ellipse id="Ellipse_6-2" data-name="Ellipse 6" cx="2.427" cy="2.413" rx="2.427" ry="2.413" transform="translate(3.252 3.252)"/>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+<svg id="Bin" xmlns="http://www.w3.org/2000/svg" width="40.389" height="51.473" viewBox="0 0 40.389 51.473">
+  <g id="Bin-2" data-name="Bin" transform="translate(8.916 0) rotate(11)">
+    <path id="Rechteck_38" data-name="Rechteck 38" d="M0,0H27.6a0,0,0,0,1,0,0V20.773a12,12,0,0,1-12,12H12a12,12,0,0,1-12-12V0A0,0,0,0,1,0,0Z" transform="translate(1.781 13.952)" fill="#fece00"/>
+    <path id="Schnittmenge_4" data-name="Schnittmenge 4" d="M0,0H4.586V28.865A12.023,12.023,0,0,1,0,32.048Z" transform="translate(21.449 13.862)" fill="#0061ee"/>
+    <path id="Schnittmenge_6" data-name="Schnittmenge 6" d="M0,28.865V0H4.586V32.048A12.019,12.019,0,0,1,0,28.865Z" transform="translate(4.635 13.862)" fill="#0061ee"/>
+    <path id="Schnittmenge_5" data-name="Schnittmenge 5" d="M0,32.63V0H3.45V32.63a10.464,10.464,0,0,1-3.45,0Z" transform="translate(13.855 13.952)" fill="#0061ee"/>
+    <path id="Differenzmenge_1" data-name="Differenzmenge 1" d="M28.278,8.407H0C0,6.161,1.471,4.05,4.141,2.462A19.855,19.855,0,0,1,14.139,0a19.855,19.855,0,0,1,10,2.462c2.67,1.588,4.141,3.7,4.141,5.944Z" transform="translate(0 3.446) rotate(-7)" fill="#fece00"/>
+  </g>
+  <g id="Auge_Flat" data-name="Auge Flat" transform="translate(25.466 11.303)">
+    <g id="Gruppe_1" data-name="Gruppe 1" transform="translate(-8.19 -0.723)">
+      <path id="Pfad_14" data-name="Pfad 14" d="M11.29,0h8.723a3.1,3.1,0,0,1,0,6.2H11.29a3.1,3.1,0,0,1,0-6.2Z" transform="translate(0 0.723)" fill="#fff"/>
+      <path id="Schnittmenge_2" data-name="Schnittmenge 2" d="M.833,6.214A5.965,5.965,0,0,1,.915,0h1.85a3.107,3.107,0,0,1,0,6.214Z" transform="translate(17.242 0.723) rotate(1)"/>
+    </g>
+  </g>
+  <g id="Auge_Flat-2" data-name="Auge Flat" transform="translate(15.466 11.303)">
+    <g id="Gruppe_1-2" data-name="Gruppe 1" transform="translate(-8.19 -0.723)">
+      <path id="Pfad_14-2" data-name="Pfad 14" d="M11.29,0h8.723a3.1,3.1,0,0,1,0,6.2H11.29a3.1,3.1,0,0,1,0-6.2Z" transform="translate(0 0.723)" fill="#fff"/>
+      <path id="Schnittmenge_2-2" data-name="Schnittmenge 2" d="M.833,6.214A5.965,5.965,0,0,1,.915,0h1.85a3.107,3.107,0,0,1,0,6.214Z" transform="translate(17.242 0.723) rotate(1)"/>
+    </g>
+  </g>
+</svg>
