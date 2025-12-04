@@ -3,7 +3,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(1);
-  background: linear-gradient(135deg, #FECE00 0%, #FF8800 100%);
+  background: #FECE00;
   color: white;
   padding: 30px 40px;
   border-radius: 30px;
@@ -29,7 +29,7 @@
 }
 
 .custom-notification.success {
-  background: linear-gradient(135deg, #FECE00 0%, #FF8800 100%);
+  background: #FECE00;
 }
 
 .custom-notification.error {
@@ -37,7 +37,7 @@
 }
 
 .custom-notification.info {
-  background: linear-gradient(135deg, #0061EE 0%, #667eea 100%);
+  background: #FECE00;
 }
 
 .notification-content {
@@ -82,7 +82,7 @@
 }
 
 .custom-notification.confirm {
-  background: linear-gradient(135deg, #FECE00 0%, #FF8800 100%);
+  background: #FECE00;
   flex-direction: column;
   text-align: center;
   padding: 40px;

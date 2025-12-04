@@ -943,7 +943,10 @@ function App() {
           }
 
           if (!selectedTodo) {
-            alert(`Du hast ${currentUser.super_points} Super-Punkte verfügbar!\n\nSuper-Punkte können beim Abschließen einer Aufgabe verwendet werden, um sie als "pünktlich" zu zählen, unabhängig davon, wie lange sie gedauert hat.\n\nÖffne eine Aufgabe, um einen Super-Punkt zu verwenden.`);
+            setNotification({
+              message: `Du hast ${currentUser.super_points} Super-Punkte!\n\nÖffne eine Aufgabe,\num einen Super-Punkt\nzu verwenden.`,
+              type: 'info'
+            });
             return;
           }
 
