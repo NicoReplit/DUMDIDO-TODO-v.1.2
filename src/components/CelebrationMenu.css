@@ -65,11 +65,11 @@
   background: white;
   border-radius: 50%;
   position: relative;
-  animation: celebrationEyeWiggle 3s ease-in-out infinite;
+  animation: celebrationEyeScaleIn 0.6s ease-out forwards;
 }
 
 .celebration-circle-eye:nth-child(2) {
-  animation-delay: 0.5s;
+  animation-delay: 0.1s;
 }
 
 .celebration-circle-eye::after {
@@ -79,23 +79,34 @@
   height: 15px;
   background: #000000;
   border-radius: 50%;
-  top: 70%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  animation: celebrationPupilMoveIn 0.6s ease-out forwards;
 }
 
-@keyframes celebrationEyeWiggle {
-  0%, 100% {
+.celebration-circle-eye:nth-child(2)::after {
+  animation-delay: 0.1s;
+}
+
+/* Eye animation: starts 10% bigger, ends at normal size */
+@keyframes celebrationEyeScaleIn {
+  0% {
+    transform: scale(1.1);
+  }
+  100% {
     transform: scale(1);
   }
-  25% {
-    transform: scale(1.05);
+}
+
+/* Pupil animation: starts centered, moves to final position */
+@keyframes celebrationPupilMoveIn {
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
-  50% {
-    transform: scale(0.95);
-  }
-  75% {
-    transform: scale(1.02);
+  100% {
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 
