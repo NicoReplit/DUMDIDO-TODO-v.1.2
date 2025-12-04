@@ -182,6 +182,7 @@
   font-weight: bold;
   color: #667eea;
   font-variant-numeric: tabular-nums;
+  margin-top: 10px;
 }
 
 .timer-display.overtime-display {
