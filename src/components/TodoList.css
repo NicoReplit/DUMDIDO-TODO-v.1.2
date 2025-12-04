@@ -344,10 +344,12 @@
 
 .edit-btn-layer {
   margin: 0;
+  margin-right: -5px;
 }
 
 .delete-btn-layer {
   margin: 0;
+  margin-right: -5px;
 }
 
 .action-btn-layer:active {

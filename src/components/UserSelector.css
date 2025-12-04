@@ -110,6 +110,7 @@
   width: 43px;
   height: 43px;
   object-fit: contain;
+  margin-right: -5px;
 }
 
 /* Clickability - entire pill in regular mode */
