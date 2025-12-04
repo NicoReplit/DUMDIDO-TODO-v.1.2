@@ -284,9 +284,9 @@
 /* ZigZag wrapper positioned to right boundary */
 .zigzag-wrapper {
   position: absolute;
-  bottom: -100px;
-  right: -20px;
-  transform: rotate(20deg) scale(1.1);
+  bottom: -130px;
+  right: -26px;
+  transform: rotate(20deg) scale(1.43);
   z-index: 5000;
 }
 
@@ -294,11 +294,11 @@
 .left-red-pill {
   position: absolute;
   left: 10px;
-  bottom: -220px;
-  width: 96px;
-  height: 312px;
+  bottom: -280px;
+  width: 125px;
+  height: 406px;
   background-color: #EE4100;
-  border-radius: 48px;
+  border-radius: 63px;
   z-index: 9998;
   display: flex;
   align-items: flex-start;
@@ -438,27 +438,27 @@
   font-family: 'MuseoModerno', sans-serif;
   color: white;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 21px;
   text-align: center;
   line-height: 1.2;
-  margin-top: 10px;
+  margin-top: 13px;
 }
 
 .super-punkte-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  margin-bottom: 8px;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 
 .star-emoji {
-  font-size: 20px;
+  font-size: 26px;
 }
 
 .super-punkte-counter {
   font-weight: 700;
-  font-size: 20px;
+  font-size: 26px;
 }
 
 .half-moon-shape {
