@@ -27,7 +27,9 @@ function PINEntry({ userName, action = 'edit', onVerify, onCancel }) {
       <div className="pin-entry-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="pin-entry-header">
           <h3>PIN eingeben</h3>
-          <button className="close-btn" onClick={onCancel}>×</button>
+          <button className="close-btn" onClick={onCancel}>
+            <img src="/Close.svg" alt="Close" className="close-icon" />
+          </button>
         </div>
         
         <p className="pin-entry-message">

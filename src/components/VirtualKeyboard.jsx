@@ -46,7 +46,7 @@ function VirtualKeyboard({ onKeyboardInput, onClose }) {
     <div className="virtual-keyboard-container">
       <div className="keyboard-header">
         <button className="keyboard-close-btn" onClick={onClose}>
-          Fertig
+          <img src="/Close.svg" alt="Close" className="close-icon" />
         </button>
       </div>
       <Keyboard

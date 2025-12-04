@@ -38,24 +38,26 @@
 }
 
 .close-btn {
-  background: none;
+  background: transparent;
   border: none;
-  font-size: 2rem;
-  color: #999;
   cursor: pointer;
   padding: 0;
-  width: 32px;
-  height: 32px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
   transition: all 0.2s;
 }
 
-.close-btn:hover {
-  background: #f0f0f0;
-  color: #666;
+.close-btn .close-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.close-btn:active {
+  transform: scale(0.95);
 }
 
 .task-title-display {

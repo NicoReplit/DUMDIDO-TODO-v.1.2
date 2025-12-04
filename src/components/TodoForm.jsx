@@ -55,7 +55,9 @@ function TodoForm({ todo, onSave, onCancel, defaultOpenList = false }) {
     <div className="todo-form-container">
       <div className="form-header">
         <h2>{todo ? 'Aufgabe bearbeiten' : 'Neue Aufgabe'}</h2>
-        <button className="close-btn" onClick={onCancel}>×</button>
+        <button className="close-btn" onClick={onCancel}>
+          <img src="/Close.svg" alt="Close" className="close-icon" />
+        </button>
       </div>
       
       <form onSubmit={handleSubmit} className="todo-form">

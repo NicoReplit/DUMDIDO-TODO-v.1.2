@@ -6,7 +6,9 @@ function UserSelectionModal({ users, taskTitle, onSelect, onCancel }) {
       <div className="user-selection-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="user-selection-header">
           <h3>Who's doing this task?</h3>
-          <button className="close-btn" onClick={onCancel}>×</button>
+          <button className="close-btn" onClick={onCancel}>
+            <img src="/Close.svg" alt="Close" className="close-icon" />
+          </button>
         </div>
         
         <p className="task-title-display">

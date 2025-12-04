@@ -30,13 +30,10 @@
 }
 
 .detail-header .close-btn {
-  background: #EE4100;
+  background: transparent;
   border: none;
-  color: transparent;
-  font-size: 0;
   width: 60px;
   height: 60px;
-  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -44,25 +41,12 @@
   transition: all 0.2s;
   padding: 0;
   flex-shrink: 0;
-  position: relative;
 }
 
-.detail-header .close-btn::before,
-.detail-header .close-btn::after {
-  content: '';
-  position: absolute;
-  width: 28px;
-  height: 8px;
-  background: white;
-  border-radius: 4px;
-}
-
-.detail-header .close-btn::before {
-  transform: rotate(45deg);
-}
-
-.detail-header .close-btn::after {
-  transform: rotate(-45deg);
+.detail-header .close-btn .close-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .detail-header .close-btn:active {
@@ -90,10 +74,12 @@
 .timer-container {
   display: flex;
   justify-content: center;
+  align-items: center;
   position: absolute;
-  bottom: 500px;
+  top: 50%;
   left: 0;
   right: 0;
+  transform: translateY(-50%);
   margin: 0;
 }
 

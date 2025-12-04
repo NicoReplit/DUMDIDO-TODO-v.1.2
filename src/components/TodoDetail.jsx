@@ -186,7 +186,9 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
   return (
     <div className="todo-detail">
       <div className="detail-header">
-        <button className="close-btn" onClick={handleBack}>×</button>
+        <button className="close-btn" onClick={handleBack}>
+          <img src="/Close.svg" alt="Close" className="close-icon" />
+        </button>
       </div>
 
       <div className="detail-content">

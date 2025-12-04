@@ -96,7 +96,9 @@ function UserForm({ user, onSave, onCancel, onDelete }) {
     <div className="user-form-container">
       <div className="form-header">
         <h2>{user ? 'Benutzer bearbeiten' : 'Neuer Benutzer'}</h2>
-        <button className="close-btn" onClick={onCancel}>×</button>
+        <button className="close-btn" onClick={onCancel}>
+          <img src="/Close.svg" alt="Close" className="close-icon" />
+        </button>
       </div>
       
       <form onSubmit={handleSubmit} className="user-form">
