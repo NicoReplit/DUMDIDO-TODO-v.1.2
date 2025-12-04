@@ -1,7 +1,7 @@
 .quarter-circle-wrapper {
   position: absolute;
-  bottom: 100px;
-  right: 28px;
+  bottom: 150px;
+  right: 5%;
   width: 60px;
   height: 60px;
   z-index: var(--z-menu);

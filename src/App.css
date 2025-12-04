@@ -286,7 +286,7 @@
 .zigzag-wrapper {
   position: absolute;
   bottom: -90px;
-  right: 15px;
+  right: -5px;
   transform: rotate(20deg) scale(1.43);
   z-index: 5000;
 }
