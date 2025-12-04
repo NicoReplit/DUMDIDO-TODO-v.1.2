@@ -392,7 +392,7 @@
 /* Right pink pill - sticks to left border of ZigZag */
 .right-green-pill {
   position: absolute;
-  right: 230px;
+  right: 225px;
   bottom: -165px;
   width: 135px;
   height: 420px;
