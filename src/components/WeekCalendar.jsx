@@ -174,9 +174,11 @@ function WeekCalendar({ userId, selectedDate }) {
                       </svg>
                     ) : (
                       <div 
-                        className="week-eye-open"
+                        className="week-eye-rotation-wrapper"
                         style={{ transform: `rotate(${eyeRotation}deg)` }}
-                      ></div>
+                      >
+                        <div className="week-eye-open"></div>
+                      </div>
                     )}
                   </div>
                 </div>

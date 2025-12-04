@@ -103,6 +103,13 @@
   position: relative;
 }
 
+/* Wrapper for rotation - doesn't interfere with scale animation */
+.week-eye-rotation-wrapper {
+  width: 38px;
+  height: 38px;
+  position: relative;
+}
+
 /* Single eye - open (no outline) */
 .week-eye-open {
   width: 38px;
@@ -111,6 +118,7 @@
   border-radius: 50%;
   position: relative;
   border: none;
+  animation: eyeScaleIn 0.6s ease-out forwards;
 }
 
 .week-eye-open::after {
@@ -120,9 +128,31 @@
   height: 15px;
   background: #000000;
   border-radius: 50%;
-  top: 30%;
-  left: 60%;
-  transform: translate(-50%, -50%);
+  animation: pupilMoveIn 0.6s ease-out forwards;
+}
+
+/* Eye animation: starts 10% bigger, ends at normal size */
+@keyframes eyeScaleIn {
+  0% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Pupil animation: starts centered, moves to final position */
+@keyframes pupilMoveIn {
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    top: 30%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 /* Single eye - closed (smiley with round endings) */
@@ -170,6 +200,11 @@
   }
 
   .week-day-eye {
+    width: 32px;
+    height: 32px;
+  }
+
+  .week-eye-rotation-wrapper {
     width: 32px;
     height: 32px;
   }
