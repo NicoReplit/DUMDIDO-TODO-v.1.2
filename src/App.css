@@ -284,7 +284,7 @@
 /* ZigZag wrapper positioned to right boundary */
 .zigzag-wrapper {
   position: absolute;
-  bottom: -30px;
+  bottom: -90px;
   right: -26px;
   transform: rotate(20deg) scale(1.43);
   z-index: 5000;
@@ -320,7 +320,7 @@
 .left-green-pill {
   position: absolute;
   left: 106px;
-  bottom: -195px;
+  bottom: -95px;
   width: 90px;
   height: 280px;
   background-color: #38D247;
@@ -335,7 +335,7 @@
 }
 
 .left-green-pill.slide-up {
-  bottom: -115px;
+  bottom: -15px;
 }
 
 .left-green-pill:hover {
