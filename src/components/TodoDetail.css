@@ -133,17 +133,19 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
+  width: 115%;
+  height: 115%;
   border-radius: 50%;
   z-index: 0;
-  mask: radial-gradient(transparent 42%, black 42%);
-  -webkit-mask: radial-gradient(transparent 42%, black 42%);
+  mask: radial-gradient(transparent 38%, black 38%);
+  -webkit-mask: radial-gradient(transparent 38%, black 38%);
 }
 
 .timer-ring.overtime-ring {
-  mask: radial-gradient(transparent 42%, black 42%);
-  -webkit-mask: radial-gradient(transparent 42%, black 42%);
+  width: 115%;
+  height: 115%;
+  mask: radial-gradient(transparent 38%, black 38%);
+  -webkit-mask: radial-gradient(transparent 38%, black 38%);
 }
 
 .timer-circle,
