@@ -350,9 +350,12 @@ function App() {
       }
       setShowForm(false);
       setEditingTodo(null);
-      if (isOpenListSelected) {
+      // Refresh open todos if creating/editing an open list item
+      if (isOpenListSelected || todoData.is_open_list) {
         fetchOpenTodos();
-      } else {
+      }
+      // Also refresh user todos if a user is selected
+      if (currentUser) {
         fetchTodos();
       }
     } catch (error) {
