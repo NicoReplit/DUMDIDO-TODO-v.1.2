@@ -176,10 +176,6 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
           </div>
         </div>
       ))}
-      <button className="user-add-button" onClick={onAddUser}>
-        +
-      </button>
-
       {editingUser && (
         <UserEditModal
           user={editingUser}
