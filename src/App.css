@@ -24,7 +24,7 @@
 /* Todo scroll stage - positioned between fixed header and footer */
 .todo-stage {
   position: absolute;
-  top: 360px;
+  top: 355px;
   left: 0;
   right: 0;
   bottom: 210px;
