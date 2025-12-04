@@ -1,0 +1,142 @@
+.virtual-keyboard-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  background: #2c2c2c;
+  padding: 10px;
+  padding-bottom: 20px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.keyboard-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px 10px 10px;
+}
+
+.keyboard-close-btn {
+  background: #0061EE;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'MuseoModerno', sans-serif;
+}
+
+.keyboard-close-btn:active {
+  transform: scale(0.95);
+}
+
+.dumbledido-keyboard.hg-theme-default {
+  background: transparent;
+  padding: 0;
+  font-family: 'MuseoModerno', sans-serif;
+}
+
+.dumbledido-keyboard .hg-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.dumbledido-keyboard .hg-button {
+  background: #4a4a4a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 22px;
+  font-weight: 600;
+  height: 50px;
+  min-width: 35px;
+  flex-grow: 1;
+  max-width: 50px;
+  cursor: pointer;
+  box-shadow: 0 2px 0 #1a1a1a;
+  font-family: 'MuseoModerno', sans-serif;
+}
+
+.dumbledido-keyboard .hg-button:active {
+  background: #5a5a5a;
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.dumbledido-keyboard .hg-button-bksp {
+  background: #EE4100;
+  max-width: 70px;
+}
+
+.dumbledido-keyboard .hg-button-bksp:active {
+  background: #cc3700;
+}
+
+.dumbledido-keyboard .hg-button-shift {
+  background: #666;
+  max-width: 60px;
+}
+
+.dumbledido-keyboard .hg-button-shift:active {
+  background: #777;
+}
+
+.dumbledido-keyboard .hg-button-space {
+  max-width: 300px;
+  min-width: 200px;
+  background: #555;
+}
+
+.dumbledido-keyboard .hg-button-space:active {
+  background: #666;
+}
+
+.dumbledido-keyboard .hg-button-enter {
+  background: #38D247;
+  max-width: 80px;
+}
+
+.dumbledido-keyboard .hg-button-enter:active {
+  background: #2fb83c;
+}
+
+@media (max-width: 600px) {
+  .dumbledido-keyboard .hg-button {
+    font-size: 18px;
+    height: 45px;
+    min-width: 28px;
+    max-width: 40px;
+  }
+  
+  .dumbledido-keyboard .hg-row {
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  
+  .dumbledido-keyboard .hg-button-bksp {
+    max-width: 55px;
+  }
+  
+  .dumbledido-keyboard .hg-button-shift {
+    max-width: 50px;
+  }
+  
+  .dumbledido-keyboard .hg-button-space {
+    max-width: 200px;
+    min-width: 150px;
+  }
+}
