@@ -285,7 +285,7 @@
 .zigzag-wrapper {
   position: absolute;
   bottom: -90px;
-  right: -26px;
+  right: 4px;
   transform: rotate(20deg) scale(1.43);
   z-index: 5000;
 }
@@ -294,7 +294,7 @@
 .left-red-pill {
   position: absolute;
   left: 10px;
-  bottom: -180px;
+  bottom: -160px;
   width: 125px;
   height: 406px;
   background-color: #EE4100;
@@ -319,7 +319,7 @@
 /* Left green pill - left border aligned to right border of red pill */
 .left-green-pill {
   position: absolute;
-  left: 106px;
+  left: 135px;
   bottom: -95px;
   width: 90px;
   height: 280px;
@@ -388,11 +388,11 @@
   justify-content: center;
 }
 
-/* Right pink pill - 30px inward from left border of index 15 (ZigZag) */
+/* Right pink pill - sticks to left border of ZigZag */
 .right-green-pill {
   position: absolute;
-  right: 146px;
-  bottom: -195px;
+  right: 176px;
+  bottom: -95px;
   width: 90px;
   height: 280px;
   background-color: #FF77B9;
@@ -407,7 +407,7 @@
 }
 
 .right-green-pill.slide-up {
-  bottom: -115px;
+  bottom: -15px;
 }
 
 .right-green-pill:hover {
