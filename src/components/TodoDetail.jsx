@@ -208,7 +208,12 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
                     </div>
                     {!isRunning && timeRemaining > 0 ? (
                       <>
-                        <button className="play-btn-circle" onClick={handleStart} aria-label="Start timer"></button>
+                        <img 
+                          src="/attached_assets/Play.svg" 
+                          alt="Start timer" 
+                          className="play-btn-circle" 
+                          onClick={handleStart}
+                        />
                         <div className="estimated-time-circle">
                           {todo.estimated_minutes ? `${todo.estimated_minutes} Min` : 'No estimate'}
                         </div>

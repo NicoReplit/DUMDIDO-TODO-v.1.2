@@ -159,31 +159,13 @@
 .play-btn-circle {
   width: 80px;
   height: 80px;
-  border-radius: 50%;
-  background: #FECE00;
-  border: none;
-  color: white;
-  font-size: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.play-btn-circle::before {
-  content: '';
-  width: 0;
-  height: 0;
-  border-left: 24px solid white;
-  border-top: 14px solid transparent;
-  border-bottom: 14px solid transparent;
-  margin-left: 4px;
-  border-radius: 3px;
+  object-fit: contain;
 }
 
 .play-btn-circle:active {
@@ -377,12 +359,6 @@
   .play-btn-circle {
     width: 70px;
     height: 70px;
-  }
-
-  .play-btn-circle::before {
-    border-left: 20px solid white;
-    border-top: 12px solid transparent;
-    border-bottom: 12px solid transparent;
   }
 
   .estimated-time-circle {
