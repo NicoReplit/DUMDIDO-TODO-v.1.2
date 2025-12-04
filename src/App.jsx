@@ -54,6 +54,7 @@ function App() {
   const [showTodoMenu, setShowTodoMenu] = useState(false);
   const [showDevicePreview, setShowDevicePreview] = useState(false);
   const [notification, setNotification] = useState(null);
+  const [pendingSuperPointTodo, setPendingSuperPointTodo] = useState(null);
   const prevUserIdRef = useRef(null);
   const prevOpenListRef = useRef(false);
   const isInitializedRef = useRef(false);
@@ -918,6 +919,7 @@ function App() {
       <div className="footer-decor-layer">
         <QuarterCircle 
           isMenuOpen={showTodoMenu}
+          isDetailOpen={selectedTodo !== null}
           onClick={() => {
             setShowTodoMenu(true);
           }} 
@@ -951,51 +953,66 @@ function App() {
           }
 
           if (selectedTodo.super_point_used) {
-            alert('Diese Aufgabe hat bereits einen Super-Punkt!');
+            setNotification({
+              message: 'Diese Aufgabe hat bereits\neinen Super-Punkt!',
+              type: 'info'
+            });
             return;
           }
 
-          if (window.confirm('1 Super-Punkt verwenden, um diese Aufgabe pünktlich abzuschließen?')) {
-            try {
-              const response = await fetch(`/api/users/${currentUser.id}/use-super-point`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-              });
-              
-              if (!response.ok) {
-                const error = await response.text();
-                alert(`Fehler beim Verwenden des Super-Punkts: ${error}`);
-                return;
+          setPendingSuperPointTodo(selectedTodo);
+          setNotification({
+            message: '1 Super-Punkt verwenden,\num diese Aufgabe\npünktlich abzuschließen?',
+            type: 'confirm',
+            onConfirm: async () => {
+              try {
+                const response = await fetch(`/api/users/${currentUser.id}/use-super-point`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (!response.ok) {
+                  const error = await response.text();
+                  setNotification({
+                    message: 'Fehler beim Verwenden\ndes Super-Punkts',
+                    type: 'error'
+                  });
+                  return;
+                }
+                
+                const updatedUser = await response.json();
+                
+                const basePoints = selectedTodo.estimated_minutes || 0;
+                
+                await handleUpdateTodo(selectedTodo.id, {
+                  completed: true,
+                  super_point_used: true,
+                  points_earned: basePoints,
+                  remaining_seconds: 0,
+                  pause_used: false,
+                  actual_time_seconds: 0
+                });
+                
+                setCurrentUser(updatedUser);
+                setSelectedTodo(null);
+                setPendingSuperPointTodo(null);
+                await fetchTodos();
+                await fetchOpenTodos();
+                await fetchUsers();
+                
+                setNotification({
+                  message: 'Super-Punkt verwendet!\nAufgabe pünktlich erledigt!',
+                  type: 'success'
+                });
+              } catch (error) {
+                console.error('Error using super point:', error);
+                setNotification({
+                  message: 'Fehler beim Verwenden\ndes Super-Punkts',
+                  type: 'error'
+                });
               }
-              
-              const updatedUser = await response.json();
-              
-              const basePoints = selectedTodo.estimated_minutes || 0;
-              
-              await handleUpdateTodo(selectedTodo.id, {
-                completed: true,
-                super_point_used: true,
-                points_earned: basePoints,
-                remaining_seconds: 0,
-                pause_used: false,
-                actual_time_seconds: 0
-              });
-              
-              setCurrentUser(updatedUser);
-              setSelectedTodo(null);
-              await fetchTodos();
-              await fetchOpenTodos();
-              await fetchUsers();
-              
-              setNotification({
-                message: 'Super-Punkt verwendet!\nAufgabe pünktlich erledigt!',
-                type: 'success'
-              });
-            } catch (error) {
-              console.error('Error using super point:', error);
-              alert('Fehler beim Verwenden des Super-Punkts. Bitte erneut versuchen.');
             }
-          }
+          });
         }}
       >
         <div className="left-red-pill-text">
@@ -1049,7 +1066,11 @@ function App() {
         <CustomNotification
           message={notification.message}
           type={notification.type}
-          onClose={() => setNotification(null)}
+          onClose={() => {
+            setNotification(null);
+            setPendingSuperPointTodo(null);
+          }}
+          onConfirm={notification.onConfirm}
           duration={3000}
         />
       )}

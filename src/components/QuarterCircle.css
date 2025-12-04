@@ -4,12 +4,16 @@
   right: 5%;
   width: 60px;
   height: 60px;
-  z-index: var(--z-menu);
+  z-index: 50;
   cursor: pointer;
 }
 
 .quarter-circle-wrapper.menu-open {
-  z-index: var(--z-menu);
+  z-index: 50;
+}
+
+.quarter-circle-wrapper.detail-open {
+  z-index: 10;
 }
 
 .quarter-circle-svg {

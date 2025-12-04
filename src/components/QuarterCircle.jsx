@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './QuarterCircle.css';
 
-function QuarterCircle({ onClick, isMenuOpen }) {
+function QuarterCircle({ onClick, isMenuOpen, isDetailOpen }) {
   const [dynamicScale, setDynamicScale] = useState(1);
   const wrapperRef = useRef(null);
 
@@ -43,7 +43,7 @@ function QuarterCircle({ onClick, isMenuOpen }) {
   return (
     <div 
       ref={wrapperRef}
-      className={`quarter-circle-wrapper ${isMenuOpen ? 'menu-open' : ''}`}
+      className={`quarter-circle-wrapper ${isMenuOpen ? 'menu-open' : ''} ${isDetailOpen ? 'detail-open' : ''}`}
       onClick={onClick}
     >
       <svg 
