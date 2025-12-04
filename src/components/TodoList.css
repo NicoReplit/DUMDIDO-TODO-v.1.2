@@ -327,6 +327,15 @@
   transition: transform 0.2s;
   background: none;
   border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-svg-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
   margin: 0;
   padding: 0;
   flex-shrink: 0;

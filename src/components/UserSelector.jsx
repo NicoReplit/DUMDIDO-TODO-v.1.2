@@ -157,7 +157,7 @@ function UserSelector({ users, currentUser, onSelectUser, onAddUser, onSelectOpe
                 handleEditUser(user);
               }}
             >
-              ✏️
+              <img src="/attached_assets/Pencil.svg" alt="edit" className="action-svg-icon" />
             </button>
           </div>
           

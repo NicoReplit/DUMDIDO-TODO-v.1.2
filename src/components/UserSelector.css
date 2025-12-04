@@ -106,6 +106,12 @@
   justify-content: center;
 }
 
+.user-action-btn-layer .action-svg-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
 /* Clickability - entire pill in regular mode */
 .user-pill-wrapper:not(.swiped) .user-pill-top {
   pointer-events: all;

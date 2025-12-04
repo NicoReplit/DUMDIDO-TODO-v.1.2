@@ -73,7 +73,7 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
                   setSwipedId(null);
                 }}
               >
-                🗑️
+                <img src="/attached_assets/Bin.svg" alt="delete" className="action-svg-icon" />
               </button>
             </div>
             
@@ -88,7 +88,7 @@ function TodoList({ todos, onEdit, onDelete, onSelect, runningTimers = {} }) {
                     setSwipedId(null);
                   }}
                 >
-                  ✏️
+                  <img src="/attached_assets/Pencil.svg" alt="edit" className="action-svg-icon" />
                 </button>
               </div>
             )}
