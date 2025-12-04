@@ -2,7 +2,7 @@
 .blue-circle-background {
   position: absolute;
   left: calc(var(--content-area-margin, 7px) + 10px);
-  bottom: calc(-0.20 * var(--device-vmin, 800px));
+  bottom: calc(-0.20 * var(--device-vmin, 800px) + 100px);
   transform: scale(1);
   transform-origin: center center;
   transition: transform 1.2s ease-out;

@@ -24,7 +24,7 @@ function RedMenu({ globalPin, onSavePin, onAddUser, maxPoints, onSaveMaxPoints }
         Math.min(window.innerWidth, window.innerHeight);
       
       const circleRadius = 0.24 * deviceVmin;
-      const circleBottomOffset = -0.42 * deviceVmin + 30;
+      const circleBottomOffset = -0.42 * deviceVmin + 130;
       const circleBottomY = containerHeight - circleBottomOffset;
       const circleCenterY = circleBottomY - circleRadius;
       

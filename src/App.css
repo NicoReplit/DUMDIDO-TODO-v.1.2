@@ -284,7 +284,7 @@
 /* ZigZag wrapper positioned to right boundary */
 .zigzag-wrapper {
   position: absolute;
-  bottom: -130px;
+  bottom: -30px;
   right: -26px;
   transform: rotate(20deg) scale(1.43);
   z-index: 5000;
@@ -294,7 +294,7 @@
 .left-red-pill {
   position: absolute;
   left: 10px;
-  bottom: -280px;
+  bottom: -180px;
   width: 125px;
   height: 406px;
   background-color: #EE4100;
