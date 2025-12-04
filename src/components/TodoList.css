@@ -223,11 +223,11 @@
 /* Status icons - circle + stroke design matching pills */
 .status-icon {
   position: absolute;
-  right: 15px;
+  right: 0px;
   top: 50%;
-  transform: translateY(-50%);
-  width: 73px;
-  height: 73px;
+  transform: translateY(calc(-50% - 15px));
+  width: 50px;
+  height: 50px;
   z-index: 10;
 }
 
@@ -268,9 +268,9 @@
 
 @media (max-width: 600px) {
   .status-icon {
-    width: 65px;
-    height: 65px;
-    right: 12px;
+    width: 45px;
+    height: 45px;
+    right: 0px;
   }
   
   .icon-stroke {
