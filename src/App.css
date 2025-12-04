@@ -453,8 +453,12 @@
   margin-bottom: 10px;
 }
 
-.star-emoji {
-  font-size: 26px;
+.star-icon {
+  width: 52px;
+  height: 52px;
+  position: relative;
+  left: -10px;
+  top: -10px;
 }
 
 .super-punkte-counter {

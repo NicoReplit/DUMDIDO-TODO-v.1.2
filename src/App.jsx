@@ -1020,7 +1020,7 @@ function App() {
       >
         <div className="left-red-pill-text">
           <div className="super-punkte-header">
-            <span className="star-emoji">⭐</span>
+            <img src="/attached_assets/Star.svg" alt="star" className="star-icon" />
             <span className="super-punkte-counter">{currentUser ? currentUser.super_points : 0}</span>
           </div>
           Super<br />Punkte
