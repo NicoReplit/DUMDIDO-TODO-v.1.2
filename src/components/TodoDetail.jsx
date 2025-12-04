@@ -204,10 +204,6 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
                     background: `conic-gradient(#65b032 ${countdownProgress}%, transparent ${countdownProgress}%)`
                   }}></div>
                   <div className="timer-inner">
-                    <div className="timer-eyes">
-                      <div className="timer-eye" style={{ transform: `rotate(${eye1Rotation}deg)` }}></div>
-                      <div className="timer-eye" style={{ transform: `rotate(${eye2Rotation}deg)` }}></div>
-                    </div>
                     {!isRunning && timeRemaining > 0 ? (
                       <>
                         <img 

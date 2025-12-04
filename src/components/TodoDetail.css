@@ -107,10 +107,11 @@
 
 .timer-base-svg {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  height: 110%;
   object-fit: contain;
   z-index: 1;
 }
@@ -123,8 +124,8 @@
   height: 100%;
   border-radius: 50%;
   z-index: 2;
-  mask: radial-gradient(transparent 60%, black 60%);
-  -webkit-mask: radial-gradient(transparent 60%, black 60%);
+  mask: radial-gradient(transparent 72%, black 72%);
+  -webkit-mask: radial-gradient(transparent 72%, black 72%);
 }
 
 .timer-circle,
@@ -196,12 +197,12 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, calc(-50% - 8px));
   object-fit: contain;
 }
 
 .play-btn-circle:active {
-  transform: translate(-50%, -50%) scale(0.95);
+  transform: translate(-50%, calc(-50% - 8px)) scale(0.95);
 }
 
 .estimated-time-circle {
