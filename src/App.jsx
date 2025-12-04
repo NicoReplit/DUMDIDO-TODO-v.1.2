@@ -187,22 +187,47 @@ function App() {
     const end = input.selectionEnd || 0;
     const currentValue = input.value;
     
+    let newValue;
+    let newCursorPos;
+    
     if (key === 'backspace') {
       if (start === end && start > 0) {
-        input.value = currentValue.slice(0, start - 1) + currentValue.slice(end);
-        input.selectionStart = input.selectionEnd = start - 1;
+        newValue = currentValue.slice(0, start - 1) + currentValue.slice(end);
+        newCursorPos = start - 1;
       } else if (start !== end) {
-        input.value = currentValue.slice(0, start) + currentValue.slice(end);
-        input.selectionStart = input.selectionEnd = start;
+        newValue = currentValue.slice(0, start) + currentValue.slice(end);
+        newCursorPos = start;
+      } else {
+        return;
       }
     } else {
-      input.value = currentValue.slice(0, start) + key + currentValue.slice(end);
-      input.selectionStart = input.selectionEnd = start + key.length;
+      newValue = currentValue.slice(0, start) + key + currentValue.slice(end);
+      newCursorPos = start + key.length;
     }
     
-    // Trigger React's onChange
-    const event = new Event('input', { bubbles: true });
-    input.dispatchEvent(event);
+    // Use native setter to properly trigger React's synthetic event system
+    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype, 'value'
+    )?.set || Object.getOwnPropertyDescriptor(
+      window.HTMLTextAreaElement.prototype, 'value'
+    )?.set;
+    
+    if (nativeInputValueSetter) {
+      nativeInputValueSetter.call(input, newValue);
+    } else {
+      input.value = newValue;
+    }
+    
+    // Dispatch input event to trigger React onChange
+    const inputEvent = new Event('input', { bubbles: true, cancelable: true });
+    input.dispatchEvent(inputEvent);
+    
+    // Restore cursor position after React re-renders
+    requestAnimationFrame(() => {
+      if (input === activeInputElement) {
+        input.selectionStart = input.selectionEnd = newCursorPos;
+      }
+    });
   };
 
   const handleCloseKeyboard = () => {
