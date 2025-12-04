@@ -55,7 +55,7 @@
   text-transform: uppercase;
   box-sizing: border-box;
   background-color: var(--dumbledido-pink);
-  color: white;
+  color: #000000;
   box-shadow: 5px 5px 0 var(--dumbledido-blue);
   height: 48px;
 }

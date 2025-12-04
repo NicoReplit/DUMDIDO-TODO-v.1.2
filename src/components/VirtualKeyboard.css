@@ -22,8 +22,16 @@
 
 .keyboard-header {
   display: flex;
-  justify-content: flex-end;
-  padding: 5px 10px 10px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px 10px;
+}
+
+.keyboard-title {
+  color: white;
+  font-family: 'MuseoModerno', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .keyboard-close-btn {

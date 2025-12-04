@@ -42,9 +42,19 @@ function VirtualKeyboard({ onKeyboardInput, onClose }) {
     setInputValue(input);
   };
 
+  // Prevent focus loss when clicking keyboard
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <div className="virtual-keyboard-container">
+    <div 
+      className="virtual-keyboard-container"
+      onMouseDown={handleMouseDown}
+      onTouchStart={(e) => e.stopPropagation()}
+    >
       <div className="keyboard-header">
+        <span className="keyboard-title">Tastatur</span>
         <button className="keyboard-close-btn" onClick={onClose}>
           <img src="/Close.svg" alt="Close" className="close-icon" />
         </button>

@@ -133,14 +133,18 @@ function App() {
     };
 
     const handleFocusOut = (e) => {
-      // Small delay to check if we're focusing another input or keyboard
+      // Longer delay to handle keyboard interactions
       setTimeout(() => {
         const activeEl = document.activeElement;
         const keyboardContainer = document.querySelector('.virtual-keyboard-container');
         
-        // Don't close if clicking on keyboard buttons
-        if (keyboardContainer && keyboardContainer.contains(activeEl)) {
-          return;
+        // Don't close if clicking on keyboard or its buttons
+        if (keyboardContainer) {
+          const isKeyboardClick = keyboardContainer.contains(activeEl) || 
+                                   keyboardContainer.contains(document.elementFromPoint(window.lastTouchX || 0, window.lastTouchY || 0));
+          if (isKeyboardClick) {
+            return;
+          }
         }
         
         // Don't close if focusing another text input
@@ -153,15 +157,25 @@ function App() {
         // Close keyboard if focus left text inputs
         setShowVirtualKeyboard(false);
         setActiveInputElement(null);
-      }, 150);
+      }, 200);
+    };
+
+    // Track touch position for keyboard click detection
+    const handleTouchStart = (e) => {
+      if (e.touches && e.touches[0]) {
+        window.lastTouchX = e.touches[0].clientX;
+        window.lastTouchY = e.touches[0].clientY;
+      }
     };
 
     document.addEventListener('focusin', handleFocusIn);
     document.addEventListener('focusout', handleFocusOut);
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
 
     return () => {
       document.removeEventListener('focusin', handleFocusIn);
       document.removeEventListener('focusout', handleFocusOut);
+      document.removeEventListener('touchstart', handleTouchStart);
     };
   }, []);
 
