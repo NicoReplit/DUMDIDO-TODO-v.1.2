@@ -87,6 +87,7 @@
 .letter-di { color: var(--dumbledido-blue); font-weight: 700; }
 .letter-do { color: white; font-weight: 700; }
 .letter-thedo { color: white; font-weight: 400; }
+.letter-space { margin-right: 10px; }
 
 /* White rectangle background - spans from header to footer area */
 .custom-rectangle {
@@ -95,7 +96,7 @@
   background: white;
   position: absolute;
   top: 51px;
-  bottom: 100px;
+  bottom: 150px;
   left: 5%;
   box-shadow: 10px 10px 0 var(--dumbledido-blue);
   z-index: var(--z-base);
@@ -109,7 +110,7 @@
   background: #f0f1f2;
   position: absolute;
   top: 193px;
-  bottom: 100px;
+  bottom: 150px;
   left: 5%;
   z-index: 0;
   pointer-events: none;
