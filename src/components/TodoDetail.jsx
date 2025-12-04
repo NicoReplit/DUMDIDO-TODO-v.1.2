@@ -198,9 +198,11 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
           <>
             <div className="timer-container">
               {!isOvertime && (
-                <div className="timer-circle" style={{
-                  background: `conic-gradient(#65b032 ${countdownProgress}%, #e5e7eb ${countdownProgress}%)`
-                }}>
+                <div className="timer-circle-wrapper">
+                  <img src="/PlayBase.svg" alt="" className="timer-base-svg" />
+                  <div className="timer-ring" style={{
+                    background: `conic-gradient(#65b032 ${countdownProgress}%, transparent ${countdownProgress}%)`
+                  }}></div>
                   <div className="timer-inner">
                     <div className="timer-eyes">
                       <div className="timer-eye" style={{ transform: `rotate(${eye1Rotation}deg)` }}></div>
@@ -209,7 +211,7 @@ function TodoDetail({ todo, onClose, onUpdate, currentUser, startTimer, stopTime
                     {!isRunning && timeRemaining > 0 ? (
                       <>
                         <img 
-                          src="/attached_assets/Play.svg" 
+                          src="/Play Button.svg" 
                           alt="Start timer" 
                           className="play-btn-circle" 
                           onClick={handleStart}

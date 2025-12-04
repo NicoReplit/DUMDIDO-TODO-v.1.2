@@ -1,0 +1,12 @@
+<svg id="Play" xmlns="http://www.w3.org/2000/svg" width="209" height="234" viewBox="0 0 209 234">
+  <text id="Start" transform="translate(50.14 181.207)" fill="#fff" font-size="18" font-family="MuseoModerno" font-weight="300"><tspan x="26.137" y="21">START</tspan></text>
+  <circle id="Ellipse_25" data-name="Ellipse 25" cx="104.5" cy="104.5" r="104.5" transform="translate(0 25)" fill="#fece00"/>
+  <g id="Circle" transform="translate(59 9)">
+    <ellipse id="Ellipse_16" data-name="Ellipse 16" cx="17.5" cy="18.5" rx="17.5" ry="18.5" fill="#fff"/>
+    <circle id="Ellipse_17" data-name="Ellipse 17" cx="5.775" cy="5.775" r="5.775" transform="translate(15.725 20.336)"/>
+  </g>
+  <g id="Circle-2" data-name="Circle" transform="translate(87)">
+    <ellipse id="Ellipse_16-2" data-name="Ellipse 16" cx="29" cy="30" rx="29" ry="30" fill="#fff"/>
+    <circle id="Ellipse_17-2" data-name="Ellipse 17" cx="13.275" cy="13.275" r="13.275" transform="translate(5 18.451)"/>
+  </g>
+</svg>

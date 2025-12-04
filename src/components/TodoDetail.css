@@ -96,6 +96,37 @@
   margin: 0;
 }
 
+.timer-circle-wrapper {
+  width: 280px;
+  height: 280px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-base-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1;
+}
+
+.timer-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  z-index: 2;
+  mask: radial-gradient(transparent 60%, black 60%);
+  -webkit-mask: radial-gradient(transparent 60%, black 60%);
+}
+
 .timer-circle,
 .timer-circle-svg-container {
   width: 280px;
@@ -123,15 +154,16 @@
 }
 
 .timer-inner {
-  width: 100%;
-  height: 100%;
-  background: #38D247;
+  width: 80%;
+  height: 80%;
+  background: transparent;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
+  z-index: 3;
 }
 
 .timer-inner.overtime-inner {
@@ -346,6 +378,7 @@
     font-size: 24px;
   }
   
+  .timer-circle-wrapper,
   .timer-circle,
   .timer-circle-svg-container {
     width: 240px;
