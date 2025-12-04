@@ -35,8 +35,8 @@
 .todo-scroll-container {
   position: absolute;
   top: 0;
-  left: 7px;
-  right: 23px;
+  left: 0;
+  right: 0;
   bottom: 0;
   overflow-y: auto;
   overflow-x: hidden;
@@ -285,7 +285,7 @@
 .zigzag-wrapper {
   position: absolute;
   bottom: -90px;
-  right: 4px;
+  right: 224px;
   transform: rotate(20deg) scale(1.43);
   z-index: 5000;
 }

@@ -3,10 +3,10 @@
   gap: 7px;
   padding: 15px 20px;
   overflow-x: auto;
-  overflow-y: visible;
+  overflow-y: hidden;
   background: transparent;
   scrollbar-width: none;
-  touch-action: none; /* Disable native touch scrolling */
+  touch-action: pan-x; /* Only allow horizontal touch scrolling */
   width: 90%;
   margin-left: auto;
   margin-right: auto;
