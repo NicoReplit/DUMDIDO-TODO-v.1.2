@@ -38,7 +38,7 @@ function TodoForm({ todo, onSave, onCancel, defaultOpenList = false }) {
       ...formData,
       recurrence_type: type,
       specific_date: type ? '' : formData.specific_date,
-      recurrence_days: type === 'weekly' ? formData.recurrence_days : []
+      recurrence_days: (type === 'weekly' || type === 'daily') ? formData.recurrence_days : []
     });
   };
 
@@ -153,9 +153,9 @@ function TodoForm({ todo, onSave, onCancel, defaultOpenList = false }) {
               </div>
             )}
 
-            {formData.recurrence_type === 'weekly' && (
+            {(formData.recurrence_type === 'weekly' || formData.recurrence_type === 'daily') && (
               <div className="form-group">
-                <label>Tage auswählen</label>
+                <label>{formData.recurrence_type === 'daily' ? 'Wochentage auswählen (leer = jeden Tag)' : 'Tage auswählen'}</label>
                 <div className="days-selector">
                   {daysOfWeek.map(day => (
                     <button

@@ -341,7 +341,30 @@ app.get('/api/todos', async (req, res) => {
     
     const result = await pool.query(query, params);
     
-    const todos = result.rows.map(row => {
+    const filteredRows = result.rows.filter(row => {
+      if (!date) {
+        return true;
+      }
+      if (row.specific_date) {
+        return true;
+      }
+      if (row.recurrence_type === 'daily') {
+        if (row.recurrence_days) {
+          const dayOfWeek = new Date(date).getDay();
+          const days = JSON.parse(row.recurrence_days);
+          return days.length === 0 || days.includes(dayOfWeek);
+        }
+        return true;
+      }
+      if (row.recurrence_type === 'weekly' && row.recurrence_days) {
+        const dayOfWeek = new Date(date).getDay();
+        const days = JSON.parse(row.recurrence_days);
+        return days.includes(dayOfWeek);
+      }
+      return true;
+    });
+    
+    const todos = filteredRows.map(row => {
       if (row.recurrence_type) {
         if (row.recurring_completion_date) {
           return {
@@ -456,6 +479,11 @@ async function checkDailyCompletion(userId, date) {
       return todoDate === date;
     }
     if (todo.recurrence_type === 'daily') {
+      if (todo.recurrence_days) {
+        const dayOfWeek = new Date(date).getDay();
+        const days = JSON.parse(todo.recurrence_days);
+        return days.length === 0 || days.includes(dayOfWeek);
+      }
       return true;
     }
     if (todo.recurrence_type === 'weekly' && todo.recurrence_days) {
