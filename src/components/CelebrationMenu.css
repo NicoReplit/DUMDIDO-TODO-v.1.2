@@ -28,25 +28,6 @@
   overflow: hidden;
 }
 
-.celebration-circle.wiggling {
-  animation: celebrationCircleWiggle 4s ease-in-out infinite;
-}
-
-@keyframes celebrationCircleWiggle {
-  0%, 100% {
-    transform: scale(1);
-  }
-  25% {
-    transform: scale(1.1);
-  }
-  50% {
-    transform: scale(0.9);
-  }
-  75% {
-    transform: scale(1.05);
-  }
-}
-
 /* Eyes positioned on top like RedMenu */
 .celebration-circle-eyes {
   position: absolute;
