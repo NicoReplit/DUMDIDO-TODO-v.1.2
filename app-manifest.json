@@ -17,7 +17,7 @@
   },
   "entry": {
     "type": "web",
-    "port": 5000,
+    "port": 3002,
     "path": "/"
   },
   "runtime": {

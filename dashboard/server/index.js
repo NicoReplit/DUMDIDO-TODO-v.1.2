@@ -3,6 +3,7 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,6 +11,40 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const appPortMap = new Map();
+
+function getAppPorts() {
+  appPortMap.clear();
+  const apps = findAppManifests();
+  for (const appInfo of apps) {
+    if (appInfo.entry?.port) {
+      appPortMap.set(appInfo.id, appInfo.entry.port);
+    }
+  }
+  return appPortMap;
+}
+
+app.use('/apps/:appId', (req, res, next) => {
+  const appId = req.params.appId;
+  getAppPorts();
+  const port = appPortMap.get(appId);
+  
+  if (!port) {
+    return res.status(404).send('App not found');
+  }
+  
+  const proxy = createProxyMiddleware({
+    target: `http://127.0.0.1:${port}`,
+    changeOrigin: true,
+    pathRewrite: {
+      [`^/apps/${appId}`]: ''
+    },
+    ws: true
+  });
+  
+  return proxy(req, res, next);
+});
 
 const APPS_SEARCH_PATHS = [
   path.join(__dirname, '../../'),

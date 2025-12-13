@@ -13,9 +13,10 @@ export default defineConfig({
         target: 'http://localhost:3001',
         changeOrigin: true
       },
-      '/local-images': {
+      '/apps': {
         target: 'http://localhost:3001',
-        changeOrigin: true
+        changeOrigin: true,
+        ws: true
       }
     }
   }

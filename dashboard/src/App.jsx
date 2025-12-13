@@ -8,6 +8,7 @@ function App() {
   const [apps, setApps] = useState([]);
   const [isStandby, setIsStandby] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [activeApp, setActiveApp] = useState(null);
   const [lastActivity, setLastActivity] = useState(Date.now());
   const [settings, setSettings] = useState({
     standbyEnabled: true,
@@ -107,8 +108,12 @@ function App() {
       return;
     }
     if (app.port) {
-      window.location.href = `http://${window.location.hostname}:${app.port}${app.path}`;
+      setActiveApp(app);
     }
+  };
+
+  const handleCloseApp = () => {
+    setActiveApp(null);
   };
 
   const handleSettingsChange = (newSettings) => {
@@ -125,6 +130,22 @@ function App() {
 
   if (isStandby) {
     return <StandbyMode settings={settings} onWake={() => setIsStandby(false)} />;
+  }
+
+  if (activeApp) {
+    return (
+      <div className="app-viewer">
+        <button className="back-btn" onClick={handleCloseApp}>
+          <span className="back-arrow">&#8592;</span>
+          <span className="back-text">Zurück</span>
+        </button>
+        <iframe 
+          src={`http://${window.location.hostname}:${activeApp.port}${activeApp.path || '/'}`}
+          className="app-iframe"
+          title={activeApp.name}
+        />
+      </div>
+    );
   }
 
   return (

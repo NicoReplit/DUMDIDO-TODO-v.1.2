@@ -93,3 +93,47 @@
     padding: 10px;
   }
 }
+
+.app-viewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #FECE00;
+  z-index: 1000;
+}
+
+.back-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1001;
+  background: #0061EE;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 3px 3px 0 0 #38D247;
+  transition: transform 0.2s;
+}
+
+.back-btn:active {
+  transform: scale(0.95);
+}
+
+.back-arrow {
+  font-size: 24px;
+}
+
+.app-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
