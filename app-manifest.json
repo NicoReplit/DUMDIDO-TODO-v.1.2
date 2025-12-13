@@ -2,14 +2,14 @@
   "manifestVersion": "1.0",
   "app": {
     "id": "family-todo",
-    "name": "DUMBDIDO",
+    "name": "DUMBDIDO TODO",
     "shortName": "Todo",
     "description": "Family to-do list app with timers, gamification, and shared task management",
     "version": "1.0.0",
     "author": "Family"
   },
   "display": {
-    "icon": "app-icon.png",
+    "icon": "app-icon.svg",
     "backgroundColor": "#FECE00",
     "primaryColor": "#0061EE",
     "accentColor": "#38D247",
