@@ -1,0 +1,95 @@
+.dashboard {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FECE00 0%, #FFE066 100%);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  margin-bottom: 30px;
+}
+
+.dashboard-title {
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.title-family {
+  color: #0061EE;
+}
+
+.title-plan {
+  color: #E866C8;
+  margin-left: 15px;
+}
+
+.settings-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: #0061EE;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 4px 4px 0 0 #38D247;
+  transition: transform 0.2s;
+}
+
+.settings-btn:active {
+  transform: scale(0.95);
+}
+
+.gear {
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%;
+  position: relative;
+}
+
+.gear::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: #0061EE;
+  border-radius: 50%;
+}
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  flex: 1;
+}
+
+@media (min-width: 900px) {
+  .apps-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .dashboard-title {
+    font-size: 32px;
+  }
+  
+  .apps-grid {
+    gap: 20px;
+    padding: 10px;
+  }
+}

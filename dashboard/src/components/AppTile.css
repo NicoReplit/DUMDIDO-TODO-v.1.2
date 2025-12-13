@@ -1,0 +1,114 @@
+.app-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  position: relative;
+}
+
+.app-tile:active {
+  transform: scale(0.95);
+}
+
+.app-tile.coming-soon {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.app-tile.coming-soon:active {
+  transform: none;
+}
+
+.blob-character {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 20px;
+  box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 0.15);
+}
+
+.blob1 {
+  border-radius: 60% 40% 50% 50% / 50% 50% 50% 50%;
+}
+
+.blob2 {
+  border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%;
+}
+
+.blob3 {
+  border-radius: 40% 60% 60% 40% / 50% 50% 40% 60%;
+}
+
+.blob4 {
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+}
+
+.blob-eyes {
+  display: flex;
+  gap: 12px;
+}
+
+.blob-eye {
+  width: 32px;
+  height: 32px;
+  background: white;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pupil {
+  width: 12px;
+  height: 12px;
+  background: black;
+  border-radius: 50%;
+  position: relative;
+  top: 4px;
+}
+
+.app-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+}
+
+.coming-soon-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #FF4444;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+@media (max-width: 500px) {
+  .blob-character {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .blob-eye {
+    width: 26px;
+    height: 26px;
+  }
+  
+  .pupil {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .app-name {
+    font-size: 16px;
+  }
+}

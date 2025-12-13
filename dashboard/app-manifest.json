@@ -1,0 +1,35 @@
+{
+  "manifestVersion": "1.0",
+  "app": {
+    "id": "family-plan",
+    "name": "FAMILY PLAN",
+    "shortName": "Dashboard",
+    "description": "Family dashboard for managing apps on Raspberry Pi with standby mode and slideshow",
+    "version": "1.0.0",
+    "author": "Family"
+  },
+  "display": {
+    "icon": "app-icon.svg",
+    "backgroundColor": "#FECE00",
+    "primaryColor": "#0061EE",
+    "accentColor": "#E866C8",
+    "fontFamily": "MuseoModerno"
+  },
+  "entry": {
+    "type": "web",
+    "port": 5000,
+    "path": "/"
+  },
+  "runtime": {
+    "startCommand": "npm run dev",
+    "buildCommand": "npm run build",
+    "environment": {},
+    "requires": ["nodejs"]
+  },
+  "dashboard": {
+    "isDashboard": true,
+    "tileSize": "large",
+    "showInDashboard": false,
+    "category": "system"
+  }
+}
