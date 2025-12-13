@@ -118,7 +118,10 @@ app.get('/api/local-images', (req, res) => {
   }
   
   const resolvedPath = path.resolve(imagePath);
-  const isAllowed = ALLOWED_IMAGE_DIRS.some(dir => resolvedPath.startsWith(dir + '/') || resolvedPath.startsWith(dir));
+  const isAllowed = ALLOWED_IMAGE_DIRS.some(dir => {
+    const normalizedDir = path.resolve(dir);
+    return resolvedPath === normalizedDir || resolvedPath.startsWith(normalizedDir + path.sep);
+  });
   
   if (!isAllowed) {
     return res.status(403).send('Access denied');
@@ -126,6 +129,11 @@ app.get('/api/local-images', (req, res) => {
   
   if (!fs.existsSync(resolvedPath)) {
     return res.status(404).send('Image not found');
+  }
+  
+  const stat = fs.statSync(resolvedPath);
+  if (!stat.isFile()) {
+    return res.status(400).send('Not a file');
   }
   
   res.sendFile(resolvedPath);
