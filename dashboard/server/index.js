@@ -19,41 +19,44 @@ const APPS_SEARCH_PATHS = [
 
 function findAppManifests() {
   const apps = [];
+  const seenIds = new Set();
   
   for (const searchPath of APPS_SEARCH_PATHS) {
     if (!fs.existsSync(searchPath)) continue;
     
     try {
-      const entries = fs.readdirSync(searchPath, { withFileTypes: true });
-      
-      for (const entry of entries) {
-        if (!entry.isDirectory()) {
-          const manifestPath = path.join(searchPath, 'app-manifest.json');
-          if (fs.existsSync(manifestPath)) {
-            try {
-              const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
-              if (manifest.dashboard?.showInDashboard !== false) {
-                apps.push({
-                  ...manifest.app,
-                  display: manifest.display,
-                  entry: manifest.entry,
-                  runtime: manifest.runtime,
-                  dashboard: manifest.dashboard,
-                  manifestPath: manifestPath
-                });
-              }
-            } catch (e) {
-              console.error(`Error reading manifest at ${manifestPath}:`, e.message);
-            }
+      // First check for manifest at the search path root level
+      const rootManifestPath = path.join(searchPath, 'app-manifest.json');
+      if (fs.existsSync(rootManifestPath)) {
+        try {
+          const manifest = JSON.parse(fs.readFileSync(rootManifestPath, 'utf-8'));
+          if (manifest.dashboard?.showInDashboard !== false && !seenIds.has(manifest.app?.id)) {
+            seenIds.add(manifest.app?.id);
+            apps.push({
+              ...manifest.app,
+              display: manifest.display,
+              entry: manifest.entry,
+              runtime: manifest.runtime,
+              dashboard: manifest.dashboard,
+              manifestPath: rootManifestPath
+            });
           }
-          continue;
+        } catch (e) {
+          console.error(`Error reading manifest at ${rootManifestPath}:`, e.message);
         }
+      }
+      
+      // Then check subdirectories
+      const entries = fs.readdirSync(searchPath, { withFileTypes: true });
+      for (const entry of entries) {
+        if (!entry.isDirectory()) continue;
         
         const manifestPath = path.join(searchPath, entry.name, 'app-manifest.json');
         if (fs.existsSync(manifestPath)) {
           try {
             const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
-            if (manifest.dashboard?.showInDashboard !== false) {
+            if (manifest.dashboard?.showInDashboard !== false && !seenIds.has(manifest.app?.id)) {
+              seenIds.add(manifest.app?.id);
               apps.push({
                 ...manifest.app,
                 display: manifest.display,
