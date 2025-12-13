@@ -17,26 +17,13 @@ function App() {
     imagesPath: '/home/pi/Pictures/slideshow'
   });
 
-  const demoApps = [
-    {
-      id: 'family-todo',
-      name: 'DUMBDIDO TODO',
-      shortName: 'Todo',
-      icon: 'todo',
-      backgroundColor: '#FECE00',
-      primaryColor: '#E866C8',
-      port: 5001,
-      path: '/'
-    },
+  const placeholderApps = [
     {
       id: 'calendar',
       name: 'Kalender',
       shortName: 'Kalender',
       icon: 'calendar',
-      backgroundColor: '#0061EE',
-      primaryColor: '#0061EE',
-      port: null,
-      path: null,
+      display: { primaryColor: '#0061EE' },
       comingSoon: true
     },
     {
@@ -44,10 +31,7 @@ function App() {
       name: 'Wetter',
       shortName: 'Wetter',
       icon: 'weather',
-      backgroundColor: '#38D247',
-      primaryColor: '#38D247',
-      port: null,
-      path: null,
+      display: { primaryColor: '#38D247' },
       comingSoon: true
     },
     {
@@ -55,16 +39,35 @@ function App() {
       name: 'Checkliste',
       shortName: 'Liste',
       icon: 'checklist',
-      backgroundColor: '#FF8A00',
-      primaryColor: '#FF8A00',
-      port: null,
-      path: null,
+      display: { primaryColor: '#FF8A00' },
       comingSoon: true
     }
   ];
 
   useEffect(() => {
-    setApps(demoApps);
+    async function fetchApps() {
+      try {
+        const response = await fetch('/api/apps');
+        const discoveredApps = await response.json();
+        
+        const formattedApps = discoveredApps.map(app => ({
+          id: app.id,
+          name: app.name,
+          shortName: app.shortName || app.name,
+          icon: app.id.includes('todo') ? 'todo' : app.id,
+          display: app.display,
+          entry: app.entry,
+          port: app.entry?.port,
+          path: app.entry?.path || '/'
+        }));
+        
+        setApps([...formattedApps, ...placeholderApps]);
+      } catch (error) {
+        console.error('Failed to fetch apps:', error);
+        setApps(placeholderApps);
+      }
+    }
+    fetchApps();
   }, []);
 
   const handleActivity = useCallback(() => {

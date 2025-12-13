@@ -1,33 +1,31 @@
 import './AppTile.css';
 
-const blobShapes = {
-  todo: {
-    color: '#E866C8',
-    shape: 'blob1'
-  },
-  calendar: {
-    color: '#0061EE',
-    shape: 'blob2'
-  },
-  weather: {
-    color: '#38D247',
-    shape: 'blob3'
-  },
-  checklist: {
-    color: '#FF8A00',
-    shape: 'blob4'
-  }
+const shapeMap = {
+  'todo': 'blob1',
+  'family-todo': 'blob1',
+  'calendar': 'blob2',
+  'weather': 'blob3',
+  'checklist': 'blob4'
+};
+
+const defaultColors = {
+  'todo': '#E866C8',
+  'family-todo': '#E866C8',
+  'calendar': '#0061EE',
+  'weather': '#38D247',
+  'checklist': '#FF8A00'
 };
 
 function AppTile({ app, onClick }) {
-  const blob = blobShapes[app.icon] || blobShapes.todo;
+  const shape = shapeMap[app.icon] || shapeMap[app.id] || 'blob1';
+  const color = app.display?.primaryColor || defaultColors[app.icon] || defaultColors[app.id] || '#E866C8';
 
   return (
     <div 
       className={`app-tile ${app.comingSoon ? 'coming-soon' : ''}`}
       onClick={onClick}
     >
-      <div className={`blob-character ${blob.shape}`} style={{ backgroundColor: blob.color }}>
+      <div className={`blob-character ${shape}`} style={{ backgroundColor: color }}>
         <div className="blob-eyes">
           <div className="blob-eye left">
             <div className="pupil"></div>
