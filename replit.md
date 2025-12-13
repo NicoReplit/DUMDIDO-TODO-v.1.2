@@ -41,6 +41,55 @@ The application is a full-stack solution with a React frontend and a Node.js/Exp
 - **API Endpoints**: Comprehensive RESTful API for managing users, todos (including claiming open list tasks), gamification features, and global settings, including endpoints for PIN verification and management, and flexible todo deletion with scope parameters.
 - **Mobile-First Design**: CSS is implemented with a mobile-first approach.
 
+## Dashboard Integration
+
+This app is designed to be part of a family dashboard system on Raspberry Pi. Apps are discovered via their `app-manifest.json` file.
+
+### App Manifest Format (v1.0)
+
+All dashboard-compatible apps must include an `app-manifest.json` in their root directory:
+
+```json
+{
+  "manifestVersion": "1.0",
+  "app": {
+    "id": "unique-app-id",
+    "name": "Display Name",
+    "shortName": "Short",
+    "description": "App description",
+    "version": "1.0.0",
+    "author": "Author name"
+  },
+  "display": {
+    "icon": "app-icon.png",
+    "backgroundColor": "#HEXCOLOR",
+    "primaryColor": "#HEXCOLOR",
+    "accentColor": "#HEXCOLOR",
+    "fontFamily": "Font name"
+  },
+  "entry": {
+    "type": "web",
+    "port": 5000,
+    "path": "/"
+  },
+  "runtime": {
+    "startCommand": "npm run dev",
+    "buildCommand": "npm run build",
+    "environment": {},
+    "requires": ["nodejs", "postgresql"]
+  },
+  "dashboard": {
+    "tileSize": "small|medium|large",
+    "showInDashboard": true,
+    "category": "productivity|utilities|entertainment|info"
+  }
+}
+```
+
+### Required Files for Dashboard Apps
+- `app-manifest.json` - App metadata and configuration
+- `public/app-icon.png` - Square icon (recommended 256x256 or larger)
+
 ## External Dependencies
 
 -   **PostgreSQL**: Primary database for persistent data storage.

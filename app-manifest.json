@@ -1,0 +1,34 @@
+{
+  "manifestVersion": "1.0",
+  "app": {
+    "id": "family-todo",
+    "name": "DUMBDIDO",
+    "shortName": "Todo",
+    "description": "Family to-do list app with timers, gamification, and shared task management",
+    "version": "1.0.0",
+    "author": "Family"
+  },
+  "display": {
+    "icon": "app-icon.png",
+    "backgroundColor": "#FECE00",
+    "primaryColor": "#0061EE",
+    "accentColor": "#38D247",
+    "fontFamily": "MuseoModerno"
+  },
+  "entry": {
+    "type": "web",
+    "port": 5000,
+    "path": "/"
+  },
+  "runtime": {
+    "startCommand": "npm run dev",
+    "buildCommand": "npm run build",
+    "environment": {},
+    "requires": ["nodejs", "postgresql"]
+  },
+  "dashboard": {
+    "tileSize": "large",
+    "showInDashboard": true,
+    "category": "productivity"
+  }
+}
