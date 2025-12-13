@@ -132,17 +132,34 @@ function App() {
     return <StandbyMode settings={settings} onWake={() => setIsStandby(false)} />;
   }
 
+  const handleSwipeDown = (e) => {
+    const touch = e.changedTouches[0];
+    const startY = e.target.dataset.startY;
+    if (startY && touch.clientY - startY > 100 && startY < 50) {
+      setActiveApp(null);
+    }
+  };
+
+  const handleTouchStart = (e) => {
+    const touch = e.touches[0];
+    e.target.dataset.startY = touch.clientY;
+  };
+
   if (activeApp) {
     return (
-      <div className="app-viewer">
-        <button className="back-btn" onClick={handleCloseApp}>
-          <span className="back-arrow">&#8592;</span>
-          <span className="back-text">Zurück</span>
-        </button>
+      <div 
+        className="app-viewer"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleSwipeDown}
+      >
+        <div className="swipe-indicator">
+          <div className="swipe-bar"></div>
+        </div>
         <iframe 
-          src={`http://${window.location.hostname}:${activeApp.port}${activeApp.path || '/'}`}
+          src={`http://127.0.0.1:${activeApp.port}${activeApp.path || '/'}`}
           className="app-iframe"
           title={activeApp.name}
+          allow="fullscreen"
         />
       </div>
     );
