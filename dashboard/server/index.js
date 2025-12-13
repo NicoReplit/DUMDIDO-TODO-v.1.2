@@ -105,12 +105,30 @@ app.get('/api/images', (req, res) => {
   res.json(images);
 });
 
-app.use('/local-images', (req, res) => {
+const ALLOWED_IMAGE_DIRS = [
+  '/home/pi/Pictures',
+  '/home/pi/photos',
+  '/opt/family-dashboard/images'
+];
+
+app.get('/api/local-images', (req, res) => {
   const imagePath = req.query.path;
-  if (!imagePath || !fs.existsSync(imagePath)) {
+  if (!imagePath) {
+    return res.status(400).send('Path required');
+  }
+  
+  const resolvedPath = path.resolve(imagePath);
+  const isAllowed = ALLOWED_IMAGE_DIRS.some(dir => resolvedPath.startsWith(dir + '/') || resolvedPath.startsWith(dir));
+  
+  if (!isAllowed) {
+    return res.status(403).send('Access denied');
+  }
+  
+  if (!fs.existsSync(resolvedPath)) {
     return res.status(404).send('Image not found');
   }
-  res.sendFile(imagePath);
+  
+  res.sendFile(resolvedPath);
 });
 
 const PORT = 3001;

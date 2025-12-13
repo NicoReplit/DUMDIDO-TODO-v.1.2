@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './StandbyMode.css';
 
-const defaultImages = [
+const fallbackImages = [
   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920',
   'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920',
   'https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1920'
@@ -10,6 +10,23 @@ const defaultImages = [
 function StandbyMode({ settings, onWake }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [images, setImages] = useState(fallbackImages);
+
+  useEffect(() => {
+    async function fetchLocalImages() {
+      try {
+        const response = await fetch(`/api/images?path=${encodeURIComponent(settings.imagesPath)}`);
+        const localImages = await response.json();
+        if (localImages.length > 0) {
+          const imageUrls = localImages.map(path => `/api/local-images?path=${encodeURIComponent(path)}`);
+          setImages(imageUrls);
+        }
+      } catch (error) {
+        console.log('Using fallback images');
+      }
+    }
+    fetchLocalImages();
+  }, [settings.imagesPath]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -22,11 +39,11 @@ function StandbyMode({ settings, onWake }) {
     if (!settings.slideshowEnabled) return;
 
     const slideTimer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % defaultImages.length);
+      setCurrentIndex((prev) => (prev + 1) % images.length);
     }, settings.slideshowInterval * 1000);
 
     return () => clearInterval(slideTimer);
-  }, [settings.slideshowEnabled, settings.slideshowInterval]);
+  }, [settings.slideshowEnabled, settings.slideshowInterval, images.length]);
 
   const formatTime = (date) => {
     return date.toLocaleTimeString('de-DE', { 
@@ -47,7 +64,7 @@ function StandbyMode({ settings, onWake }) {
     <div className="standby-mode" onClick={onWake}>
       <div 
         className="standby-background"
-        style={{ backgroundImage: `url(${defaultImages[currentIndex]})` }}
+        style={{ backgroundImage: `url(${images[currentIndex]})` }}
       />
       <div className="standby-overlay" />
       <div className="standby-content">
@@ -57,7 +74,7 @@ function StandbyMode({ settings, onWake }) {
       </div>
       {settings.slideshowEnabled && (
         <div className="slideshow-dots">
-          {defaultImages.map((_, index) => (
+          {images.map((_, index) => (
             <div 
               key={index}
               className={`dot ${index === currentIndex ? 'active' : ''}`}
