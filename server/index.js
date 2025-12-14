@@ -1,9 +1,8 @@
 import express from 'express';
 import cors from 'cors';
-import pg from 'pg';
+import Database from 'better-sqlite3';
 import bcrypt from 'bcrypt';
-
-const { Pool } = pg;
+import { existsSync, mkdirSync } from 'fs';
 
 const app = express();
 const PORT = 3000;
@@ -11,107 +10,104 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+if (!existsSync('data')) {
+  mkdirSync('data', { recursive: true });
+}
 
-await pool.query(`
+const db = new Database('data/familytodo.db');
+db.pragma('journal_mode = WAL');
+db.pragma('foreign_keys = ON');
+
+db.exec(`
   CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    color VARCHAR(7) DEFAULT '#3B82F6',
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    color TEXT DEFAULT '#3B82F6',
     total_points INTEGER DEFAULT 0,
     super_points INTEGER DEFAULT 12,
     current_streak_days INTEGER DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TEXT DEFAULT (datetime('now'))
   )
 `);
 
-await pool.query(`
+db.exec(`
   CREATE TABLE IF NOT EXISTS todos (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    title VARCHAR(200) NOT NULL,
+    title TEXT NOT NULL,
     description TEXT,
     estimated_minutes INTEGER,
     remaining_seconds INTEGER,
-    completed BOOLEAN DEFAULT FALSE,
-    specific_date DATE,
-    recurrence_type VARCHAR(20),
+    completed INTEGER DEFAULT 0,
+    specific_date TEXT,
+    recurrence_type TEXT,
     recurrence_days TEXT,
     points_earned INTEGER DEFAULT 0,
-    pause_used BOOLEAN DEFAULT FALSE,
-    super_point_used BOOLEAN DEFAULT FALSE,
+    pause_used INTEGER DEFAULT 0,
+    super_point_used INTEGER DEFAULT 0,
     actual_time_seconds INTEGER,
-    last_activity_date DATE,
-    is_open_list BOOLEAN DEFAULT FALSE,
+    last_activity_date TEXT,
+    is_open_list INTEGER DEFAULT 0,
     claimed_by_user_id INTEGER REFERENCES users(id),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    completed_at TIMESTAMP
+    created_at TEXT DEFAULT (datetime('now')),
+    completed_at TEXT
   )
 `);
 
-await pool.query(`
+db.exec(`
   CREATE TABLE IF NOT EXISTS daily_completions (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    completion_date DATE NOT NULL,
-    all_completed_on_time BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completion_date TEXT NOT NULL,
+    all_completed_on_time INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now')),
     UNIQUE(user_id, completion_date)
   )
 `);
 
-await pool.query(`
+db.exec(`
   CREATE TABLE IF NOT EXISTS recurring_todo_completions (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     todo_id INTEGER REFERENCES todos(id) ON DELETE CASCADE,
-    completion_date DATE NOT NULL,
+    completion_date TEXT NOT NULL,
     points_earned INTEGER DEFAULT 0,
-    pause_used BOOLEAN DEFAULT FALSE,
-    super_point_used BOOLEAN DEFAULT FALSE,
+    pause_used INTEGER DEFAULT 0,
+    super_point_used INTEGER DEFAULT 0,
     actual_time_seconds INTEGER,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TEXT DEFAULT (datetime('now')),
     UNIQUE(todo_id, completion_date)
   )
 `);
 
-await pool.query(`
-  ALTER TABLE todos 
-  ADD COLUMN IF NOT EXISTS last_activity_date DATE
-`);
-
-// Create recurring_todo_exceptions table to track deleted instances of recurring todos
-await pool.query(`
+db.exec(`
   CREATE TABLE IF NOT EXISTS recurring_todo_exceptions (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     todo_id INTEGER REFERENCES todos(id) ON DELETE CASCADE,
-    exception_date DATE NOT NULL,
-    exception_type VARCHAR(20) DEFAULT 'deleted',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    exception_date TEXT NOT NULL,
+    exception_type TEXT DEFAULT 'deleted',
+    created_at TEXT DEFAULT (datetime('now')),
     UNIQUE(todo_id, exception_date)
   )
 `);
 
-// Create global settings table for app-wide configurations
-await pool.query(`
+db.exec(`
   CREATE TABLE IF NOT EXISTS settings (
-    id SERIAL PRIMARY KEY,
-    global_pin_hash VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    global_pin_hash TEXT,
+    max_points INTEGER DEFAULT 1000,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now'))
   )
 `);
 
-// Ensure there's always one settings row
-const settingsCount = await pool.query('SELECT COUNT(*) FROM settings');
-if (parseInt(settingsCount.rows[0].count) === 0) {
-  await pool.query('INSERT INTO settings (id) VALUES (1)');
+const settingsCount = db.prepare('SELECT COUNT(*) as count FROM settings').get();
+if (settingsCount.count === 0) {
+  db.prepare('INSERT INTO settings (id) VALUES (1)').run();
 }
 
-const defaultUsers = await pool.query('SELECT COUNT(*) FROM users');
-if (parseInt(defaultUsers.rows[0].count) === 0) {
-  await pool.query(`
+const defaultUsers = db.prepare('SELECT COUNT(*) as count FROM users').get();
+if (defaultUsers.count === 0) {
+  db.exec(`
     INSERT INTO users (name, color) VALUES 
     ('Mom', '#EC4899'),
     ('Dad', '#3B82F6'),
@@ -119,32 +115,55 @@ if (parseInt(defaultUsers.rows[0].count) === 0) {
   `);
 }
 
-app.get('/api/users', async (req, res) => {
+function boolToInt(val) {
+  return val ? 1 : 0;
+}
+
+function intToBool(val) {
+  return val === 1;
+}
+
+function formatRow(row) {
+  if (!row) return row;
+  return {
+    ...row,
+    completed: intToBool(row.completed),
+    pause_used: intToBool(row.pause_used),
+    super_point_used: intToBool(row.super_point_used),
+    is_open_list: intToBool(row.is_open_list),
+    all_completed_on_time: intToBool(row.all_completed_on_time),
+    recurring_pause_used: row.recurring_pause_used !== undefined ? intToBool(row.recurring_pause_used) : undefined,
+    recurring_super_point_used: row.recurring_super_point_used !== undefined ? intToBool(row.recurring_super_point_used) : undefined
+  };
+}
+
+function formatRows(rows) {
+  return rows.map(formatRow);
+}
+
+app.get('/api/users', (req, res) => {
   try {
-    const result = await pool.query('SELECT id, name, color, total_points, super_points, current_streak_days, created_at FROM users ORDER BY name');
-    res.json(result.rows);
+    const rows = db.prepare('SELECT id, name, color, total_points, super_points, current_streak_days, created_at FROM users ORDER BY name').all();
+    res.json(rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.get('/api/users/:id', async (req, res) => {
+app.get('/api/users/:id', (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query(
-      'SELECT id, name, color, total_points, super_points, current_streak_days, created_at FROM users WHERE id = $1',
-      [id]
-    );
-    if (result.rowCount === 0) {
+    const row = db.prepare('SELECT id, name, color, total_points, super_points, current_streak_days, created_at FROM users WHERE id = ?').get(id);
+    if (!row) {
       return res.status(404).json({ error: 'User not found' });
     }
-    res.json(result.rows[0]);
+    res.json(row);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.post('/api/users', async (req, res) => {
+app.post('/api/users', (req, res) => {
   try {
     const { name, color } = req.body;
     if (!name || !name.trim()) {
@@ -155,17 +174,15 @@ app.post('/api/users', async (req, res) => {
     if (!validColorRegex.test(userColor)) {
       return res.status(400).json({ error: 'Invalid color format' });
     }
-    const result = await pool.query(
-      'INSERT INTO users (name, color) VALUES ($1, $2) RETURNING *',
-      [name.trim(), userColor]
-    );
-    res.json(result.rows[0]);
+    const result = db.prepare('INSERT INTO users (name, color) VALUES (?, ?)').run(name.trim(), userColor);
+    const newUser = db.prepare('SELECT * FROM users WHERE id = ?').get(result.lastInsertRowid);
+    res.json(newUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.put('/api/users/:id', async (req, res) => {
+app.put('/api/users/:id', (req, res) => {
   try {
     const { id } = req.params;
     const { name, color } = req.body;
@@ -177,26 +194,24 @@ app.put('/api/users/:id', async (req, res) => {
       return res.status(400).json({ error: 'Invalid color format' });
     }
 
-    const result = await pool.query(
-      'UPDATE users SET name = $1, color = $2 WHERE id = $3 RETURNING id, name, color, total_points, super_points, current_streak_days, created_at',
-      [name.trim(), color, id]
-    );
+    const result = db.prepare('UPDATE users SET name = ?, color = ? WHERE id = ?').run(name.trim(), color, id);
     
-    if (result.rowCount === 0) {
+    if (result.changes === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
     
-    res.json(result.rows[0]);
+    const user = db.prepare('SELECT id, name, color, total_points, super_points, current_streak_days, created_at FROM users WHERE id = ?').get(id);
+    res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.delete('/api/users/:id', async (req, res) => {
+app.delete('/api/users/:id', (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query('DELETE FROM users WHERE id = $1', [id]);
-    if (result.rowCount === 0) {
+    const result = db.prepare('DELETE FROM users WHERE id = ?').run(id);
+    if (result.changes === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
     res.json({ success: true });
@@ -205,52 +220,43 @@ app.delete('/api/users/:id', async (req, res) => {
   }
 });
 
-// Reset all todos for a user (delete all todos)
-app.delete('/api/users/:id/todos', async (req, res) => {
+app.delete('/api/users/:id/todos', (req, res) => {
   try {
     const { id } = req.params;
-    // Check if user exists first
-    const userCheck = await pool.query('SELECT id FROM users WHERE id = $1', [id]);
-    if (userCheck.rowCount === 0) {
+    const userCheck = db.prepare('SELECT id FROM users WHERE id = ?').get(id);
+    if (!userCheck) {
       return res.status(404).json({ error: 'User not found' });
     }
-    // Delete all todos for this user
-    await pool.query('DELETE FROM todos WHERE user_id = $1', [id]);
+    db.prepare('DELETE FROM todos WHERE user_id = ?').run(id);
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Reset all points for a user (points, super points, streak)
-app.put('/api/users/:id/reset-points', async (req, res) => {
+app.put('/api/users/:id/reset-points', (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query(
-      'UPDATE users SET total_points = 0, super_points = 12, current_streak_days = 0 WHERE id = $1 RETURNING *',
-      [id]
-    );
-    if (result.rowCount === 0) {
+    const result = db.prepare('UPDATE users SET total_points = 0, super_points = 12, current_streak_days = 0 WHERE id = ?').run(id);
+    if (result.changes === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
-    res.json(result.rows[0]);
+    const user = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+    res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Check if global PIN is set
-app.get('/api/settings/has-pin', async (req, res) => {
+app.get('/api/settings/has-pin', (req, res) => {
   try {
-    const result = await pool.query('SELECT global_pin_hash FROM settings WHERE id = 1');
-    const settings = result.rows[0];
+    const settings = db.prepare('SELECT global_pin_hash FROM settings WHERE id = 1').get();
     res.json({ hasPin: !!(settings && settings.global_pin_hash) });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Verify global PIN
 app.post('/api/settings/verify-pin', async (req, res) => {
   try {
     const { pin } = req.body;
@@ -259,14 +265,14 @@ app.post('/api/settings/verify-pin', async (req, res) => {
       return res.status(400).json({ error: 'Invalid PIN format' });
     }
 
-    const result = await pool.query('SELECT global_pin_hash FROM settings WHERE id = 1');
-    if (result.rowCount === 0) {
+    const settings = db.prepare('SELECT global_pin_hash FROM settings WHERE id = 1').get();
+    if (!settings) {
       return res.status(404).json({ error: 'Settings not found' });
     }
 
-    const globalPinHash = result.rows[0].global_pin_hash;
+    const globalPinHash = settings.global_pin_hash;
     if (!globalPinHash) {
-      return res.json({ valid: true }); // No PIN set, always valid
+      return res.json({ valid: true });
     }
 
     const isValid = await bcrypt.compare(pin, globalPinHash);
@@ -276,39 +282,34 @@ app.post('/api/settings/verify-pin', async (req, res) => {
   }
 });
 
-app.post('/api/users/:id/use-super-point', async (req, res) => {
+app.post('/api/users/:id/use-super-point', (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query(
-      'UPDATE users SET super_points = super_points - 1 WHERE id = $1 AND super_points > 0 RETURNING *',
-      [id]
-    );
-    if (result.rowCount === 0) {
+    const result = db.prepare('UPDATE users SET super_points = super_points - 1 WHERE id = ? AND super_points > 0').run(id);
+    if (result.changes === 0) {
       return res.status(400).json({ error: 'No super points available' });
     }
-    res.json(result.rows[0]);
+    const user = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+    res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.get('/api/daily-completion', async (req, res) => {
+app.get('/api/daily-completion', (req, res) => {
   try {
     const { user_id, date } = req.query;
-    const result = await pool.query(
-      'SELECT * FROM daily_completions WHERE user_id = $1 AND completion_date = $2',
-      [user_id, date]
-    );
-    if (result.rows.length === 0) {
+    const row = db.prepare('SELECT * FROM daily_completions WHERE user_id = ? AND completion_date = ?').get(user_id, date);
+    if (!row) {
       return res.json({ all_completed_on_time: false });
     }
-    res.json(result.rows[0]);
+    res.json(formatRow(row));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.get('/api/todos', async (req, res) => {
+app.get('/api/todos', (req, res) => {
   try {
     const { user_id, date } = req.query;
     let query = `
@@ -321,27 +322,28 @@ app.get('/api/todos', async (req, res) => {
         rtc.completion_date as recurring_completion_date
       FROM todos t
       LEFT JOIN recurring_todo_completions rtc 
-        ON t.id = rtc.todo_id AND rtc.completion_date = $1
+        ON t.id = rtc.todo_id AND rtc.completion_date = ?
       LEFT JOIN recurring_todo_exceptions rte
-        ON t.id = rte.todo_id AND rte.exception_date = $1
+        ON t.id = rte.todo_id AND rte.exception_date = ?
       WHERE rte.id IS NULL
     `;
-    const params = [date];
+    const params = [date, date];
     
     if (user_id) {
+      query += ` AND t.user_id = ?`;
       params.push(user_id);
-      query += ` AND t.user_id = $${params.length}`;
     }
     
     if (date) {
-      query += ` AND (t.specific_date = $1 OR t.recurrence_type IS NOT NULL)`;
+      query += ` AND (t.specific_date = ? OR t.recurrence_type IS NOT NULL)`;
+      params.push(date);
     }
     
     query += ' ORDER BY t.completed, t.created_at DESC';
     
-    const result = await pool.query(query, params);
+    const rows = db.prepare(query).all(...params);
     
-    const filteredRows = result.rows.filter(row => {
+    const filteredRows = rows.filter(row => {
       if (!date) {
         return true;
       }
@@ -365,25 +367,26 @@ app.get('/api/todos', async (req, res) => {
     });
     
     const todos = filteredRows.map(row => {
-      if (row.recurrence_type) {
-        if (row.recurring_completion_date) {
+      const formattedRow = formatRow(row);
+      if (formattedRow.recurrence_type) {
+        if (formattedRow.recurring_completion_date) {
           return {
-            ...row,
+            ...formattedRow,
             completed: true,
-            points_earned: row.recurring_points_earned || 0,
-            pause_used: row.recurring_pause_used || false,
-            super_point_used: row.recurring_super_point_used || false,
-            actual_time_seconds: row.recurring_actual_time_seconds || null
+            points_earned: formattedRow.recurring_points_earned || 0,
+            pause_used: formattedRow.recurring_pause_used || false,
+            super_point_used: formattedRow.recurring_super_point_used || false,
+            actual_time_seconds: formattedRow.recurring_actual_time_seconds || null
           };
         } else {
-          const lastActivityDate = row.last_activity_date ? row.last_activity_date.toISOString().split('T')[0] : null;
+          const lastActivityDate = formattedRow.last_activity_date || null;
           const isNewDay = !lastActivityDate || lastActivityDate !== date;
           
           if (isNewDay) {
             return {
-              ...row,
+              ...formattedRow,
               completed: false,
-              remaining_seconds: row.estimated_minutes ? row.estimated_minutes * 60 : null,
+              remaining_seconds: formattedRow.estimated_minutes ? formattedRow.estimated_minutes * 60 : null,
               points_earned: 0,
               pause_used: false,
               super_point_used: false,
@@ -391,13 +394,13 @@ app.get('/api/todos', async (req, res) => {
             };
           } else {
             return {
-              ...row,
+              ...formattedRow,
               completed: false
             };
           }
         }
       }
-      return row;
+      return formattedRow;
     });
     
     res.json(todos);
@@ -406,77 +409,75 @@ app.get('/api/todos', async (req, res) => {
   }
 });
 
-app.get('/api/open-list', async (req, res) => {
+app.get('/api/open-list', (req, res) => {
   try {
-    const result = await pool.query(
+    const rows = db.prepare(
       `SELECT * FROM todos 
-       WHERE is_open_list = true 
-         AND completed = false 
+       WHERE is_open_list = 1 
+         AND completed = 0 
          AND claimed_by_user_id IS NULL
        ORDER BY created_at DESC`
-    );
-    res.json(result.rows);
+    ).all();
+    res.json(formatRows(rows));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.post('/api/todos', async (req, res) => {
+app.post('/api/todos', (req, res) => {
   try {
     const { user_id, title, description, estimated_minutes, specific_date, recurrence_type, recurrence_days, is_open_list } = req.body;
     const remaining_seconds = estimated_minutes ? estimated_minutes * 60 : null;
     
-    const result = await pool.query(
+    const result = db.prepare(
       `INSERT INTO todos (user_id, title, description, estimated_minutes, remaining_seconds, 
        specific_date, recurrence_type, recurrence_days, is_open_list) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
-      [user_id, title, description, estimated_minutes, remaining_seconds, 
-       specific_date, recurrence_type, recurrence_days, is_open_list || false]
-    );
-    res.json(result.rows[0]);
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    ).run(user_id, title, description, estimated_minutes, remaining_seconds, 
+       specific_date, recurrence_type, recurrence_days, boolToInt(is_open_list || false));
+    
+    const newTodo = db.prepare('SELECT * FROM todos WHERE id = ?').get(result.lastInsertRowid);
+    res.json(formatRow(newTodo));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-app.post('/api/todos/:id/claim', async (req, res) => {
+app.post('/api/todos/:id/claim', (req, res) => {
   try {
     const { id } = req.params;
     const { user_id } = req.body;
     
     const currentDate = new Date().toISOString().split('T')[0];
     
-    const result = await pool.query(
+    const result = db.prepare(
       `UPDATE todos 
-       SET claimed_by_user_id = $1, user_id = $1, is_open_list = false, specific_date = $3
-       WHERE id = $2 AND is_open_list = true AND claimed_by_user_id IS NULL
-       RETURNING *`,
-      [user_id, id, currentDate]
-    );
+       SET claimed_by_user_id = ?, user_id = ?, is_open_list = 0, specific_date = ?
+       WHERE id = ? AND is_open_list = 1 AND claimed_by_user_id IS NULL`
+    ).run(user_id, user_id, currentDate, id);
     
-    if (result.rowCount === 0) {
+    if (result.changes === 0) {
       return res.status(404).json({ error: 'Open list task not found or already claimed' });
     }
     
-    res.json(result.rows[0]);
+    const todo = db.prepare('SELECT * FROM todos WHERE id = ?').get(id);
+    res.json(formatRow(todo));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-async function checkDailyCompletion(userId, date) {
-  const result = await pool.query(
+function checkDailyCompletion(userId, date) {
+  const rows = db.prepare(
     `SELECT t.*, rtc.completion_date as recurring_completion_date, rtc.super_point_used as recurring_super_point_used, rtc.actual_time_seconds as recurring_actual_time_seconds
      FROM todos t
-     LEFT JOIN recurring_todo_completions rtc ON t.id = rtc.todo_id AND rtc.completion_date = $2
-     WHERE t.user_id = $1 AND (t.specific_date = $2 OR t.recurrence_type IS NOT NULL)`,
-    [userId, date]
-  );
+     LEFT JOIN recurring_todo_completions rtc ON t.id = rtc.todo_id AND rtc.completion_date = ?
+     WHERE t.user_id = ? AND (t.specific_date = ? OR t.recurrence_type IS NOT NULL)`
+  ).all(date, userId, date);
   
-  const todosForDate = result.rows.filter(todo => {
+  const todosForDate = rows.filter(todo => {
     if (todo.specific_date) {
-      const todoDate = todo.specific_date.toISOString().split('T')[0];
-      return todoDate === date;
+      return todo.specific_date === date;
     }
     if (todo.recurrence_type === 'daily') {
       if (todo.recurrence_days) {
@@ -500,8 +501,8 @@ async function checkDailyCompletion(userId, date) {
   
   const allCompletedOnTime = todosForDate.every(todo => {
     const isRecurring = !!todo.recurrence_type;
-    const isCompleted = isRecurring ? !!todo.recurring_completion_date : todo.completed;
-    const superPointUsed = isRecurring ? todo.recurring_super_point_used : todo.super_point_used;
+    const isCompleted = isRecurring ? !!todo.recurring_completion_date : intToBool(todo.completed);
+    const superPointUsed = isRecurring ? intToBool(todo.recurring_super_point_used) : intToBool(todo.super_point_used);
     const actualTimeSeconds = isRecurring ? todo.recurring_actual_time_seconds : todo.actual_time_seconds;
     
     if (!isCompleted) return false;
@@ -512,52 +513,42 @@ async function checkDailyCompletion(userId, date) {
     return actualTimeSeconds <= estimatedSeconds;
   });
   
-  // Check if this is a NEW perfect day (not already recorded)
-  const existingResult = await pool.query(
-    'SELECT all_completed_on_time FROM daily_completions WHERE user_id = $1 AND completion_date = $2',
-    [userId, date]
-  );
-  const wasAlreadyPerfect = existingResult.rows.length > 0 && existingResult.rows[0].all_completed_on_time;
+  const existingRow = db.prepare('SELECT all_completed_on_time FROM daily_completions WHERE user_id = ? AND completion_date = ?').get(userId, date);
+  const wasAlreadyPerfect = existingRow && intToBool(existingRow.all_completed_on_time);
   const isNewPerfectDay = allCompletedOnTime && !wasAlreadyPerfect;
   
-  await pool.query(
+  db.prepare(
     `INSERT INTO daily_completions (user_id, completion_date, all_completed_on_time) 
-     VALUES ($1, $2, $3)
-     ON CONFLICT (user_id, completion_date) 
-     DO UPDATE SET all_completed_on_time = $3`,
-    [userId, date, allCompletedOnTime]
-  );
+     VALUES (?, ?, ?)
+     ON CONFLICT(user_id, completion_date) 
+     DO UPDATE SET all_completed_on_time = excluded.all_completed_on_time`
+  ).run(userId, date, boolToInt(allCompletedOnTime));
   
   if (allCompletedOnTime) {
-    await checkAndAwardStreakBonuses(userId);
+    checkAndAwardStreakBonuses(userId);
     
-    // Award 10 bonus points for NEW perfect day
     if (isNewPerfectDay) {
-      await pool.query(
-        'UPDATE users SET total_points = total_points + 10 WHERE id = $1',
-        [userId]
-      );
+      db.prepare('UPDATE users SET total_points = total_points + 10 WHERE id = ?').run(userId);
     }
   }
   
   return { perfectDay: isNewPerfectDay };
 }
 
-async function checkAndAwardStreakBonuses(userId) {
-  const result = await pool.query(
+function checkAndAwardStreakBonuses(userId) {
+  const rows = db.prepare(
     `SELECT completion_date FROM daily_completions 
-     WHERE user_id = $1 AND all_completed_on_time = true 
-     ORDER BY completion_date DESC`,
-    [userId]
-  );
+     WHERE user_id = ? AND all_completed_on_time = 1 
+     ORDER BY completion_date DESC`
+  ).all(userId);
   
-  if (result.rows.length === 0) return;
+  if (rows.length === 0) return;
   
   let currentStreak = 1;
-  let previousDate = new Date(result.rows[0].completion_date);
+  let previousDate = new Date(rows[0].completion_date);
   
-  for (let i = 1; i < result.rows.length; i++) {
-    const currentDate = new Date(result.rows[i].completion_date);
+  for (let i = 1; i < rows.length; i++) {
+    const currentDate = new Date(rows[i].completion_date);
     const dayDiff = Math.floor((previousDate - currentDate) / (1000 * 60 * 60 * 24));
     
     if (dayDiff === 1) {
@@ -568,10 +559,7 @@ async function checkAndAwardStreakBonuses(userId) {
     }
   }
   
-  await pool.query(
-    'UPDATE users SET current_streak_days = $1 WHERE id = $2',
-    [currentStreak, userId]
-  );
+  db.prepare('UPDATE users SET current_streak_days = ? WHERE id = ?').run(currentStreak, userId);
   
   if (currentStreak === 7 || currentStreak === 30 || currentStreak === 90 || currentStreak === 365) {
     let bonusPoints = 0;
@@ -582,74 +570,81 @@ async function checkAndAwardStreakBonuses(userId) {
     else if (currentStreak === 90) bonusPoints = 50;
     else if (currentStreak === 365) bonusSuperPoints = 12;
     
-    await pool.query(
-      'UPDATE users SET total_points = total_points + $1, super_points = super_points + $2 WHERE id = $3',
-      [bonusPoints, bonusSuperPoints, userId]
-    );
+    db.prepare('UPDATE users SET total_points = total_points + ?, super_points = super_points + ? WHERE id = ?').run(bonusPoints, bonusSuperPoints, userId);
   }
 }
 
-app.put('/api/todos/:id', async (req, res) => {
+app.put('/api/todos/:id', (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, estimated_minutes, remaining_seconds, completed, specific_date, recurrence_type, recurrence_days, pause_used, super_point_used, points_earned, actual_time_seconds, completion_date } = req.body;
     
-    const todoResult = await pool.query('SELECT * FROM todos WHERE id = $1', [id]);
-    if (todoResult.rows.length === 0) {
+    const todo = db.prepare('SELECT * FROM todos WHERE id = ?').get(id);
+    if (!todo) {
       return res.status(404).json({ error: 'Todo not found' });
     }
     
-    const todo = todoResult.rows[0];
+    let perfectDay = false;
     
     if (completed && points_earned !== undefined) {
       const userId = todo.claimed_by_user_id || todo.user_id;
-      const openListBonus = todo.is_open_list ? 10 : 0;
+      const openListBonus = intToBool(todo.is_open_list) ? 10 : 0;
       const totalPoints = points_earned + openListBonus;
       
-      await pool.query(
-        'UPDATE users SET total_points = total_points + $1 WHERE id = $2',
-        [totalPoints, userId]
-      );
+      db.prepare('UPDATE users SET total_points = total_points + ? WHERE id = ?').run(totalPoints, userId);
       
-      const dateToUse = completion_date || 
-        (todo.specific_date ? todo.specific_date.toISOString().split('T')[0] : new Date().toISOString().split('T')[0]);
+      const dateToUse = completion_date || todo.specific_date || new Date().toISOString().split('T')[0];
       
       if (todo.recurrence_type) {
-        await pool.query(
+        db.prepare(
           `INSERT INTO recurring_todo_completions 
            (todo_id, completion_date, points_earned, pause_used, super_point_used, actual_time_seconds) 
-           VALUES ($1, $2, $3, $4, $5, $6)
-           ON CONFLICT (todo_id, completion_date) 
-           DO UPDATE SET points_earned = $3, pause_used = $4, super_point_used = $5, actual_time_seconds = $6`,
-          [id, dateToUse, points_earned, pause_used || false, super_point_used || false, actual_time_seconds]
-        );
+           VALUES (?, ?, ?, ?, ?, ?)
+           ON CONFLICT(todo_id, completion_date) 
+           DO UPDATE SET points_earned = excluded.points_earned, pause_used = excluded.pause_used, super_point_used = excluded.super_point_used, actual_time_seconds = excluded.actual_time_seconds`
+        ).run(id, dateToUse, points_earned, boolToInt(pause_used || false), boolToInt(super_point_used || false), actual_time_seconds);
       }
       
-      const dailyResult = await checkDailyCompletion(userId, dateToUse);
-      req.perfectDay = dailyResult?.perfectDay || false;
+      const dailyResult = checkDailyCompletion(userId, dateToUse);
+      perfectDay = dailyResult?.perfectDay || false;
     }
     
     if (todo.recurrence_type) {
       const dateToUse = completion_date || new Date().toISOString().split('T')[0];
-      await pool.query(
+      
+      const currentTodo = db.prepare('SELECT * FROM todos WHERE id = ?').get(id);
+      db.prepare(
         `UPDATE todos SET 
-         title = COALESCE($1, title),
-         description = COALESCE($2, description),
-         estimated_minutes = COALESCE($3, estimated_minutes),
-         remaining_seconds = COALESCE($4, remaining_seconds),
-         specific_date = COALESCE($5, specific_date),
-         recurrence_type = COALESCE($6, recurrence_type),
-         recurrence_days = COALESCE($7, recurrence_days),
-         pause_used = COALESCE($9, pause_used),
-         super_point_used = COALESCE($10, super_point_used),
-         points_earned = COALESCE($11, points_earned),
-         actual_time_seconds = COALESCE($12, actual_time_seconds),
-         last_activity_date = $13
-         WHERE id = $8`,
-        [title, description, estimated_minutes, remaining_seconds, specific_date, recurrence_type, recurrence_days, id, pause_used, super_point_used, points_earned, actual_time_seconds, dateToUse]
+         title = ?,
+         description = ?,
+         estimated_minutes = ?,
+         remaining_seconds = ?,
+         specific_date = ?,
+         recurrence_type = ?,
+         recurrence_days = ?,
+         pause_used = ?,
+         super_point_used = ?,
+         points_earned = ?,
+         actual_time_seconds = ?,
+         last_activity_date = ?
+         WHERE id = ?`
+      ).run(
+        title !== undefined ? title : currentTodo.title,
+        description !== undefined ? description : currentTodo.description,
+        estimated_minutes !== undefined ? estimated_minutes : currentTodo.estimated_minutes,
+        remaining_seconds !== undefined ? remaining_seconds : currentTodo.remaining_seconds,
+        specific_date !== undefined ? specific_date : currentTodo.specific_date,
+        recurrence_type !== undefined ? recurrence_type : currentTodo.recurrence_type,
+        recurrence_days !== undefined ? recurrence_days : currentTodo.recurrence_days,
+        pause_used !== undefined ? boolToInt(pause_used) : currentTodo.pause_used,
+        super_point_used !== undefined ? boolToInt(super_point_used) : currentTodo.super_point_used,
+        points_earned !== undefined ? points_earned : currentTodo.points_earned,
+        actual_time_seconds !== undefined ? actual_time_seconds : currentTodo.actual_time_seconds,
+        dateToUse,
+        id
       );
       
-      const joinedResult = await pool.query(
+      const joinedResult = db.prepare(
         `SELECT 
           t.*,
           rtc.points_earned as recurring_points_earned,
@@ -659,43 +654,61 @@ app.put('/api/todos/:id', async (req, res) => {
           rtc.completion_date as recurring_completion_date
         FROM todos t
         LEFT JOIN recurring_todo_completions rtc 
-          ON t.id = rtc.todo_id AND rtc.completion_date = $1
-        WHERE t.id = $2`,
-        [dateToUse, id]
-      );
+          ON t.id = rtc.todo_id AND rtc.completion_date = ?
+        WHERE t.id = ?`
+      ).get(dateToUse, id);
       
-      const todoWithCompletion = joinedResult.rows[0];
+      const formatted = formatRow(joinedResult);
       res.json({
-        ...todoWithCompletion,
-        completed: !!todoWithCompletion.recurring_completion_date,
-        points_earned: todoWithCompletion.recurring_points_earned ?? todoWithCompletion.points_earned,
-        pause_used: todoWithCompletion.recurring_pause_used ?? todoWithCompletion.pause_used,
-        super_point_used: todoWithCompletion.recurring_super_point_used ?? todoWithCompletion.super_point_used,
-        actual_time_seconds: todoWithCompletion.recurring_actual_time_seconds ?? todoWithCompletion.actual_time_seconds,
-        perfectDay: req.perfectDay || false
+        ...formatted,
+        completed: !!formatted.recurring_completion_date,
+        points_earned: formatted.recurring_points_earned ?? formatted.points_earned,
+        pause_used: formatted.recurring_pause_used ?? formatted.pause_used,
+        super_point_used: formatted.recurring_super_point_used ?? formatted.super_point_used,
+        actual_time_seconds: formatted.recurring_actual_time_seconds ?? formatted.actual_time_seconds,
+        perfectDay
       });
     } else {
-      const result = await pool.query(
+      const currentTodo = db.prepare('SELECT * FROM todos WHERE id = ?').get(id);
+      const completedAt = completed === true ? new Date().toISOString() : currentTodo.completed_at;
+      
+      db.prepare(
         `UPDATE todos SET 
-         title = COALESCE($1, title),
-         description = COALESCE($2, description),
-         estimated_minutes = COALESCE($3, estimated_minutes),
-         remaining_seconds = COALESCE($4, remaining_seconds),
-         completed = COALESCE($5, completed),
-         completed_at = CASE WHEN $5 = true THEN CURRENT_TIMESTAMP ELSE completed_at END,
-         specific_date = COALESCE($6, specific_date),
-         recurrence_type = COALESCE($7, recurrence_type),
-         recurrence_days = COALESCE($8, recurrence_days),
-         pause_used = COALESCE($9, pause_used),
-         super_point_used = COALESCE($10, super_point_used),
-         points_earned = COALESCE($11, points_earned),
-         actual_time_seconds = COALESCE($12, actual_time_seconds)
-         WHERE id = $13 RETURNING *`,
-        [title, description, estimated_minutes, remaining_seconds, completed, specific_date, recurrence_type, recurrence_days, pause_used, super_point_used, points_earned, actual_time_seconds, id]
+         title = ?,
+         description = ?,
+         estimated_minutes = ?,
+         remaining_seconds = ?,
+         completed = ?,
+         completed_at = ?,
+         specific_date = ?,
+         recurrence_type = ?,
+         recurrence_days = ?,
+         pause_used = ?,
+         super_point_used = ?,
+         points_earned = ?,
+         actual_time_seconds = ?
+         WHERE id = ?`
+      ).run(
+        title !== undefined ? title : currentTodo.title,
+        description !== undefined ? description : currentTodo.description,
+        estimated_minutes !== undefined ? estimated_minutes : currentTodo.estimated_minutes,
+        remaining_seconds !== undefined ? remaining_seconds : currentTodo.remaining_seconds,
+        completed !== undefined ? boolToInt(completed) : currentTodo.completed,
+        completedAt,
+        specific_date !== undefined ? specific_date : currentTodo.specific_date,
+        recurrence_type !== undefined ? recurrence_type : currentTodo.recurrence_type,
+        recurrence_days !== undefined ? recurrence_days : currentTodo.recurrence_days,
+        pause_used !== undefined ? boolToInt(pause_used) : currentTodo.pause_used,
+        super_point_used !== undefined ? boolToInt(super_point_used) : currentTodo.super_point_used,
+        points_earned !== undefined ? points_earned : currentTodo.points_earned,
+        actual_time_seconds !== undefined ? actual_time_seconds : currentTodo.actual_time_seconds,
+        id
       );
+      
+      const updatedTodo = db.prepare('SELECT * FROM todos WHERE id = ?').get(id);
       res.json({
-        ...result.rows[0],
-        perfectDay: req.perfectDay || false
+        ...formatRow(updatedTodo),
+        perfectDay
       });
     }
   } catch (error) {
@@ -703,21 +716,18 @@ app.put('/api/todos/:id', async (req, res) => {
   }
 });
 
-app.delete('/api/todos/:id', async (req, res) => {
+app.delete('/api/todos/:id', (req, res) => {
   try {
     const { id } = req.params;
-    const { scope, date } = req.query; // 'single' or 'series', and date for single deletions
+    const { scope, date } = req.query;
     
     if (scope === 'single') {
-      // For recurring todos, add an exception for the specified date instead of deleting
       const exceptionDate = date || new Date().toISOString().split('T')[0];
-      await pool.query(
-        'INSERT INTO recurring_todo_exceptions (todo_id, exception_date, exception_type) VALUES ($1, $2, $3) ON CONFLICT (todo_id, exception_date) DO NOTHING',
-        [id, exceptionDate, 'deleted']
-      );
+      db.prepare(
+        'INSERT OR IGNORE INTO recurring_todo_exceptions (todo_id, exception_date, exception_type) VALUES (?, ?, ?)'
+      ).run(id, exceptionDate, 'deleted');
     } else {
-      // Delete the entire todo (series or non-recurring)
-      await pool.query('DELETE FROM todos WHERE id = $1', [id]);
+      db.prepare('DELETE FROM todos WHERE id = ?').run(id);
     }
     
     res.json({ success: true });
@@ -726,10 +736,9 @@ app.delete('/api/todos/:id', async (req, res) => {
   }
 });
 
-app.get('/api/settings', async (req, res) => {
+app.get('/api/settings', (req, res) => {
   try {
-    const result = await pool.query('SELECT global_pin_hash, max_points FROM settings WHERE id = 1');
-    const settings = result.rows[0];
+    const settings = db.prepare('SELECT global_pin_hash, max_points FROM settings WHERE id = 1').get();
     res.json({
       global_pin: settings && settings.global_pin_hash ? true : null,
       max_points: settings?.max_points || 1000
@@ -743,11 +752,9 @@ app.put('/api/settings', async (req, res) => {
   try {
     const { global_pin, current_pin, max_points } = req.body;
     
-    // Get current PIN hash
-    const currentSettings = await pool.query('SELECT global_pin_hash FROM settings WHERE id = 1');
-    const currentPinHash = currentSettings.rows[0]?.global_pin_hash;
+    const currentSettings = db.prepare('SELECT global_pin_hash FROM settings WHERE id = 1').get();
+    const currentPinHash = currentSettings?.global_pin_hash;
     
-    // If there's a current PIN, verify it before allowing changes
     if (currentPinHash && current_pin) {
       const isValid = await bcrypt.compare(current_pin, currentPinHash);
       if (!isValid) {
@@ -757,39 +764,29 @@ app.put('/api/settings', async (req, res) => {
       return res.status(400).json({ error: 'Current PIN required to change settings' });
     }
     
-    // Build update query dynamically based on what's provided
     const updates = [];
     const values = [];
-    let paramIndex = 1;
     
-    // Handle PIN update if provided
     if (global_pin !== undefined) {
       let newPinHash = null;
       if (global_pin) {
         newPinHash = await bcrypt.hash(global_pin, 10);
       }
-      updates.push(`global_pin_hash = $${paramIndex++}`);
+      updates.push('global_pin_hash = ?');
       values.push(newPinHash);
     }
     
-    // Handle max_points update if provided
     if (max_points !== undefined) {
-      updates.push(`max_points = $${paramIndex++}`);
+      updates.push('max_points = ?');
       values.push(max_points);
     }
     
-    // Execute update if there are changes
     if (updates.length > 0) {
-      updates.push('updated_at = CURRENT_TIMESTAMP');
-      await pool.query(
-        `UPDATE settings SET ${updates.join(', ')} WHERE id = 1`,
-        values
-      );
+      updates.push("updated_at = datetime('now')");
+      db.prepare(`UPDATE settings SET ${updates.join(', ')} WHERE id = 1`).run(...values);
     }
     
-    // Get updated settings to return
-    const result = await pool.query('SELECT global_pin_hash, max_points FROM settings WHERE id = 1');
-    const settings = result.rows[0];
+    const settings = db.prepare('SELECT global_pin_hash, max_points FROM settings WHERE id = 1').get();
     
     res.json({
       global_pin: settings && settings.global_pin_hash ? true : null,
