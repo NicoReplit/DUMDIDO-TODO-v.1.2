@@ -5,7 +5,7 @@
 Open the Terminal on your Raspberry Pi and paste this:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/family-dashboard/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/NicoReplit/family-dashboard/main/install.sh | bash
 ```
 
 **Replace YOUR_USERNAME with your GitHub username first!**
