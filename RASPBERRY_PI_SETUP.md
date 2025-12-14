@@ -1,226 +1,122 @@
-# Raspberry Pi Setup Guide
+# Family Dashboard - Raspberry Pi Setup
 
-This guide will help you install and run the Family To-Do App on your Raspberry Pi with a touchscreen.
+## Quick Install (One Command!)
 
-## Prerequisites
-
-- Raspberry Pi (Model 3B+ or newer recommended)
-- Touchscreen display
-- Raspbian OS (or Raspberry Pi OS)
-- Internet connection (only for initial setup)
-
-## Step 1: Install Node.js
+Open the Terminal on your Raspberry Pi and paste this:
 
 ```bash
-# Update package list
-sudo apt update
-
-# Install Node.js 20.x
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
-
-# Verify installation
-node --version  # Should show v20.x.x
-npm --version
+curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/family-dashboard/main/install.sh | bash
 ```
 
-## Step 2: Install PostgreSQL
+**Replace YOUR_USERNAME with your GitHub username first!**
 
-```bash
-# Install PostgreSQL
-sudo apt install -y postgresql postgresql-contrib
+That's it! The installer will:
+1. Install Node.js (if needed)
+2. Download the apps
+3. Install everything
+4. Set up auto-start on boot
 
-# Start PostgreSQL service
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
+No database installation needed - everything runs automatically!
 
-# Create database and user
-sudo -u postgres psql -c "CREATE DATABASE family_todo;"
-sudo -u postgres psql -c "CREATE USER todouser WITH PASSWORD 'yourpassword';"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE family_todo TO todouser;"
+## After Installation
+
+Open a web browser and go to:
+```
+http://localhost:5000
 ```
 
-## Step 3: Install the App
+Or from another device on your network:
+```
+http://YOUR_PI_IP:5000
+```
+
+## Helpful Commands
+
+**Check if apps are running:**
+```bash
+sudo systemctl status family-dashboard
+sudo systemctl status family-todo
+```
+
+**Restart the apps:**
+```bash
+sudo systemctl restart family-dashboard
+sudo systemctl restart family-todo
+```
+
+**View logs (if something goes wrong):**
+```bash
+sudo journalctl -u family-dashboard -f
+```
+
+**Stop the apps:**
+```bash
+sudo systemctl stop family-dashboard
+sudo systemctl stop family-todo
+```
+
+## Update to Latest Version
 
 ```bash
-# Clone or copy the project to your Pi
-cd ~
-# (Copy the entire project folder to your Pi via USB, SCP, or git)
-
-# Navigate to the project folder
-cd family-todo-app
-
-# Install dependencies
+cd ~/family-dashboard
+git pull
 npm install
+cd dashboard && npm install
+sudo systemctl restart family-todo
+sudo systemctl restart family-dashboard
 ```
 
-## Step 4: Configure Environment
+## Kiosk Mode (Fullscreen on Boot)
 
-```bash
-# Create .env file
-cat > .env << EOF
-DATABASE_URL=postgresql://todouser:yourpassword@localhost:5432/family_todo
-NODE_ENV=production
-EOF
-```
-
-## Step 5: Start the App
-
-### Option A: Manual Start (for testing)
-
-```bash
-# Start both backend and frontend
-npm run dev
-```
-
-The app will be available at `http://localhost:5000`
-
-### Option B: Auto-start on Boot (recommended)
-
-```bash
-# Create systemd service file
-sudo nano /etc/systemd/system/family-todo.service
-```
-
-Paste this content:
-
-```ini
-[Unit]
-Description=Family To-Do App
-After=network.target postgresql.service
-
-[Service]
-Type=simple
-User=pi
-WorkingDirectory=/home/pi/family-todo-app
-Environment=DATABASE_URL=postgresql://todouser:yourpassword@localhost:5432/family_todo
-ExecStart=/usr/bin/npm run dev
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-```
-
-Save and enable:
-
-```bash
-# Reload systemd
-sudo systemctl daemon-reload
-
-# Enable the service
-sudo systemctl enable family-todo.service
-
-# Start the service
-sudo systemctl start family-todo.service
-
-# Check status
-sudo systemctl status family-todo.service
-```
-
-## Step 6: Configure Browser for Kiosk Mode
-
-Install Chromium (if not already installed):
+To make the Pi start in fullscreen browser mode:
 
 ```bash
 sudo apt install -y chromium-browser unclutter
-```
 
-Create auto-start script:
-
-```bash
 mkdir -p ~/.config/autostart
-nano ~/.config/autostart/family-todo.desktop
-```
 
-Paste this content:
-
-```ini
+cat > ~/.config/autostart/family-dashboard.desktop << EOF
 [Desktop Entry]
 Type=Application
-Name=Family To-Do
+Name=Family Dashboard
 Exec=chromium-browser --kiosk --disable-restore-session-state http://localhost:5000
-```
+EOF
 
-Configure to hide cursor when idle:
-
-```bash
-nano ~/.config/autostart/unclutter.desktop
-```
-
-Paste:
-
-```ini
+cat > ~/.config/autostart/unclutter.desktop << EOF
 [Desktop Entry]
 Type=Application
 Name=Unclutter
 Exec=unclutter -idle 1
+EOF
 ```
 
-## Step 7: Reboot and Test
-
-```bash
-sudo reboot
-```
-
-After reboot, the app should automatically start in fullscreen mode!
-
-## Tips for Touchscreen Use
-
-- **Fullscreen Navigation**: Swipe from the top to access browser controls if needed
-- **Reload**: If the app gets stuck, press Ctrl+R to reload
-- **Exit Kiosk Mode**: Press Alt+F4 or Ctrl+W
+Reboot and the dashboard will start automatically in fullscreen!
 
 ## Troubleshooting
 
-### App won't start
+**Dashboard not loading?**
+1. Check if services are running: `sudo systemctl status family-dashboard`
+2. Look at logs: `sudo journalctl -u family-dashboard -f`
+
+**Todo app not working?**
+1. Check if service is running: `sudo systemctl status family-todo`
+2. Look at logs: `sudo journalctl -u family-todo -f`
+
+**Need to reinstall?**
 ```bash
-# Check service status
-sudo systemctl status family-todo.service
-
-# View logs
-sudo journalctl -u family-todo.service -f
-```
-
-### Database connection error
-```bash
-# Check PostgreSQL is running
-sudo systemctl status postgresql
-
-# Verify database exists
-sudo -u postgres psql -c "\l"
-```
-
-### Port already in use
-```bash
-# Kill existing processes
-pkill -f "node server/index.js"
-pkill -f "vite"
-
-# Restart service
-sudo systemctl restart family-todo.service
+rm -rf ~/family-dashboard
+# Then run the install command again
 ```
 
 ## Backup Your Data
 
-To backup your to-dos:
-
+Your data is stored in a single file. To backup:
 ```bash
-# Backup database
-sudo -u postgres pg_dump family_todo > ~/family_todo_backup.sql
-
-# Restore from backup
-sudo -u postgres psql family_todo < ~/family_todo_backup.sql
+cp ~/family-dashboard/data/familytodo.db ~/familytodo_backup.db
 ```
 
-## Updating the App
-
+To restore:
 ```bash
-cd ~/family-todo-app
-git pull  # or copy updated files
-npm install  # if dependencies changed
-sudo systemctl restart family-todo.service
+cp ~/familytodo_backup.db ~/family-dashboard/data/familytodo.db
+sudo systemctl restart family-todo
 ```
-
----
-
-Enjoy your Family To-Do App! 🎉
