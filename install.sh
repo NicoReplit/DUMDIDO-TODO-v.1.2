@@ -33,7 +33,7 @@ fi
 
 # Install required packages for kiosk mode
 echo "Step 3/7: Installing kiosk mode dependencies..."
-sudo apt install -y chromium-browser unclutter xdotool
+sudo apt install -y chromium unclutter xdotool
 
 # Create app directory
 echo "Step 4/7: Setting up app directory at $APP_DIR..."
@@ -132,7 +132,7 @@ until curl -s http://localhost:5000 > /dev/null 2>&1; do
 done
 
 # Launch Chromium in kiosk mode
-chromium-browser \
+chromium \
     --kiosk \
     --noerrdialogs \
     --disable-infobars \
