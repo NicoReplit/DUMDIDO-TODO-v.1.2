@@ -7,10 +7,8 @@ Transform your Raspberry Pi into a dedicated family dashboard appliance!
 Open the Terminal on your Raspberry Pi and paste this:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/family-dashboard/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/NicoReplit/DUMDIDO-TODO-v.1.2/main/install.sh | bash
 ```
-
-**Replace YOUR_USERNAME with your GitHub username first!**
 
 The installer will automatically:
 1. Install Node.js (if needed)
