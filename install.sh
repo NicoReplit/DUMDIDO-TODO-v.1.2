@@ -63,7 +63,7 @@ echo "  Dependencies installed successfully!"
 # Create systemd services
 echo "Step 6/7: Setting up auto-start services..."
 
-# Todo App service
+# Todo App service (runs both backend and frontend)
 sudo tee /etc/systemd/system/family-todo.service > /dev/null << EOF
 [Unit]
 Description=Family Todo App
@@ -73,7 +73,7 @@ After=network.target
 Type=simple
 User=$CURRENT_USER
 WorkingDirectory=$APP_DIR
-ExecStart=/usr/bin/npm run dev:server
+ExecStart=/usr/bin/npm run dev
 Restart=always
 RestartSec=10
 Environment=NODE_ENV=production
