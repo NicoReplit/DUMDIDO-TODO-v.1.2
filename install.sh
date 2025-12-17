@@ -22,13 +22,15 @@ APP_DIR="/home/$CURRENT_USER/family-dashboard"
 echo "Step 1/7: Updating system..."
 sudo apt update
 
-# Install Node.js if not present
-if ! command -v node &> /dev/null; then
-    echo "Step 2/7: Installing Node.js..."
+# Install or upgrade Node.js to version 20
+NODE_VERSION=$(node --version 2>/dev/null | cut -d. -f1 | tr -d 'v')
+if [ -z "$NODE_VERSION" ] || [ "$NODE_VERSION" -lt 20 ]; then
+    echo "Step 2/7: Installing Node.js 20 (required for this app)..."
     curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
     sudo apt install -y nodejs
+    echo "Node.js $(node --version) installed successfully!"
 else
-    echo "Step 2/7: Node.js already installed ($(node --version))"
+    echo "Step 2/7: Node.js $(node --version) is ready"
 fi
 
 # Install required packages for kiosk mode
@@ -49,11 +51,14 @@ else
 fi
 
 # Install dependencies
-echo "Step 5/7: Installing dependencies..."
+echo "Step 5/7: Installing dependencies (this may take 5-10 minutes on Raspberry Pi)..."
+echo "  Installing main app dependencies..."
 npm install
+echo "  Installing dashboard dependencies..."
 cd dashboard
 npm install
 cd ..
+echo "  Dependencies installed successfully!"
 
 # Create systemd services
 echo "Step 6/7: Setting up auto-start services..."
