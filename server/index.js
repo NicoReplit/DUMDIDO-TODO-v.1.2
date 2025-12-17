@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import { existsSync, mkdirSync } from 'fs';
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 
 app.use(cors());
 app.use(express.json());
