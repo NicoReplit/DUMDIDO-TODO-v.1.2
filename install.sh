@@ -1,6 +1,6 @@
 #!/bin/bash
 # Family Dashboard & Todo App Installer for Raspberry Pi
-# Run with: curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/family-dashboard/main/install.sh | bash
+# Run with: curl -sSL https://raw.githubusercontent.com/NicoReplit/family-dashboard/main/install.sh | bash
 
 set -e
 
@@ -44,7 +44,7 @@ if [ -d "$APP_DIR" ]; then
     git pull
 else
     echo "Cloning repository..."
-    git clone https://github.com/YOUR_USERNAME/family-dashboard.git "$APP_DIR"
+    git clone https://github.com/NicoReplit/family-dashboard.git "$APP_DIR"
     cd "$APP_DIR"
 fi
 
