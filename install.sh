@@ -33,7 +33,7 @@ fi
 
 # Install required packages for kiosk mode
 echo "Step 3/7: Installing kiosk mode dependencies..."
-sudo apt install -y chromium unclutter xdotool
+sudo apt install -y firefox-esr unclutter xdotool
 
 # Create app directory
 echo "Step 4/7: Setting up app directory at $APP_DIR..."
@@ -131,22 +131,8 @@ until curl -s http://localhost:5000 > /dev/null 2>&1; do
     sleep 2
 done
 
-# Launch Chromium in kiosk mode
-chromium \
-    --kiosk \
-    --noerrdialogs \
-    --disable-infobars \
-    --disable-session-crashed-bubble \
-    --disable-restore-session-state \
-    --disable-translate \
-    --no-first-run \
-    --fast \
-    --fast-start \
-    --disable-features=TranslateUI \
-    --check-for-update-interval=31536000 \
-    --disable-component-update \
-    --overscroll-history-navigation=0 \
-    http://localhost:5000
+# Launch Firefox in kiosk mode
+firefox-esr --kiosk http://localhost:5000
 KIOSKSCRIPT
 
 chmod +x /home/$CURRENT_USER/start-kiosk.sh
