@@ -140,8 +140,8 @@ done
 firefox-esr --kiosk http://localhost:5000
 KIOSKSCRIPT
 
-chmod +x /home/$CURRENT_USER/start-kiosk.sh
-chown $CURRENT_USER:$CURRENT_USER /home/$CURRENT_USER/start-kiosk.sh
+sudo chmod +x /home/$CURRENT_USER/start-kiosk.sh
+sudo chown $CURRENT_USER:$CURRENT_USER /home/$CURRENT_USER/start-kiosk.sh
 
 # Create autostart entry for kiosk
 cat > /home/$CURRENT_USER/.config/autostart/family-dashboard-kiosk.desktop << EOF
@@ -154,7 +154,7 @@ NoDisplay=false
 X-GNOME-Autostart-enabled=true
 EOF
 
-chown $CURRENT_USER:$CURRENT_USER /home/$CURRENT_USER/.config/autostart/family-dashboard-kiosk.desktop
+sudo chown $CURRENT_USER:$CURRENT_USER /home/$CURRENT_USER/.config/autostart/family-dashboard-kiosk.desktop
 
 # Setup auto-login for the current user
 echo "Setting up auto-login..."
