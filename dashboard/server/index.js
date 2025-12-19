@@ -174,7 +174,7 @@ app.get('/api/local-images', (req, res) => {
   res.sendFile(resolvedPath);
 });
 
-const PORT = 3001;
+const PORT = 3003;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Dashboard API running on port ${PORT}`);
 });
