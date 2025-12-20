@@ -75,6 +75,7 @@ function App() {
     setLastActivity(Date.now());
     if (isStandby) {
       setIsStandby(false);
+      setActiveApp(null);
     }
   }, [isStandby]);
 
@@ -89,6 +90,30 @@ function App() {
       });
     };
   }, [handleActivity]);
+
+  useEffect(() => {
+    if (!activeApp) return;
+    
+    let lastFocusCheck = Date.now();
+    const focusInterval = setInterval(() => {
+      if (document.activeElement?.tagName === 'IFRAME') {
+        lastFocusCheck = Date.now();
+        setLastActivity(Date.now());
+      }
+    }, 2000);
+
+    const handleBlur = () => {
+      if (document.activeElement?.tagName === 'IFRAME') {
+        setLastActivity(Date.now());
+      }
+    };
+    window.addEventListener('blur', handleBlur);
+
+    return () => {
+      clearInterval(focusInterval);
+      window.removeEventListener('blur', handleBlur);
+    };
+  }, [activeApp]);
 
   useEffect(() => {
     if (!settings.standbyEnabled) return;
